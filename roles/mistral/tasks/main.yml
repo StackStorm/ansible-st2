@@ -1,0 +1,7 @@
+- include: gather_facts.yml
+- include: install_deps.yml
+- include: install_mistral.yml
+- include: install_actions.yml
+- include: config.yml
+- include: sync.yml
+- include: install_client.yml

@@ -1,0 +1,4 @@
+- name: Sync database
+  shell: /opt/openstack/mistral/.venv/bin/python ./tools/sync_db.py --config-file /etc/mistral/mistral.conf
+  args:
+    chdir: /opt/openstack/mistral

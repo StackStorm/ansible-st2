@@ -1,0 +1,16 @@
+- name: Install dependencies
+  sudo: true
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items:
+    - git
+    - libssl-dev
+    - libyaml-dev
+    - libffi-dev
+    - libxml2-dev
+    - libxslt1-dev
+    - python-dev
+    - python-pip
+    - python-virtualenv
+    - libmysqlclient-dev

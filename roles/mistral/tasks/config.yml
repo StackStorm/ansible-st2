@@ -1,0 +1,45 @@
+- name: Copy Mistral config
+  sudo: true
+  copy:
+    src: mistral.conf
+    dest: /etc/mistral/mistral.conf
+
+- name: Copy Mistral log config
+  sudo: true
+  command: cp /opt/openstack/mistral/etc/wf_trace_logging.conf.sample /etc/mistral/wf_trace_logging.conf creates=/etc/mistral/wf_trace_logging.conf
+
+- name: Change Mistral log path
+  sudo: true
+  lineinfile:
+    dest: /etc/mistral/wf_trace_logging.conf
+    regexp: '^args=\("/var/log/mistral.log'
+    line: 'args=("/var/log/mistral/mistral.log",)'
+
+- name: Change Mistral trace path
+  sudo: true
+  lineinfile:
+    dest: /etc/mistral/wf_trace_logging.conf
+    regexp: '^args=\("/var/log/mistral_wf_trace.log'
+    line: 'args=("/var/log/mistral/mistral_wf_trace.log",)'
+
+- name: Create Mistral log directory
+  sudo: true
+  file:
+    path: /var/log/mistral
+    state: directory
+    owner: "{{ user }}"
+    group: "{{ group }}"
+
+- name: Create init config
+  sudo: true
+  template:
+    src: init.j2
+    dest: /etc/init/mistral.conf
+  notify:
+    - restart mistral
+
+- name: Enable the service
+  sudo: true
+  service:
+    name: mysql
+    enabled: yes

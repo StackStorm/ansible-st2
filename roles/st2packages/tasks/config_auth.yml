@@ -1,0 +1,37 @@
+- name: Config proxy auth
+  sudo: true
+  lineinfile:
+    dest: /etc/st2/st2.conf
+    regexp: "^{{ item.option }}\\s*="
+    value: "{{ item.option }} = {{ item.value }}"
+  with_items:
+    - option: mode
+      value: proxy
+  when: "auth is undefined"
+  notify:
+    - restart st2
+
+- name: Config stanalone auth
+  sudo: true
+  lineinfile:
+    dest: /etc/st2/st2.conf
+    regexp: "^{{ item.option }}\\s*="
+    value: "{{ item.option }} = {{ item.value }}"
+  with_items:
+    - option: mode
+      value: standalone
+    - option: backend
+      value: flat_file
+    - option: backend_kwargs
+      value: "{\"file_path\": \"/etc/st2/htpasswd\"}"
+  when: "auth is defined"
+  notify:
+    - restart st2
+
+- name: Create password file
+  sudo: true
+  htpasswd:
+    path: /etc/st2/htpasswd
+    name: "{{ auth.user }}"
+    password: "{{ auth.pass }}"
+  when: "auth is defined"

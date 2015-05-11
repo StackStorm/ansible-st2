@@ -1,0 +1,9 @@
+- name: Install dependencies
+  sudo: true
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: present
+  with_items:
+    - mongodb
+    - mongodb-server

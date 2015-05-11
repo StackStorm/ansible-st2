@@ -1,0 +1,29 @@
+download_server: https://downloads.stackstorm.net
+version: 0.9.0
+build: current
+packages: []
+user: st2
+group: st2
+auth:
+  user: testu
+  pass: testp
+
+# inits:
+#   st2api:
+#     - exec: st2api
+#       description: ST2 API Service
+#   st2actions:
+#     - exec: st2actionrunner
+#       description: ST2 Action Runner Service
+#     - exec: st2notifier
+#       description: ST2 Notifier Service
+#     - exec: st2resultstracker
+#       description: ST2 Results Tracker Service
+#   st2auth:
+#     - exec: st2auth
+#       description: ST2 Auth Service
+#   st2reactor:
+#     - exec: st2rulesengine
+#       description: ST2 Rules Engine Service
+#     - exec: st2sensorcontainer
+#       description: ST2 Sensor Container Service

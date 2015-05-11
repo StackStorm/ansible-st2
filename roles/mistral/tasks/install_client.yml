@@ -1,0 +1,5 @@
+- name: Install Mistral client
+  sudo: true
+  pip:
+    name: ''
+    extra_args: '-U git+https://github.com/StackStorm/python-mistralclient.git@{{ mistral_branch }}'

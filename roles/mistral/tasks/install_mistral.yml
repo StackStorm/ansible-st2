@@ -1,0 +1,30 @@
+- name: Create directory
+  sudo: true
+  file:
+    path: /opt/openstack
+    state: directory
+
+- name: Clone Mistral repo
+  sudo: true
+  git:
+    repo: https://github.com/StackStorm/mistral.git
+    version: "{{ mistral_branch }}"
+    dest: /opt/openstack/mistral
+
+- name: Install requirements
+  sudo: true
+  pip:
+    requirements: /opt/openstack/mistral/requirements.txt
+    virtualenv: /opt/openstack/mistral/.venv
+
+- name: Install additional requirements
+  sudo: true
+  pip:
+    name: mysql-python
+    virtualenv: /opt/openstack/mistral/.venv
+
+- name: Install Mistral
+  sudo: true
+  shell: /opt/openstack/mistral/.venv/bin/python setup.py develop
+  args:
+    chdir: /opt/openstack/mistral

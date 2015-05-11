@@ -1,0 +1,19 @@
+---
+- name: Install st2
+  hosts: all
+  roles:
+    - goodies
+    - st2op
+    - mongodb
+    - rabbitmq
+    - role: st2packages
+      packages:
+        - st2common
+        - st2actions
+        - st2api
+        - st2auth
+        - st2client
+        - st2debug
+        - st2reactor
+    - mysql
+    - mistral
