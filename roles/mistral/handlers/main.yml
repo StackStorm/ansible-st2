@@ -1,0 +1,5 @@
+- name: restart mistral
+  sudo: true
+  service:
+    name: mistral
+    state: restarted

@@ -1,0 +1,4 @@
+DROP DATABASE IF EXISTS mistral;
+CREATE DATABASE mistral;
+GRANT ALL PRIVILEGES ON mistral.* TO 'mistral'@'localhost' IDENTIFIED BY 'StackStorm';
+FLUSH PRIVILEGES;

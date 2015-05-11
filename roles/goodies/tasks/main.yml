@@ -1,0 +1,36 @@
+---
+- name: Install tools
+  apt:
+    pkg: "{{ item }}"
+    state: present
+    update_cache: yes
+  sudo: true
+  with_items:
+    - git
+    - silversearcher-ag
+    - zsh
+
+- name: Install oh-my-zsh
+  git:
+    repo: https://github.com/robbyrussell/oh-my-zsh.git
+    dest: /home/{{ user.name }}/.oh-my-zsh
+
+- name: Setting permissions
+  file:
+    path: /home/{{ user.name }}/.oh-my-zsh
+    owner: "{{ user.name }}"
+    recurse: yes
+
+- name: Settings default shell
+  sudo: true
+  user:
+    name: "{{ user.name }}"
+    shell: /bin/zsh
+
+- name: Configuring oh-my-zsh
+  template:
+    src: zshrc.j2
+    dest: /home/{{ user.name }}/.zshrc
+    owner: "{{ user.name }}"
+    backup: yes
+    mode: 0644

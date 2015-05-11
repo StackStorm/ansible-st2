@@ -1,0 +1,32 @@
+---
+user:
+  name: vagrant
+  oh_my_zsh:
+    theme: ys
+    plugins: git npm z
+    case_sensitive: false
+    disable_auto_update: true
+    update_days: 13
+    disable_ls_colors: false
+    disable_auto_title: false
+    disable_correction: true
+    completion_waiting_dots: false
+
+# default theme
+users_oh_my_zsh_theme: robbyrussell
+# default plugins
+users_oh_my_zsh_plugins: git
+# use case-sensitive completion
+users_oh_my_zsh_case_sensitive: false
+# disable bi-weekly auto-update checks
+users_oh_my_zsh_disable_auto_update: true
+# how often before auto-updates occur? (in days)
+users_oh_my_zsh_update_days: 13
+# if you want to disable colors in ls
+users_oh_my_zsh_disable_ls_colors: false
+# if you want to disable autosetting terminal title.
+users_oh_my_zsh_disable_auto_title: false
+# if you want to disable command autocorrection
+users_oh_my_zsh_disable_correction: true
+# if you want red dots to be displayed while waiting for completion
+users_oh_my_zsh_completion_waiting_dots: false

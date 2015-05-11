@@ -1,0 +1,25 @@
+- name: Create init configs
+  sudo: true
+  template:
+    src: "{{ item }}"
+    dest: /etc/init/{{ item | basename | regex_replace('.j2', '.conf') }}
+  when: (item | dirname | basename) in packages
+  with_fileglob:
+    - ./*/*.j2
+  register: init_configs
+
+- name: Set services fact
+  set_fact:
+    st2_services: "{{ init_configs.results | selectattr('item', 'defined') | map(attribute='item') |
+                  map('basename') | map('regex_replace', '.j2', '') | list() }}"
+
+- name: Enable st2 services
+  sudo: true
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: restarted
+  with_items: st2_services
+
+- include: config_auth.yml
+  when: "'st2auth' in packages"
