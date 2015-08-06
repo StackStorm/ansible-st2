@@ -29,6 +29,7 @@
   get_url:
     url: "{{ download_server }}/releases/st2/{{ version }}/debs/{{ build }}/VERSION.txt"
     dest: /tmp/release
+    force: yes
   register: release_request
 
 - name: Read release number
