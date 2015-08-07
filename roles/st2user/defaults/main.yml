@@ -1,0 +1,3 @@
+---
+st2_system_user: stanley
+st2_ssh_key_file: /home/{{ st2_system_user }}/.ssh/{{ st2_system_user }}_rsa
