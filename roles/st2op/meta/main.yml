@@ -1,6 +1,0 @@
-dependencies:
-  - role: user
-    user: stanley
-    group: st2ops
-    generate_keys: yes
-    sudoer: yes
