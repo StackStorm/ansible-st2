@@ -1,6 +1,6 @@
 # See: http://docs.stackstorm.com/install/config.html#configure-ssh
 ---
-- name: Create system user
+- name: Create
   sudo: yes
   user:
     name: "{{ st2_system_user }}"
@@ -11,7 +11,7 @@
   tags: [st2, user]
   register: _user
 
-- name: Authorize public key for system user
+- name: Authorize key-based access
   sudo: yes
   sudo_user: "{{ st2_system_user }}"
   authorized_key:
@@ -20,7 +20,7 @@
     state: present
   tags: [st2, user]
 
-- name: Add system user to sudoers
+- name: Add to sudoers
   sudo: yes
   lineinfile:
     create: yes
