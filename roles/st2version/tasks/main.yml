@@ -1,0 +1,25 @@
+# TODO: Rework as lookup plugin when Ansible 2.0 available: https://groups.google.com/forum/#!msg/ansible-devel/MF4TY-wa9Ww/mL9sVSMd5DwJ
+---
+- name: Lookup literal version
+  shell: >
+    curl -Ss -q https://downloads.stackstorm.net/deb/pool/trusty_{{ st2_version }}/main/s/st2api/ |
+    grep 'amd64.deb' |
+    sed -e "s~.*>st2api_\(.*\)-.*<.*~\1~g" |
+    sort --version-sort -r |
+    uniq | head -n 1
+  when: st2_version == 'stable' or st2_version == 'unstable'
+  register: _st2_version
+  delegate_to: 127.0.0.1
+  tags: [st2, version]
+
+- name: Merge version
+  set_fact: _st2_version="{{ _st2_version.stdout | default(st2_version) }}"
+  tags: [st2, version]
+
+- name: Check that specified st2 version is available
+  uri:
+    url: "http://downloads.stackstorm.net/releases/st2/{{ _st2_version }}/"
+    status_code: 200
+  when: st2_version == _st2_version
+  delegate_to: 127.0.0.1
+  tags: [st2, version]

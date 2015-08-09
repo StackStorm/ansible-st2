@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  description: StackStorm role to determine st2 version
+  author: armab
+  company: StackStorm
+  license: Apache
+  min_ansible_version: 1.9
+  platforms:
+    - name: EL
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+  categories:
+    - system
+dependencies: []
