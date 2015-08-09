@@ -1,0 +1,6 @@
+---
+- name: Check if there is enough memory
+  fail:
+    msg: "At least {{ st2_required_memory }}MB is required for st2 installation!"
+  when: ansible_memtotal_mb < st2_required_memory|int
+  tags: [st2, requirements]
