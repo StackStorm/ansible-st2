@@ -1,3 +1,14 @@
+---
+# Required memory for st2 installation in MB
+st2_required_memory: 2000
+
+# 'stable', 'unstable' or numeric '0.12.1'
+st2_version: stable
+st2_build: current
+
+st2_system_user: stanley
+st2_ssh_key_file: /home/{{ st2_system_user }}/.ssh/{{ st2_system_user }}_rsa
+
 st2_packages:
   - st2common
   - st2actions
@@ -6,6 +17,7 @@ st2_packages:
   - st2client
   - st2debug
   - st2reactor
+
 st2_auth_username: testu
 st2_auth_password: testp
 

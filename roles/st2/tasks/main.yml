@@ -1,5 +1,8 @@
-- include: install.yml
+- include: 1.requirements.yml
+- include: 2.version.yml
+- include: 3.user.yml
 
+- include: install.yml
 - include: config.yml
 
 - name: Register content

@@ -1,3 +1,4 @@
+# Determine StackStorm version availability
 # TODO: Rework as lookup plugin when Ansible 2.0 available: https://groups.google.com/forum/#!msg/ansible-devel/MF4TY-wa9Ww/mL9sVSMd5DwJ
 ---
 - name: Lookup literal version

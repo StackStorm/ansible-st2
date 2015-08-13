@@ -1,3 +1,4 @@
+# Check if system requirements were met to install StackStorm
 ---
 - name: Check if there is enough memory
   fail:

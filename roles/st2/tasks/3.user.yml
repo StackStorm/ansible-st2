@@ -1,3 +1,4 @@
+# Create system user, on whose behalf remote/local action runners would work
 # See: http://docs.stackstorm.com/install/config.html#configure-ssh
 ---
 - name: Create

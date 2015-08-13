@@ -2,11 +2,8 @@
 - name: Install st2
   hosts: all
   roles:
-    - st2requirements
-    - st2version
-    - st2user
     - mongodb
     - rabbitmq
     - mysql
     - mistral
-    - st2packages
+    - st2

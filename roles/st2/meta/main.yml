@@ -1,20 +1,15 @@
 ---
 galaxy_info:
-  description: StackStorm role to determine st2 version
+  description: Install StackStorm and all its components
   author: armab
   company: StackStorm
   license: Apache
   min_ansible_version: 1.9
   platforms:
-    - name: EL
-      versions:
-        - all
     - name: Ubuntu
       versions:
-        - all
-    - name: Debian
-      versions:
-        - all
+        - trusty
+        - precise
   categories:
     - system
 dependencies: []
