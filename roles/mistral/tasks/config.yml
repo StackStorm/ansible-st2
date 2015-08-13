@@ -27,8 +27,8 @@
   file:
     path: /var/log/mistral
     state: directory
-    owner: "{{ user }}"
-    group: "{{ group }}"
+    owner: "{{ st2_system_user }}"
+    group: "{{ st2_system_user }}"
 
 - name: Create init config
   sudo: true

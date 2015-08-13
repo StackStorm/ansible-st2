@@ -27,7 +27,7 @@
 
 - name: Fetch release number
   get_url:
-    url: "{{ download_server }}/releases/st2/{{ version }}/debs/{{ build }}/VERSION.txt"
+    url: "https://downloads.stackstorm.net/releases/st2/{{ _st2_version }}/debs/{{ st2_build }}/VERSION.txt"
     dest: /tmp/release
     force: yes
   register: release_request
@@ -38,14 +38,14 @@
 
 - name: Make temp directory
   file:
-    path: /tmp/st2/{{ version }}/debs/{{ release.stdout }}
+    path: /tmp/st2/{{ _st2_version }}/debs/{{ release.stdout }}
     state: directory
 
 - name: Download packages
   get_url:
-    url: "{{ download_server }}/releases/st2/{{ version }}/debs/{{ build }}/{{ item }}_{{ version }}-{{ release.stdout }}_amd64.deb"
-    dest: /tmp/st2/{{ version }}/debs/{{ release.stdout }}/{{ item }}_{{ version }}-{{ release.stdout }}_amd64.deb
-  with_items: packages
+    url: "https://downloads.stackstorm.net/releases/st2/{{ _st2_version }}/debs/{{ st2_build }}/{{ item }}_{{ _st2_version }}-{{ release.stdout }}_amd64.deb"
+    dest: /tmp/st2/{{ _st2_version }}/debs/{{ release.stdout }}/{{ item }}_{{ _st2_version }}-{{ release.stdout }}_amd64.deb
+  with_items: st2_packages
   register: package_files
 
 - name: Install packages
@@ -53,11 +53,12 @@
   apt:
     deb: "{{ item.dest }}"
   with_items: package_files.results
+  #when: package_files.changed
 
 - name: Chown logs directory
   sudo: true
   file:
     path: /var/log/st2
-    owner: "{{ user }}"
-    group: "{{ group }}"
+    owner: "{{ st2_system_user }}"
+    group: "{{ st2_system_user }}"
     recurse: yes

@@ -8,8 +8,8 @@
     generate_ssh_key: yes
     ssh_key_file: "{{ st2_ssh_key_file }}"
     state: present
-  tags: [st2, user]
   register: _user
+  tags: [st2, user]
 
 - name: Authorize key-based access
   sudo: yes

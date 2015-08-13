@@ -1,3 +1,4 @@
 ---
 # 'stable', 'unstable' or numeric '0.12.1'
-st2_version: 'stable'
+st2_version: stable
+st2_build: current

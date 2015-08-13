@@ -1,12 +1,13 @@
-download_server: https://downloads.stackstorm.net
-version: 0.9.0
-build: current
-packages: []
-user: st2
-group: st2
-auth:
-  user: testu
-  pass: testp
+st2_packages:
+  - st2common
+  - st2actions
+  - st2api
+  - st2auth
+  - st2client
+  - st2debug
+  - st2reactor
+st2_auth_username: testu
+st2_auth_password: testp
 
 # inits:
 #   st2api:
