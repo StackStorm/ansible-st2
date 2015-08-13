@@ -1,6 +1,8 @@
 ---
 # Required memory for st2 installation in MB
 st2_required_memory: 2000
+# MongoDB requires at least 3379MB available in /var/lib/mongo/journal
+st2_required_space: 3500
 
 # 'stable', 'unstable' or numeric '0.12.1'
 st2_version: stable
