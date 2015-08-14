@@ -1,4 +1,4 @@
-# Determine StackStorm version availability
+# StackStorm version checks and facts
 # TODO: Rework as lookup plugin when Ansible 2.0 available: https://groups.google.com/forum/#!msg/ansible-devel/MF4TY-wa9Ww/mL9sVSMd5DwJ
 ---
 - name: Lookup literal version
@@ -24,4 +24,21 @@
     status_code: 200
   when: st2_version == _st2_version
   delegate_to: 127.0.0.1
+  tags: [st2, version]
+
+- name: Gather StackStorm package info
+  command: dpkg -s st2common
+  register: _st2_package_info
+  changed_when: no
+  tags: [st2, version]
+
+- name: Check if st2 is already installed
+  set_fact:
+    _st2_is_installed: "{{ st2_package_info.rc == 0 }}"
+  tags: [st2, version]
+
+- name: Get installed package revision
+  set_fact:
+    _st2_installed_revision: "{{ _st2_package_info.stdout|regex_replace('[\\s\\S]*Version: \\S+-(.*)\\n[\\s\\S]*', '\\\\1') }}"
+  when: _st2_is_installed
   tags: [st2, version]
