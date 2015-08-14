@@ -27,7 +27,7 @@
 
 - name: Fetch release number
   get_url:
-    url: "https://downloads.stackstorm.net/releases/st2/{{ _st2_version }}/debs/{{ st2_build }}/VERSION.txt"
+    url: "https://downloads.stackstorm.net/releases/st2/{{ _st2_version }}/debs/{{ st2_revision }}/VERSION.txt"
     dest: /tmp/release
     force: yes
   register: release_request
@@ -43,7 +43,7 @@
 
 - name: Download packages
   get_url:
-    url: "https://downloads.stackstorm.net/releases/st2/{{ _st2_version }}/debs/{{ st2_build }}/{{ item }}_{{ _st2_version }}-{{ release.stdout }}_amd64.deb"
+    url: "https://downloads.stackstorm.net/releases/st2/{{ _st2_version }}/debs/{{ st2_revision }}/{{ item }}_{{ _st2_version }}-{{ release.stdout }}_amd64.deb"
     dest: /tmp/st2/{{ _st2_version }}/debs/{{ release.stdout }}/{{ item }}_{{ _st2_version }}-{{ release.stdout }}_amd64.deb
   with_items: st2_packages
   register: package_files

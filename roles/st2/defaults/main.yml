@@ -6,7 +6,7 @@ st2_required_space: 3500
 
 # 'stable', 'unstable' or numeric '0.12.1'
 st2_version: stable
-st2_build: current
+st2_revision: current
 
 st2_system_user: stanley
 st2_ssh_key_file: /home/{{ st2_system_user }}/.ssh/{{ st2_system_user }}_rsa
