@@ -11,6 +11,7 @@
   when: st2_version == 'stable' or st2_version == 'unstable'
   register: _st2_version
   delegate_to: 127.0.0.1
+  changed_when: False
   tags: [st2, version]
 
 - name: Merge version
@@ -19,7 +20,7 @@
 
 - name: Check that specified st2 version is available
   uri:
-    url: "http://downloads.stackstorm.net/releases/st2/{{ _st2_version }}/"
+    url: "https://downloads.stackstorm.net/releases/st2/{{ _st2_version }}/"
     status_code: 200
   when: st2_version == _st2_version
   delegate_to: 127.0.0.1
