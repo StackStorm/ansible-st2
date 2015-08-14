@@ -7,7 +7,7 @@
   tags: [st2, requirements]
 
 # TODO: Trigger disc space check only for fresh install, handle cases when Mongo config is not default
-- name: Get free disk space
+- name: Get available disk space
   shell: df -Pk /var/lib | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{print $4}'
   register: free_disk_space
   changed_when: False
