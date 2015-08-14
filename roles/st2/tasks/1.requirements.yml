@@ -10,6 +10,7 @@
 - name: Get free disk space
   shell: df -Pk /var/lib | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{print $4}'
   register: free_disk_space
+  changed_when: False
 
 - name: Check if there is enough disc space
   fail:
