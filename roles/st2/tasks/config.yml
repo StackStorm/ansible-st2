@@ -1,3 +1,11 @@
+- name: Chown logs directory
+  sudo: true
+  file:
+    path: /var/log/st2
+    owner: "{{ st2_system_user }}"
+    group: "{{ st2_system_user }}"
+    recurse: yes
+
 - name: Create init configs
   sudo: true
   template:

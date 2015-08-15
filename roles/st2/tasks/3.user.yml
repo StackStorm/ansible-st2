@@ -1,7 +1,7 @@
 # Create system user, on whose behalf remote/local action runners would work
 # See: http://docs.stackstorm.com/install/config.html#configure-ssh
 ---
-- name: Create system user
+- name: user | Create system user
   sudo: yes
   user:
     name: "{{ st2_system_user }}"
@@ -12,7 +12,7 @@
   register: _user
   tags: [st2, user]
 
-- name: Authorize key-based access for system user
+- name: user | Authorize key-based access for system user
   sudo: yes
   sudo_user: "{{ st2_system_user }}"
   authorized_key:
@@ -21,7 +21,7 @@
     state: present
   tags: [st2, user]
 
-- name: Add system user to sudoers
+- name: user | Add system user to sudoers
   sudo: yes
   lineinfile:
     create: yes
