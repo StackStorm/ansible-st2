@@ -36,6 +36,7 @@
   command: dpkg -s st2common
   register: _st2_package_info
   changed_when: no
+  ignore_errors: yes
   tags: [st2, version]
 
 - name: version | Check if StackStorm is already installed
