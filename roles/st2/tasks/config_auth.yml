@@ -7,7 +7,7 @@
   with_items:
     - option: mode
       value: proxy
-  #when: "auth is undefined"
+  when: "st2_auth_username is undefined"
   notify:
     - restart st2
 
@@ -24,7 +24,7 @@
       value: flat_file
     - option: backend_kwargs
       value: "{\"file_path\": \"/etc/st2/htpasswd\"}"
-  #when: "auth is defined"
+  when: "st2_auth_username is defined"
   notify:
     - restart st2
 
@@ -34,4 +34,4 @@
     path: /etc/st2/htpasswd
     name: "{{ st2_auth_username }}"
     password: "{{ st2_auth_password }}"
-  #when: "auth is defined"
+  when: "st2_auth_username is defined"

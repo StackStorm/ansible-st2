@@ -1,9 +1,0 @@
-description "ST2 API Service"
-
-setuid {{ st2_system_user }}
-setgid {{ st2_system_user }}
-
-start on runlevel [2345]
-stop on runlevel [016]
-
-exec st2api --config-file /etc/st2/st2.conf
