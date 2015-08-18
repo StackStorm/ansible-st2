@@ -1,9 +1,0 @@
-description "ST2 Auth Service"
-
-setuid {{ user }}
-setgid {{ group }}
-
-start on runlevel [2345]
-stop on runlevel [016]
-
-exec st2auth --config-file /etc/st2/st2.conf

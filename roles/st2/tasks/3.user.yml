@@ -1,0 +1,34 @@
+# Create system user, on whose behalf remote/local action runners would work
+# See: http://docs.stackstorm.com/install/config.html#configure-ssh
+---
+- name: user | Create system user
+  sudo: yes
+  user:
+    name: "{{ st2_system_user }}"
+    home: "/home/{{ st2_system_user }}"
+    generate_ssh_key: yes
+    ssh_key_file: "{{ st2_ssh_key_file }}"
+    state: present
+  register: _user
+  tags: [st2, user]
+
+- name: user | Authorize key-based access for system user
+  sudo: yes
+  sudo_user: "{{ st2_system_user }}"
+  authorized_key:
+    user: "{{ st2_system_user }}"
+    key: "{{ _user.ssh_public_key }}"
+    state: present
+  tags: [st2, user]
+
+- name: user | Add system user to sudoers
+  sudo: yes
+  lineinfile:
+    create: yes
+    dest: /etc/sudoers.d/st2
+    mode: 0440
+    regexp: "^{{ st2_system_user }} ALL="
+    line: "{{ st2_system_user }} ALL=(ALL) NOPASSWD: SETENV: ALL"
+    state: present
+    validate: 'visudo -cf %s'
+  tags: [st2, user]

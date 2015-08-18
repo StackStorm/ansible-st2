@@ -22,14 +22,6 @@
     regexp: '^args=\("/var/log/mistral_wf_trace.log'
     line: 'args=("/var/log/mistral/mistral_wf_trace.log",)'
 
-- name: Create Mistral log directory
-  sudo: true
-  file:
-    path: /var/log/mistral
-    state: directory
-    owner: "{{ user }}"
-    group: "{{ group }}"
-
 - name: Create init config
   sudo: true
   template:

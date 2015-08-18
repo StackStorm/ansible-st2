@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  description: Install StackStorm and all its components
+  author: armab
+  company: StackStorm
+  license: Apache
+  min_ansible_version: 1.9
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+        - precise
+  categories:
+    - system
+dependencies: []
