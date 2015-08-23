@@ -13,6 +13,7 @@ At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is 
 
 ## Installation
 ```sh
+ansible-galaxy install -r roles/st2/requirements.yml
 ansible-playbook playbooks/st2express.yaml
 ```
 
@@ -27,6 +28,10 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2_system_user`   | `stanley`     | System user on whose behalf st2 would work, including remote/local action runners.
 | `st2_auth_username` | `testu`       | Username used by StackStorm standalone authentication.
 | `st2_auth_password` | `testp`       | Password used by StackStorm standalone authentication.
+
+## Dependencies
+Ansible Galaxy roles used by StackStorm installation:
+ * [Stouts.mongodb](https://galaxy.ansible.com/list#/roles/982)
 
 ## Examples
 Install `stable` StackStorm with all its components on local machine:
