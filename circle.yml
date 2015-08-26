@@ -1,3 +1,8 @@
+machine:
+  environment:
+    ANSIBLE_FORCE_COLOR: 1
+    PYTHONUNBUFFERED: 1
+
 dependencies:
   cache_directories:
     - '~/.cache/pip/'
