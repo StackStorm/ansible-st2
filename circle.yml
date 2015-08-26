@@ -1,7 +1,6 @@
-machine:
-  python
-
 dependencies:
+  cache_directories:
+    - '~/.cache/pip/'
   pre:
     - sudo pip install ansible
     - ansible --version
