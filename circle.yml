@@ -4,7 +4,7 @@ machine:
     PYTHONUNBUFFERED: 1
   pre:
     # use aptitude to remove dependencies
-    - sudo aptitude remove -y ~npostgresql
+    - sudo aptitude remove -y ~npostgresql-
     - sudo aptitude remove -y ~nrabbitmq
     - sudo aptitude remove -y ~nmongo
     - sudo aptitude remove -y ~nmysql-
@@ -22,3 +22,4 @@ test:
   override:
     - ansible-playbook -i inventory --syntax-check playbooks/st2express.yaml
     - ansible-playbook -i inventory --connection=local -vv playbooks/st2express.yaml
+    - st2 --version
