@@ -12,5 +12,4 @@
     - libxslt1-dev
     - python-dev
     - python-pip
-    - python-virtualenv
     - libmysqlclient-dev
