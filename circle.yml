@@ -1,0 +1,23 @@
+machine:
+  environment:
+    ANSIBLE_FORCE_COLOR: 1
+    PYTHONUNBUFFERED: 1
+  pre:
+    # use aptitude to remove dependencies
+    - sudo aptitude remove -y postgresql
+    - sudo aptitude remove -y ~nrabbitmq
+    - sudo aptitude remove -y ~nmongo
+    - sudo aptitude remove -y ~nmysql-
+
+dependencies:
+  pre:
+    - sudo pip install ansible
+    - ansible --version
+
+test:
+  pre:
+    - echo localhost > inventory
+  override:
+    - ansible-playbook -i inventory --syntax-check playbooks/st2express.yaml
+    - ansible-playbook -i inventory --connection=local -vv playbooks/st2express.yaml
+    - st2 --version

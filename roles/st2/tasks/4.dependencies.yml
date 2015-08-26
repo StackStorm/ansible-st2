@@ -9,8 +9,13 @@
     - git
     - python-dev
     - python-pip
-    - python-virtualenv
     - realpath
+  tags: [st2, dependencies]
+
+- name: dependencies | Install pip virtualenv
+  sudo: true
+  pip:
+    name: virtualenv
   tags: [st2, dependencies]
 
 - name: dependencies | Install st2 pip dependencies
