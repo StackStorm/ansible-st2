@@ -1,0 +1,14 @@
+machine:
+  python
+
+dependencies:
+  pre:
+    - sudo pip install ansible
+    - ansible --version
+
+test:
+  pre:
+    - echo localhost > inventory
+  override:
+    - ansible-playbook -i inventory --syntax-check playbooks/st2express.yaml
+    - ansible-playbook -i inventory --connection=local -vv playbooks/st2express.yaml
