@@ -11,6 +11,7 @@
   service:
     name: mysql
     enabled: yes
+    state: started
 
 - name: Install python-mysqldb
   sudo: true
