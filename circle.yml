@@ -1,6 +1,4 @@
 machine:
-  python:
-    version: 2.7.6
   environment:
     ANSIBLE_FORCE_COLOR: 1
     PYTHONUNBUFFERED: 1
