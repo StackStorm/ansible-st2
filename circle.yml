@@ -4,14 +4,12 @@ machine:
     PYTHONUNBUFFERED: 1
   pre:
     # use aptitude to remove dependencies
-    - sudo aptitude remove -y ~npostgresql-
+    - sudo aptitude remove -y postgresql
     - sudo aptitude remove -y ~nrabbitmq
     - sudo aptitude remove -y ~nmongo
     - sudo aptitude remove -y ~nmysql-
 
 dependencies:
-  cache_directories:
-    - ~/.cache/pip
   pre:
     - sudo pip install ansible
     - ansible --version
