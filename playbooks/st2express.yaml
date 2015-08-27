@@ -4,6 +4,5 @@
   roles:
     - mongodb
     - rabbitmq
-    - mysql
     - mistral
     - st2
