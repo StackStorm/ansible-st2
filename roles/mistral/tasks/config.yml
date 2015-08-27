@@ -29,9 +29,3 @@
     dest: /etc/init/mistral.conf
   notify:
     - restart mistral
-
-- name: Enable the service
-  sudo: true
-  service:
-    name: mysql
-    enabled: yes

@@ -17,14 +17,8 @@
     requirements: /opt/openstack/mistral/requirements.txt
     virtualenv: /opt/openstack/mistral/.venv
 
-- name: Install additional requirements
-  sudo: true
-  pip:
-    name: mysql-python
-    virtualenv: /opt/openstack/mistral/.venv
-
 - name: Install Mistral
   sudo: true
-  shell: /opt/openstack/mistral/.venv/bin/python setup.py develop
+  shell: /opt/openstack/mistral/.venv/bin/python setup.py install
   args:
     chdir: /opt/openstack/mistral

@@ -7,3 +7,5 @@ mistral_branches:
     then: st2-0.8.1
   - if: 0.9.0
     then: st2-0.9.0
+  - if: 0.13
+    then: st2-0.13.0
