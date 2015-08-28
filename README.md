@@ -15,8 +15,14 @@ At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is 
 
 ## Installation
 ```sh
+ansible-galaxy install -r roles/mistral/requirements.yml
+
 ansible-playbook playbooks/st2express.yaml
 ```
+
+## Dependencies
+Ansible Galaxy roles used by StackStorm installation:
+ * [ANXS.postgresql](https://galaxy.ansible.com/list#/roles/512) - PostgreSQL, needed by Mistral
 
 ## Variables
 Below is the list of variables you can redefine in your playbook to customize st2 deployment:
