@@ -50,6 +50,7 @@ ansible-playbook playbooks/st2express.yaml --extra-vars='st2_version=unstable'
 
 ## Other Installers
 For your best experience there are different convenient ways to install and explore StackStorm engine.
+* [All-in-one Installer](http://docs.stackstorm.com/install/all_in_one.html) - preferred way (especially for production). Graphical installer, more secure, better tested and robust.
 * [Chef](https://supermarket.chef.io/cookbooks/stackstorm)
 * [Puppet](https://forge.puppetlabs.com/stackstorm/st2)
 * [Bash](http://docs.stackstorm.com/install/index.html#installation)
