@@ -37,7 +37,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       :inline => 'if ! command -V ansible >/dev/null 2>&1; then apt-get update && apt-get install -y python-pip && pip install ansible; fi'
     # Pull ansible-galaxy dependencies
     config.vm.provision :shell,
-      :inline => 'cd /vagrant && ansible-galaxy install -r roles/mistral/requirements.yml'
+      :inline => 'cd /vagrant && ansible-galaxy install -fr roles/mistral/requirements.yml'
     # Run playbook
     config.vm.provision :shell,
       :keep_color => true,
@@ -50,7 +50,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       exit system('vagrant', *ARGV)
     end
     config.vm.provision :host_shell do |host_shell|
-      host_shell.inline = 'ansible-galaxy install -r roles/mistral/requirements.yml'
+      host_shell.inline = 'ansible-galaxy install -fr roles/mistral/requirements.yml'
     end
     config.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbooks/st2express.yaml"
