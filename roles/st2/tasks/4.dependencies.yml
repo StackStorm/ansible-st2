@@ -12,6 +12,12 @@
     - realpath
   tags: [st2, dependencies]
 
+- name: dependencies | Upgrade pip
+  sudo: true
+  pip:
+    name: pip
+    extra_args: "-U"
+
 - name: dependencies | Install pip virtualenv
   sudo: true
   pip:
