@@ -1,0 +1,3 @@
+---
+- src: ANXS.postgresql
+  version: v1.2.1

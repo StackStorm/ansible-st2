@@ -35,11 +35,23 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Install Ansible if not present
     config.vm.provision :shell,
       :inline => 'if ! command -V ansible >/dev/null 2>&1; then apt-get update && apt-get install -y python-pip && pip install ansible; fi'
+    # Pull ansible-galaxy dependencies
+    config.vm.provision :shell,
+      :inline => 'cd /vagrant && ansible-galaxy install -fr roles/mistral/requirements.yml'
     # Run playbook
     config.vm.provision :shell,
       :keep_color => true,
       :inline => "export PYTHONUNBUFFERED=1 ANSIBLE_FORCE_COLOR=1; cd /vagrant && ansible-playbook playbooks/st2express.yaml -i 'localhost,' --connection=local"
   else
+    # Autoinstall for vagrant-host-shell plugin
+    # See https://github.com/phinze/vagrant-host-shell
+    unless Vagrant.has_plugin?('vagrant-host-shell')
+      system('vagrant plugin install vagrant-host-shell') || exit!
+      exit system('vagrant', *ARGV)
+    end
+    config.vm.provision :host_shell do |host_shell|
+      host_shell.inline = 'ansible-galaxy install -fr roles/mistral/requirements.yml'
+    end
     config.vm.provision "ansible" do |ansible|
       ansible.playbook = "playbooks/st2express.yaml"
     end

@@ -13,6 +13,6 @@
 
 - name: Install Mistral actions
   sudo: true
-  shell: /opt/openstack/mistral/.venv/bin/python setup.py develop
+  shell: /opt/openstack/mistral/.venv/bin/python setup.py install
   args:
     chdir: /etc/mistral/actions/st2mistral

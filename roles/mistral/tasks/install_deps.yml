@@ -10,9 +10,9 @@
     - libffi-dev
     - libxml2-dev
     - libxslt1-dev
+    - libpq-dev
     - python-dev
     - python-pip
-    - libmysqlclient-dev
 
 - name: Install pip virtualenv
   sudo: true
