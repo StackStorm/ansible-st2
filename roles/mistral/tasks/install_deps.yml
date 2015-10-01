@@ -13,6 +13,7 @@
     - python-dev
     - python-pip
     - libmysqlclient-dev
+    - libpq-dev
 
 - name: Install pip virtualenv
   sudo: true
