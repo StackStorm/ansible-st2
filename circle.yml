@@ -8,7 +8,6 @@ machine:
     # use aptitude to remove dependencies
     - sudo aptitude remove -y ~nrabbitmq
     - sudo aptitude remove -y ~nmongo
-    - sudo aptitude remove -y ~nmysql-
     - sudo apt-get -y autoremove
     - sudo dpkg --configure -a
     - sudo apt-get -y update
