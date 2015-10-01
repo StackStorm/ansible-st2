@@ -12,4 +12,7 @@ galaxy_info:
         - precise
   categories:
     - system
-dependencies: []
+dependencies:
+  - role: Stouts.mongodb
+    version: 2.1.10
+    tags: [db, mongo]

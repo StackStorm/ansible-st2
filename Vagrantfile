@@ -28,6 +28,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.provision :hostmanager
   end
 
+  # Ensure role dependencies are in place
+  if ['up', 'provision'].include?(ARGV.first) && !(File.directory?('roles/Stouts.mongodb'))
+    system('ansible-galaxy install -r roles/st2/requirements.yml')
+  end
+
   # Use rbconfig to determine if we're on a windows host or not.
   require 'rbconfig'
   is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)

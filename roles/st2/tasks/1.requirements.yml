@@ -6,15 +6,15 @@
   when: ansible_memtotal_mb < st2_required_memory|int
   tags: [st2, requirements]
 
-# TODO: Trigger disc space check only for fresh install, handle cases when Mongo config is not default
+# TODO: Trigger disc space check only for fresh install
 - name: requirements | Get available disk space
-  shell: df -Pk /var/lib | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{print $4}'
+  shell: df -Pk {{ mongodb_conf_dbpath }} | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{print $4}'
   register: free_disk_space
   changed_when: False
   tags: [st2, requirements]
 
 - name: requirements | Check if there is enough disc space
   fail:
-    msg: "At least {{ st2_required_space }}MB in /var/lib is required for st2 installation!"
+    msg: "At least {{ st2_required_space }}MB in '{{ mongodb_conf_dbpath }}' is required by Mongo for st2 installation!"
   when: free_disk_space.stdout < st2_required_space
   tags: [st2, requirements]
