@@ -11,7 +11,7 @@ Aka IFTTT orchestration for Ops.
 * Ubuntu 14.04
 
 ## Requirements
-At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, MySQL, Mongo, OpenStack Mistral and dozens of Python dependencies.
+At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, PostgreSQL, Mongo, OpenStack Mistral and dozens of Python dependencies.
 
 ## Installation
 ```sh

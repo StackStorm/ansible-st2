@@ -10,6 +10,7 @@
     - libffi-dev
     - libxml2-dev
     - libxslt1-dev
+    - libpq-dev
     - python-dev
     - python-pip
 
