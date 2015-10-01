@@ -10,6 +10,7 @@
     repo: https://github.com/StackStorm/mistral.git
     version: "{{ mistral_branch }}"
     dest: /opt/openstack/mistral
+    force: yes
 
 - name: Install requirements
   sudo: true
