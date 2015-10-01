@@ -3,11 +3,15 @@ machine:
     ANSIBLE_FORCE_COLOR: 1
     PYTHONUNBUFFERED: 1
   pre:
+    # complete uninstall fails on CircleCI due to old kernel bugs, doing selective uninstall gently
+    - sudo apt-get purge -y postgresql-9.4 postgresql-server-dev-9.4 postgresql-client-9.4 postgresql-server-dev-9.1
     # use aptitude to remove dependencies
-    - sudo aptitude remove -y postgresql
     - sudo aptitude remove -y ~nrabbitmq
     - sudo aptitude remove -y ~nmongo
     - sudo aptitude remove -y ~nmysql-
+    - sudo apt-get -y autoremove
+    - sudo dpkg --configure -a
+    - sudo apt-get -y update
 
 dependencies:
   pre:
@@ -20,5 +24,5 @@ test:
     - echo localhost > inventory
   override:
     - ansible-playbook -i inventory --syntax-check playbooks/st2express.yaml
-    - sudo ansible-playbook -i inventory --connection=local -vv playbooks/st2express.yaml
+    - sudo -E ansible-playbook -i inventory --connection=local -vv playbooks/st2express.yaml
     - st2 --version
