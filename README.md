@@ -60,7 +60,6 @@ For your best experience there are different convenient ways to install and expl
 * [Chef](https://supermarket.chef.io/cookbooks/stackstorm)
 * [Puppet](https://forge.puppetlabs.com/stackstorm/st2)
 * [Bash](http://docs.stackstorm.com/install/index.html#installation)
-* [Docker](https://hub.docker.com/r/stackstorm/)
 * [Vagrant](https://github.com/StackStorm/st2workroom/)
 
 ## Help
