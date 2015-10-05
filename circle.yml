@@ -23,5 +23,5 @@ test:
     - echo localhost > inventory
   override:
     - ansible-playbook -i inventory --syntax-check playbooks/st2express.yaml
-    - sudo -E ansible-playbook -i inventory --connection=local -vv playbooks/st2express.yaml
+    - ansible-playbook -i inventory --connection=local -vv playbooks/st2express.yaml
     - st2 --version
