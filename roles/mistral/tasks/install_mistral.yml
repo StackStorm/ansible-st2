@@ -23,3 +23,9 @@
   shell: /opt/openstack/mistral/.venv/bin/python setup.py install
   args:
     chdir: /opt/openstack/mistral
+
+- name: Create mistral log dir
+  sudo: true
+  file:
+    path: /var/log/mistral/
+    state: directory
