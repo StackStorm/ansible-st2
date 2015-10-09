@@ -1,5 +1,5 @@
 - name: Pick Mistral branch
   set_fact:
     mistral_branch: "{{ item.then }}"
-  when: "version | version_compare(item.if, operator='ge')"
+  when: "mistral_version | version_compare(item.if, operator='ge')"
   with_items: mistral_branches
