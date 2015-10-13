@@ -3,3 +3,4 @@
   args:
     chdir: /opt/openstack/mistral
     creates: /etc/mistral/database_setup.lock
+  sudo: yes
