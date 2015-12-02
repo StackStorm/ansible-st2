@@ -4,6 +4,14 @@
     src: mistral.conf
     dest: /etc/mistral/mistral.conf
 
+- name: Set mistral config values
+  sudo: true
+  ini_file:
+    dest=/etc/mistral/mistral.conf
+    section=database
+    option=connection
+    value=postgresql://mistral:{{mistral_db_password}}@{{mistral_db_server}}/{{mistral_db}}
+
 - name: Copy Mistral log config
   sudo: true
   command: cp /opt/openstack/mistral/etc/wf_trace_logging.conf.sample /etc/mistral/wf_trace_logging.conf creates=/etc/mistral/wf_trace_logging.conf
