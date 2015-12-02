@@ -32,6 +32,12 @@
   when: st2_revision == 'current'
   tags: [st2, version]
 
+- name: version | Set which StackStorm revision to install manually
+  set_fact:
+    _st2_revision: {{ st2_revision }}
+  when: st2_revision != 'current'
+  tags: [st2, version]
+
 - name: version | Gather StackStorm package info
   command: dpkg -s st2common
   register: _st2_package_info
