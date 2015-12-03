@@ -29,6 +29,6 @@
     mode: 0440
     regexp: "^{{ st2_system_user }} ALL="
     line: "{{ st2_system_user }} ALL=(ALL) NOPASSWD: SETENV: ALL"
-    state: present
+    state: "{{ 'present' if st2_system_user_in_sudoers else 'absent' }}"
     validate: 'visudo -cf %s'
   tags: [st2, user]

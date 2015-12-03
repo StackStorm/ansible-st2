@@ -1,8 +1,10 @@
-- name: Copy Mistral config
+- name: Add Mistral config
   sudo: true
-  copy:
-    src: mistral.conf
+  template:
+    src: mistral.conf.j2
     dest: /etc/mistral/mistral.conf
+  notify:
+    - restart mistral
 
 - name: Copy Mistral log config
   sudo: true
