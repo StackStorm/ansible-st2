@@ -1,16 +1,10 @@
-- name: Copy Mistral config
+- name: Add Mistral config
   sudo: true
-  copy:
-    src: mistral.conf
+  template:
+    src: mistral.conf.j2
     dest: /etc/mistral/mistral.conf
-
-- name: Set mistral config values
-  sudo: true
-  ini_file:
-    dest=/etc/mistral/mistral.conf
-    section=database
-    option=connection
-    value=postgresql://mistral:{{mistral_db_password}}@{{mistral_db_server}}/{{mistral_db}}
+  notify:
+    - restart mistral
 
 - name: Copy Mistral log config
   sudo: true
