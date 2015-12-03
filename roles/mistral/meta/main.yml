@@ -18,8 +18,8 @@ dependencies:
     tags: [db, postgresql]
     sudo: yes
     postgresql_databases:
-      - name: mistral
+      - name: "{{ mistral_db }}"
     postgresql_users:
-      - name: mistral
-        pass: StackStorm
+      - name: "{{ mistral_db_username }}"
+        pass: "{{ mistral_db_password }}"
         encrypted: yes
