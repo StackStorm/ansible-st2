@@ -1,6 +1,7 @@
 # StackStorm version checks and facts gathering
 # TODO: Rework as lookup plugin when Ansible 2.0 available: https://groups.google.com/forum/#!msg/ansible-devel/MF4TY-wa9Ww/mL9sVSMd5DwJ
 ---
+
 - name: version | Lookup literal version
   shell: >
     curl -Ss -q https://downloads.stackstorm.net/deb/pool/trusty_{{ st2_version }}/main/s/st2api/ |
@@ -28,7 +29,9 @@
 
 - name: version | Lookup StackStorm revision to install
   set_fact:
-    _st2_revision: "{{ lookup('url', 'https://downloads.stackstorm.net/releases/st2/' + _st2_version + '/debs/' + st2_revision + '/VERSION.txt') }}"
+      _st2_revision: "{{ item }}"
+  with_url:
+    - "https://downloads.stackstorm.net/releases/st2/{{ _st2_version }}/debs/{{ st2_revision }}/VERSION.txt"
   tags: [st2, version]
 
 - name: version | Gather StackStorm package info
