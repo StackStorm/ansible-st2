@@ -1,0 +1,6 @@
+[database]
+connection=postgresql://{{ mistral_username }}:{{ mistral_db_password }}@{{ mistral_db_server }}}/{{ mistral_db }}
+max_pool_size=50
+
+[pecan]
+auth_enable=false
