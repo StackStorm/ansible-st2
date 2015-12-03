@@ -29,13 +29,6 @@
 - name: version | Lookup StackStorm revision to install
   set_fact:
     _st2_revision: "{{ lookup('url', 'https://downloads.stackstorm.net/releases/st2/' + _st2_version + '/debs/' + st2_revision + '/VERSION.txt') }}"
-  when: st2_revision == 'current'
-  tags: [st2, version]
-
-- name: version | Set which StackStorm revision to install manually
-  set_fact:
-    _st2_revision: {{ st2_revision }}
-  when: st2_revision != 'current'
   tags: [st2, version]
 
 - name: version | Gather StackStorm package info
