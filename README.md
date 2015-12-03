@@ -27,14 +27,18 @@ Ansible Galaxy roles used by StackStorm installation:
 ## Variables
 Below is the list of variables you can redefine in your playbook to customize st2 deployment:
 
-| Variable            | Default       | Description  |
-| ------------------- | ------------- | ----- |
-| `st2_version`       | `stable`      | StackStorm version to install. Latest `stable`, `unstable` to get automatic updates or pin it to numeric version like `0.12.1`.
-| `st2_revision`      | `current`     | StackStorm revision to install. `current` to get latest build (autoupdating) or pin it to numeric build like `6`.
-| `st2_action_runners`| `ansible_processor_vcpus` | Number of action runner workers to start. Defaults to number of machine vCPUs, but not less than 2.
-| `st2_system_user`   | `stanley`     | System user on whose behalf st2 would work, including remote/local action runners.
-| `st2_auth_username` | `testu`       | Username used by StackStorm standalone authentication.
-| `st2_auth_password` | `testp`       | Password used by StackStorm standalone authentication.
+| Variable              | Default       | Description  |
+| --------------------- | ------------- | ----- |
+| `st2_version`         | `stable`      | StackStorm version to install. Latest `stable`, `unstable` to get automatic updates or pin it to numeric version like `0.12.1`.
+| `st2_revision`        | `current`     | StackStorm revision to install. `current` to get latest build (autoupdating) or pin it to numeric build like `6`.
+| `st2_action_runners`  | `ansible_processor_vcpus` | Number of action runner workers to start. Defaults to number of machine vCPUs, but not less than 2.
+| `st2_system_user`     | `stanley`     | System user on whose behalf st2 would work, including remote/local action runners.
+| `st2_system_user_in_sudoers` | `yes`| Add `st2_system_user` to the sudoers (recommended for most `st2` features to work).
+| `st2_auth_username`   | `testu`       | Username used by StackStorm standalone authentication.
+| `st2_auth_password`   | `testp`       | Password used by StackStorm standalone authentication.
+| `mistral_db`          | `mistral`     | PostgreSQL DB name for Mistral.
+| `mistral_db_username` | `mistral`     | PostgreSQL DB user for Mistral.
+| `mistral_db_password` | `StackStorm`  | PostgreSQL DB password for Mistral.
 
 ## Examples
 Install `stable` StackStorm with all its components on local machine:
