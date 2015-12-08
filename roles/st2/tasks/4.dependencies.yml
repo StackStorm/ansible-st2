@@ -27,5 +27,5 @@
 - name: dependencies | Install st2 pip dependencies
   sudo: true
   pip:
-    requirements: https://raw.githubusercontent.com/StackStorm/st2/master/requirements.txt
+    requirements: "https://downloads.stackstorm.net/releases/st2/{{ _st2_version }}/requirements.txt"
   tags: [st2, dependencies]
