@@ -4,5 +4,8 @@
   roles:
     - mongodb
     - rabbitmq
+    - st2-repos
     - mistral
     - st2
+    - st2-web
+    - st2-smoke-tests
