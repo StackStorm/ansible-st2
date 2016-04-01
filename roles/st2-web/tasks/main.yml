@@ -1,0 +1,70 @@
+---
+# tasks file for st2-web
+
+
+
+- name: Install nginx
+  sudo: yes
+  apt:
+    name: nginx
+    state: present
+
+- name: Install latest st2-web package
+  sudo: yes
+  apt:
+    name: st2web
+    state: latest
+  when: st2_version == "stable"
+  notify:
+    - restart st2
+
+- name: Install exact st2-web package
+  sudo: yes
+  apt:
+    name: st2web={{ st2_version }}.{{ st2_revision }}
+    state: present
+  when: st2_version != "stable"
+  notify:
+    - restart st2
+
+- name: Create ssl cert dir
+  sudo: yes
+  file:
+    state: directory
+    dest: /etc/ssl/st2
+
+
+
+- name: Create ssl cert
+  sudo: yes
+  shell: openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt -days XXX -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information Technology/CN=$(hostname)"
+  args:
+    creates: /etc/ssl/st2/st2.key
+  notify:
+    - Restart nginx
+
+- name: Remove default site
+  sudo: yes
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Copy Nginx config
+  sudo: yes
+  command: cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
+  args:
+    creates: /etc/nginx/sites-available/st2.conf
+  notify: 
+    - Restart nginx
+
+- name: Enable site
+  sudo: yes
+  file:
+    state: link
+    src: /etc/nginx/sites-available/st2.conf
+    dest: /etc/nginx/sites-enabled/st2.conf
+  notify:
+    - Restart nginx
+
+
+
