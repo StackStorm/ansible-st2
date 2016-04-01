@@ -49,6 +49,6 @@
     dest: /etc/st2/st2.conf
     section: system_user
     option: ssh_key_file
-    value: "{{ _user.ssh_public_key }}"
+    value: "{{ _user.ssh_key_file }}"
     backup: yes
 
