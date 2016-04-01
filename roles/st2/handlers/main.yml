@@ -1,6 +1,7 @@
 - name: restart st2
   sudo: true
-  service:
-    name: "{{ item }}"
-    state: restarted
-  with_items: st2_services
+  command: st2ctl restart 
+
+- name: restart st2-api
+  sudo: true
+  command: st2ctl restart-component st2api

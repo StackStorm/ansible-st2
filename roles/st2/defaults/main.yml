@@ -24,6 +24,7 @@ st2_packages:
 # Number of action runners to register. Defaults to number of vCPUs, but not less than 2
 st2_action_runners: "{{ [ansible_processor_vcpus, 2] | max }}"
 
+enable_auth: true
 st2_auth_username: testu
 st2_auth_password: testp
 
