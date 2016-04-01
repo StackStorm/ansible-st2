@@ -18,6 +18,8 @@
   notify:
     - restart st2
 
+- include: user.yml
+
 - include: config_auth.yml
   when: enable_auth
 
