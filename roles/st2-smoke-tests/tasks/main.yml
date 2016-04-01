@@ -1,6 +1,10 @@
 ---
 # Small suite of smoke tests to execute to ensure that the playbook has deployed as expected
 
+- meta: flush_handlers
+  tags:
+    - smoke-tests
+
 
 - name: Make sure packs are reloaded
   sudo: yes
