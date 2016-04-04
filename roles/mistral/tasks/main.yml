@@ -8,6 +8,7 @@
     state: present
 
 - name: Configure mistral
+  sudo: yes
   ini_file:
     dest: /etc/mistral/mistral.conf
     section: database
