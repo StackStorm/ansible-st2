@@ -8,4 +8,4 @@
     - mistral
     - st2
     - st2web
-    - st2-smoke-tests
+    - st2smoketests
