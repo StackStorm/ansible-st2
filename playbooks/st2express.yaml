@@ -4,7 +4,7 @@
   roles:
     - mongodb
     - rabbitmq
-    - st2-repos
+    - st2repos
     - mistral
     - st2
     - st2web
