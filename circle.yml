@@ -15,6 +15,7 @@ machine:
 dependencies:
   pre:
     - sudo apt-get install python-pip python-dev
+    - sudo pip install --upgrade  setuptools
     - sudo pip install ansible
     - ansible --version
     - ansible-galaxy install -r roles/mistral/requirements.yml
