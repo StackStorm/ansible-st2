@@ -1,10 +1,18 @@
 ---
 
-- name: Install st2mistral
+- name: Install latest st2mistral
   sudo: yes
   apt: 
+    name: st2mistral
+    state: latest
+  when: mistral_version == "stable"
+
+- name: Install latest st2mistral
+  sudo: yes
+  apt:
     name: st2mistral={{ mistral_version }}
     state: present
+  when: mistral_version != "stable"
 
 - name: Configure mistral
   sudo: yes
