@@ -1,5 +1,5 @@
 ---
-# tasks file for st2-repos
+# tasks file for st2repos
 
 - name: Install prereqs
   sudo: yes

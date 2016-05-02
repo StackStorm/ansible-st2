@@ -1,7 +1,5 @@
 ---
-# tasks file for st2-web
-
-
+# tasks file for st2web
 
 - name: Install nginx
   sudo: yes
@@ -9,7 +7,7 @@
     name: nginx
     state: present
 
-- name: Install latest st2-web package
+- name: Install latest st2web package
   sudo: yes
   apt:
     name: st2web
@@ -18,7 +16,7 @@
   notify:
     - restart st2
 
-- name: Install exact st2-web package
+- name: Install exact st2web package
   sudo: yes
   apt:
     name: st2web={{ st2_version }}.{{ st2_revision }}

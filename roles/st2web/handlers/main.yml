@@ -1,5 +1,5 @@
 ---
-# handlers file for st2-web
+# handlers file for st2web
 - name: restart st2
   sudo: true
   command: st2ctl restart 
