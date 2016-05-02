@@ -7,7 +7,6 @@
     - python-passlib
     - apache2-utils
 
-
 - name: Create htpasswd file
   sudo: true
   htpasswd:
@@ -16,7 +15,6 @@
     password: "{{ st2_auth_password }}"
   notify:
     - restart st2-api
-
 
 - name: Enable autentication
   sudo: yes
@@ -28,5 +26,3 @@
     backup: yes
   notify: 
     - restart st2-api
-
-

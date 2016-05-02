@@ -1,6 +1,5 @@
 ---
 
-
 - name: Install st2mistral
   sudo: yes
   apt: 
@@ -66,7 +65,3 @@
   file:
     path: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
     state: touch
-
-
-
-

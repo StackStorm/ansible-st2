@@ -24,16 +24,9 @@
     state: present
     update_cache: yes
 
-
 - name: Add StackStorm src repos
   sudo: yes
   apt_repository:
     repo: 'deb-src https://packagecloud.io/StackStorm/staging-stable/ubuntu/ trusty main'
     state: present
     update_cache: yes
-
-
-
-  
-
-  

@@ -22,5 +22,3 @@
 
 - include: config_auth.yml
   when: enable_auth
-
-

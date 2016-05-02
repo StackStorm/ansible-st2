@@ -6,4 +6,3 @@
     update_cache: true
   with_items:
     - rabbitmq-server
-

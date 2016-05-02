@@ -51,4 +51,3 @@
     option: ssh_key_file
     value: "{{ _user.ssh_key_file }}"
     backup: yes
-

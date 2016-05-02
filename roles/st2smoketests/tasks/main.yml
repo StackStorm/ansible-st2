@@ -36,4 +36,3 @@
     validate_certs: no
   tags:
     - smoke-tests
-

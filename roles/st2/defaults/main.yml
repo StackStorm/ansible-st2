@@ -31,4 +31,3 @@ st2_auth_password: testp
 # Set to no if you do not want the st2_system_user to be added in
 # the sudoers file.
 st2_system_user_in_sudoers: yes
-
