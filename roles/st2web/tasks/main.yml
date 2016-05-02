@@ -1,10 +1,23 @@
 ---
 # tasks file for st2web
 
+- name: Add nginx key
+  sudo: yes
+  apt_key:
+    url: http://nginx.org/keys/nginx_signing.key
+    state: present
+
+- name: Add nginx repos
+  sudo: yes
+  apt_repository:
+    repo: "deb http://nginx.org/packages/ubuntu/ trusty nginx"
+    state: present
+    update_cache: yes
+
 - name: Install nginx
   sudo: yes
   apt:
-    name: nginx
+    name: nginx=1.8.*
     state: present
 
 - name: Install latest st2web package
@@ -19,7 +32,7 @@
 - name: Install exact st2web package
   sudo: yes
   apt:
-    name: st2web={{ st2_version }}.{{ st2_revision }}
+    name: st2web={{ st2_version }}-{{ st2web_revision }}
     state: present
   when: st2_version != "stable"
   notify:
@@ -47,6 +60,24 @@
     path: /etc/nginx/sites-enabled/default
     state: absent
 
+- name: Create nginx folders
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - /etc/nginx/sites-available/
+    - /etc/nginx/sites-enabled/
+
+- name: Ensure site-available is loaded
+  sudo: yes
+  lineinfile:
+    state: present
+    dest: /etc/nginx/nginx.conf
+    regexp: 'include /etc/nginx/sites-enabled/'
+    insertafter: '    include /etc/nginx/conf.d/'
+    line: 'include /etc/nginx/sites-enabled/*;'
+    
 - name: Copy Nginx config
   sudo: yes
   command: cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
