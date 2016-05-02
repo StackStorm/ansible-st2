@@ -14,19 +14,19 @@
 - name: Add keys to keyring
   sudo: yes
   apt_key:
-    url: https://packagecloud.io/StackStorm/staging-stable/gpgkey
+    url: https://packagecloud.io/StackStorm/stable/gpgkey
     state: present
 
 - name: Add StackStorm repos
   sudo: yes
   apt_repository:
-    repo: 'deb https://packagecloud.io/StackStorm/staging-stable/ubuntu/ trusty main'
+    repo: 'deb https://packagecloud.io/StackStorm/stable/ubuntu/ trusty main'
     state: present
     update_cache: yes
 
 - name: Add StackStorm src repos
   sudo: yes
   apt_repository:
-    repo: 'deb-src https://packagecloud.io/StackStorm/staging-stable/ubuntu/ trusty main'
+    repo: 'deb-src https://packagecloud.io/StackStorm/stable/ubuntu/ trusty main'
     state: present
     update_cache: yes
