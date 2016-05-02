@@ -2,6 +2,6 @@
   sudo: true
   command: st2ctl restart 
 
-- name: restart st2-api
+- name: restart st2api
   sudo: true
   command: st2ctl restart-component st2api
