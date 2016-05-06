@@ -12,4 +12,5 @@ galaxy_info:
         - precise
   categories:
     - system
-dependencies: []
+dependencies: 
+  - role: st2repos

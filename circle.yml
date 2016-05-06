@@ -6,14 +6,16 @@ machine:
     # complete uninstall fails on CircleCI due to old kernel bugs, doing selective uninstall gently
     - sudo apt-get purge -y postgresql-9.4 postgresql-server-dev-9.4 postgresql-client-9.4 postgresql-server-dev-9.1
     # use aptitude to remove dependencies
-    - sudo aptitude remove -y ~nrabbitmq
-    - sudo aptitude remove -y ~nmongo
+    - sudo aptitude purge -y ~nrabbitmq
+    - sudo aptitude purge -y ~nmongo
     - sudo apt-get -y autoremove
     - sudo dpkg --configure -a
     - sudo apt-get -y update
 
 dependencies:
   pre:
+    - sudo apt-get install python-pip python-dev
+    - sudo pip install --upgrade  setuptools
     - sudo pip install ansible
     - ansible --version
     - ansible-galaxy install -r roles/mistral/requirements.yml

@@ -1,6 +1,13 @@
 - name: restart st2
   sudo: true
-  service:
-    name: "{{ item }}"
-    state: restarted
-  with_items: st2_services
+  command: "{{ item }}"
+  with_items:
+    - st2ctl reload --register-all
+    - st2ctl restart
+
+- name: restart st2api/st2stream
+  sudo: true
+  command: "st2ctl restart-component {{ item }}"
+  with_items:
+    - st2api
+    - st2stream

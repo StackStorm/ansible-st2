@@ -1,7 +1,75 @@
-- include: gather_facts.yml
-- include: install_deps.yml
-- include: install_mistral.yml
-- include: install_actions.yml
-- include: config.yml
-- include: sync.yml
-- include: install_client.yml
+---
+
+- name: Install latest st2mistral
+  sudo: yes
+  apt: 
+    name: st2mistral
+    state: latest
+  when: mistral_version == "stable"
+
+- name: Install latest st2mistral
+  sudo: yes
+  apt:
+    name: st2mistral={{ mistral_version }}
+    state: present
+  when: mistral_version != "stable"
+
+- name: Configure mistral
+  sudo: yes
+  ini_file:
+    dest: /etc/mistral/mistral.conf
+    section: database
+    option: connection
+    value: postgresql://{{ mistral_db_username }}:{{ mistral_db_password }}@localhost/{{ mistral_db }}
+    backup: yes
+
+- name: Deploy database init script
+  sudo: yes
+  template:
+    src: init_mistral_db.SQL.j2
+    dest: /etc/mistral/init_mistral_db.SQL 
+  notify: 
+    - restart mistral
+
+- name: Initiate database
+  become: yes
+  become_user: postgres
+  shell: psql < /etc/mistral/init_mistral_db.SQL
+  args: 
+    creates: /etc/mistral/init_mistral_db.SQL.ansible.has.run
+  notify:
+    - restart mistral
+
+- name: Make sure "Initiate database" doesn't run twice
+  sudo: yes
+  file:
+    path: /etc/mistral/init_mistral_db.SQL.ansible.has.run
+    state: touch
+
+- name: Setup Mistral DB tables, etc
+  sudo: yes
+  command: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
+  args:
+    creates: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
+  notify: 
+    - restart mistral
+
+- name: Make sure "Setup Mistral DB tables, etc" does not run again
+  sudo: yes
+  file:
+    path: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
+    state: touch
+
+- name: Register mistral actions
+  sudo: yes
+  command: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
+  args:
+    creates: /etc/mistral/mistral-db-manage.populate.ansible.has.run
+  notify:
+    - restart mistral
+
+- name: Make sure "Register mistral actions" does not run again
+  sudo: yes
+  file:
+    path: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
+    state: touch

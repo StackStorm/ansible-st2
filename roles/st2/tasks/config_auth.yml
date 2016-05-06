@@ -1,32 +1,11 @@
-- name: Config proxy auth
-  sudo: true
-  lineinfile:
-    dest: /etc/st2/st2.conf
-    regexp: "^{{ item.option }}\\s*="
-    value: "{{ item.option }} = {{ item.value }}"
+- name: Install auth pre-reqs
+  sudo: yes
+  apt:
+    name: "{{ item }}"
+    state: present
   with_items:
-    - option: mode
-      value: proxy
-  when: "st2_auth_username is undefined"
-  notify:
-    - restart st2
-
-- name: Config stanalone auth
-  sudo: true
-  lineinfile:
-    dest: /etc/st2/st2.conf
-    regexp: "^{{ item.option }}\\s*="
-    value: "{{ item.option }} = {{ item.value }}"
-  with_items:
-    - option: mode
-      value: standalone
-    - option: backend
-      value: flat_file
-    - option: backend_kwargs
-      value: "{\"file_path\": \"/etc/st2/htpasswd\"}"
-  when: "st2_auth_username is defined"
-  notify:
-    - restart st2
+    - python-passlib
+    - apache2-utils
 
 - name: Create htpasswd file
   sudo: true
@@ -34,4 +13,16 @@
     path: /etc/st2/htpasswd
     name: "{{ st2_auth_username }}"
     password: "{{ st2_auth_password }}"
-  when: "st2_auth_username is defined"
+  notify:
+    - restart st2api/st2stream
+
+- name: Enable autentication
+  sudo: yes
+  ini_file:
+    dest: /etc/st2/st2.conf
+    section: auth
+    option: enable
+    value: True
+    backup: yes
+  notify: 
+    - restart st2api/st2stream

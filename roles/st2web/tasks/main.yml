@@ -1,0 +1,94 @@
+---
+# tasks file for st2web
+
+- name: Add nginx key
+  sudo: yes
+  apt_key:
+    url: http://nginx.org/keys/nginx_signing.key
+    state: present
+
+- name: Add nginx repos
+  sudo: yes
+  apt_repository:
+    repo: "deb http://nginx.org/packages/ubuntu/ trusty nginx"
+    state: present
+    update_cache: yes
+
+- name: Install nginx
+  sudo: yes
+  apt:
+    name: nginx=1.8.*
+    state: present
+
+- name: Install latest st2web package
+  sudo: yes
+  apt:
+    name: st2web
+    state: latest
+  when: st2_version == "stable"
+  notify:
+    - restart st2
+
+- name: Install exact st2web package
+  sudo: yes
+  apt:
+    name: st2web={{ st2_version }}-{{ st2web_revision }}
+    state: present
+  when: st2_version != "stable"
+  notify:
+    - restart st2
+
+- name: Create ssl cert dir
+  sudo: yes
+  file:
+    state: directory
+    dest: /etc/ssl/st2
+
+- name: Create ssl cert
+  sudo: yes
+  shell: openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information Technology/CN=$(hostname)"
+  args:
+    creates: /etc/ssl/st2/st2.key
+  notify:
+    - Restart nginx
+
+- name: Remove default site
+  sudo: yes
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+
+- name: Create nginx folders
+  sudo: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - /etc/nginx/sites-available/
+    - /etc/nginx/sites-enabled/
+
+- name: Ensure site-available is loaded
+  sudo: yes
+  lineinfile:
+    state: present
+    dest: /etc/nginx/nginx.conf
+    regexp: 'include /etc/nginx/sites-enabled/'
+    insertafter: '    include /etc/nginx/conf.d/'
+    line: 'include /etc/nginx/sites-enabled/*;'
+    
+- name: Copy Nginx config
+  sudo: yes
+  command: cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
+  args:
+    creates: /etc/nginx/sites-available/st2.conf
+  notify: 
+    - Restart nginx
+
+- name: Enable site
+  sudo: yes
+  file:
+    state: link
+    src: /etc/nginx/sites-available/st2.conf
+    dest: /etc/nginx/sites-enabled/st2.conf
+  notify:
+    - Restart nginx

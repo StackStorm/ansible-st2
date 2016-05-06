@@ -32,3 +32,22 @@
     state: "{{ 'present' if st2_system_user_in_sudoers else 'absent' }}"
     validate: 'visudo -cf %s'
   tags: [st2, user]
+
+
+- name: Configure system user in /etc/st2/st2.conf
+  sudo: yes
+  ini_file:
+    dest: /etc/st2/st2.conf
+    section: system_user
+    option: user
+    value: "{{ st2_system_user }}"
+    backup: yes
+
+- name: Configure system user ssh key in /etc/st2/st2.conf
+  sudo: yes
+  ini_file:
+    dest: /etc/st2/st2.conf
+    section: system_user
+    option: ssh_key_file
+    value: "{{ _user.ssh_key_file }}"
+    backup: yes

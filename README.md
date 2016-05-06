@@ -1,13 +1,3 @@
-> **WARNING!** Breaking Change/Outdated Notice!
-
-> We're reworking entire StackStorm Installation story with completely rewrited packages with pip dependencies bundled and other major improvements, which will affect Ansible provision logic as well. Until that existing StackStorm deployment with Ansible is considered as outdated. High-level logic/variables will remain the same, hovewer there will be no migration possibility from old packages to new.
-
-> Currently Preferred installation ways: 
-* deb [`Ubuntu/Debian`](https://docs.stackstorm.com/install/deb.html)
-* rpm [`RHEL7/CentOS7`](https://docs.stackstorm.com/install/rhel7.html)
-* rpm [`RHEL6/CentOS6`](https://docs.stackstorm.com/install/rhel6.html)
-
-
 # Ansible-st2
 Ansible playbooks to deploy [StackStorm](https://github.com/stackstorm/st2).
 > [StackStorm](http://stackstorm.com/) is event-driven automation platform written in Python.

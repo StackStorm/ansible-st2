@@ -1,0 +1,38 @@
+---
+# Small suite of smoke tests to execute to ensure that the playbook has deployed as expected
+
+- meta: flush_handlers
+  tags:
+    - smoke-tests
+
+
+- name: Make sure packs are reloaded
+  sudo: yes
+  command: st2ctl reload --register-all
+  tags:
+    - smoke-tests
+
+- name: st2 installed
+  command: st2 --version
+  tags:
+    - smoke-tests
+
+- name: get authentication token
+  command: st2 auth {{ st2_auth_username }} -p {{ st2_auth_password }} -t
+  register: st2_token
+  tags:
+    - smoke-tests
+
+- name: st2 run core.local -- date -R
+  command: st2 run core.local -- date -R
+  environment:
+    ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
+  tags:
+    - smoke-tests
+
+- name: Check web-ui is up
+  uri:
+    url: https://{{ ansible_hostname }}/
+    validate_certs: no
+  tags:
+    - smoke-tests
