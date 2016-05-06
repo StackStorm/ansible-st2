@@ -5,6 +5,7 @@ With over [50+ integrations](https://github.com/StackStorm/st2contrib/tree/maste
 Aka IFTTT orchestration for Ops.
 
 [![Circle CI Build Status](https://circleci.com/gh/StackStorm/ansible-st2/tree/master.svg?style=shield)](https://circleci.com/gh/StackStorm/ansible-st2/tree/master)
+[![Repository deb/rpm](https://img.shields.io/badge/Repository-deb/rpm-blue.svg)](https://packagecloud.io/StackStorm/stable/)
 
 ## Supported platforms
 * Ubuntu 14.04
@@ -55,8 +56,8 @@ ansible-playbook playbooks/st2express.yaml --extra-vars='st2_version=1.4.0 st2_r
 ## Other Installers
 You might be interested in other OS flavors to explore StackStorm engine:
 * [Ubuntu/Debian](https://docs.stackstorm.com/install/deb.html)
-* [RHEL 7/CentOS 7](https://docs.stackstorm.com/install/rhel7.html)
-* [RHEL 6/CentOS 7](https://docs.stackstorm.com/install/rhel6.html)
+* [RHEL7/CentOS7](https://docs.stackstorm.com/install/rhel7.html)
+* [RHEL6/CentOS7](https://docs.stackstorm.com/install/rhel6.html)
 
 ## Help
 If you're in stuck, our community always ready to help, feel free to:
