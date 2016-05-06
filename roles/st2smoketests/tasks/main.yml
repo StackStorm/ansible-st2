@@ -8,7 +8,7 @@
 
 - name: Make sure packs are reloaded
   sudo: yes
-  command: st2ctl reload
+  command: st2ctl reload --register-all
   tags:
     - smoke-tests
 
