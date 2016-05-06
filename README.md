@@ -5,9 +5,9 @@ With over [50+ integrations](https://github.com/StackStorm/st2contrib/tree/maste
 Aka IFTTT orchestration for Ops.
 
 [![Circle CI Build Status](https://circleci.com/gh/StackStorm/ansible-st2/tree/master.svg?style=shield)](https://circleci.com/gh/StackStorm/ansible-st2/tree/master)
+[![Repository deb/rpm](https://img.shields.io/badge/Repository-deb/rpm-blue.svg)](https://packagecloud.io/StackStorm/stable/)
 
 ## Supported platforms
-* Ubuntu 12.04
 * Ubuntu 14.04
 
 ## Requirements
@@ -29,9 +29,8 @@ Below is the list of variables you can redefine in your playbook to customize st
 
 | Variable              | Default       | Description  |
 | --------------------- | ------------- | ----- |
-| `st2_version`         | `stable`      | StackStorm version to install. Latest `stable`, `unstable` to get automatic updates or pin it to numeric version like `0.12.1`.
-| `st2_revision`        | `current`     | StackStorm revision to install. `current` to get latest build (autoupdating) or pin it to numeric build like `6`.
-| `st2_action_runners`  | `ansible_processor_vcpus` | Number of action runner workers to start. Defaults to number of machine vCPUs, but not less than 2.
+| `st2_version`         | `stable`      | StackStorm version to install. Use latest `stable` to get automatic updates or pin it to numeric version like `1.4.0`.
+| `st2_revision`        | `1`           | StackStorm revision to install. Used only with pinned `st2_version`.
 | `st2_system_user`     | `stanley`     | System user on whose behalf st2 would work, including remote/local action runners.
 | `st2_system_user_in_sudoers` | `yes`| Add `st2_system_user` to the sudoers (recommended for most `st2` features to work).
 | `st2_auth_username`   | `testu`       | Username used by StackStorm standalone authentication.
@@ -41,32 +40,28 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `mistral_db_password` | `StackStorm`  | PostgreSQL DB password for Mistral.
 
 ## Examples
-Install `stable` StackStorm with all its components on local machine:
+Install latest `stable` StackStorm with all its components on local machine:
 ```sh
 ansible-playbook playbooks/st2express.yaml -i 'localhost,' --connection=local
 ```
 
 > Note that keeping `stable` version is useful to update StackStorm by re-running playbook, since it will reinstall st2 if there is new version available.
-This is default behavior. If you don't want updates - consider pinning version numbers. 
+This is default behavior. If you don't want updates - consider pinning version-revision numbers. 
 
 Install specific numeric version of st2 with pinned revision number as well:
 ```sh
-ansible-playbook playbooks/st2express.yaml --extra-vars='st2_version=0.12.2 st2_revision=6'
-```
-or latest unstable (development branch):
-```sh
-ansible-playbook playbooks/st2express.yaml --extra-vars='st2_version=unstable'
+ansible-playbook playbooks/st2express.yaml --extra-vars='st2_version=1.4.0 st2_revision=8'
 ```
 
 ## Other Installers
-For your best experience there are different convenient ways to install and explore StackStorm engine.
-* [All-in-one Installer](http://docs.stackstorm.com/install/all_in_one.html) - preferred way (especially for production). Graphical installer, more secure, better tested and robust.
-* [Chef](https://supermarket.chef.io/cookbooks/stackstorm)
-* [Puppet](https://forge.puppetlabs.com/stackstorm/st2)
-* [Bash](http://docs.stackstorm.com/install/index.html#installation)
-* [Vagrant](https://github.com/StackStorm/st2workroom/)
+You might be interested in other OS flavors to explore StackStorm engine:
+* [Ubuntu/Debian](https://docs.stackstorm.com/install/deb.html)
+* [RHEL7/CentOS7](https://docs.stackstorm.com/install/rhel7.html)
+* [RHEL6/CentOS7](https://docs.stackstorm.com/install/rhel6.html)
 
 ## Help
 If you're in stuck, our community always ready to help, feel free to:
-* Ask questions on [IRC: #stackStorm on freenode.net](http://webchat.freenode.net/?channels=stackstorm) or our [public Slack channel](https://stackstorm.typeform.com/to/K76GRP)
-* Report bug, provide feature request or just give us a ✮ star at [GitHub st2](https://github.com/StackStorm/st2)
+* Ask questions in our [public Slack channel](https://stackstorm.com/community-signup)
+* [Report bug](https://github.com/StackStorm/ansible-st2/issues), provide [feature request](https://github.com/StackStorm/ansible-st2/pulls) or just give us a ✮ star
+
+Your contribution is more than welcome!
