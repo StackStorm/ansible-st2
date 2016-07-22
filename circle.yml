@@ -3,9 +3,8 @@ machine:
     ANSIBLE_FORCE_COLOR: 1
     PYTHONUNBUFFERED: 1
   pre:
-    # complete uninstall fails on CircleCI due to old kernel bugs, doing selective uninstall gently
-    - sudo apt-get purge -y postgresql-9.4 postgresql-server-dev-9.4 postgresql-client-9.4 postgresql-server-dev-9.1
     # use aptitude to remove dependencies
+    - sudo aptitude purge -y ~npostgres
     - sudo aptitude purge -y ~nrabbitmq
     - sudo aptitude purge -y ~nmongo
     - sudo apt-get -y autoremove
