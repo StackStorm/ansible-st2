@@ -15,8 +15,9 @@ At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is 
 
 ## Installation
 ```sh
-ansible-galaxy install -r roles/mistral/requirements.yml
-
+# ansible galaxy roles
+ansible-playbook playbooks/requirements.yaml
+# stackstorm
 ansible-playbook playbooks/stackstorm.yaml
 ```
 
