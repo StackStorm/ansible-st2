@@ -17,7 +17,7 @@ At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is 
 ```sh
 ansible-galaxy install -r roles/mistral/requirements.yml
 
-ansible-playbook playbooks/st2express.yaml
+ansible-playbook playbooks/stackstorm.yaml
 ```
 
 ## Dependencies
@@ -42,7 +42,7 @@ Below is the list of variables you can redefine in your playbook to customize st
 ## Examples
 Install latest `stable` StackStorm with all its components on local machine:
 ```sh
-ansible-playbook playbooks/st2express.yaml -i 'localhost,' --connection=local
+ansible-playbook playbooks/stackstorm.yaml -i 'localhost,' --connection=local
 ```
 
 > Note that keeping `stable` version is useful to update StackStorm by re-running playbook, since it will reinstall st2 if there is new version available.
@@ -50,7 +50,7 @@ This is default behavior. If you don't want updates - consider pinning version-r
 
 Install specific numeric version of st2 with pinned revision number as well:
 ```sh
-ansible-playbook playbooks/st2express.yaml --extra-vars='st2_version=1.4.0 st2_revision=8'
+ansible-playbook playbooks/stackstorm.yaml --extra-vars='st2_version=1.4.0 st2_revision=8'
 ```
 
 ## Other Installers
