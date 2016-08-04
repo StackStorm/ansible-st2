@@ -23,8 +23,8 @@ test:
   pre:
     - echo localhost > inventory
   override:
-    - ansible-playbook -i inventory --syntax-check playbooks/stackstorm.yaml
-    - ansible-playbook -i inventory --connection=local -vv playbooks/stackstorm.yaml
+    - ansible-playbook -i inventory --syntax-check playbooks/stackstorm.yml
+    - ansible-playbook -i inventory --connection=local -vv playbooks/stackstorm.yml
     # Now: make sure playbook can be re-ran, later: playbook idempotence test
-    - ansible-playbook -i inventory --connection=local -vv playbooks/stackstorm.yaml
+    - ansible-playbook -i inventory --connection=local -vv playbooks/stackstorm.yml
     - st2 --version

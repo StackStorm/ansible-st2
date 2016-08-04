@@ -28,9 +28,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   config.vm.provision :ansible do |ansible|
-    ansible.playbook = "playbooks/requirements.yaml"
+    ansible.playbook = "playbooks/requirements.yml"
   end
   config.vm.provision :ansible do |ansible|
-    ansible.playbook = "playbooks/st2express.yaml"
+    ansible.playbook = "playbooks/stackstorm.yml"
   end
 end
