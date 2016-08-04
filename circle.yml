@@ -14,17 +14,18 @@ machine:
 dependencies:
   pre:
     - sudo apt-get install python-pip python-dev
-    - sudo pip install --upgrade  setuptools
+    - sudo pip install --upgrade setuptools
     - sudo pip install ansible
     - ansible --version
-    - ansible-galaxy install -r roles/mistral/requirements.yml
 
 test:
   pre:
     - echo localhost > inventory
+    - ansible-playbook -i inventory --connection=local playbooks/requirements.yml
   override:
     - ansible-playbook -i inventory --syntax-check playbooks/stackstorm.yml
-    - ansible-playbook -i inventory --connection=local -vv playbooks/stackstorm.yml
+    - ansible-playbook -i inventory -vv --connection=local playbooks/stackstorm.yml
     # Now: make sure playbook can be re-ran, later: playbook idempotence test
-    - ansible-playbook -i inventory --connection=local -vv playbooks/stackstorm.yml
+    - ansible-playbook -i inventory -vv --connection=local playbooks/stackstorm.yml
+  post:
     - st2 --version
