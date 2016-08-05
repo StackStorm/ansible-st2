@@ -1,0 +1,7 @@
+---
+- hosts: all
+  tasks:
+  - name: Install galaxy dependencies
+    command: ansible-galaxy install -r roles/mistral/requirements.yml
+    delegate_to: 127.0.0.1
+    run_once: true
