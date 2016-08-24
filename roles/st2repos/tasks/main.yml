@@ -20,6 +20,6 @@
 - name: Add StackStorm repos
   sudo: yes
   apt_repository:
-    repo: 'deb https://packagecloud.io/StackStorm/stable/ubuntu/ trusty main'
+    repo: 'deb https://packagecloud.io/StackStorm/stable/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} main'
     state: present
     update_cache: yes
