@@ -1,8 +1,9 @@
-
+---
 - name: Install rabbitmq packages
-  sudo: true
+  sudo: yes
   apt:
-    name: "{{ item }}"
-    update_cache: true
-  with_items:
-    - rabbitmq-server
+    name: rabbitmq-server
+    update_cache: yes
+    state: present
+  notify:
+    - restart rabbitmq

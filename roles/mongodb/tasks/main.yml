@@ -20,4 +20,6 @@
     name: mongodb-org
     update_cache: yes
     state: present
+  notify:
+    - restart mongodb
   tags: [databases, mongodb]
