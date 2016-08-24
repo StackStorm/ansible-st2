@@ -1,0 +1,8 @@
+---
+sudo: required
+dist: trusty
+services: docker
+
+script:
+  # run kitchen tests (destroy, create, converge, setup, verify and destroy)
+  - kitchen test
