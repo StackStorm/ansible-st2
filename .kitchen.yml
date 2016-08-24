@@ -1,0 +1,25 @@
+---
+driver:
+  name: docker
+  privileged: true
+
+provisioner:
+  name: ansible_playbook
+  hosts: all
+  roles_path: roles
+  requirements_path: roles/mistral/requirements.yml
+  ansible_version: latest
+  ansible_verbose: false
+  # TODO: Make sure Ansible playbooks are idepotent
+  idempotency_test: false
+
+platforms:
+  - name: ubuntu-14
+    driver_config:
+      image: stackstorm/packagingtest:trusty
+      platform: ubuntu
+      disable_upstart: false
+      run_command: /sbin/init
+
+suites:
+  - name: default
