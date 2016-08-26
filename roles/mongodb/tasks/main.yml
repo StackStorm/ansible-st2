@@ -1,8 +1,23 @@
-- name: Install dependencies
-  sudo: true
+---
+- name: Add mongodb key
+  sudo: yes
+  apt_key:
+    url: https://www.mongodb.org/static/pgp/server-3.2.asc
+    id: 42F3E95A2C4F08279C4960ADD68FA50FEA312927
+    state: present
+  tags: [databases, mongodb]
+
+- name: Add mongodb repository
+  sudo: yes
+  apt_repository:
+    repo: 'deb http://repo.mongodb.org/apt/{{ ansible_distribution|lower }} {{ ansible_distribution_release|lower }}/mongodb-org/3.2 multiverse'
+    state: present
+  tags: [databases, mongodb]
+
+- name: Install mongodb
+  sudo: yes
   apt:
-    name: "{{ item }}"
+    name: mongodb-org
     update_cache: yes
     state: present
-  with_items:
-    - mongodb-server
+  tags: [databases, mongodb]

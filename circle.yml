@@ -16,6 +16,9 @@ dependencies:
     - sudo apt-get install python-pip python-dev
     - sudo pip install --upgrade setuptools
     - sudo pip install ansible
+    # fix for Python SNI (Server Name Indication) verification
+    # https://github.com/ansible/ansible/issues/12161#issuecomment-136949743
+    - sudo pip install urllib3 pyopenssl ndg-httpsclient pyasn1
     - ansible --version
 
 test:
