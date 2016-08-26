@@ -3,6 +3,7 @@
   sudo: yes
   apt_key:
     url: https://www.mongodb.org/static/pgp/server-3.2.asc
+    id: 42F3E95A2C4F08279C4960ADD68FA50FEA312927
     state: present
   tags: [databases, mongodb]
 
