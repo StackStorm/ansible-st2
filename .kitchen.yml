@@ -13,7 +13,8 @@ provisioner:
     # TODO: Remove when Ubuntu Xenial packages are available in prod
     st2_pkg_repo: staging-stable
   ansible_version: latest
-  ansible_verbose: false
+  ansible_verbose: true
+  ansible_verbosity: 2
   # TODO: Make sure Ansible playbooks are idepotent
   idempotency_test: false
 
