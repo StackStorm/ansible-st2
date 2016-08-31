@@ -1,0 +1,12 @@
+---
+sudo: required
+dist: trusty
+services: docker
+
+env:
+  - DISTRO=ubuntu-14
+  - DISTRO=ubuntu-16
+
+script:
+  # run kitchen tests (destroy, create, converge, setup, verify and destroy)
+  - kitchen test ${DISTRO}

@@ -4,14 +4,15 @@ Ansible playbooks to deploy [StackStorm](https://github.com/stackstorm/st2).
 With over [50+ integrations](https://github.com/StackStorm/st2contrib/tree/master/packs) like GitHub, Docker, Nagios, NewRelic, AWS, Ansible it allows you to wire together your existing infrastructure into complex Workflows with auto-remediation and many more.
 Aka IFTTT orchestration for Ops.
 
-[![Circle CI Build Status](https://circleci.com/gh/StackStorm/ansible-st2/tree/master.svg?style=shield)](https://circleci.com/gh/StackStorm/ansible-st2/tree/master)
+[![Build Status](https://travis-ci.org/StackStorm/ansible-st2.svg?branch=master)](https://travis-ci.org/StackStorm/ansible-st2)
 [![Repository deb/rpm](https://img.shields.io/badge/Repository-deb/rpm-blue.svg)](https://packagecloud.io/StackStorm/stable/)
+[![Join our community Slack](https://stackstorm-community.herokuapp.com/badge.svg)](https://stackstorm.typeform.com/to/K76GRP)
 
 ## Supported platforms
 * Ubuntu 14.04
 
 ## Requirements
-At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, PostgreSQL, Mongo, OpenStack Mistral and dozens of Python dependencies.
+At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, PostgreSQL, Mongo and OpenStack Mistral.
 
 ## Installation
 ```sh
@@ -29,7 +30,8 @@ Ansible Galaxy roles used by StackStorm installation:
 Below is the list of variables you can redefine in your playbook to customize st2 deployment:
 
 | Variable              | Default       | Description  |
-| --------------------- | ------------- | ----- |
+| --------------------- | ------------- | ------------ |
+| `st2_pkg_repo`        | `stable`      | StackStorm PackageCloud repository to install. [`stable`](https://packagecloud.io/StackStorm/stable/), [`unstable`](https://packagecloud.io/StackStorm/unstable/), [`staging-stable`](https://packagecloud.io/StackStorm/staging-stable/), [`staging-unstable`](https://packagecloud.io/StackStorm/staging-unstable/)
 | `st2_version`         | `stable`      | StackStorm version to install. Use latest `stable` to get automatic updates or pin it to numeric version like `1.4.0`.
 | `st2_revision`        | `1`           | StackStorm revision to install. Used only with pinned `st2_version`.
 | `st2_system_user`     | `stanley`     | System user on whose behalf st2 would work, including remote/local action runners.
