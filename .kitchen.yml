@@ -3,6 +3,9 @@ driver:
   name: docker
   privileged: true
 
+transport:
+  name: sftp
+
 provisioner:
   name: ansible_playbook
   hosts: all
