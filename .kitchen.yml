@@ -9,7 +9,7 @@ provisioner:
   roles_path: roles
   requirements_path: roles/mistral/requirements.yml
   extra_vars:
-    # For the moment only staging repos have Ubuntu 16 st2 packages
+    # For the moment only staging repos have Ubuntu Xenial st2 packages
     # TODO: Remove when Ubuntu Xenial packages are available in prod
     st2_pkg_repo: staging-stable
   ansible_version: latest
@@ -19,14 +19,14 @@ provisioner:
 
 platforms:
   # Ubuntu Trusty with Upstart
-  - name: ubuntu-14
+  - name: ubuntu-14.04
     driver_config:
       image: stackstorm/packagingtest:trusty
       platform: ubuntu
       disable_upstart: false
       run_command: /sbin/init
   # Ubuntu Xenial with Systemd
-  - name: ubuntu-16
+  - name: ubuntu-16.04
     driver_config:
       image: stackstorm/packagingtest:xenial
       platform: ubuntu
