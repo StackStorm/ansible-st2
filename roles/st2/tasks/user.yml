@@ -13,6 +13,8 @@
   tags: [st2, user]
 
 - name: user | Authorize key-based access for system user
+  vars:
+      ansible_ssh_pipelining: true
   sudo: yes
   sudo_user: "{{ st2_system_user }}"
   authorized_key:
