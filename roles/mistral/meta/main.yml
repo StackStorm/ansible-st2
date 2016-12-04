@@ -14,7 +14,7 @@ galaxy_info:
     - system
 dependencies:
   - role: ANXS.postgresql
-    version: v1.2.1
+    version: v1.6.2
     tags: [db, postgresql]
     sudo: yes
     postgresql_databases:
