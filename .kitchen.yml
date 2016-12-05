@@ -7,6 +7,9 @@ driver:
 transport:
   name: sftp
 
+verifier:
+  name: inspec
+
 provisioner:
   name: ansible_playbook
   hosts: all
