@@ -12,10 +12,6 @@ provisioner:
   hosts: all
   roles_path: roles
   requirements_path: roles/mistral/requirements.yml
-  extra_vars:
-    # For the moment only staging repos have Ubuntu Xenial st2 packages
-    # TODO: Remove when Ubuntu Xenial packages are available in prod
-    st2_pkg_repo: staging-stable
   ansible_verbose: true
   ansible_verbosity: 2
   # TODO: Make sure Ansible playbooks are idepotent
