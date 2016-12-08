@@ -9,7 +9,8 @@ Aka IFTTT orchestration for Ops.
 [![Join our community Slack](https://stackstorm-community.herokuapp.com/badge.svg)](https://stackstorm.typeform.com/to/K76GRP)
 
 ## Supported platforms
-* Ubuntu 14.04
+* Ubuntu Trusty (14.04)
+* Ubuntu Xenial (16.04) 
 
 ## Requirements
 At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, PostgreSQL, Mongo and OpenStack Mistral.
@@ -57,10 +58,15 @@ ansible-playbook playbooks/stackstorm.yml --extra-vars='st2_version=1.4.0 st2_re
 ```
 
 ## Other Installers
-You might be interested in other OS flavors to explore StackStorm engine:
-* [Ubuntu/Debian](https://docs.stackstorm.com/install/deb.html)
-* [RHEL7/CentOS7](https://docs.stackstorm.com/install/rhel7.html)
-* [RHEL6/CentOS7](https://docs.stackstorm.com/install/rhel6.html)
+You might be interested in other methods to deploy StackStorm engine: 
+* Configuration Management
+  * [Chef Cookbook](https://github.com/StackStorm/chef-stackstorm/)
+  * [Puppet Module](https://github.com/stackstorm/puppet-st2)
+
+* Manual Instructions
+  * [Ubuntu 14.04/16.04](https://docs.stackstorm.com/install/deb.html)
+  * [RHEL7/CentOS7](https://docs.stackstorm.com/install/rhel7.html)
+  * [RHEL6/CentOS6](https://docs.stackstorm.com/install/rhel6.html)
 
 ## Help
 If you're in stuck, our community always ready to help, feel free to:
