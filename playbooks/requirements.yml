@@ -3,5 +3,5 @@
   connection: local
   tasks:
   - name: Install galaxy dependencies
-    command: ansible-galaxy install -r ../roles/mistral/requirements.yml -p ../roles
+    command: ansible-galaxy install -r ../roles/mistral/requirements.yml
     run_once: true
