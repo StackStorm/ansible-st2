@@ -16,7 +16,7 @@
   vars:
       ansible_ssh_pipelining: true
   become: yes
-  sudo_user: "{{ st2_system_user }}"
+  become_user: "{{ st2_system_user }}"
   authorized_key:
     user: "{{ st2_system_user }}"
     key: "{{ _user.ssh_public_key }}"
