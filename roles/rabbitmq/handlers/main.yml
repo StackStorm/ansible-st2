@@ -1,6 +1,6 @@
 ---
 - name: restart rabbitmq
-  sudo: yes
+  become: yes
   service:
     name: rabbitmq-server
     state: restarted

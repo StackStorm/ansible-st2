@@ -1,5 +1,5 @@
 - name: Install auth pre-reqs
-  sudo: yes
+  become: yes
   apt:
     name: "{{ item }}"
     state: present
@@ -8,7 +8,7 @@
     - apache2-utils
 
 - name: Create htpasswd file
-  sudo: true
+  become: true
   htpasswd:
     path: /etc/st2/htpasswd
     name: "{{ st2_auth_username }}"
@@ -17,7 +17,7 @@
     - restart st2api/st2stream
 
 - name: Enable autentication
-  sudo: yes
+  become: yes
   ini_file:
     dest: /etc/st2/st2.conf
     section: auth

@@ -1,7 +1,7 @@
 ---
 
 - name: Install latest st2 package
-  sudo: yes
+  become: yes
   apt:
     name: st2
     state: latest
@@ -10,7 +10,7 @@
     - restart st2
 
 - name: Install latest st2 package
-  sudo: yes
+  become: yes
   apt:
     name: st2={{ st2_version }}-{{ st2_revision }}
     state: present
