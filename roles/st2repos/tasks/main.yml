@@ -2,7 +2,7 @@
 # tasks file for st2repos
 
 - name: Install prereqs
-  sudo: yes
+  become: yes
   apt:
     name: "{{ item }}"
     state: present
@@ -12,13 +12,13 @@
     - apt-transport-https
   
 - name: Add keys to keyring
-  sudo: yes
+  become: yes
   apt_key:
     url: https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/gpgkey
     state: present
 
 - name: Add StackStorm repos
-  sudo: yes
+  become: yes
   apt_repository:
     repo: 'deb https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} main'
     state: present

@@ -2,7 +2,7 @@
 # See: http://docs.stackstorm.com/install/config.html#configure-ssh
 ---
 - name: user | Create system user
-  sudo: yes
+  become: yes
   user:
     name: "{{ st2_system_user }}"
     home: "/home/{{ st2_system_user }}"
@@ -15,8 +15,8 @@
 - name: user | Authorize key-based access for system user
   vars:
       ansible_ssh_pipelining: true
-  sudo: yes
-  sudo_user: "{{ st2_system_user }}"
+  become: yes
+  become_user: "{{ st2_system_user }}"
   authorized_key:
     user: "{{ st2_system_user }}"
     key: "{{ _user.ssh_public_key }}"
@@ -24,7 +24,7 @@
   tags: [st2, user]
 
 - name: user | Add system user to sudoers
-  sudo: yes
+  become: yes
   lineinfile:
     create: yes
     dest: /etc/sudoers.d/st2
@@ -37,7 +37,7 @@
 
 
 - name: Configure system user in /etc/st2/st2.conf
-  sudo: yes
+  become: yes
   ini_file:
     dest: /etc/st2/st2.conf
     section: system_user
@@ -46,7 +46,7 @@
     backup: yes
 
 - name: Configure system user ssh key in /etc/st2/st2.conf
-  sudo: yes
+  become: yes
   ini_file:
     dest: /etc/st2/st2.conf
     section: system_user
