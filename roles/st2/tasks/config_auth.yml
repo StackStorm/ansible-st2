@@ -1,4 +1,4 @@
-- name: Install auth pre-reqs
+- name: Install auth pre-reqs (Debian)
   become: yes
   apt:
     name: "{{ item }}"
@@ -6,6 +6,24 @@
   with_items:
     - python-passlib
     - apache2-utils
+  when: ansible_os_family == 'Debian'
+
+- name: Install epel-release repo (RedHat)
+  become: yes
+  yum:
+    name: epel-release
+    state: present
+  when: ansible_os_family == 'RedHat'
+
+- name: Install auth pre-reqs (RedHat)
+  become: yes
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python-passlib
+    - httpd-tools
+  when: ansible_os_family == 'RedHat'
 
 - name: Create htpasswd file
   become: true
@@ -16,7 +34,7 @@
   notify:
     - restart st2api/st2stream
 
-- name: Enable autentication
+- name: Enable authentication
   become: yes
   ini_file:
     dest: /etc/st2/st2.conf

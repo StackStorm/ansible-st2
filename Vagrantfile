@@ -27,10 +27,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.provision :hostmanager
   end
 
-  # Install Ansible native packages so the Ansible provisioner will work on systems
-  # without Python 2.7 (i.e. Xenial)
-  config.vm.provision "shell",
-    inline: "sudo apt-add-repository -y ppa:ansible/ansible; sudo apt-get update; sudo apt-get install -y ansible"
+  if config.vm.box.include? "ubuntu"
+    # Install Ansible native packages so the Ansible provisioner will work on systems
+    # without Python 2.7 (i.e. Xenial)
+    config.vm.provision "shell",
+      inline: "sudo apt-add-repository -y ppa:ansible/ansible; sudo apt-get update; sudo apt-get install -y ansible"
+  end
+
 
   config.vm.provision :ansible do |ansible|
     ansible.playbook = "requirements.yml"
