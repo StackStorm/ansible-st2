@@ -1,5 +1,5 @@
 ---
-- name: Install latest st2 package
+- name: Install latest Debian st2 package (stable)
   become: yes
   apt:
     name: st2
@@ -8,7 +8,7 @@
   notify:
     - restart st2
 
-- name: Install latest st2 package
+- name: Install latest Debian st2 package (not stable)
   become: yes
   apt:
     name: st2={{ st2_version }}-{{ st2_revision }}

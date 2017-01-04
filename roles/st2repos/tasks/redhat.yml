@@ -1,21 +1,14 @@
 ---
-# Tasks based on https://packagecloud.io/install/repositories/StackStorm/stable/script.rpm.sh
-
-- name: Retrieve configuration
-  get_url:
-    url: "https://packagecloud.io/install/repositories/StackStorm/stable/config_file.repo?os={{ ansible_distribution }}&dist={{ ansible_distribution_version }}&source=script"
-    dest: /tmp/yum_config
-    mode: 0440
-
-- name: Load config file
-  shell: cat /tmp/yum_config
-  register: yum_config
-
-- name: Update YUM configuration
+- name: Install RPM key for StackStorm
   become: yes
-  blockinfile:
-    dest: /etc/yum.repos.d/StackStorm_stable.repo
-    create: yes
-    marker: "### ANSIBLE MANAGED BLOCK ###"
-    content: |
-        {{ yum_config.stdout }}
+  rpm_key:
+    state: present
+    key: https://packagecloud.io/StackStorm/stable/gpgkey
+
+- name: Add ST2 Repo
+  become: yes
+  yum_repository:
+    name: stackstorm
+    description: Stackstorm Repo
+    file: st2
+    baseurl: https://packagecloud.io/StackStorm/stable/el/$releasever/$basearch

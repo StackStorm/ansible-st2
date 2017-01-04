@@ -1,14 +1,15 @@
 ---
-- name: Install latest st2 package
+- name: Install latest RHEL st2 package (stable)
   become: yes
   yum:
     name: st2
     state: latest
+    disable_gpg_check: yes
   when: st2_version == "stable"
   notify:
     - restart st2
 
-- name: Install latest st2 package
+- name: Install latest RHEL st2 package (not stable)
   become: yes
   yum:
     name: st2={{ st2_version }}-{{ st2_revision }}
