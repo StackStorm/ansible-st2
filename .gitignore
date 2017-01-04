@@ -7,4 +7,6 @@ roles/ANXS.postgresql/**
 
 # Vagrant
 .vagrant/
-ubuntu-xenial-16.04-cloudimg-console.log
+
+# Log files
+*.log
