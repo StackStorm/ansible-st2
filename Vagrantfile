@@ -7,6 +7,7 @@ VAGRANTFILE_API_VERSION = '2'
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = 'ubuntu/xenial64'
   config.vm.hostname = "#{HOSTNAME}"
+  config.vm.network "forwarded_port", guest: 22, host: rand(30000)+1234
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
   config.vm.provider :virtualbox do |vb|
