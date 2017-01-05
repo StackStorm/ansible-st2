@@ -14,6 +14,7 @@
   yum:
     name: st2={{ st2_version }}-{{ st2_revision }}
     state: present
+    disable_gpg_check: yes
   when: st2_version != "stable"
   notify:
     - restart st2
