@@ -1,7 +1,7 @@
 ---
 - name: Install mongodb rhel
   include: mongodb_rhel.yaml
-  when: ansible_distribution == 'CentOS'
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat'
 
 - name: Install mongodb deb
   include: mongodb_deb.yaml

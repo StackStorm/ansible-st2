@@ -1,15 +1,14 @@
 ---
-- include: mongodb_rhel6_dependencies.yaml
-  when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'
+- include: mongodb_rhel_dependencies.yaml
 
-- name: Add mongodb key
+- name: yum | Add mongodb key
   become: yes
   rpm_key:
     key: https://www.mongodb.org/static/pgp/server-3.2.asc
     state: present
   tags: [databases, mongodb]
 
-- name: Add mongodb repository
+- name: yum | Add mongodb repository
   become: yes
   yum_repository:
     name: mongodb-org-3.2
@@ -21,14 +20,13 @@
     state: present
   tags: [databases, mongodb]
 
-- name: Install mongodb
+- name: yum | Install mongodb
   become: yes
   yum:
     name: mongodb-org
     update_cache: yes
     state: present
   notify:
-    - enable mongodb rhel 7
-    - restart mongodb
+    - Restart & Enable mongodb
     - chkconfig mongod on rhel 6
   tags: [databases, mongodb]
