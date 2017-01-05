@@ -3,7 +3,7 @@
   become: yes
   rpm_key:
     state: present
-    key: https://packagecloud.io/StackStorm/stable/gpgkey
+    key: https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/gpgkey
 
 - name: Add ST2 Repo
   become: yes
@@ -11,4 +11,4 @@
     name: stackstorm
     description: Stackstorm Repo
     file: st2
-    baseurl: https://packagecloud.io/StackStorm/stable/el/$releasever/$basearch
+    baseurl: https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/el/$releasever/$basearch
