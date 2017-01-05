@@ -1,8 +1,4 @@
 ---
 # tasks file for st2repos
 
-- include: debian.yml
-  when: ansible_os_family == 'Debian'
-
-- include: redhat.yml
-  when: ansible_os_family == 'RedHat'
+- include: "{{ ansible_os_family }}.yml"
