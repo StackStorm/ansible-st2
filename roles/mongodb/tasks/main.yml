@@ -2,3 +2,16 @@
 - name: Install mongodb on {{ ansible_distribution }}
   include: mongodb_{{ ansible_pkg_mgr }}.yaml
   tags: [databases, mongodb]
+- name: Start & Enable mongodb
+  become: yes
+  service:
+    name: mongod
+    state: started
+    enabled: yes
+  tags: [databases, mongodb]
+- name: chkconfig mongod on | el 6 only
+  become: yes
+  command: chkconfig mongod on
+  when: (ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat') and (ansible_distribution_major_version == '6')
+  tags: [databases, mongodb]
+

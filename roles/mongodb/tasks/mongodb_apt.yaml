@@ -20,6 +20,5 @@
     name: mongodb-org
     update_cache: yes
     state: present
-  notify:
-    - Restart & Enable mongodb
+  notify: Restart mongod
   tags: [databases, mongodb]

@@ -1,11 +1,6 @@
 ---
-- name: Restart & Enable mongodb
+- name: Restart mongod
   become: yes
   service:
     name: mongod
-    state: started
-    enabled: yes
-- name: yum | chkconfig mongod on | rhel 6
-  become: yes
-  command: chkconfig mongod on
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat' and ansible_distribution_major_version == '6'
+    state: restarted

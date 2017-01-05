@@ -27,6 +27,5 @@
     update_cache: yes
     state: present
   notify:
-    - Restart & Enable mongodb
-    - yum | chkconfig mongod on | rhel 6
+    - Restart mongod
   tags: [databases, mongodb]
