@@ -35,11 +35,13 @@ platforms:
         - /sys/fs/cgroup:/sys/fs/cgroup:ro
   - name: centos-6
     driver_config:
+      dockerfile: Dockerfile
       image: stackstorm/packagingtest:centos6
       platform: rhel
       run_command: /sbin/init
   - name: centos-7
     driver_config:
+      dockerfile: Dockerfile
       image: stackstorm/packagingtest:centos7
       platform: rhel
       run_command: /sbin/init
