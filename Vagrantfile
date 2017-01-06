@@ -2,7 +2,6 @@
 # vi: set ft=ruby :
 
 VAGRANTFILE_API_VERSION = '2'
-
 VIRTUAL_MACHINES = {
   :u14 => {
     :hostname => 'ubuntu14',
@@ -20,8 +19,6 @@ VIRTUAL_MACHINES = {
 
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-
-  # config.vm.hostname = "#{hostname}"
   config.vm.network "forwarded_port", guest: 22, host: 2200, auto_correct: true
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
   config.ssh.forward_agent = true
