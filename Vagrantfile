@@ -28,16 +28,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vm_config.vm.hostname = cfg[:hostname]
 
       if name == :u14
-        vm_config.vm.box  = 'bento/ubuntu-14.04'
+        vm_config.vm.box  = 'ubuntu/trusty64'
       end
       if name == :u16
         vm_config.vm.box  = 'ubuntu/xenial64'
       end
       if name == :centos6
-        vm_config.vm.box  = 'bento/centos-6.7'
+        vm_config.vm.box  = 'centos/6'
       end
       if name == :centos7
-        vm_config.vm.box  = 'bento/centos-7.2'
+        vm_config.vm.box  = 'centos/7'
       end
 
       vm_config.vm.provider :virtualbox do |vb|
