@@ -10,10 +10,3 @@
     state: started
     enabled: yes
   tags: [databases, mongodb]
-
-- name: chkconfig mongod on | el 6 only
-  become: yes
-  command: chkconfig mongod on
-  when: (ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat') and (ansible_distribution_major_version == '6')
-  tags: [databases, mongodb]
-
