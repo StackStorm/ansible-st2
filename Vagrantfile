@@ -3,17 +3,21 @@
 
 VAGRANTFILE_API_VERSION = '2'
 VIRTUAL_MACHINES = {
-  :u14 => {
+  :ubuntu14 => {
     :hostname => 'ubuntu14',
+    :box => 'ubuntu/trusty64',
   },
-  :u16 => {
+  :ubuntu16 => {
     :hostname => 'ubuntu16',
+    :box => 'ubuntu/xenial64',
   },
   :centos6 => {
     :hostname => 'centos6',
+    :box => 'centos/6',
   },
   :centos7 => {
     :hostname => 'centos7',
+    :box => 'centos/7',
   },
 }
 
@@ -26,19 +30,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   VIRTUAL_MACHINES.each do |name, cfg|
     config.vm.define name do |vm_config|
       vm_config.vm.hostname = cfg[:hostname]
-
-      if name == :u14
-        vm_config.vm.box  = 'ubuntu/trusty64'
-      end
-      if name == :u16
-        vm_config.vm.box  = 'ubuntu/xenial64'
-      end
-      if name == :centos6
-        vm_config.vm.box  = 'centos/6'
-      end
-      if name == :centos7
-        vm_config.vm.box  = 'centos/7'
-      end
+      vm_config.vm.box = cfg[:box]
 
       vm_config.vm.provider :virtualbox do |vb|
         vb.name = "#{cfg[:hostname]}"
