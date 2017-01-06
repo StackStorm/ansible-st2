@@ -1,25 +1,12 @@
 ---
-- name: Add mongodb key
-  become: yes
-  apt_key:
-    keyserver: keyserver.ubuntu.com
-    id: 42F3E95A2C4F08279C4960ADD68FA50FEA312927
-    state: present
+- name: Install mongodb on {{ ansible_distribution }}
+  include: mongodb_{{ ansible_pkg_mgr }}.yaml
   tags: [databases, mongodb]
 
-- name: Add mongodb repository
+- name: Start & Enable mongodb
   become: yes
-  apt_repository:
-    repo: 'deb http://repo.mongodb.org/apt/{{ ansible_distribution|lower }} {{ ansible_distribution_release|lower }}/mongodb-org/3.2 multiverse'
-    state: present
-  tags: [databases, mongodb]
-
-- name: Install mongodb
-  become: yes
-  apt:
-    name: mongodb-org
-    update_cache: yes
-    state: present
-  notify:
-    - restart mongodb
+  service:
+    name: mongod
+    state: started
+    enabled: yes
   tags: [databases, mongodb]
