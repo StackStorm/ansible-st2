@@ -10,7 +10,7 @@ FROM stackstorm/packagingtest:centos7
 
 ENV container docker
 RUN yum clean all
-RUN yum install -y sudo openssh-server openssh-clients which curl
+RUN yum install -y sudo openssh-server openssh-clients which curl cronie
 RUN [ -f "/etc/ssh/ssh_host_rsa_key" ] || ssh-keygen -A -t rsa -f /etc/ssh/ssh_host_rsa_key
 RUN [ -f "/etc/ssh/ssh_host_dsa_key" ] || ssh-keygen -A -t dsa -f /etc/ssh/ssh_host_dsa_key
 
@@ -25,3 +25,11 @@ RUN chown kitchen /home/kitchen/.ssh/authorized_keys
 RUN chmod 0600 /home/kitchen/.ssh/authorized_keys
 
 RUN echo ssh-rsa\ AAAAB3NzaC1yc2EAAAADAQABAAABAQCU8pQuW7WoLAh4\+om7Kaw3uYZrTx14\+pBD80nmNFtzOc6QMhjtjLvvvorijIGOAmmdMyBrhDhy6Q/nJVNQufwR3MSq6\+wwiM65O9gckDjT5MUO7Bat8PFf0KyR9Kq5iJ1Z69KAN7sBULJFRxIAbA\+Q4czb16a7EDN9yqfMv9SgcI7e\+Evm5IV/S\+3\+65QtVdn9sfz2ca2rsSeCeWbPpl3isA7IdqqD6sDMff7tPWBbzg8zRRg95TJSjafQat4MzP5bQVOT3wxEcL\+/lsvrMEZ2omGn86biTfCw04Csnb2BZ30fVRL6OolUVnSmVeBQ2bBykYDYpBtZWGfjBNIz29dj\ kitchen_docker_key >> /home/kitchen/.ssh/authorized_keys
+
+RUN /sbin/chkconfig crond on
+
+RUN touch /etc/rmcommand
+RUN echo "rm /run/nologin" >> /etc/rmcommand
+RUN chmod +x /etc/rmcommand
+
+RUN grep -q -F '* * * * * root /etc/rmcommand' /etc/crontab || printf %'s\n' '* * * * * root /etc/rmcommand' >> /etc/crontab
