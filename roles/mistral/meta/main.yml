@@ -9,18 +9,12 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - trusty
-        - precise
+        - xenial
+    - name: EL
+        - 6
+        - 7
   categories:
     - system
 dependencies:
-  - role: ANXS.postgresql
-    version: v1.5.0
-    tags: [db, postgresql]
-    become: yes
-    postgresql_databases:
-      - name: "{{ mistral_db }}"
-    postgresql_users:
-      - name: "{{ mistral_db_username }}"
-        pass: "{{ mistral_db_password }}"
-        encrypted: yes
+  - role: postgresql
   - role: st2repos
