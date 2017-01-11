@@ -1,0 +1,29 @@
+---
+- name: el7 | Initialize postgresql
+  become: yes
+  yum:
+    name: "{{ item }}"
+    state: installed
+    update_cache: yes
+  with_items:
+    - postgresql-server
+    - postgresql-contrib
+    - postgresql-devel
+
+- name: el7 | Initialize Postgresql
+  become: yes
+  command: postgresql-setup initdb
+
+- name: el7 | MD5-encrypted password for postgres 1
+  become: yes
+  command: 'sed -i "s/\(host.*all.*all.*127.0.0.1\/32.*\)ident/\1md5/" /var/lib/pgsql/data/pg_hba.conf'
+
+- name: el7 | MD5-encrypted password for postgres 2
+  become: yes
+  command: 'sed -i "s/\(host.*all.*all.*::1\/128.*\)ident/\1md5/" /var/lib/pgsql/data/pg_hba.conf'
+
+- name: el7 | Start and Enable Postgresql
+  become: yes
+  service:
+    name: postgresql
+    state: started

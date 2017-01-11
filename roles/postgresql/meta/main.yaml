@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  description: Install PostgreSQL
+  author: humblearner
+  company: StackStorm
+  license: Apache
+  min_ansible_version: 2.2
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+        - xenial
+    - name: EL
+        - 6
+        - 7
+  categories:
+    - system

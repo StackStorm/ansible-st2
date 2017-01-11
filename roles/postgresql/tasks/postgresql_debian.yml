@@ -1,0 +1,12 @@
+---
+- name: debian | Initialize postgresql
+  become: yes
+  apt:
+    name: postgresql
+    state: installed
+
+- name: debian | Start and Enable Postgresql
+  become: yes
+  service:
+    name: postgresql
+    state: started
