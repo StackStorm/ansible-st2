@@ -1,4 +1,0 @@
-mistral_version: stable
-mistral_db_username: mistral
-mistral_db_password: StackStorm
-mistral_db: mistral
