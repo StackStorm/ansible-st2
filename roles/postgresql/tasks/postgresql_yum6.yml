@@ -17,6 +17,13 @@
   when: ansible_distribution == "RedHat"
   tags: [db, postgresql]
 
+- name: yum | Install postgresql dependency
+  become: yes
+  yum:
+    name: libselinux-python
+    state: installed
+  tags: [db, postgresql]
+
 - name: yum | Install postgresql94
   become: yes
   yum:
