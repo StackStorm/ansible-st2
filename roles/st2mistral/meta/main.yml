@@ -5,7 +5,7 @@ galaxy_info:
   company: StackStorm
   license: Apache
   min_ansible_version: 2.2
-  tags: mistral
+  tags: st2mistral
   platforms:
     - name: Ubuntu
       versions:

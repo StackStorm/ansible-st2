@@ -1,5 +1,5 @@
 ---
-- name: yum | Initialize postgresql
+- name: yum | Install postgresql
   become: yes
   yum:
     name: "{{ item }}"
@@ -31,4 +31,5 @@
   service:
     name: postgresql
     state: started
+    enabled: yes
   tags: [db, postgresql]

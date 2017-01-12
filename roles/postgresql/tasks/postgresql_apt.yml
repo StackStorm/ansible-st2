@@ -1,5 +1,5 @@
 ---
-- name: apt | Initialize postgresql
+- name: apt | Install postgresql
   become: yes
   apt:
     name: postgresql
@@ -11,4 +11,5 @@
   service:
     name: postgresql
     state: started
+    enabled: yes
   tags: [db, postgresql]
