@@ -36,12 +36,18 @@
 
 - name: yum | MD5-encrypted password for postgresql 1
   become: yes
-  command: 'sed -i "s/\(host.*all.*all.*127.0.0.1\/32.*\)ident/\1md5/" /var/lib/pgsql/9.4/data/pg_hba.conf'
+  replace:
+    dest: /var/lib/pgsql/9.4/data/pg_hba.conf
+    regexp: ^(host.*all.*all.*127.0.0.1\/32.*)ident$
+    replace: \1md5
   tags: [db, postgresql]
 
 - name: yum | MD5-encrypted password for postgresql 2
   become: yes
-  command: 'sed -i "s/\(host.*all.*all.*::1\/128.*\)ident/\1md5/" /var/lib/pgsql/9.4/data/pg_hba.conf'
+  replace:
+    dest: /var/lib/pgsql/9.4/data/pg_hba.conf
+    regexp: ^(host.*all.*all.*::1\/128.*)ident$
+    replace: \1md5
   tags: [db, postgresql]
 
 - name: yum | Start and Enable Postgresql-9.4
