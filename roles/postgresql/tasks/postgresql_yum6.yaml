@@ -1,22 +1,23 @@
 ---
-- name: el6 | Local Install {{ ansible_distribution }}
+- name: yum |  Get pgdg-centos94-9.4-2 for {{ ansible_distribution }}
   become: yes
   yum:
     name: http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-2.noarch.rpm
-    #command: yum localinstall http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-2.noarch.rpm -y
     state: installed
     update_cache: yes
   when: ansible_distribution == "CentOS"
+  tags: [db, postgresql]
 
-- name: el6 | Local Install {{ ansible_distribution }}
+- name: yum | Get pgdg-centos94-9.4-2 for {{ ansible_distribution }}
   become: yes
   yum:
     name: http://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-2.noarch.rpm
     state: installed
     update_cache: yes
   when: ansible_distribution == "RedHat"
+  tags: [db, postgresql]
 
-- name: el6 | Install postgresql94
+- name: yum | Install postgresql94
   become: yes
   yum:
     name: "{{ item }}"
@@ -26,24 +27,27 @@
     - postgresql94-server
     - postgresql94-contrib
     - postgresql94-devel
+  tags: [db, postgresql]
 
-- name: el6 | Initialize Postgresql-9.4
+- name: yum | Initialize Postgresql-9.4
   become: yes
   command: service postgresql-9.4 initdb
+  tags: [db, postgresql]
 
-- name: el6 | MD5-encrypted password for postgres 1
+- name: yum | MD5-encrypted password for postgresql 1
   become: yes
   command: 'sed -i "s/\(host.*all.*all.*127.0.0.1\/32.*\)ident/\1md5/" /var/lib/pgsql/9.4/data/pg_hba.conf'
-  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "6"
+  tags: [db, postgresql]
 
-
-- name: el6 | MD5-encrypted password for postgres 2
+- name: yum | MD5-encrypted password for postgresql 2
   become: yes
   command: 'sed -i "s/\(host.*all.*all.*::1\/128.*\)ident/\1md5/" /var/lib/pgsql/9.4/data/pg_hba.conf'
-  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "6"
+  tags: [db, postgresql]
 
-- name: el6 | Start and Enable Postgresql-9.4
+- name: yum | Start and Enable Postgresql-9.4
   become: yes
   service:
     name: postgresql-9.4
     state: started
+  tags: [db, postgresql]
+
