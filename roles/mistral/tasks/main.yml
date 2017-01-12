@@ -5,6 +5,7 @@
     name: st2mistral
     state: latest
   when: mistral_version == "stable"
+  tags: mistral
 
 - name: Install latest st2mistral
   become: yes
@@ -12,6 +13,7 @@
     name: st2mistral={{ mistral_version }}
     state: present
   when: mistral_version != "stable"
+  tags: mistral
 
 - name: Configure mistral
   become: yes
@@ -21,6 +23,7 @@
     option: connection
     value: postgresql://{{ mistral_db_username }}:{{ mistral_db_password }}@localhost/{{ mistral_db }}
     backup: yes
+  tags: mistral
 
 - name: Deploy database init script
   become: yes
@@ -29,6 +32,7 @@
     dest: /etc/mistral/init_mistral_db.SQL
   notify:
     - restart mistral
+  tags: mistral
 
 - name: Initiate database
   vars:
@@ -40,12 +44,14 @@
     creates: /etc/mistral/init_mistral_db.SQL.ansible.has.run
   notify:
     - restart mistral
+  tags: mistral
 
 - name: Make sure "Initiate database" doesn't run twice
   become: yes
   file:
     path: /etc/mistral/init_mistral_db.SQL.ansible.has.run
     state: touch
+  tags: mistral
 
 - name: Setup Mistral DB tables, etc
   become: yes
@@ -54,12 +60,14 @@
     creates: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
   notify:
     - restart mistral
+  tags: mistral
 
 - name: Make sure "Setup Mistral DB tables, etc" does not run again
   become: yes
   file:
     path: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
     state: touch
+  tags: mistral
 
 - name: Register mistral actions
   become: yes
@@ -68,9 +76,11 @@
     creates: /etc/mistral/mistral-db-manage.populate.ansible.has.run
   notify:
     - restart mistral
+  tags: mistral
 
 - name: Make sure "Register mistral actions" does not run again
   become: yes
   file:
     path: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
     state: touch
+  tags: mistral
