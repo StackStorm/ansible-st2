@@ -4,7 +4,7 @@
   package:
     name: st2python
     state: present
-  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "6"
+  when: (ansible_distribution == "CentOS" or ansible_distribution == "RedHat") and ansible_distribution_major_version == "6"
   tags: st2mistral
 
 - name: Install latest st2mistral

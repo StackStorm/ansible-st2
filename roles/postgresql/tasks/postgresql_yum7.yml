@@ -8,11 +8,13 @@
     - postgresql-server
     - postgresql-contrib
     - postgresql-devel
+  register: install_postgresql
   tags: [db, postgresql]
 
 - name: yum | Initialize Postgresql
   become: yes
   command: postgresql-setup initdb
+  when: install_postgresql.changed
   tags: [db, postgresql]
 
 - name: yum | MD5-encrypted password for postgres 1

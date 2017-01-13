@@ -27,16 +27,17 @@
   yum:
     name: "{{ item }}"
     state: installed
-    update_cache: yes
   with_items:
     - postgresql94-server
     - postgresql94-contrib
     - postgresql94-devel
+  register: install_postgresql
   tags: [db, postgresql]
 
 - name: yum | Initialize Postgresql-9.4
   become: yes
   command: service postgresql-9.4 initdb
+  when: install_postgresql.changed
   tags: [db, postgresql]
 
 - name: yum | MD5-encrypted password for postgresql 1
