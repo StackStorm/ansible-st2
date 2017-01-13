@@ -4,7 +4,6 @@
   yum:
     name: "{{ item }}"
     state: installed
-    update_cache: yes
   with_items:
     - postgresql-server
     - postgresql-contrib
