@@ -1,7 +1,3 @@
-# Meta which allows installing `ansible-st2` via ansible-galaxy
-# Workaround for `ansible.cfg` to find stackstorm roles:
-# [defaults]
-# roles_path = /etc/ansible/roles/:/etc/ansible/roles/stackstorm/roles/
 ---
 galaxy_info:
   description: Install StackStorm with all components and dependant services including RabbitMQ, MongoDB, PostgreSQL, nginx.
