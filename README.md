@@ -10,7 +10,7 @@ Aka IFTTT orchestration for Ops.
 
 ## Supported platforms
 * Ubuntu Trusty (14.04)
-* Ubuntu Xenial (16.04) 
+* Ubuntu Xenial (16.04)
 
 > If you're using the provided Vagrantfile, note that it uses Xenial by default. Due to some of the changes there, Vagrant 1.9.1 or better is required.
 
@@ -19,15 +19,9 @@ At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is 
 
 ## Installation
 ```sh
-# ansible galaxy roles
-ansible-playbook requirements.yml
 # stackstorm
 ansible-playbook stackstorm.yml
 ```
-
-## Dependencies
-Ansible Galaxy roles used by StackStorm installation:
- * [ANXS.postgresql](https://galaxy.ansible.com/list#/roles/512) - PostgreSQL, needed by Mistral
 
 ## Variables
 Below is the list of variables you can redefine in your playbook to customize st2 deployment:
@@ -52,7 +46,7 @@ ansible-playbook stackstorm.yml -i 'localhost,' --connection=local
 ```
 
 > Note that keeping `stable` version is useful to update StackStorm by re-running playbook, since it will reinstall st2 if there is new version available.
-This is default behavior. If you don't want updates - consider pinning version-revision numbers. 
+This is default behavior. If you don't want updates - consider pinning version-revision numbers.
 
 Install specific numeric version of st2 with pinned revision number as well:
 ```sh
@@ -60,7 +54,7 @@ ansible-playbook stackstorm.yml --extra-vars='st2_version=1.4.0 st2_revision=8'
 ```
 
 ## Other Installers
-You might be interested in other methods to deploy StackStorm engine: 
+You might be interested in other methods to deploy StackStorm engine:
 * Configuration Management
   * [Chef Cookbook](https://github.com/StackStorm/chef-stackstorm/)
   * [Puppet Module](https://github.com/stackstorm/puppet-st2)

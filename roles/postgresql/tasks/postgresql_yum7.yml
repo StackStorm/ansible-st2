@@ -1,0 +1,42 @@
+---
+- name: yum | Install PostgreSQL
+  become: yes
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - postgresql-server
+    - postgresql-contrib
+    - postgresql-devel
+  register: install_postgresql
+  tags: [db, postgresql]
+
+- name: yum | Initialize PostgreSQL
+  become: yes
+  command: postgresql-setup initdb
+  when: install_postgresql.changed
+  tags: [db, postgresql]
+
+- name: yum | MD5-encrypted password for PostgreSQL 1
+  become: yes
+  replace:
+    dest: /var/lib/pgsql/data/pg_hba.conf
+    regexp: ^(host.*all.*all.*127.0.0.1\/32.*)ident$
+    replace: \1md5
+  tags: [db, postgresql]
+
+- name: yum | MD5-encrypted password for PostgreSQL 2
+  become: yes
+  replace:
+    dest: /var/lib/pgsql/data/pg_hba.conf
+    regexp: ^(host.*all.*all.*::1\/128.*)ident$
+    replace: \1md5
+  tags: [db, postgresql]
+
+- name: yum | Start and Enable PostgreSQL
+  become: yes
+  service:
+    name: postgresql
+    state: started
+    enabled: yes
+  tags: [db, postgresql]

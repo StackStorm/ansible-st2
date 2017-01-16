@@ -1,0 +1,66 @@
+---
+- name: yum |  Setup PostgreSQL repository for {{ ansible_distribution }}
+  become: yes
+  yum:
+    name: https://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-3.noarch.rpm
+    state: installed
+  when: ansible_distribution == "CentOS"
+  tags: [db, postgresql]
+
+- name: yum | Setup PostgreSQL repository for {{ ansible_distribution }}
+  become: yes
+  yum:
+    name: https://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-3.noarch.rpm
+    state: installed
+  when: ansible_distribution == "RedHat"
+  tags: [db, postgresql]
+
+- name: yum | Install PostgreSQL dependency
+  become: yes
+  yum:
+    name: libselinux-python
+    state: installed
+  tags: [db, postgresql]
+
+- name: yum | Install PostgreSQL-9.4
+  become: yes
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - postgresql94-server
+    - postgresql94-contrib
+    - postgresql94-devel
+  register: install_postgresql
+  tags: [db, postgresql]
+
+- name: yum | Initialize PostgreSQL-9.4
+  become: yes
+  command: service postgresql-9.4 initdb
+  when: install_postgresql.changed
+  tags: [db, postgresql]
+
+- name: yum | MD5-encrypted password for PostgreSQL 1
+  become: yes
+  replace:
+    dest: /var/lib/pgsql/9.4/data/pg_hba.conf
+    regexp: ^(host.*all.*all.*127.0.0.1\/32.*)ident$
+    replace: \1md5
+  tags: [db, postgresql]
+
+- name: yum | MD5-encrypted password for PostgreSQL 2
+  become: yes
+  replace:
+    dest: /var/lib/pgsql/9.4/data/pg_hba.conf
+    regexp: ^(host.*all.*all.*::1\/128.*)ident$
+    replace: \1md5
+  tags: [db, postgresql]
+
+- name: yum | Start and Enable PostgreSQL-9.4
+  become: yes
+  service:
+    name: postgresql-9.4
+    state: started
+    enabled: yes
+  tags: [db, postgresql]
+

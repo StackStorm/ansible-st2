@@ -1,0 +1,2 @@
+CREATE ROLE {{ mistral_db_username }} WITH CREATEDB LOGIN ENCRYPTED PASSWORD '{{ mistral_db_password }}';
+CREATE DATABASE {{ mistral_db }} OWNER {{ mistral_db_username }};

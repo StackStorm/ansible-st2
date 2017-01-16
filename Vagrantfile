@@ -62,9 +62,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       end
 
       vm_config.vm.provision :ansible do |ansible|
-        ansible.playbook = "requirements.yml"
-      end
-      vm_config.vm.provision :ansible do |ansible|
         ansible.playbook = "stackstorm.yml"
       end
     end
