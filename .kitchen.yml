@@ -43,6 +43,7 @@ platforms:
     driver_config:
       platform: centos
       dockerfile: .kitchen-docker/centos7/Dockerfile
+      # TODO: Use non-root user after updating upstream Docker image: https://github.com/StackStorm/st2-dockerfiles/issues/38
       username: root
       password: docker.io
       run_command: /sbin/init
