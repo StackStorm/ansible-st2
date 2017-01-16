@@ -1,5 +1,5 @@
 ---
-- name: yum | Install postgresql
+- name: yum | Install PostgreSQL
   become: yes
   yum:
     name: "{{ item }}"
@@ -11,13 +11,13 @@
   register: install_postgresql
   tags: [db, postgresql]
 
-- name: yum | Initialize Postgresql
+- name: yum | Initialize PostgreSQL
   become: yes
   command: postgresql-setup initdb
   when: install_postgresql.changed
   tags: [db, postgresql]
 
-- name: yum | MD5-encrypted password for postgres 1
+- name: yum | MD5-encrypted password for PostgreSQL 1
   become: yes
   replace:
     dest: /var/lib/pgsql/data/pg_hba.conf
@@ -25,7 +25,7 @@
     replace: \1md5
   tags: [db, postgresql]
 
-- name: yum | MD5-encrypted password for postgres 2
+- name: yum | MD5-encrypted password for PostgreSQL 2
   become: yes
   replace:
     dest: /var/lib/pgsql/data/pg_hba.conf
@@ -33,7 +33,7 @@
     replace: \1md5
   tags: [db, postgresql]
 
-- name: yum | Start and Enable Postgresql
+- name: yum | Start and Enable PostgreSQL
   become: yes
   service:
     name: postgresql

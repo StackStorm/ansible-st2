@@ -1,12 +1,12 @@
 ---
-- name: apt | Install postgresql
+- name: apt | Install PostgreSQL
   become: yes
   apt:
     name: postgresql
     state: installed
   tags: [db, postgresql]
 
-- name: apt | Start and Enable Postgresql
+- name: apt | Start and Enable PostgreSQL
   become: yes
   service:
     name: postgresql

@@ -15,14 +15,14 @@
   when: ansible_distribution == "RedHat"
   tags: [db, postgresql]
 
-- name: yum | Install postgresql dependency
+- name: yum | Install PostgreSQL dependency
   become: yes
   yum:
     name: libselinux-python
     state: installed
   tags: [db, postgresql]
 
-- name: yum | Install postgresql94
+- name: yum | Install PostgreSQL-9.4
   become: yes
   yum:
     name: "{{ item }}"
@@ -34,13 +34,13 @@
   register: install_postgresql
   tags: [db, postgresql]
 
-- name: yum | Initialize Postgresql-9.4
+- name: yum | Initialize PostgreSQL-9.4
   become: yes
   command: service postgresql-9.4 initdb
   when: install_postgresql.changed
   tags: [db, postgresql]
 
-- name: yum | MD5-encrypted password for postgresql 1
+- name: yum | MD5-encrypted password for PostgreSQL 1
   become: yes
   replace:
     dest: /var/lib/pgsql/9.4/data/pg_hba.conf
@@ -48,7 +48,7 @@
     replace: \1md5
   tags: [db, postgresql]
 
-- name: yum | MD5-encrypted password for postgresql 2
+- name: yum | MD5-encrypted password for PostgreSQL 2
   become: yes
   replace:
     dest: /var/lib/pgsql/9.4/data/pg_hba.conf
@@ -56,7 +56,7 @@
     replace: \1md5
   tags: [db, postgresql]
 
-- name: yum | Start and Enable Postgresql-9.4
+- name: yum | Start and Enable PostgreSQL-9.4
   become: yes
   service:
     name: postgresql-9.4
