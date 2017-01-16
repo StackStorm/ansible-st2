@@ -8,6 +8,11 @@ env:
   - DISTRO=ubuntu-16
   - DISTRO=centos-6
 
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: DISTRO=centos-6
+
 script:
   # run kitchen tests (destroy, create, converge, setup, verify and destroy)
   - kitchen test ${DISTRO}
