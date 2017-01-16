@@ -43,6 +43,8 @@ platforms:
     driver_config:
       platform: centos
       dockerfile: .kitchen-docker/centos7/Dockerfile
+      username: root
+      password: docker.io
       run_command: /sbin/init
       volume:
         - /sys/fs/cgroup:/sys/fs/cgroup:ro
