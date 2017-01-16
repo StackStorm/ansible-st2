@@ -36,6 +36,7 @@ platforms:
   # CentOS6 with sysV init
   - name: centos-6
     driver_config:
+      dockerfile: .kitchen-docker/centos6/Dockerfile
       image: stackstorm/packagingtest:centos6
       platform: centos
       run_command: /usr/sbin/sshd -D
