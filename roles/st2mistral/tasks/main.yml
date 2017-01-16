@@ -38,6 +38,7 @@
   template:
     src: init_mistral_db.SQL.j2
     dest: /etc/mistral/init_mistral_db.SQL
+  register: mistral_deploy_database_init_script
   notify:
     - restart mistral
   tags: st2mistral
@@ -50,6 +51,7 @@
   shell: psql < /etc/mistral/init_mistral_db.SQL
   args:
     creates: /etc/mistral/init_mistral_db.SQL.ansible.has.run
+  register: mistral_initiate_database
   notify:
     - restart mistral
   tags: st2mistral
@@ -59,6 +61,7 @@
   file:
     path: /etc/mistral/init_mistral_db.SQL.ansible.has.run
     state: touch
+  when: mistral_initiate_database.changed
   tags: st2mistral
 
 - name: Setup Mistral DB tables, etc
@@ -66,6 +69,7 @@
   command: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
   args:
     creates: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
+  register: setup_mistral_DB_tables
   notify:
     - restart mistral
   tags: st2mistral
@@ -75,6 +79,7 @@
   file:
     path: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
     state: touch
+  when: setup_mistral_DB_tables.changed
   tags: st2mistral
 
 - name: Register mistral actions
@@ -82,6 +87,8 @@
   command: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
   args:
     creates: /etc/mistral/mistral-db-manage.populate.ansible.has.run
+  register: register_mistral_actions
+  when: mistral_deploy_database_init_script.changed or mistral_initiate_database.changed or setup_mistral_DB_tables.changed
   notify:
     - restart mistral
   tags: st2mistral
@@ -91,4 +98,5 @@
   file:
     path: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
     state: touch
+  when: register_mistral_actions.changed
   tags: st2mistral

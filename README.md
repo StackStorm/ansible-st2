@@ -23,8 +23,6 @@ At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is 
 ansible-playbook stackstorm.yml
 ```
 
-## Dependencies
-
 ## Variables
 Below is the list of variables you can redefine in your playbook to customize st2 deployment:
 
