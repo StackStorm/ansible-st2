@@ -33,6 +33,7 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2_revision`        | `1`           | StackStorm revision to install. Used only with pinned `st2_version`.
 | `st2_system_user`     | `stanley`     | System user on whose behalf st2 would work, including remote/local action runners.
 | `st2_system_user_in_sudoers` | `yes`| Add `st2_system_user` to the sudoers (recommended for most `st2` features to work).
+| `st2_auth_enable`     | `yes`         | Enable StackStorm standalone authentication.
 | `st2_auth_username`   | `testu`       | Username used by StackStorm standalone authentication.
 | `st2_auth_password`   | `testp`       | Password used by StackStorm standalone authentication.
 | `mistral_db`          | `mistral`     | PostgreSQL DB name for Mistral.
