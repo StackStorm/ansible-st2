@@ -9,7 +9,8 @@ st2_revision: 1
 st2_system_user: stanley
 st2_ssh_key_file: /home/{{ st2_system_user }}/.ssh/{{ st2_system_user }}_rsa
 
-enable_auth: true
+# Enable StackStorm auth
+st2_auth_enable: true
 st2_auth_username: testu
 st2_auth_password: testp
 

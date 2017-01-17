@@ -20,5 +20,6 @@
 
 - include: user.yml
 
-- include: config_auth.yml
-  when: enable_auth
+- name: Configure StackStorm Authentication
+  include: config_auth.yml
+  when: st2_auth_enable
