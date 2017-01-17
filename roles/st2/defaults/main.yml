@@ -6,7 +6,7 @@ st2_version: stable
 # used only if 'st2_version' is numeric
 st2_revision: 1
 
-# System user on whose behalf st2 would work, including remote/local action runners
+# System user from which st2 will execute local/remote shell actions
 st2_system_user: stanley
 # Add `st2_system_user` to the sudoers (recommended for most `st2` features to work)
 st2_system_user_in_sudoers: yes
