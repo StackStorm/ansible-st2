@@ -6,6 +6,14 @@ services: docker
 env:
   - DISTRO=ubuntu-14
   - DISTRO=ubuntu-16
+  - DISTRO=centos-6
+  - DISTRO=centos-7
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: DISTRO=centos-6
+    - env: DISTRO=centos-7
 
 script:
   # run kitchen tests (destroy, create, converge, setup, verify and destroy)

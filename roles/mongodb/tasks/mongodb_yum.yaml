@@ -1,0 +1,31 @@
+---
+- include: mongodb_rhel_dependencies.yaml
+
+- name: yum | Add mongodb key
+  become: yes
+  rpm_key:
+    key: https://www.mongodb.org/static/pgp/server-3.2.asc
+    state: present
+  tags: [databases, mongodb]
+
+- name: yum | Add mongodb repository
+  become: yes
+  yum_repository:
+    name: mongodb-org-3.2
+    description: MongoDB Repository
+    gpgcheck: yes
+    enabled: yes
+    baseurl: https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.2/x86_64/
+    gpgkey: https://www.mongodb.org/static/pgp/server-3.2.asc
+    state: present
+  tags: [databases, mongodb]
+
+- name: yum | Install mongodb
+  become: yes
+  yum:
+    name: mongodb-org
+    update_cache: yes
+    state: present
+  notify:
+    - Restart mongod
+  tags: [databases, mongodb]

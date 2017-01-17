@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  description: Install Rabbitmq-server
+  author: humblearner
+  company: StackStorm
+  license: Apache
+  min_ansible_version: 2.2
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+        - xenial
+    - name: EL
+      versions:
+        - 6
+        - 7
+  categories:
+    - system

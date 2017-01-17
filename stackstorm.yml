@@ -5,7 +5,8 @@
     - mongodb
     - rabbitmq
     - st2repos
-    - mistral
+    - postgresql
+    - st2mistral
     - st2
     - st2web
     - st2smoketests

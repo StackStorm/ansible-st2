@@ -1,9 +1,17 @@
 ---
-- name: Install rabbitmq packages
+- name: Install rabbitmq package on {{ ansible_distribution }}
   become: yes
-  apt:
+  package:
     name: rabbitmq-server
-    update_cache: yes
     state: present
   notify:
     - restart rabbitmq
+  tags: rabbitmq
+
+- name: Ensure rabbitmq is enabled and running
+  become: yes
+  service:
+    name: rabbitmq-server
+    enabled: yes
+    state: started
+  tags: rabbitmq
