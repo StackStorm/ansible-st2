@@ -22,3 +22,11 @@
 
 - include: config_auth.yml
   when: enable_auth
+
+- name: Ensure StackStorm services are enabled and running
+  become: yes
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  with_items: "{{ st2_services }}"

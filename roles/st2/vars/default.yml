@@ -1,0 +1,12 @@
+# Default st2 immutable vars
+---
+st2_services:
+  - st2actionrunner
+  - st2api
+  - st2stream
+  - st2auth
+  - st2garbagecollector
+  - st2notifier
+  - st2resultstracker
+  - st2rulesengine
+  - st2sensorcontainer
