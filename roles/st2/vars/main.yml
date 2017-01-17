@@ -1,5 +1,7 @@
 # Default st2 immutable vars
 ---
+# List of available `st2` services:
+# https://github.com/StackStorm/st2/blob/master/st2common/bin/st2ctl#L5
 st2_services:
   - st2actionrunner
   - st2api
