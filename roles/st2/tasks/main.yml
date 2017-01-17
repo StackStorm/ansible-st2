@@ -1,5 +1,4 @@
 ---
-
 - name: Install latest st2 package
   become: yes
   apt:
@@ -18,8 +17,9 @@
   notify:
     - restart st2
 
-- include: user.yml
+- name: Create and configure StackStorm system user
+  include: user.yml
 
-- name: Configure StackStorm Authentication
+- name: Configure StackStorm authentication
   include: config_auth.yml
   when: st2_auth_enable
