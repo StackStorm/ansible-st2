@@ -32,6 +32,12 @@ platforms:
       run_command: /sbin/init
       volume:
         - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  # CentOS6 with sysV init
+  - name: centos-6
+    driver_config:
+      platform: centos
+      dockerfile: .kitchen-docker/centos6/Dockerfile
+      run_command: /usr/sbin/sshd -D
 
 suites:
   - name: default
