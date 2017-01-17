@@ -1,11 +1,10 @@
 ---
-
 - name: Install latest st2 package
   become: yes
   apt:
     name: st2
     state: latest
-  when: st2_version == "stable"
+  when: st2_version == "latest"
   notify:
     - restart st2
 
@@ -14,7 +13,7 @@
   apt:
     name: st2={{ st2_version }}-{{ st2_revision }}
     state: present
-  when: st2_version != "stable"
+  when: st2_version != "latest"
   notify:
     - restart st2
 
