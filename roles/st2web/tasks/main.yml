@@ -28,6 +28,7 @@
   when: st2_version == "latest"
   notify:
     - restart st2
+  tags: skip_ansible_lint
 
 - name: Install exact st2web package
   become: yes

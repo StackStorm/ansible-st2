@@ -7,6 +7,7 @@
   when: st2_version == "latest"
   notify:
     - restart st2
+  tags: skip_ansible_lint
 
 - name: Install latest st2 package
   become: yes

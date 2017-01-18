@@ -13,7 +13,7 @@
     name: st2mistral
     state: latest
   when: mistral_version == "latest"
-  tags: st2mistral
+  tags: [st2mistral, skip_ansible_lint]
 
 - name: Install latest st2mistral
   become: yes
