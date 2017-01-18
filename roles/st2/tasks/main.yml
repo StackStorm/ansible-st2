@@ -1,11 +1,10 @@
 ---
-
 - name: Install latest st2 package
   become: yes
   apt:
     name: st2
     state: latest
-  when: st2_version == "stable"
+  when: st2_version == "latest"
   notify:
     - restart st2
 
@@ -14,14 +13,16 @@
   apt:
     name: st2={{ st2_version }}-{{ st2_revision }}
     state: present
-  when: st2_version != "stable"
+  when: st2_version != "latest"
   notify:
     - restart st2
 
-- include: user.yml
+- name: Create and configure StackStorm system user
+  include: user.yml
 
-- include: config_auth.yml
-  when: enable_auth
+- name: Configure StackStorm authentication
+  include: config_auth.yml
+  when: st2_auth_enable
 
 - name: Ensure StackStorm services are enabled and running
   become: yes

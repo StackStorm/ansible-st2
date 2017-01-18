@@ -13,8 +13,7 @@ provisioner:
   roles_path: roles
   ansible_verbose: true
   ansible_verbosity: 2
-  # TODO: Make sure Ansible playbooks are idepotent
-  idempotency_test: false
+  idempotency_test: true
 
 platforms:
   # Ubuntu Trusty with Upstart
@@ -38,6 +37,17 @@ platforms:
       platform: centos
       dockerfile: .kitchen-docker/centos6/Dockerfile
       run_command: /usr/sbin/sshd -D
+  # CentOS7 with Systemd
+  - name: centos-7
+    driver_config:
+      platform: centos
+      dockerfile: .kitchen-docker/centos7/Dockerfile
+      # TODO: Use non-root user after updating upstream Docker image: https://github.com/StackStorm/st2-dockerfiles/issues/38
+      username: root
+      password: docker.io
+      run_command: /sbin/init
+      volume:
+        - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
 suites:
   - name: default

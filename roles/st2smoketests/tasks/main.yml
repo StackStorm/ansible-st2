@@ -5,21 +5,23 @@
   tags:
     - smoke-tests
 
-
 - name: Make sure packs are reloaded
   become: yes
   command: st2ctl reload --register-all
+  changed_when: no
   tags:
     - smoke-tests
 
 - name: st2 installed
   command: st2 --version
+  changed_when: no
   tags:
     - smoke-tests
 
 - name: get authentication token
   command: st2 auth {{ st2_auth_username }} -p {{ st2_auth_password }} -t
   register: st2_token
+  changed_when: no
   tags:
     - smoke-tests
 
@@ -28,11 +30,15 @@
   register: output
   until: output.stdout_lines|length > 1
   retries: 5
+  changed_when: no
+  tags:
+    - smoke-tests
 
 - name: st2 run core.local -- date -R
   command: st2 run core.local -- date -R
   environment:
     ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
+  changed_when: no
   tags:
     - smoke-tests
 
@@ -40,5 +46,6 @@
   uri:
     url: https://{{ ansible_hostname }}/
     validate_certs: no
+  changed_when: no
   tags:
     - smoke-tests
