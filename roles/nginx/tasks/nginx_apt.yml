@@ -1,0 +1,24 @@
+---
+# tasks file for nginx
+
+- name: Add nginx key
+  become: yes
+  apt_key:
+    url: http://nginx.org/keys/nginx_signing.key
+    state: present
+  tags: nginx
+
+- name: Add nginx repos
+  become: yes
+  apt_repository:
+    repo: "deb http://nginx.org/packages/ubuntu/ trusty nginx"
+    state: present
+    update_cache: yes
+  tags: nginx
+
+- name: Install nginx
+  become: yes
+  apt:
+    name: nginx
+    state: present
+  tags: nginx

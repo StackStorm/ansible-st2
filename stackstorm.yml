@@ -8,5 +8,6 @@
     - postgresql
     - st2mistral
     - st2
+    - nginx
     - st2web
     - st2smoketests

@@ -1,0 +1,13 @@
+---
+# tasks file for nginx
+- name: Install nginx on {{ ansible_distribution }}
+  include: nginx_{{ ansible_pkg_mgr }}.yml
+  tags: nginx
+
+- name: Start & Enable nginx
+  become: yes
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  tags: nginx
