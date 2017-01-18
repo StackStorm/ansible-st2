@@ -21,11 +21,12 @@
   yum:
     name: nginx
     state: present
-  register: Install_nginx
   tags: nginx
 
 - name: Allow network access for nginx
   become: yes
-  command: setsebool -P httpd_can_network_connect 1
-  when: Install_nginx.changed
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes
   tags: nginx
