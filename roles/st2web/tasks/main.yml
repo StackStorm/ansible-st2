@@ -25,7 +25,7 @@
   apt:
     name: st2web
     state: latest
-  when: st2_version == "stable"
+  when: st2_version == "latest"
   notify:
     - restart st2
 
@@ -34,7 +34,7 @@
   apt:
     name: st2web={{ st2_version }}-{{ st2web_revision }}
     state: present
-  when: st2_version != "stable"
+  when: st2_version != "latest"
   notify:
     - restart st2
 

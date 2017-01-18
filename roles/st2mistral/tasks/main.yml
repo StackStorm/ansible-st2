@@ -12,7 +12,7 @@
   package:
     name: st2mistral
     state: latest
-  when: mistral_version == "stable"
+  when: mistral_version == "latest"
   tags: st2mistral
 
 - name: Install latest st2mistral
@@ -20,7 +20,7 @@
   package:
     name: st2mistral={{ mistral_version }}
     state: present
-  when: mistral_version != "stable"
+  when: mistral_version != "latest"
   tags: st2mistral
 
 - name: Configure mistral

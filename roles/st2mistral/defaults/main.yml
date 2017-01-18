@@ -1,4 +1,4 @@
-mistral_version: stable
+mistral_version: latest
 mistral_db_username: mistral
 mistral_db_password: StackStorm
 mistral_db: mistral
