@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  description: Install EPEL repository
+  author: mierdin
+  company: StackStorm
+  license: Apache
+  min_ansible_version: 1.9
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+        - precise
+    - name: EL
+      versions:
+        - 6
+        - 7
+    - name: CentOS
+      versions:
+        - 6
+        - 7
+  categories:
+    - system

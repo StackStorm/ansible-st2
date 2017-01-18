@@ -1,4 +1,5 @@
 ---
+
 - name: Define RH Version
   set_fact:
       rh_ver: "{{ ansible_distribution_version|int|abs }}"
@@ -9,6 +10,13 @@
     path: /etc/yum.repos.d/epel.repo
   register: st
   when: ansible_distribution == "RedHat"
+
+- name: Patch st2 repo path for EL # TODO(mierdin):HACKITY HACK NOTHING TO SEE HERE. Please remove once https://github.com/StackStorm/ansible-st2/issues/89 is addressed
+  replace:
+    dest: "/etc/yum.repos.d/st2.repo"
+    regexp: "\\$releasever"
+    replace: "{{ rh_ver }}"
+  when: st.stat.exists
 
 - name: Download EPEL RPM
   get_url:
