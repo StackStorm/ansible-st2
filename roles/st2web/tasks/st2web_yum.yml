@@ -4,7 +4,7 @@
   yum:
     name: st2web
     state: latest
-  when: st2_version == "latest"
+  when: st2_version == "stable"
   notify:
     - Restart st2
   tags: st2web
@@ -14,7 +14,7 @@
   yum:
     name: st2web={{ st2_version }}-{{ st2web_revision }}
     state: present
-  when: st2_version != "latest"
+  when: st2_version != "stable"
   notify:
     - Restart st2
   tags: st2web
