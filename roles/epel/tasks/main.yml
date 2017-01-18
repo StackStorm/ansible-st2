@@ -1,0 +1,24 @@
+---
+- name: Define RH Version
+  set_fact:
+      rh_ver: "{{ ansible_distribution_version|int|abs }}"
+  when: ansible_distribution == "RedHat"
+
+- name: Check if EPEL is installed
+  stat:
+    path: /etc/yum.repos.d/epel.repo
+  register: st
+  when: ansible_distribution == "RedHat"
+
+- name: Download EPEL RPM
+  get_url:
+    url: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ rh_ver }}.noarch.rpm"
+    dest: "/tmp/epel{{ rh_ver }}.rpm"
+    mode: 0440
+  when: not st.stat.exists
+
+- name: Install EPEL repo
+  yum:
+    name: "/tmp/epel{{ rh_ver }}.rpm"
+    state: present
+  when: not st.stat.exists and ansible_distribution == "RedHat"
