@@ -23,3 +23,11 @@
 - name: Configure StackStorm authentication
   include: config_auth.yml
   when: st2_auth_enable
+
+- name: Ensure StackStorm services are enabled and running
+  become: yes
+  service:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  with_items: "{{ st2_services }}"
