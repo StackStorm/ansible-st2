@@ -5,10 +5,16 @@
     state: present
     key: https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/gpgkey
 
+- name: Define RH Version
+  set_fact:
+      rh_ver: "{{ ansible_distribution_version|int|abs }}"
+  # TODO(mierdin): Remove when https://github.com/StackStorm/ansible-st2/issues/89 is addressed
+
 - name: Add ST2 Repo
   become: yes
   yum_repository:
     name: stackstorm
     description: Stackstorm Repo
     file: st2
-    baseurl: https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/el/$releasever/$basearch
+    baseurl: https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/el/{{ rh_ver }}/$basearch
+    # TODO(mierdin): Should consider moving back to $releasever once https://github.com/StackStorm/ansible-st2/issues/89 is addressed
