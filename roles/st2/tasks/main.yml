@@ -17,7 +17,9 @@
   notify:
     - restart st2
 
-- include: user.yml
+- name: Create and configure StackStorm system user
+  include: user.yml
 
-- include: config_auth.yml
-  when: enable_auth
+- name: Configure StackStorm authentication
+  include: config_auth.yml
+  when: st2_auth_enable
