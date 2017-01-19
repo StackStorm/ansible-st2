@@ -13,8 +13,7 @@ provisioner:
   roles_path: roles
   ansible_verbose: true
   ansible_verbosity: 2
-  # TODO: Make sure Ansible playbooks are idepotent
-  idempotency_test: false
+  idempotency_test: true
 
 platforms:
   # Ubuntu Trusty with Upstart

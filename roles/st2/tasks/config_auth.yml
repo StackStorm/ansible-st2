@@ -42,5 +42,5 @@
     option: enable
     value: True
     backup: yes
-  notify: 
+  notify:
     - restart st2api/st2stream
