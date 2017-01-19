@@ -1,16 +1,13 @@
 ---
-# tasks file for st2repos
-
 - name: Install prereqs
   become: yes
   apt:
     name: "{{ item }}"
     state: present
-    update_cache: yes
   with_items:
     - debian-archive-keyring
     - apt-transport-https
-  
+
 - name: Add keys to keyring
   become: yes
   apt_key:
