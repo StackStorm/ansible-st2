@@ -2,7 +2,7 @@
 - name: Check if EPEL is installed
   stat:
     path: /etc/yum.repos.d/epel.repo
-  register: st
+  register: epel_installed
   when: ansible_distribution == "RedHat"
 
 - name: Download EPEL RPM
@@ -10,10 +10,10 @@
     url: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
     dest: "/tmp/epel{{ ansible_distribution_major_version }}.rpm"
     mode: 0440
-  when: not st.stat.exists and ansible_distribution == "RedHat"
+  when: not epel_installed.stat.exists and ansible_distribution == "RedHat"
 
 - name: Install EPEL repo
   yum:
     name: "/tmp/epel{{ ansible_distribution_major_version }}.rpm"
     state: present
-  when: not st.stat.exists and ansible_distribution == "RedHat"
+  when: not epel_installed.stat.exists and ansible_distribution == "RedHat"
