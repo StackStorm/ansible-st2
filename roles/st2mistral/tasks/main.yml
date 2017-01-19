@@ -58,7 +58,7 @@
 
 - name: Setup Mistral DB tables, etc
   become: yes
-  command: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head && touch /etc/mistral/init_mistral_db.SQL.ansible.has.run
+  shell: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head && touch /etc/mistral/init_mistral_db.SQL.ansible.has.run
   args:
     creates: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
   register: setup_mistral_DB_tables
@@ -68,7 +68,7 @@
 
 - name: Register mistral actions
   become: yes
-  command: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate && touch /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
+  shell: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate && touch /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
   args:
     creates: /etc/mistral/mistral-db-manage.populate.ansible.has.run
   register: register_mistral_actions
