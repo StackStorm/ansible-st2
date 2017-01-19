@@ -14,6 +14,14 @@ galaxy_info:
       versions:
         - trusty
         - xenial
+    - name: EL
+      versions:
+        - 6
+        - 7
+    - name: CentOS
+      versions:
+        - 6
+        - 7
   categories:
     - ops
     - devops
