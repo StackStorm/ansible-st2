@@ -4,7 +4,6 @@
   apt:
     name: "{{ item }}"
     state: present
-    update_cache: yes
   with_items:
     - debian-archive-keyring
     - apt-transport-https
