@@ -4,8 +4,8 @@
   roles:
     - mongodb
     - rabbitmq
-    - st2repos
     - postgresql
+    - st2repos
     - st2mistral
     - st2
     - st2web
