@@ -18,7 +18,6 @@
   become: yes
   apt:
     name: mongodb-org
-    update_cache: yes
     state: present
   notify: Restart mongod
   tags: [databases, mongodb]
