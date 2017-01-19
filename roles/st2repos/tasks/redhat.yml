@@ -1,10 +1,4 @@
 ---
-- name: Install RPM key for StackStorm
-  become: yes
-  rpm_key:
-    state: present
-    key: https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/gpgkey
-
 - name: Define RH Version
   set_fact:
       rh_ver: "{{ ansible_distribution_version|int|abs }}"
@@ -13,8 +7,15 @@
 - name: Add ST2 Repo
   become: yes
   yum_repository:
-    name: stackstorm
-    description: Stackstorm Repo
+    name: "StackStorm_{{ st2_pkg_repo }}"
+    description: "StackStorm_{{ st2_pkg_repo }}"
     file: st2
     baseurl: https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/el/{{ rh_ver }}/$basearch
     # TODO(mierdin): Should consider moving back to $releasever once https://github.com/StackStorm/ansible-st2/issues/89 is addressed
+    repo_gpgcheck: yes
+    gpgkey: "https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/gpgkey"
+    sslcacert: /etc/pki/tls/certs/ca-bundle.crt
+    metadata_expire: 300
+    gpgcheck: no
+    enabled: yes
+    sslverify: yes

@@ -4,7 +4,6 @@
   package:
     name: st2python
     state: present
-    disable_gpg_check: yes
   when: (ansible_distribution == "CentOS" or ansible_distribution == "RedHat") and ansible_distribution_major_version == "6"
   tags: st2mistral
 
@@ -13,7 +12,6 @@
   package:
     name: st2mistral
     state: latest
-    disable_gpg_check: yes
   when: mistral_version == "stable"
   tags: st2mistral
 
@@ -22,7 +20,6 @@
   package:
     name: st2mistral={{ mistral_version }}
     state: present
-    disable_gpg_check: yes
   when: mistral_version != "stable"
   tags: st2mistral
 

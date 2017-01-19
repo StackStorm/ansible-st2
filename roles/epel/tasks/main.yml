@@ -1,5 +1,4 @@
 ---
-
 - name: Define RH Version
   set_fact:
       rh_ver: "{{ ansible_distribution_version|int|abs }}"
