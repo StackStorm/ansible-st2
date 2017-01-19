@@ -1,16 +1,11 @@
 ---
-- name: Define RH Version
-  set_fact:
-      rh_ver: "{{ ansible_distribution_version|int|abs }}"
-  # TODO(mierdin): Remove when https://github.com/StackStorm/ansible-st2/issues/89 is addressed
-
 - name: Add ST2 Repo
   become: yes
   yum_repository:
     name: "StackStorm_{{ st2_pkg_repo }}"
     description: "StackStorm_{{ st2_pkg_repo }}"
     file: st2
-    baseurl: https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/el/{{ rh_ver }}/$basearch
+    baseurl: https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/el/{{ ansible_distribution_major_version }}/$basearch
     # TODO(mierdin): Should consider moving back to $releasever once https://github.com/StackStorm/ansible-st2/issues/89 is addressed
     repo_gpgcheck: yes
     gpgkey: "https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/gpgkey"
