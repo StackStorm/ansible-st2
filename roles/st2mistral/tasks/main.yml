@@ -75,4 +75,4 @@
   when: mistral_deploy_database_init_script.changed or mistral_initiate_database.changed or setup_mistral_DB_tables.changed
   notify:
     - restart mistral
-  tags: st2mistral
+  tags: st2mistral, skip_ansible_lint
