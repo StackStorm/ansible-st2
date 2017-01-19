@@ -1,6 +1,21 @@
 ---
+- name: Install latest Debian st2 package (stable)
+  become: yes
+  package:
+    name: st2
+    state: latest
+  when: st2_version == "stable"
+  notify:
+    - restart st2
 
-- include: "{{ ansible_os_family }}.yml"
+- name: Install latest Debian st2 package (not stable)
+  become: yes
+  package:
+    name: st2={{ st2_version }}-{{ st2_revision }}
+    state: present
+  when: st2_version != "stable"
+  notify:
+    - restart st2
 
 - include: user.yml
 
