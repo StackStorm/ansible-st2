@@ -10,7 +10,7 @@
   with_items:
     - debian-archive-keyring
     - apt-transport-https
-  
+
 - name: Add keys to keyring
   become: yes
   apt_key:

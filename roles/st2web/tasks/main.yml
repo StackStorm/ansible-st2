@@ -28,6 +28,7 @@
   when: st2_version == "latest"
   notify:
     - restart st2
+  tags: skip_ansible_lint
 
 - name: Install exact st2web package
   become: yes
@@ -75,13 +76,13 @@
     regexp: 'include /etc/nginx/sites-enabled/'
     insertafter: '    include /etc/nginx/conf.d/'
     line: 'include /etc/nginx/sites-enabled/*;'
-    
+
 - name: Copy Nginx config
   become: yes
   command: cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
   args:
     creates: /etc/nginx/sites-available/st2.conf
-  notify: 
+  notify:
     - Restart nginx
 
 - name: Enable site
