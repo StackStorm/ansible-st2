@@ -56,17 +56,9 @@
     - restart mistral
   tags: st2mistral
 
-- name: Make sure "Initiate database" doesn't run twice
-  become: yes
-  file:
-    path: /etc/mistral/init_mistral_db.SQL.ansible.has.run
-    state: touch
-  when: mistral_initiate_database.changed
-  tags: st2mistral
-
 - name: Setup Mistral DB tables, etc
   become: yes
-  command: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head
+  command: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head && touch /etc/mistral/init_mistral_db.SQL.ansible.has.run
   args:
     creates: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
   register: setup_mistral_DB_tables
@@ -74,29 +66,13 @@
     - restart mistral
   tags: st2mistral
 
-- name: Make sure "Setup Mistral DB tables, etc" does not run again
-  become: yes
-  file:
-    path: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
-    state: touch
-  when: setup_mistral_DB_tables.changed
-  tags: st2mistral
-
 - name: Register mistral actions
   become: yes
-  command: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate
+  command: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate && touch /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
   args:
     creates: /etc/mistral/mistral-db-manage.populate.ansible.has.run
   register: register_mistral_actions
   when: mistral_deploy_database_init_script.changed or mistral_initiate_database.changed or setup_mistral_DB_tables.changed
   notify:
     - restart mistral
-  tags: st2mistral
-
-- name: Make sure "Register mistral actions" does not run again
-  become: yes
-  file:
-    path: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
-    state: touch
-  when: register_mistral_actions.changed
   tags: st2mistral
