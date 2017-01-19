@@ -1,9 +1,9 @@
+# KitchenCI
 .kitchen/
 .kitchen.local.yml
-*.retry
 
-# Ansible Galaxy Role
-roles/ANXS.postgresql/**
+# Ansible Retry
+*.retry
 
 # Vagrant
 .vagrant/
