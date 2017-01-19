@@ -1,0 +1,22 @@
+---
+- name: Add nginx key
+  become: yes
+  apt_key:
+    url: http://nginx.org/keys/nginx_signing.key
+    id: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
+    state: present
+  tags: nginx
+
+- name: Add nginx repos
+  become: yes
+  apt_repository:
+    repo: "deb http://nginx.org/packages/ubuntu/ {{ ansible_distribution_release|lower }} nginx"
+    state: present
+  tags: nginx
+
+- name: Install nginx
+  become: yes
+  apt:
+    name: nginx
+    state: present
+  tags: nginx

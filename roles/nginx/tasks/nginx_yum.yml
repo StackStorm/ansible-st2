@@ -1,0 +1,32 @@
+- name: Add nginx key
+  become: yes
+  rpm_key:
+    key: http://nginx.org/keys/nginx_signing.key
+    state: present
+  tags: nginx
+
+- name: Add nginx repos
+  become: yes
+  yum_repository:
+    name: nginx
+    description: nginx repo
+    baseurl: http://nginx.org/packages/rhel/{{ ansible_distribution_major_version }}/x86_64/
+    gpgcheck: yes
+    enabled: yes
+    state: present
+  tags: nginx
+
+- name: Install nginx
+  become: yes
+  yum:
+    name: nginx
+    state: present
+  tags: nginx
+
+- name: Allow network access for nginx
+  become: yes
+  seboolean:
+    name: httpd_can_network_connect
+    state: yes
+    persistent: yes
+  tags: nginx
