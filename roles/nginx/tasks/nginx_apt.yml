@@ -11,15 +11,6 @@
   apt_repository:
     repo: "deb http://nginx.org/packages/ubuntu/ {{ ansible_distribution_release|lower }} nginx"
     state: present
-    update_cache: yes
-  tags: nginx
-
-- name: Add nginx deb-src
-  become: yes
-  apt_repository:
-    repo: "deb-src http://nginx.org/packages/ubuntu/ {{ ansible_distribution_release|lower }} nginx"
-    state: present
-    update_cache: yes
   tags: nginx
 
 - name: Install nginx
