@@ -24,7 +24,6 @@
   become: yes
   yum:
     name: mongodb-org
-    update_cache: yes
     state: present
   notify:
     - Restart mongod
