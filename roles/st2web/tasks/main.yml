@@ -1,49 +1,30 @@
 ---
-# tasks file for st2web
-
-- name: Add nginx key
+- name: Install latest st2web package on {{ ansible_os_family }}
   become: yes
-  apt_key:
-    url: http://nginx.org/keys/nginx_signing.key
-    state: present
-
-- name: Add nginx repos
-  become: yes
-  apt_repository:
-    repo: "deb http://nginx.org/packages/ubuntu/ trusty nginx"
-    state: present
-    update_cache: yes
-
-- name: Install nginx
-  become: yes
-  apt:
-    name: nginx=1.8.*
-    state: present
-
-- name: Install latest st2web package
-  become: yes
-  apt:
+  package:
     name: st2web
     state: latest
   when: st2_version == "latest"
   notify:
-    - restart st2
-  tags: skip_ansible_lint
+    - Restart st2
+  tags: st2web, skip_ansible_lint
 
-- name: Install exact st2web package
+- name: Install exact st2web package on {{ ansible_os_family }}
   become: yes
-  apt:
+  package:
     name: st2web={{ st2_version }}-{{ st2web_revision }}
     state: present
   when: st2_version != "latest"
   notify:
-    - restart st2
+    - Restart st2
+  tags: st2web
 
 - name: Create ssl cert dir
   become: yes
   file:
     state: directory
     dest: /etc/ssl/st2
+  tags: st2web
 
 - name: Create ssl cert
   become: yes
@@ -51,13 +32,16 @@
   args:
     creates: /etc/ssl/st2/st2.key
   notify:
-    - Restart nginx
+    - Restart nginx for st2web
+  tags: st2web
 
 - name: Remove default site
   become: yes
   file:
     path: /etc/nginx/sites-enabled/default
     state: absent
+  tags: st2web
+  when: ansible_distribution == "Ubuntu"
 
 - name: Create nginx folders
   become: yes
@@ -67,6 +51,7 @@
   with_items:
     - /etc/nginx/sites-available/
     - /etc/nginx/sites-enabled/
+  tags: st2web
 
 - name: Ensure site-available is loaded
   become: yes
@@ -76,6 +61,7 @@
     regexp: 'include /etc/nginx/sites-enabled/'
     insertafter: '    include /etc/nginx/conf.d/'
     line: 'include /etc/nginx/sites-enabled/*;'
+  tags: st2web
 
 - name: Copy Nginx config
   become: yes
@@ -83,7 +69,8 @@
   args:
     creates: /etc/nginx/sites-available/st2.conf
   notify:
-    - Restart nginx
+    - Restart nginx for st2web
+  tags: st2web
 
 - name: Enable site
   become: yes
@@ -92,4 +79,5 @@
     src: /etc/nginx/sites-available/st2.conf
     dest: /etc/nginx/sites-enabled/st2.conf
   notify:
-    - Restart nginx
+    - Restart nginx for st2web
+  tags: st2web
