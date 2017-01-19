@@ -1,4 +1,4 @@
 ---
 # tasks file for st2repos
 
-- include: "{{ ansible_os_family }}.yml"
+- include: "{{ ansible_os_family|lower }}.yml"
