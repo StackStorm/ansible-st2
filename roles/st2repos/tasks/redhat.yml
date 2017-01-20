@@ -13,10 +13,10 @@
     gpgcheck: no
     enabled: yes
     sslverify: yes
+  register: st2_repo_installed
 
 # Fixes "Failure talking to yum: Cannot retrieve repository metadata (repomd.xml) for repository: StackStorm_stable. Please verify its path and try again" when installing st2
-- name: Update ca-certificates package
+- name: Refresh repo list
   become: yes
-  package:
-    name: ca-certificates
-    state: latest
+  shell: yum -y repolist
+  when: st2_repo_installed.changed == true  # Helps ensure idempotency
