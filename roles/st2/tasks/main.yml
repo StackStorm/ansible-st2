@@ -6,7 +6,7 @@
     state: present
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "6"
 
-- name: Install latest st2 package (stable)
+- name: Install latest st2 package
   become: yes
   package:
     name: st2
@@ -16,7 +16,7 @@
     - restart st2
   tags: skip_ansible_lint
 
-- name: Install latest st2 package (not stable)
+- name: Install pinned st2 package
   become: yes
   package:
     name: st2={{ st2_version }}-{{ st2_revision }}
