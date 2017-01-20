@@ -40,7 +40,7 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2_auth_username`   | `testu`       | Username used by StackStorm standalone authentication.
 | `st2_auth_password`   | `testp`       | Password used by StackStorm standalone authentication.
 | **st2mistral**
-| `mistral_version`     | `latest`      | st2mistral version to install. Use latest `latest` to get automatic updates or pin it to numeric version like `2.1.1`.
+| `st2mistral_version`  | `latest`      | st2mistral version to install. Use latest `latest` to get automatic updates or pin it to numeric version like `2.1.1`.
 | `mistral_db`          | `mistral`     | PostgreSQL DB name for Mistral.
 | `mistral_db_username` | `mistral`     | PostgreSQL DB user for Mistral.
 | `mistral_db_password` | `StackStorm`  | PostgreSQL DB password for Mistral.

@@ -13,15 +13,15 @@
   package:
     name: st2mistral
     state: latest
-  when: mistral_version == "latest"
+  when: st2mistral_version == "latest"
   tags: [st2mistral, skip_ansible_lint]
 
 - name: Install latest st2mistral
   become: yes
   package:
-    name: st2mistral={{ mistral_version }}
+    name: st2mistral={{ st2mistral_version }}
     state: present
-  when: mistral_version != "latest"
+  when: st2mistral_version != "latest"
   tags: st2mistral
 
 - name: Configure mistral
