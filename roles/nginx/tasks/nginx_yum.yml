@@ -37,4 +37,5 @@
     name: httpd_can_network_connect
     state: yes
     persistent: yes
+  when: ansible_selinux.status == "enabled" and ansible_selinux.mode == "enforcing"
   tags: nginx
