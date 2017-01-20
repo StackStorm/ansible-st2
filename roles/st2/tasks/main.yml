@@ -5,7 +5,6 @@
     name: ftp://fr2.rpmfind.net/linux/centos/6/os/x86_64/Packages/libffi-devel-3.0.5-3.2.el6.x86_64.rpm
     state: present
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "6"
-  ignore_errors: yes  # Ignore error when already installed
 
 - name: Install latest st2 package (stable)
   become: yes
