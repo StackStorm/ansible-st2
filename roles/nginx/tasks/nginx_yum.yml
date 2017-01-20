@@ -1,3 +1,11 @@
+---
+- name: Install dependencies for nginx
+  become: yes
+  yum:
+    name: libsemanage-python, libselinux-python
+    state: present
+  tags: nginx
+
 - name: Add nginx key
   become: yes
   rpm_key:
