@@ -8,13 +8,6 @@
     - apache2-utils
   when: ansible_os_family == 'Debian'
 
-- name: Install epel-release repo (RedHat)
-  become: yes
-  yum:
-    name: epel-release
-    state: present
-  when: ansible_os_family == 'RedHat'
-
 - name: Install auth pre-reqs (RedHat)
   become: yes
   yum:

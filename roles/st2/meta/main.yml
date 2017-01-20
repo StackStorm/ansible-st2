@@ -13,4 +13,5 @@ galaxy_info:
   categories:
     - system
 dependencies:
+  - { role: 'epel', when: ansible_os_family == 'RedHat' }
   - role: st2repos
