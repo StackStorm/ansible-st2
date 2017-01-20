@@ -1,4 +1,4 @@
 st2mistral_version: latest
-mistral_db_username: mistral
-mistral_db_password: StackStorm
-mistral_db: mistral
+st2mistral_db: mistral
+st2mistral_db_username: mistral
+st2mistral_db_password: StackStorm

@@ -30,7 +30,7 @@
     dest: /etc/mistral/mistral.conf
     section: database
     option: connection
-    value: postgresql://{{ mistral_db_username }}:{{ mistral_db_password }}@localhost/{{ mistral_db }}
+    value: postgresql://{{ st2mistral_db_username }}:{{ st2mistral_db_password }}@localhost/{{ st2mistral_db }}
     backup: yes
   tags: st2mistral
 
