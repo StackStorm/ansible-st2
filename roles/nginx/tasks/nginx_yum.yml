@@ -1,15 +1,8 @@
 ---
-- name: Dependency for nginx | libsemanage-python
+- name: Install dependencies for nginx
   become: yes
   yum:
-    name: libsemanage-python
-    state: present
-  tags: nginx
-
-- name: Dependency for nginx | libselinux-python
-  become: yes
-  yum:
-    name: libselinux-python
+    name: libsemanage-python, libselinux-python
     state: present
   tags: nginx
 
