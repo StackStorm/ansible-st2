@@ -1,11 +1,4 @@
 ---
-- name: Install dependencies for nginx
-  become: yes
-  yum:
-    name: libsemanage-python, libselinux-python
-    state: present
-  tags: nginx
-
 - name: Add nginx key
   become: yes
   rpm_key:
@@ -31,10 +24,18 @@
     state: present
   tags: nginx
 
-- name: Allow network access for nginx
+- name: Install dependencies for SELinux Ansible module
+  become: yes
+  yum:
+    name: libsemanage-python, libselinux-python
+    state: present
+  tags: nginx
+
+- name: Adjust SELinux to allow network access for nginx
   become: yes
   seboolean:
     name: httpd_can_network_connect
     state: yes
     persistent: yes
+  when: ansible_selinux.status == "enabled" and ansible_selinux.mode == "enforcing"
   tags: nginx

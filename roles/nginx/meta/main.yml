@@ -1,9 +1,9 @@
 ---
 galaxy_info:
-  description: Install nignx
+  description: Install nginx org
   author: humblearner
   company: StackStorm
-  license: Apache
+  license: Apache 2.0
   min_ansible_version: 2.2
   tags: nginx
   platforms:
@@ -16,4 +16,5 @@ galaxy_info:
         - 6
         - 7
   categories:
-    - system
+    - web
+    - nginx
