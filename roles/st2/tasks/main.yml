@@ -1,7 +1,14 @@
 ---
+- name: Install libffi-devel on EL6
+  become: yes
+  package:
+    name: http://rpmfind.net/linux/centos/6/os/x86_64/Packages/libffi-devel-3.0.5-3.2.el6.x86_64.rpm
+    state: present
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "6"
+
 - name: Install latest st2 package
   become: yes
-  apt:
+  package:
     name: st2
     state: latest
   when: st2_version == "latest"
@@ -9,9 +16,9 @@
     - restart st2
   tags: skip_ansible_lint
 
-- name: Install latest st2 package
+- name: Install pinned st2 package
   become: yes
-  apt:
+  package:
     name: st2={{ st2_version }}-{{ st2_revision }}
     state: present
   when: st2_version != "latest"

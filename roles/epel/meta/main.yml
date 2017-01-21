@@ -1,7 +1,7 @@
 ---
 galaxy_info:
-  description: Install StackStorm and all its components
-  author: armab
+  description: Install EPEL repository
+  author: mierdin
   company: StackStorm
   license: Apache
   min_ansible_version: 1.9
@@ -10,8 +10,9 @@ galaxy_info:
       versions:
         - trusty
         - precise
+    - name: EL
+      versions:
+        - 6
+        - 7
   categories:
     - system
-dependencies:
-  - { role: 'epel', when: ansible_os_family == 'RedHat' }
-  - role: st2repos

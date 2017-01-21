@@ -70,6 +70,20 @@ You might be interested in other methods to deploy StackStorm engine:
   * [RHEL7/CentOS7](https://docs.stackstorm.com/install/rhel7.html)
   * [RHEL6/CentOS6](https://docs.stackstorm.com/install/rhel6.html)
 
+## Developing
+
+There are a few requirements when developing on `ansible-st2`:
+
+These are the platforms we must support (must pass end-to-end testing):
+- Xenial
+- Trusty
+- CentOS6
+- CentOS7
+- RHEL6 (via AWS)
+- RHEL7 (via AWS)
+
+Must also support Ansible Idempotence (Eg. Ansible-playbook re-run should end with the following results: changed=0.*failed=0)
+
 ## Help
 If you're in stuck, our community always ready to help, feel free to:
 * Ask questions in our [public Slack channel](https://stackstorm.com/community-signup)

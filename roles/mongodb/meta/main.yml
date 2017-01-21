@@ -16,3 +16,5 @@ galaxy_info:
         - 7
   categories:
     - system
+dependencies:
+  - { role: 'epel', when: ansible_os_family == 'RedHat' }
