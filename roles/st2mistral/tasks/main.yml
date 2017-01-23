@@ -74,3 +74,10 @@
   notify:
     - restart mistral
   tags: st2mistral, skip_ansible_lint
+
+- name: Ensure mistral service is enabled and running
+  become: yes
+  service:
+    name: mistral
+    enabled: yes
+    state: started
