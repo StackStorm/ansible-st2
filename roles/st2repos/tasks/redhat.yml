@@ -7,7 +7,7 @@
     state: latest
   tags: skip_ansible_lint
 
-- name: Add ST2 Repo
+- name: Add StackStorm repo
   become: yes
   yum_repository:
     name: "StackStorm_{{ st2_pkg_repo }}"
