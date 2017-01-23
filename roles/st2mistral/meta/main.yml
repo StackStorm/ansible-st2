@@ -3,7 +3,7 @@ galaxy_info:
   description: Install custom OpenStack Mistral, patched by StackStorm
   author: armab
   company: StackStorm
-  license: Apache
+  license: Apache 2.0
   min_ansible_version: 2.2
   tags: st2mistral
   platforms:
@@ -16,7 +16,9 @@ galaxy_info:
         - 6
         - 7
   categories:
-    - system
+    - automation
+    - devops
+    - workflows
 dependencies:
   - role: postgresql
   - role: st2repos
