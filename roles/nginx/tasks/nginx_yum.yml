@@ -29,6 +29,14 @@
   yum:
     name: libsemanage-python, libselinux-python
     state: present
+  register: nginx_selinux_dependencies
+  tags: nginx
+
+- name: Update SELinux facts after installing dependencies
+  become: yes
+  setup:
+    filter: ansible_selinux
+  when: nginx_selinux_dependencies.changed
   tags: nginx
 
 - name: Adjust SELinux to allow network access for nginx
