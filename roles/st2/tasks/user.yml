@@ -33,6 +33,14 @@
     validate: 'visudo -cf %s'
   tags: [st2, user]
 
+- name: Disable requiretty
+  become: yes
+  replace:
+    dest: "/etc/sudoers"
+    regexp: '^Defaults\s+\+?requiretty'
+    replace: '# Defaults requiretty'
+  when: st2_system_user_in_sudoers
+
 - name: Configure system user in /etc/st2/st2.conf
   become: yes
   ini_file:
@@ -50,10 +58,3 @@
     option: ssh_key_file
     value: "{{ _user.ssh_key_file }}"
     backup: yes
-
-- name: Disable requiretty
-  become: yes
-  replace:
-    dest: "/etc/sudoers"
-    regexp: '^Defaults\s+\+?requiretty'
-    replace: '# Defaults requiretty'
