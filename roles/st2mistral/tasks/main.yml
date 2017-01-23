@@ -1,37 +1,26 @@
 ---
-
-- name: Install st2mistral dependency
+- name: Install st2python dependency for EL6
   become: yes
   package:
     name: st2python
     state: present
-  when: (ansible_distribution == "CentOS" or ansible_distribution == "RedHat") and ansible_distribution_major_version == "6"
+  when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "6"
   tags: st2mistral
 
-- name: Install latest st2mistral
+- name: Install latest st2mistral package
   become: yes
   package:
     name: st2mistral
     state: latest
-  when: mistral_version == "latest"
+  when: st2mistral_version == "latest"
   tags: [st2mistral, skip_ansible_lint]
 
-- name: Install latest st2mistral
+- name: Install pinned st2mistral package
   become: yes
   package:
-    name: st2mistral={{ mistral_version }}
+    name: st2mistral={{ st2mistral_version }}
     state: present
-  when: mistral_version != "latest"
-  tags: st2mistral
-
-- name: Configure mistral
-  become: yes
-  ini_file:
-    dest: /etc/mistral/mistral.conf
-    section: database
-    option: connection
-    value: postgresql://{{ mistral_db_username }}:{{ mistral_db_password }}@localhost/{{ mistral_db }}
-    backup: yes
+  when: st2mistral_version != "latest"
   tags: st2mistral
 
 - name: Deploy database init script
@@ -40,11 +29,9 @@
     src: init_mistral_db.SQL.j2
     dest: /etc/mistral/init_mistral_db.SQL
   register: mistral_deploy_database_init_script
-  notify:
-    - restart mistral
   tags: st2mistral
 
-- name: Initiate database
+- name: Initiate mistral database
   become: yes
   become_user: postgres
   shell: psql < /etc/mistral/init_mistral_db.SQL
@@ -55,9 +42,29 @@
     - restart mistral
   tags: st2mistral
 
-- name: Setup Mistral DB tables, etc
+- name: Make sure "Initiate mistral database" doesn't run twice
   become: yes
-  shell: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head && touch /etc/mistral/init_mistral_db.SQL.ansible.has.run
+  file:
+    path: /etc/mistral/init_mistral_db.SQL.ansible.has.run
+    state: touch
+  when: mistral_initiate_database.changed
+  tags: st2mistral, skip_ansible_lint
+
+- name: Configure mistral
+  become: yes
+  ini_file:
+    dest: /etc/mistral/mistral.conf
+    section: database
+    option: connection
+    value: postgresql://{{ st2mistral_db_username }}:{{ st2mistral_db_password }}@localhost/{{ st2mistral_db }}
+    backup: yes
+  notify:
+    - restart mistral
+  tags: st2mistral
+
+- name: Setup mistral DB tables, etc
+  become: yes
+  shell: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head && touch /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
   args:
     creates: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
   register: setup_mistral_DB_tables
@@ -67,7 +74,7 @@
 
 - name: Register mistral actions
   become: yes
-  shell: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate && touch /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
+  shell: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate && touch /etc/mistral/mistral-db-manage.populate.ansible.has.run
   args:
     creates: /etc/mistral/mistral-db-manage.populate.ansible.has.run
   register: register_mistral_actions
@@ -75,3 +82,11 @@
   notify:
     - restart mistral
   tags: st2mistral, skip_ansible_lint
+
+- name: Ensure mistral service is enabled and running
+  become: yes
+  service:
+    name: mistral
+    enabled: yes
+    state: started
+  tags: st2mistral
