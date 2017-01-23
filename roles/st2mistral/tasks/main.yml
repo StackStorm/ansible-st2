@@ -34,10 +34,22 @@
 - name: Create mistral database
   become: yes
   become_user: postgres
-  shell: psql < /etc/mistral/init_mistral_db.SQL
+  shell: psql < /etc/mistral/init_mistral_db.SQL && touch /etc/mistral/init_mistral_db.SQL.ansible.has.run
   args:
     creates: /etc/mistral/init_mistral_db.SQL.ansible.has.run
   register: mistral_initiate_database
+  notify:
+    - restart mistral
+  tags: st2mistral
+
+- name: Configure mistral
+  become: yes
+  ini_file:
+    dest: /etc/mistral/mistral.conf
+    section: database
+    option: connection
+    value: postgresql://{{ st2mistral_db_username }}:{{ st2mistral_db_password }}@localhost/{{ st2mistral_db }}
+    backup: yes
   notify:
     - restart mistral
   tags: st2mistral
@@ -62,15 +74,3 @@
   notify:
     - restart mistral
   tags: st2mistral, skip_ansible_lint
-
-- name: Configure mistral
-  become: yes
-  ini_file:
-    dest: /etc/mistral/mistral.conf
-    section: database
-    option: connection
-    value: postgresql://{{ st2mistral_db_username }}:{{ st2mistral_db_password }}@localhost/{{ st2mistral_db }}
-    backup: yes
-  notify:
-    - restart mistral
-  tags: st2mistral
