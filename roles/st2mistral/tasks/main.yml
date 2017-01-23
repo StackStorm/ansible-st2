@@ -81,3 +81,4 @@
     name: mistral
     enabled: yes
     state: started
+  tags: st2mistral
