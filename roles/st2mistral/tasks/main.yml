@@ -40,7 +40,7 @@
   register: mistral_initiate_database
   notify:
     - restart mistral
-  tags: st2mistral
+  tags: st2mistral, skip_ansible_lint
 
 - name: Make sure "Initiate mistral database" doesn't run twice
   become: yes
