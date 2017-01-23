@@ -1,4 +1,8 @@
+# st2mistral version to install. Use latest `latest` to get automatic updates or pin it to numeric version like `2.1.1`
 st2mistral_version: latest
+# PostgreSQL DB name for Mistral.
 st2mistral_db: mistral
+# PostgreSQL DB user for Mistral.
 st2mistral_db_username: mistral
+# PostgreSQL DB password for Mistral.
 st2mistral_db_password: StackStorm
