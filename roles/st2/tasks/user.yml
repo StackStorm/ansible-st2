@@ -40,6 +40,7 @@
     regexp: '^Defaults\s+\+?requiretty'
     replace: '# Defaults requiretty'
   when: st2_system_user_in_sudoers
+  tags: [st2, user]
 
 - name: Configure system user in /etc/st2/st2.conf
   become: yes
