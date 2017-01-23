@@ -40,7 +40,7 @@
   register: mistral_initiate_database
   notify:
     - restart mistral
-  tags: st2mistral, skip_ansible_lint
+  tags: st2mistral
 
 - name: Make sure "Initiate mistral database" doesn't run twice
   become: yes
@@ -48,7 +48,7 @@
     path: /etc/mistral/init_mistral_db.SQL.ansible.has.run
     state: touch
   when: mistral_initiate_database.changed
-  tags: st2mistral
+  tags: st2mistral, skip_ansible_lint
 
 - name: Configure mistral
   become: yes
