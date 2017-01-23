@@ -23,16 +23,6 @@
   when: st2mistral_version != "latest"
   tags: st2mistral
 
-- name: Configure mistral
-  become: yes
-  ini_file:
-    dest: /etc/mistral/mistral.conf
-    section: database
-    option: connection
-    value: postgresql://{{ st2mistral_db_username }}:{{ st2mistral_db_password }}@localhost/{{ st2mistral_db }}
-    backup: yes
-  tags: st2mistral
-
 - name: Deploy database init script
   become: yes
   template:
@@ -72,3 +62,15 @@
   notify:
     - restart mistral
   tags: st2mistral, skip_ansible_lint
+
+- name: Configure mistral
+  become: yes
+  ini_file:
+    dest: /etc/mistral/mistral.conf
+    section: database
+    option: connection
+    value: postgresql://{{ st2mistral_db_username }}:{{ st2mistral_db_password }}@localhost/{{ st2mistral_db }}
+    backup: yes
+  notify:
+    - restart mistral
+  tags: st2mistral
