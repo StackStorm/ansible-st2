@@ -39,8 +39,6 @@
     src: init_mistral_db.SQL.j2
     dest: /etc/mistral/init_mistral_db.SQL
   register: mistral_deploy_database_init_script
-  notify:
-    - restart mistral
   tags: st2mistral
 
 - name: Create mistral database
