@@ -1,6 +1,5 @@
 ---
-
-- name: Install st2mistral dependency
+- name: Install st2python dependency for EL6
   become: yes
   package:
     name: st2python
@@ -8,7 +7,7 @@
   when: (ansible_distribution == "CentOS" or ansible_distribution == "RedHat") and ansible_distribution_major_version == "6"
   tags: st2mistral
 
-- name: Install latest st2mistral
+- name: Install latest st2mistral package
   become: yes
   package:
     name: st2mistral
@@ -16,7 +15,7 @@
   when: st2mistral_version == "latest"
   tags: [st2mistral, skip_ansible_lint]
 
-- name: Install latest st2mistral
+- name: Install pinned st2mistral package
   become: yes
   package:
     name: st2mistral={{ st2mistral_version }}
@@ -44,7 +43,7 @@
     - restart mistral
   tags: st2mistral
 
-- name: Initiate database
+- name: Create mistral database
   become: yes
   become_user: postgres
   shell: psql < /etc/mistral/init_mistral_db.SQL
@@ -55,7 +54,7 @@
     - restart mistral
   tags: st2mistral
 
-- name: Setup Mistral DB tables, etc
+- name: Setup mistral DB tables, etc
   become: yes
   shell: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head && touch /etc/mistral/init_mistral_db.SQL.ansible.has.run
   args:
