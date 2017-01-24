@@ -3,6 +3,10 @@ sudo: required
 dist: trusty
 services: docker
 
+branches:
+  only:
+    - master
+
 env:
   - DISTRO=ubuntu-14
   - DISTRO=ubuntu-16
