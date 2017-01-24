@@ -1,4 +1,4 @@
-- name: Install auth pre-reqs (Debian)
+- name: auth | Install auth pre-reqs (Debian)
   become: yes
   apt:
     name: "{{ item }}"
@@ -8,7 +8,7 @@
     - apache2-utils
   when: ansible_os_family == 'Debian'
 
-- name: Install auth pre-reqs (RedHat)
+- name: auth | Install auth pre-reqs (RedHat)
   become: yes
   yum:
     name: "{{ item }}"
@@ -18,7 +18,7 @@
     - httpd-tools
   when: ansible_os_family == 'RedHat'
 
-- name: Create htpasswd file
+- name: auth | Create htpasswd file
   become: true
   htpasswd:
     path: /etc/st2/htpasswd
@@ -28,7 +28,7 @@
     - restart st2api
     - restart st2stream
 
-- name: Enable authentication
+- name: auth | Enable authentication
   become: yes
   ini_file:
     dest: /etc/st2/st2.conf

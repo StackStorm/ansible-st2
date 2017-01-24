@@ -5,6 +5,7 @@
     name: http://rpmfind.net/linux/centos/6/os/x86_64/Packages/libffi-devel-3.0.5-3.2.el6.x86_64.rpm
     state: present
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "6"
+  tags: st2
 
 - name: Install latest st2 package
   become: yes
@@ -15,7 +16,7 @@
   notify:
     - restart st2
     - reload st2
-  tags: skip_ansible_lint
+  tags: st2, skip_ansible_lint
 
 - name: Install pinned st2 package
   become: yes
@@ -26,13 +27,16 @@
   notify:
     - restart st2
     - reload st2
+  tags: st2
 
 - name: Create and configure StackStorm system user
   include: user.yml
+  tags: st2, user
 
 - name: Configure StackStorm authentication
-  include: config_auth.yml
+  include: auth.yml
   when: st2_auth_enable
+  tags: st2, auth
 
 - name: Ensure StackStorm services are enabled and running
   become: yes
@@ -41,3 +45,4 @@
     enabled: yes
     state: started
   with_items: "{{ st2_services }}"
+  tags: st2
