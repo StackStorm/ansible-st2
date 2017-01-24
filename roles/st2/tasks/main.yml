@@ -14,6 +14,7 @@
   when: st2_version == "latest"
   notify:
     - restart st2
+    - reload st2
   tags: skip_ansible_lint
 
 - name: Install pinned st2 package
@@ -24,6 +25,7 @@
   when: st2_version != "latest"
   notify:
     - restart st2
+    - reload st2
 
 - name: Create and configure StackStorm system user
   include: user.yml

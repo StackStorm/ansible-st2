@@ -1,13 +1,22 @@
 - name: restart st2
-  become: true
-  command: "{{ item }}"
-  with_items:
-    - st2ctl reload --register-all
-    - st2ctl restart
+  become: yes
+  service:
+    name: "{{ item }}"
+    state: restarted
+  with_items: "{{ st2_services }}"
 
-- name: restart st2api/st2stream
-  become: true
-  command: "st2ctl restart-component {{ item }}"
-  with_items:
-    - st2api
-    - st2stream
+- name: reload st2
+  become: yes
+  command: st2ctl reload --register-all
+
+- name: restart st2api
+  become: yes
+  service:
+    name: st2api
+    state: restarted
+
+- name: restart st2stream
+  become: yes
+  service:
+    name: st2stream
+    state: restarted

@@ -25,7 +25,8 @@
     name: "{{ st2_auth_username }}"
     password: "{{ st2_auth_password }}"
   notify:
-    - restart st2api/st2stream
+    - restart st2api
+    - restart st2stream
 
 - name: Enable authentication
   become: yes
@@ -36,4 +37,5 @@
     value: True
     backup: yes
   notify:
-    - restart st2api/st2stream
+    - restart st2api
+    - restart st2stream
