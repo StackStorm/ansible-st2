@@ -11,11 +11,13 @@ Aka IFTTT orchestration for Ops.
 ## Supported platforms
 * Ubuntu Trusty (14.04)
 * Ubuntu Xenial (16.04)
+* RHEL6 / CentOS6
+* RHEL7 / CentOS7
 
 > If you're using the provided Vagrantfile, note that it uses Xenial by default. Due to some of the changes there, Vagrant 1.9.1 or better is required.
 
 ## Requirements
-At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, PostgreSQL, Mongo and OpenStack Mistral.
+At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, PostgreSQL, Mongo, nginx and OpenStack Mistral.
 
 ## Installation
 ```sh
@@ -59,17 +61,6 @@ Install specific numeric version of st2 with pinned revision number as well:
 ansible-playbook stackstorm.yml --extra-vars='st2_version=2.1.1 st2_revision=8'
 ```
 
-## Other Installers
-You might be interested in other methods to deploy StackStorm engine:
-* Configuration Management
-  * [Chef Cookbook](https://github.com/StackStorm/chef-stackstorm/)
-  * [Puppet Module](https://github.com/stackstorm/puppet-st2)
-
-* Manual Instructions
-  * [Ubuntu 14.04/16.04](https://docs.stackstorm.com/install/deb.html)
-  * [RHEL7/CentOS7](https://docs.stackstorm.com/install/rhel7.html)
-  * [RHEL6/CentOS6](https://docs.stackstorm.com/install/rhel6.html)
-
 ## Developing
 
 There are a few requirements when developing on `ansible-st2`:
@@ -82,7 +73,18 @@ These are the platforms we must support (must pass end-to-end testing):
 - RHEL6 (via AWS)
 - RHEL7 (via AWS)
 
-Must also support Ansible Idempotence (Eg. Ansible-playbook re-run should end with the following results: changed=0.*failed=0)
+Must also support Ansible Idempotence (Eg. Ansible-playbook re-run should end with the following results: `changed=0.*failed=0`)
+
+## Other Installers
+You might be interested in other methods to deploy StackStorm engine:
+* Configuration Management
+  * [Chef Cookbook](https://github.com/StackStorm/chef-stackstorm/)
+  * [Puppet Module](https://github.com/stackstorm/puppet-st2)
+
+* Manual Instructions
+  * [Ubuntu 14.04/16.04](https://docs.stackstorm.com/install/deb.html)
+  * [RHEL7/CentOS7](https://docs.stackstorm.com/install/rhel7.html)
+  * [RHEL6/CentOS6](https://docs.stackstorm.com/install/rhel6.html)
 
 ## Help
 If you're in stuck, our community always ready to help, feel free to:
