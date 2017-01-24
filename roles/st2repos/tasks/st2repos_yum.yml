@@ -7,7 +7,19 @@
     state: latest
   tags: skip_ansible_lint
 
-- name: Add ST2 Repo
+# See: https://github.com/docker-library/docs/tree/master/centos#package-documentation
+# We ship `nginx.conf` via `st2` package doc files, for example
+- name: Enable shipping package documentation files for EL
+  become: yes
+  ini_file:
+    dest: /etc/yum.conf
+    section: main
+    option: tsflags
+    value: nodocs
+    state: absent
+  when: ansible_os_family == "RedHat"
+
+- name: Add StackStorm repo
   become: yes
   yum_repository:
     name: "StackStorm_{{ st2_pkg_repo }}"

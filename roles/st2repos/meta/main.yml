@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  description: Install StackStorm and all its components
+  description: Install StackStorm PackageCloud repository
   author: armab
   company: StackStorm
   license: Apache 2.0
@@ -16,11 +16,5 @@ galaxy_info:
         - 7
   categories:
     - stackstorm
-    - st2
-    - automation
-    - remediation
-    - devops
-dependencies:
-  - role: epel
-    when: ansible_os_family == 'RedHat'
-  - role: st2repos
+    - repositories
+    - packagecloud

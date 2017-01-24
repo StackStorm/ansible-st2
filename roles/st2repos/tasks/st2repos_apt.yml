@@ -15,7 +15,7 @@
     url: https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/gpgkey
     state: present
 
-- name: Add StackStorm repos
+- name: Add StackStorm repo
   become: yes
   apt_repository:
     repo: 'deb https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} main'

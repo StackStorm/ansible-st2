@@ -1,4 +1,4 @@
 ---
-# tasks file for st2repos
-
-- include: "{{ ansible_os_family|lower }}.yml"
+- name: Add st2repos on {{ ansible_distribution }}
+  include: st2repos_{{ ansible_pkg_mgr }}.yml
+  tags: st2repos

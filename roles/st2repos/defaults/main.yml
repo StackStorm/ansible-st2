@@ -1,2 +1,3 @@
 ---
-# defaults file for st2repos
+# StackStorm PackageCloud repository to install: stable, unstable, staging-stable, staging-unstable.
+st2_pkg_repo: stable

@@ -10,7 +10,6 @@
     ssh_key_file: "{{ st2_ssh_key_file }}"
     state: present
   register: _user
-  tags: [st2, user]
 
 - name: user | Authorize key-based access for system user
   become: yes
@@ -19,7 +18,6 @@
     user: "{{ st2_system_user }}"
     key: "{{ _user.ssh_public_key }}"
     state: present
-  tags: [st2, user]
 
 - name: user | Add system user to sudoers
   become: yes
@@ -31,18 +29,16 @@
     line: "{{ st2_system_user }} ALL=(ALL) NOPASSWD: SETENV: ALL"
     state: "{{ 'present' if st2_system_user_in_sudoers else 'absent' }}"
     validate: 'visudo -cf %s'
-  tags: [st2, user]
 
-- name: Disable requiretty
+- name: user | Disable requiretty
   become: yes
   replace:
     dest: "/etc/sudoers"
     regexp: '^Defaults\s+\+?requiretty'
     replace: '# Defaults requiretty'
   when: st2_system_user_in_sudoers
-  tags: [st2, user]
 
-- name: Configure system user in /etc/st2/st2.conf
+- name: user | Configure system user in /etc/st2/st2.conf
   become: yes
   ini_file:
     dest: /etc/st2/st2.conf
@@ -51,7 +47,7 @@
     value: "{{ st2_system_user }}"
     backup: yes
 
-- name: Configure system user ssh key in /etc/st2/st2.conf
+- name: user | Configure system user ssh key in /etc/st2/st2.conf
   become: yes
   ini_file:
     dest: /etc/st2/st2.conf
