@@ -44,7 +44,7 @@
 
 - name: Check web-ui is up
   uri:
-    url: https://{{ ansible_hostname }}/
+    url: https://localhost/
     validate_certs: no
   changed_when: no
   tags:
