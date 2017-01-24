@@ -1,10 +1,5 @@
 ---
-# handlers file for st2web
-- name: Restart st2
-  become: true
-  command: st2ctl restart
-
-- name: Restart nginx for st2web
+- name: restart nginx
   become: yes
   service:
     name: nginx

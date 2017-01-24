@@ -5,8 +5,6 @@
     name: st2web
     state: latest
   when: st2_version == "latest"
-  notify:
-    - Restart st2
   tags: st2web, skip_ansible_lint
 
 - name: Install exact st2web package on {{ ansible_os_family }}
@@ -15,8 +13,6 @@
     name: st2web={{ st2_version }}-{{ st2web_revision }}
     state: present
   when: st2_version != "latest"
-  notify:
-    - Restart st2
   tags: st2web
 
 - name: Create ssl cert dir
@@ -32,7 +28,7 @@
   args:
     creates: /etc/ssl/st2/st2.key
   notify:
-    - Restart nginx for st2web
+    - restart nginx
   tags: st2web
 
 - name: Remove default site
@@ -69,7 +65,7 @@
   args:
     creates: /etc/nginx/sites-available/st2.conf
   notify:
-    - Restart nginx for st2web
+    - restart nginx
   tags: st2web
 
 - name: Enable site
@@ -79,5 +75,5 @@
     src: /etc/nginx/sites-available/st2.conf
     dest: /etc/nginx/sites-enabled/st2.conf
   notify:
-    - Restart nginx for st2web
+    - restart nginx
   tags: st2web
