@@ -19,3 +19,5 @@ st2_auth_enable: yes
 st2_auth_username: testu
 # Password used by StackStorm standalone authentication
 st2_auth_password: testp
+# Save credentials in ~/.st2/config file
+st2_save_credentials: yes
