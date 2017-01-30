@@ -32,6 +32,8 @@
   tags: st2mistral
 
 - name: Initiate mistral database
+  vars:
+      ansible_ssh_pipelining: true
   become: yes
   become_user: postgres
   shell: psql < /etc/mistral/init_mistral_db.SQL
