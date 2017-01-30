@@ -31,14 +31,6 @@
     - restart nginx
   tags: st2web
 
-- name: Remove default site
-  become: yes
-  file:
-    path: /etc/nginx/sites-enabled/default
-    state: absent
-  tags: st2web
-  when: ansible_distribution == "Ubuntu"
-
 - name: Copy Nginx config
   become: yes
   command: cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
