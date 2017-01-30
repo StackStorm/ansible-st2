@@ -39,26 +39,6 @@
   tags: st2web
   when: ansible_distribution == "Ubuntu"
 
-- name: Create nginx folders
-  become: yes
-  file:
-    state: directory
-    path: "{{ item }}"
-  with_items:
-    - /etc/nginx/sites-available/
-    - /etc/nginx/sites-enabled/
-  tags: st2web
-
-- name: Ensure site-available is loaded
-  become: yes
-  lineinfile:
-    state: present
-    dest: /etc/nginx/nginx.conf
-    regexp: 'include /etc/nginx/sites-enabled/'
-    insertafter: '    include /etc/nginx/conf.d/'
-    line: 'include /etc/nginx/sites-enabled/*;'
-  tags: st2web
-
 - name: Copy Nginx config
   become: yes
   command: cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
