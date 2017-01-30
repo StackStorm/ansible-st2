@@ -28,7 +28,6 @@
   template:
     src: init_mistral_db.SQL.j2
     dest: /etc/mistral/init_mistral_db.SQL
-  register: mistral_deploy_database_init_script
   tags: st2mistral
 
 - name: Initiate mistral database
@@ -67,7 +66,6 @@
   shell: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head && touch /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
   args:
     creates: /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
-  register: setup_mistral_DB_tables
   notify:
     - restart mistral
   tags: st2mistral
@@ -77,8 +75,6 @@
   shell: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate && touch /etc/mistral/mistral-db-manage.populate.ansible.has.run
   args:
     creates: /etc/mistral/mistral-db-manage.populate.ansible.has.run
-  register: register_mistral_actions
-  when: mistral_deploy_database_init_script.changed or mistral_initiate_database.changed or setup_mistral_DB_tables.changed
   notify:
     - restart mistral
   tags: st2mistral, skip_ansible_lint
