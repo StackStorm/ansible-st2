@@ -24,6 +24,13 @@
     state: present
   tags: nginx
 
+- name: Remove default site
+  become: yes
+  file:
+    path: /etc/nginx/conf.d/default.conf
+    state: absent
+  tags: nginx
+
 - name: Install dependencies for SELinux Ansible module
   become: yes
   yum:

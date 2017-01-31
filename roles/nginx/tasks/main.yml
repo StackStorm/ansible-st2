@@ -1,7 +1,26 @@
 ---
-# tasks file for nginx
 - name: Install nginx on {{ ansible_distribution }}
   include: nginx_{{ ansible_pkg_mgr }}.yml
+  tags: nginx
+
+- name: Create common virtual host folders
+  become: yes
+  file:
+    state: directory
+    path: "{{ item }}"
+  with_items:
+    - /etc/nginx/sites-available/
+    - /etc/nginx/sites-enabled/
+  tags: nginx
+
+- name: Ensure site-enabled is loaded
+  become: yes
+  lineinfile:
+    state: present
+    dest: /etc/nginx/nginx.conf
+    regexp: 'include /etc/nginx/sites-enabled/'
+    insertafter: '    include /etc/nginx/conf.d/'
+    line: 'include /etc/nginx/sites-enabled/*;'
   tags: nginx
 
 - name: Start & Enable nginx
