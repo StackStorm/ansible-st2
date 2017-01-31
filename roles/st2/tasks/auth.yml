@@ -41,7 +41,10 @@
     - restart st2stream
 
 - name: auth | Create root's CLI configuration directory
-  file: path=/root/.st2 state=directory
+  become: yes
+  file:
+    path: /root/.st2
+    state: directory
   when: st2_save_credentials
 
 - name: auth | Save credentials in CLI configuration file
@@ -49,6 +52,9 @@
   blockinfile:
     dest: /root/.st2/config
     create: yes
+    mode: 0700
+    owner: root
+    group: root
     block: |
       [credentials]
       username = {{ st2_auth_username }}
