@@ -41,6 +41,7 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2_auth_enable`        | `yes`         | Enable StackStorm standalone authentication.
 | `st2_auth_username`      | `testu`       | Username used by StackStorm standalone authentication.
 | `st2_auth_password`      | `testp`       | Password used by StackStorm standalone authentication.
+| `st2_save_credentials`   | `yes`         | Save credentials for local CLI in `/root/.st2/config` file.
 | **st2mistral**
 | `st2mistral_version`     | `latest`      | st2mistral version to install. Use latest `latest` to get automatic updates or pin it to numeric version like `2.1.1`.
 | `st2mistral_db`          | `mistral`     | PostgreSQL DB name for Mistral.
