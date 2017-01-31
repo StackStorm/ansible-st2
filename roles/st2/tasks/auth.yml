@@ -52,7 +52,7 @@
   blockinfile:
     dest: /root/.st2/config
     create: yes
-    mode: 0700
+    mode: 0600
     owner: root
     group: root
     block: |
