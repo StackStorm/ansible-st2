@@ -15,7 +15,7 @@ provisioner:
   ansible_verbosity: 2
   idempotency_test: true
   extra_vars:
-    st2_pkg_repo: <%= ENV['ST2_REPO'] || stable %>
+    st2_pkg_repo: <%= ENV['ST2_REPO'] || 'stable' %>
 
 platforms:
   # Ubuntu Trusty with Upstart

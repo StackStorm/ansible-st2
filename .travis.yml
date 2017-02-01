@@ -8,18 +8,19 @@ branches:
     - master
 
 env:
-  # unstable repo check
-  - DISTRO=ubuntu-14 ST2_REPO=unstable
-  - DISTRO=ubuntu-14 ST2_REPO=unstable
-  - DISTRO=ubuntu-16 ST2_REPO=unstable
-  - DISTRO=centos-6 ST2_REPO=unstable
-  - DISTRO=centos-7 ST2_REPO=unstable
-
+  # default is stable repo
   - DISTRO=ubuntu-14
   - DISTRO=ubuntu-14
   - DISTRO=ubuntu-16
   - DISTRO=centos-6
   - DISTRO=centos-7
+
+  # StackStorm 'unstable' repo check
+  - DISTRO=ubuntu-14 ST2_REPO=unstable
+  - DISTRO=ubuntu-14 ST2_REPO=unstable
+  - DISTRO=ubuntu-16 ST2_REPO=unstable
+  - DISTRO=centos-6 ST2_REPO=unstable
+  - DISTRO=centos-7 ST2_REPO=unstable
 
 script:
   # run kitchen tests (destroy, create, converge, setup, verify and destroy)
