@@ -50,18 +50,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         vm_config.vm.provision :hostmanager
       end
 
-      if vm_config.vm.hostname.include? "ubuntu"
-        # Install Ansible native packages so the Ansible provisioner will work on systems
-        # without Python 2.7 (i.e. Xenial)
-        vm_config.vm.provision "shell",
-          inline: "sudo apt-add-repository -y ppa:ansible/ansible; sudo apt-get update; sudo apt-get install -y ansible"
-      end
-      if vm_config.vm.hostname.include? "centos"
-        vm_config.vm.provision "shell",
-          inline: "sudo yum -y install epel-release; sudo yum -y install ansible git"
-      end
-
-      vm_config.vm.provision :ansible do |ansible|
+      vm_config.vm.provision :ansible_local do |ansible|
+        ansible.install = true
         ansible.playbook = "stackstorm.yml"
       end
     end
