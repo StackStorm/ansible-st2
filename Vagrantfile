@@ -4,19 +4,19 @@
 VAGRANTFILE_API_VERSION = '2'
 VIRTUAL_MACHINES = {
   :ubuntu14 => {
-    :hostname => 'ubuntu14',
+    :hostname => 'ansible-st2-ubuntu14',
     :box => 'ubuntu/trusty64',
   },
   :ubuntu16 => {
-    :hostname => 'ubuntu16',
+    :hostname => 'ansible-st2-ubuntu16',
     :box => 'ubuntu/xenial64',
   },
   :centos6 => {
-    :hostname => 'centos6',
+    :hostname => 'ansible-st2-centos6',
     :box => 'centos/6',
   },
   :centos7 => {
-    :hostname => 'centos7',
+    :hostname => 'ansible-st2-centos7',
     :box => 'centos/7',
   },
 }
