@@ -1,4 +1,4 @@
-FROM stackstorm/packagingtest:centos6
+FROM stackstorm/packagingtest:centos6-sshd
 
 RUN mkdir -p /var/run/sshd
 RUN useradd -d /home/<%= @username %> -m -s /bin/bash <%= @username %>
