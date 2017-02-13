@@ -49,5 +49,5 @@
 
 - name: Install and configure StackStorm integration packs
   include: packs.yml
-  when: st2_packs|length > 0​
+  when: st2_packs|length > 0
   tags: st2, packs
