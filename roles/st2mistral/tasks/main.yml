@@ -74,8 +74,7 @@
 
 - name: Register mistral actions
   become: yes
-  # Temporary workaround with `git init` until upstream `mistral` is fixed, see: https://github.com/StackStorm/st2-packages/pull/411
-  shell: git init && /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate && rm -rf .git && touch /etc/mistral/mistral-db-manage.populate.ansible.has.run
+  shell: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf populate && touch /etc/mistral/mistral-db-manage.populate.ansible.has.run
   args:
     creates: /etc/mistral/mistral-db-manage.populate.ansible.has.run
   notify:
