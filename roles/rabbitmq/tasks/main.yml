@@ -8,6 +8,21 @@
     - restart rabbitmq
   tags: rabbitmq
 
+- name: Stop rabbitmq for setting .erlang.cookie
+  become: yes
+  service:
+    name: rabbitmq-server
+    enabled: yes
+    state: stopped
+  tags: rabbitmq
+
+- name: Set erlang cookie for the rabbitmq
+  become: yes
+  copy:
+    content={{ rabbitmq_erlang_cookie }}
+    dest=/var/lib/rabbitmq/.erlang.cookie
+  tags: rabbitmq
+
 - name: Ensure rabbitmq is enabled and running
   become: yes
   service:

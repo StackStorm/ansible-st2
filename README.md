@@ -47,6 +47,8 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2mistral_db`          | `mistral`     | PostgreSQL DB name for Mistral.
 | `st2mistral_db_username` | `mistral`     | PostgreSQL DB user for Mistral.
 | `st2mistral_db_password` | `StackStorm`  | PostgreSQL DB password for Mistral.
+| **rabbitmq**
+| `rabbitmq_erlang_cookie` | `st2-mq`      | RabbitMQ security string to permit to communicate with each nodes in a cluster
 
 ## Examples
 Install latest `stable` StackStorm with all its components on local machine:

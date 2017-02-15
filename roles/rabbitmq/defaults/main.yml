@@ -1,0 +1,2 @@
+# RabbitMQ security string to permit to communicate with each nodes in a cluster
+rabbitmq_erlang_cookie: st2-mq
