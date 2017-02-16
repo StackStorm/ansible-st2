@@ -6,6 +6,10 @@ st2_version: latest
 # used only if 'st2_version' is numeric
 st2_revision: 1
 
+# Hash of StackStorm settings to edit in 'st2.conf' ini file
+# See https://github.com/StackStorm/st2/blob/master/conf/st2.conf.sample for a full list
+st2_config: {}
+
 # System user from which st2 will execute local/remote shell actions
 st2_system_user: stanley
 # Add `st2_system_user` to the sudoers (recommended for most `st2` features to work)

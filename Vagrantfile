@@ -52,6 +52,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
       vm_config.vm.provision :ansible_local do |ansible|
         ansible.install = true
+        ansible.verbose = true
         ansible.playbook = "stackstorm.yml"
       end
     end
