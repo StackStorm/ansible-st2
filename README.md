@@ -32,6 +32,7 @@ Below is the list of variables you can redefine in your playbook to customize st
 | ------------------------ | ------------- | ------------ |
 | **st2repo**
 | `st2_pkg_repo`           | `stable`      | StackStorm PackageCloud repository to install. [`stable`](https://packagecloud.io/StackStorm/stable/), [`unstable`](https://packagecloud.io/StackStorm/unstable/), [`staging-stable`](https://packagecloud.io/StackStorm/staging-stable/), [`staging-unstable`](https://packagecloud.io/StackStorm/staging-unstable/)
+| `st2_proxies`             | `{}`         | Dictionary for http_proxy and https_proxy environment variables.
 | **st2**
 | `st2_version`            | `latest`      | StackStorm version to install. Use latest `latest` to get automatic updates or pin it to numeric version like `2.1.1`.
 | `st2_revision`           | `1`           | StackStorm revision to install. Used only with pinned `st2_version`.
@@ -42,11 +43,23 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2_auth_username`      | `testu`       | Username used by StackStorm standalone authentication.
 | `st2_auth_password`      | `testp`       | Password used by StackStorm standalone authentication.
 | `st2_save_credentials`   | `yes`         | Save credentials for local CLI in `/root/.st2/config` file.
+| `st2_proxies`             | `{}`         | Dictionary for http_proxy and https_proxy environment variables.
 | **st2mistral**
 | `st2mistral_version`     | `latest`      | st2mistral version to install. Use latest `latest` to get automatic updates or pin it to numeric version like `2.1.1`.
 | `st2mistral_db`          | `mistral`     | PostgreSQL DB name for Mistral.
 | `st2mistral_db_username` | `mistral`     | PostgreSQL DB user for Mistral.
 | `st2mistral_db_password` | `StackStorm`  | PostgreSQL DB password for Mistral.
+| **epel**
+| `st2_proxies`             | `{}`         | Dictionary for http_proxy and https_proxy environment variables.
+| **mongodb**
+| `st2_proxies`             | `{}`         | Dictionary for http_proxy and https_proxy environment variables.
+| **nginx**
+| `st2_proxies`             | `{}`         | Dictionary for http_proxy and https_proxy environment variables.
+| **nginx**
+| `st2_proxies`             | `{}`         | Dictionary for http_proxy and https_proxy environment variables.
+| **postgresql**
+| `st2_proxies`             | `{}`         | Dictionary for http_proxy and https_proxy environment variables.
+
 
 ## Examples
 Install latest `stable` StackStorm with all its components on local machine:
@@ -60,6 +73,12 @@ This is default behavior. If you don't want updates - consider pinning version-r
 Install specific numeric version of st2 with pinned revision number as well:
 ```sh
 ansible-playbook stackstorm.yml --extra-vars='st2_version=2.1.1 st2_revision=8'
+```
+
+Use a proxy for fetching gpg keys:
+```sh
+ansible-playbook stackstorm.yml \
+    --extra-vars='{"st2_proxies": {"http_proxy": "http://localhost:3128", "https_proxy": http://localhost:3128"}}'
 ```
 
 ## Developing

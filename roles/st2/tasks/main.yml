@@ -6,6 +6,7 @@
     state: present
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "6"
   tags: st2
+  environment: "{{st2_proxies}}"
 
 - name: Install latest st2 package
   become: yes

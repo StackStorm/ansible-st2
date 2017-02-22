@@ -6,6 +6,7 @@
     id: 42F3E95A2C4F08279C4960ADD68FA50FEA312927
     state: present
   tags: [databases, mongodb]
+  environment: "{{st2_proxies}}"
 
 - name: apt | Add mongodb repository
   become: yes

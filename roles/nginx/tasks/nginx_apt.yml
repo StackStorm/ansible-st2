@@ -6,6 +6,7 @@
     id: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
     state: present
   tags: nginx
+  environment: "{{st2_proxies}}"
 
 - name: Add nginx repos
   become: yes

@@ -6,6 +6,7 @@
     state: installed
   when: ansible_distribution == "CentOS"
   tags: [db, postgresql]
+  environment: "{{st2_proxies}}"
 
 - name: yum | Setup PostgreSQL repository for {{ ansible_distribution }}
   become: yes
@@ -14,6 +15,7 @@
     state: installed
   when: ansible_distribution == "RedHat"
   tags: [db, postgresql]
+  environment: "{{st2_proxies}}"
 
 - name: yum | Install PostgreSQL dependency
   become: yes
