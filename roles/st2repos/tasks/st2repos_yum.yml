@@ -33,4 +33,5 @@
     gpgcheck: no
     enabled: yes
     sslverify: yes
+  environment: "{{st2_proxies}}"
   register: st2_repo_installed

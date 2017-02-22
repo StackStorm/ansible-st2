@@ -1,3 +1,5 @@
 ---
 # StackStorm PackageCloud repository to install: stable, unstable, staging-stable, staging-unstable.
 st2_pkg_repo: stable
+# Empty proxies dictionary
+st2_proxies: {}

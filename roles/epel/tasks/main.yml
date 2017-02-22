@@ -13,3 +13,4 @@
     state: present
   when: ansible_os_family == "RedHat" and not epel_installed.stat.exists
   tags: epel
+  environment: "{{st2_proxies}}"

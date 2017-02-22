@@ -7,6 +7,7 @@
     key: https://www.mongodb.org/static/pgp/server-3.2.asc
     state: present
   tags: [databases, mongodb]
+  environment: "{{st2_proxies}}"
 
 - name: yum | Add mongodb repository
   become: yes

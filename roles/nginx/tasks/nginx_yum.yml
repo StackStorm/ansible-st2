@@ -5,6 +5,7 @@
     key: http://nginx.org/keys/nginx_signing.key
     state: present
   tags: nginx
+  environment: "{{st2_proxies}}"
 
 - name: Add nginx repos
   become: yes
