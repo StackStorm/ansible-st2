@@ -62,6 +62,18 @@ Install specific numeric version of st2 with pinned revision number as well:
 ansible-playbook stackstorm.yml --extra-vars='st2_version=2.1.1 st2_revision=8'
 ```
 
+## Installing behind a proxy.
+
+If you are installing from behind a proxy, you can use environment variables `http_proxy`, `https_proxy`, and `no_proxy` in the playbook. For the
+st2smoketests, you will need to disable proxy for localhost.
+
+```yaml
+  environment:
+    http_proxy: http://proxy.example.net:3128
+    https_proxy: http://proxy.example.net:3128
+    no_proxy: 127.0.0.1,localhost
+```
+
 ## Developing
 
 There are a few requirements when developing on `ansible-st2`:
