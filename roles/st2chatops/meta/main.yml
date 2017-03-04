@@ -1,0 +1,24 @@
+---
+galaxy_info:
+  description: Install st2chatops
+  author: humblearner
+  company: StackStorm
+  license: Apache
+  min_ansible_version: 2.2
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+        - xenial
+    - name: EL
+      versions:
+        - 6
+        - 7
+  categories:
+    - st2
+    - devops
+    - chatops
+    - autmation
+dependencies:
+    - role: st2
+    - role: nodejs

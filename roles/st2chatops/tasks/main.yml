@@ -1,0 +1,27 @@
+---
+- name: Install latest st2chatops package
+  become: yes
+  package:
+    name: st2chatops
+    state: latest
+  when: st2chatops_version == "latest"
+  notify:
+    - restart st2chatops
+  tags: [st2chatops, skip_ansible_lint]
+
+- name: Install pinned st2chatops package
+  become: yes
+  package:
+    name: st2chatops={{ st2chatops_version }}
+    state: present
+  when: st2chatops_version != "latest"
+  notify:
+    - restart mistral
+  tags: st2chatops
+
+- name: Ensure st2chatops service is enabled and running
+  become: yes
+  service:
+    name: st2chatops
+    enabled: yes
+  tags: st2chatops

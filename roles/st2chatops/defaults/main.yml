@@ -1,0 +1,2 @@
+# st2chatops version to install. Use latest `latest` to get automatic updates or pin it to numeric version like `2.1.1`
+st2chatops_version: latest

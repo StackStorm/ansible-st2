@@ -1,0 +1,6 @@
+---
+- name: restart st2chatops
+  become: yes
+  service:
+    name: st2chatops
+    state: restarted
