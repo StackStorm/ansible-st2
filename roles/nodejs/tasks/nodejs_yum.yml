@@ -1,17 +1,21 @@
 ---
-- name:  Add nodesource key.
+- name:  Add nodesource key
   become: yes
   rpm_key:
     key: http://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL
     state: present
+  tags: nodejs
+
 - name: Add nodesource repo
   become: yes
   yum:
     name: "http://rpm.nodesource.com/pub_{{ nodejs_version }}/el/{{ ansible_distribution_major_version }}/{{ ansible_architecture }}/nodesource-release-el{{ ansible_distribution_major_version }}-1.noarch.rpm"
     state: present
+  tags: nodejs
+
 - name: Install nodejs
   become: yes
   yum:
     name: nodejs-{{ nodejs_version[0] }}.*
     state: present
-    #  enablerepo: 'epel,nodesource'
+  tags: nodejs

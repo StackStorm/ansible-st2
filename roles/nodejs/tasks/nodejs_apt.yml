@@ -1,15 +1,17 @@
-- name: Ensure apt-transport-https is installed.
+- name: Ensure apt-transport-https is installed
   become: yes
   apt:
     name: apt-transport-https
     state: present
+  tags: nodejs
 
-- name: Add nodesource key.
+- name: Add nodesource key
   become: yes
   apt_key:
     url: https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280
     id: "68576280"
     state: present
+  tags: nodejs
 
 - name: Add nodesource repos debs
   become: yes
@@ -19,9 +21,11 @@
   with_items:
     - "deb https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main"
     - "deb-src https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main"
+  tags: nodejs
 
 - name: Install nodejs
   become: yes
   apt:
     pkg: nodejs
     state: present
+  tags: nodejs

@@ -1,10 +1,11 @@
 ---
 galaxy_info:
-  description: Install Nodejs
+  description: Install nodejs
   author: humblearner
   company: StackStorm
   license: Apache
   min_ansible_version: 2.2
+  tags: nodejs
   platforms:
     - name: Ubuntu
       versions:
