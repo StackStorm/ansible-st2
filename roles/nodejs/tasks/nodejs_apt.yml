@@ -20,7 +20,6 @@
     state: present
   with_items:
     - "deb https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main"
-    - "deb-src https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main"
   tags: nodejs
 
 - name: Install nodejs
