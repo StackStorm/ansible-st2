@@ -16,7 +16,7 @@
     state: present
   when: st2chatops_version != "latest"
   notify:
-    - restart mistral
+    - restart st2chatops
   tags: st2chatops
 
 - name: Ensure st2chatops service is enabled and running
