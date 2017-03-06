@@ -10,4 +10,5 @@
     - st2mistral
     - nginx
     - st2web
+    - nodejs
     - st2smoketests
