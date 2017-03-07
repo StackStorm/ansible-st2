@@ -1,0 +1,6 @@
+---
+- name: Add BWC enterprise repos on {{ ansible_distribution }}
+  include: bwc_repos_{{ ansible_pkg_mgr }}.yml
+  tags:
+    - BWC repos
+    - StackStorm enterprise

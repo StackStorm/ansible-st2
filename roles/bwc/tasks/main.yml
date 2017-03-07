@@ -1,0 +1,21 @@
+---
+
+- name: Install latest bwc-enterprise package
+  become: yes
+  package:
+    name: bwc-enterprise
+    state: latest
+  when: bwc_version == "latest"
+  tags:
+    - bwc
+    - st2 enterprise
+
+- name: Install pinned bwc-enterprise package
+  become: yes
+  package:
+    name: bwc-enterprise={{ bwc_version }}-{{ bwc_revision }}
+    state: present
+  when: bwc_version != "latest"
+  tags:
+    - bwc
+    - st2 enterprise

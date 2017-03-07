@@ -1,0 +1,6 @@
+---
+bwc_pkg_repo: "enterprise"
+# 'latest' to get latest version or numeric like '2.1.1'
+bwc_version: latest
+# used only if 'bwc_version' is numeric
+bwc_revision: 1
