@@ -2,7 +2,7 @@
 st2chatops_version: latest
 
 # Provide API key using `st2 apikey create -k`.
-st2chatops_API_KEY: CHANGE-ME-PLEASE
+st2chatops_ST2_API_KEY: CHANGE-ME-PLEASE
 
 # Setup adapter for slack
 st2chatops_HUBOT_ADAPTER: slack
