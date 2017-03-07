@@ -19,9 +19,9 @@
   become: yes
   replace:
     dest: /opt/stackstorm/chatops/st2chatops.env
-    regexp: '^(export ST2_API_KEY.).*'
-    replace: '\1{{ st2chatops_ST2_API_KEY }}'
-  when: st2chatops_ST2_API_KEY != "CHANGE-ME-PLEASE"
+    regexp: '(?<=ST2_API_KEY=)(.*)$'
+    replace: '{{ st2chatops_config.ST2_API_KEY }}'
+  when: st2chatops_config.ST2_API_KEY != "CHANGE-ME-PLEASE"
   register: st2chatops_api_key
   tags: st2chatops
 
@@ -44,7 +44,7 @@
     dest: /opt/stackstorm/chatops/st2chatops.env
     regexp: '^# (export HUBOT_ADAPTER=slack)$'
     replace: '\1'
-  when: st2chatops_api_key.changed and st2chatops_HUBOT_ADAPTER == "slack"
+  when: st2chatops_api_key.changed and st2chatops_config.HUBOT_ADAPTER == "slack"
   register: uncomment_slack_adapter
   tags: [st2chatops, skip_ansible_lint]
 
@@ -53,8 +53,8 @@
   replace:
     dest: /opt/stackstorm/chatops/st2chatops.env
     regexp: '^# (export HUBOT_SLACK_TOKEN.).*'
-    replace: '\1{{ st2chatops_HUBOT_SLACK_TOKEN }}'
-  when: uncomment_slack_adapter.changed and st2chatops_HUBOT_SLACK_TOKEN != "CHANGE-ME-PLEASE"
+    replace: '\1{{ st2chatops_config.HUBOT_SLACK_TOKEN }}'
+  when: uncomment_slack_adapter.changed and st2chatops_config.HUBOT_SLACK_TOKEN != "xoxb-CHANGE-ME-PLEASE"
   notify:
     - restart st2chatops
   tags: [st2chatops, skip_ansible_lint]
