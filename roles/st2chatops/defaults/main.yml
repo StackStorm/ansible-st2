@@ -1,2 +1,9 @@
 # st2chatops version to install. Use latest `latest` to get automatic updates or pin it to numeric version like `2.1.1`
 st2chatops_version: latest
+
+# Provide API key using `st2 apikey create -k` in a task.
+st2chatops_ST2_API_KEY: CHANGE-ME-PLEASE
+
+# Setup adapter for slack
+st2_chatops_HUBOT_ADAPTER: slack
+st2_chatops_HUBOT_SLACK_TOKEN: CHANGE-ME-PLEASE

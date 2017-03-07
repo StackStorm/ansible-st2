@@ -5,8 +5,6 @@
     name: st2chatops
     state: latest
   when: st2chatops_version == "latest"
-  notify:
-    - restart st2chatops
   tags: [st2chatops, skip_ansible_lint]
 
 - name: Install pinned st2chatops package
@@ -15,6 +13,48 @@
     name: st2chatops={{ st2chatops_version }}
     state: present
   when: st2chatops_version != "latest"
+  tags: st2chatops
+
+- name: Add st2_api_key in st2chatops.env
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '^(export ST2_API_KEY.).*'
+    replace: '\1{{ st2chatops_ST2_API_KEY }}'
+  when: st2chatops_ST2_API_KEY != "CHANGE-ME-PLEASE"
+  tags: st2chatops
+  register: st2chatops_api_key
+
+- name: Comment Username, Password and Auth URL, if API_KEY provided
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '{{ item }}'
+    replace: '# \1'
+  with_items:
+    - '^(export ST2_AUTH_URL.*)'
+    - '^(export ST2_AUTH_USERNAME.*)'
+    - '^(export ST2_AUTH_PASSWORD.*)'
+  when: st2chatops_api_key.changed
+  tags: st2chatops
+
+- name: Uncomment Hubot Slack Adapter in st2chatops.env
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '^# (export HUBOT_ADAPTER=slack)$'
+    replace: '\1'
+  when: st2chatops_api_key.changed and st2_chatops_HUBOT_ADAPTER == "slack"
+  register: uncomment_slack_adapter
+  tags: st2chatops
+
+- name: Uncomment and replace Hubot Slack Token in st2chatops.env
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '^# (export HUBOT_SLACK_TOKEN.).*'
+    replace: '\1{{ st2_chatops_HUBOT_SLACK_TOKEN }}'
+  when: uncomment_slack_adapter.changed and st2_chatops_HUBOT_SLACK_TOKEN != "CHANGE-ME-PLEASE"
   notify:
     - restart st2chatops
   tags: st2chatops
