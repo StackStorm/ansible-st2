@@ -47,11 +47,9 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2mistral_db`          | `mistral`     | PostgreSQL DB name for Mistral.
 | `st2mistral_db_username` | `mistral`     | PostgreSQL DB user for Mistral.
 | `st2mistral_db_password` | `StackStorm`  | PostgreSQL DB password for Mistral.
-| **st2chatops**               | Default hubot adapter: 'slack'
-| `st2chatops_version`     | `latest`      | st2mistral version to install. Use `latest` to get automatic updates or pin it to numeric version like `2.2.0`.
-| `st2chatops_ST2_API_KEY` | `CHANGE-ME-PLEASE`      | st2 API key, that can be generated using `st2 apikey create -k` in a task.
-| `st2chatops_HUBOT_ADAPTER` | `slack`     | Hubot adapter used by st2chatops. ("Slack" is supported in this playbook)
-| `st2chatops_HUBOT_SLACK_TOKEN` | `CHANGE-ME-PLEASE` | Hubot Slack adapter token.
+| **st2chatops**
+| `st2chatops_config`      | `{ }`         | Hash of st2chatops settings to edit in [`st2chatops.env`](https://github.com/StackStorm/st2chatops/blob/master/st2chatops.env) file. For example, `Slack` hubot adapter requires: `ST2_API_KEY: CHANGE-ME-PLEASE` `HUBOT_ADAPTER: slack` `HUBOT_SLACK_TOKEN: xoxb-CHANGE-ME-PLEASE`
+| `st2chatops_version`     | `latest`      | st2chatops version to install. Use `latest` to get automatic updates or pin it to numeric version like `2.2.0`.
 
 ## Examples
 Install latest `stable` StackStorm with all its components on local machine:
