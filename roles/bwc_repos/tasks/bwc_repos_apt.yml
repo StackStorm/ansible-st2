@@ -18,12 +18,6 @@
   shell: 'curl "{{ deb_gpg_key_url }}"'
   register: deb_gpg_key
 
-- name: Debug GPG URL
-  debug:
-    msg: "GPG URL query {{ deb_gpg_key_url }}. Output: {{ deb_gpg_key }}"
-- name: Echo the gpg key URL
-  shell: echo GPG key URL is "{{ deb_gpg_key }}"
-
 # This is the exact key as the open source repo but this behavior might change. So just
 # following what's in packagecloud docs for private repos.
 - name: Add GPG key to keyring
