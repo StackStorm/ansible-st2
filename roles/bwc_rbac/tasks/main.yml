@@ -5,32 +5,42 @@
     file:
       path: "{{ item }}"
       mode: "u+rw,g-wx,o-rwx"
+      owner: st2
+      group: st2
+      state: directory
     with_items:
       - /opt/stackstorm/rbac/assignments
       - /opt/stackstorm/rbac/roles
 
   - name: Copy default assignments to RBAC directory
+    become: yes
     template:
       src: "{{ item }}"
-      dest: "/opt/stackstorm/rbac/assignments/{{ item | basename | regex_replace('\.j2','') }}"
+      dest: /opt/stackstorm/rbac/assignments/{{ item | basename | regex_replace('\.j2','') }}
+      owner: st2
+      group: st2
     with_fileglob:
-      - ../files/rbac_assignments/*.j2
+      - rbac_assignments/*
     when: rbac_setup_default_assignments is defined and bwc_superuser is defined
 
   - name: Copy user supplied RBAC roles to the box
     template:
       src: "{{ item }}"
-      dest: "/opt/stackstorm/rbac/roles/{{ item | basename | regex_replace('\.j2','') }}"
+      dest: /opt/stackstorm/rbac/roles/"{{ item | basename | regex_replace('\.j2','') }}"
+      owner: st2
+      group: st2
     with_fileglob:
-      - "{{ rbac_roles_src_path }}"/*.j2
+      - '"{{ rbac_roles_src_path }}"/*.j2'
     when: rbac_roles_src_path is defined
 
   - name: Copy user supplied RBAC assignments to the box
     template:
       src: "{{ item }}"
-      dest: "/opt/stackstorm/rbac/assignments/{{ item | basename | regex_replace('\.j2','') }}"
+      dest: /opt/stackstorm/rbac/assignments/"{{ item | basename | regex_replace('\.j2','') }}"
+      owner: st2
+      group: st2
     with_fileglob:
-      - "{{ rbac_assigments_src_path }}"/*.j2
+      - '"{{ rbac_assigments_src_path }}"/*.j2'
     when: rbac_assigments_src_path is defined
 
   - name: Enable RBAC in st2 configuration

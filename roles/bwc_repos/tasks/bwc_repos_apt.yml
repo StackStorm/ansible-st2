@@ -18,11 +18,18 @@
   shell: 'curl "{{ deb_gpg_key_url }}"'
   register: deb_gpg_key
 
+- name: Debug GPG URL
+  debug:
+    msg: "GPG URL query {{ deb_gpg_key_url }}. Output: {{ deb_gpg_key }}"
+- name: Echo the gpg key URL
+  shell: echo GPG key URL is "{{ deb_gpg_key }}"
+
 # This is the exact key as the open source repo but this behavior might change. So just
 # following what's in packagecloud docs for private repos.
 - name: Add GPG key to keyring
   become: yes
-  shell: 'curl -L "{{ deb_gpg_key.stdout_lines }}" | apt-key add -'
+  shell: 'curl -L "{{ deb_gpg_key.stdout }}" | apt-key add -'
+  when: ansible_os_family == "Debian" and license is defined
 
 - name: "Adding packagecloud.io repository: StackStorm/{{ bwc_pkg_repo }} with generated read token"
   become: yes
