@@ -34,6 +34,10 @@
 
 - name: Update yum package cache
   become: yes
-  yum:
-    update_cache: true
-  when: ansible_os_family == "RedHat" and added_rpm_repository|success
+  shell: yum -q makecache -y --disablerepo='*' --enablerepo='StackStorm_{{ bwc_pkg_repo|replace("/", "_") }}'
+  when: ansible_os_family == "RedHat" and added_bwc_rpm_repository|success
+
+- name: Update yum package cache BWC enterprise source repo
+  become: yes
+  shell: yum -q makecache -y --disablerepo='*' --enablerepo='StackStorm_{{ bwc_pkg_repo|replace("/", "_") }}-source'
+  when: ansible_os_family == "RedHat" and added_bwc_rpm_repository|success
