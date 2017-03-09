@@ -40,8 +40,8 @@
       owner: st2
       group: st2
     with_fileglob:
-      - '"{{ rbac_assigments_src_path }}"/*.j2'
-    when: rbac_assigments_src_path is defined
+      - '"{{ rbac_assignments_src_path }}"/*.j2'
+    when: rbac_assignments_src_path is defined
 
   - name: Enable RBAC in st2 configuration
     become: yes
