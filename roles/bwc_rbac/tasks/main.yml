@@ -15,7 +15,7 @@
   - name: Copy RBAC roles to /opt/stackstorm/rbac/roles directory
     become: yes
     template:
-      src: files/rbac_assignments/role.yml.j2
+      src: rbac_roles/roles.yml.j2
       dest: /opt/stackstorm/rbac/roles/{{ item.name }}.yml
       owner: st2
       group: st2
@@ -25,7 +25,7 @@
   - name: Copy RBAC assignments to /opt/stackstorm/rbac/assignments directory
     become: yes
     template:
-      src: files/rbac_assignments/assignments.yml.j2
+      src: rbac_assignments/assignments.yml.j2
       dest: /opt/stackstorm/rbac/assignments/{{ item.name }}.yml
       owner: st2
       group: st2
