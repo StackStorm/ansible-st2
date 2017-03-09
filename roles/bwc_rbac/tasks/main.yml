@@ -16,7 +16,7 @@
     become: yes
     template:
       src: rbac_roles/roles.yml.j2
-      dest: /opt/stackstorm/rbac/roles/{{ item.name }}.yml
+      dest: /opt/stackstorm/rbac/roles/{{ item.name }}.yaml
       owner: st2
       group: st2
     with_items: "{{ rbac_roles }}"
@@ -26,7 +26,7 @@
     become: yes
     template:
       src: rbac_assignments/assignments.yml.j2
-      dest: /opt/stackstorm/rbac/assignments/{{ item.name }}.yml
+      dest: /opt/stackstorm/rbac/assignments/{{ item.name }}.yaml
       owner: st2
       group: st2
     with_items: "{{ rbac_assignments }}"
