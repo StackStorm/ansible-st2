@@ -23,26 +23,6 @@
       - rbac_assignments/*
     when: rbac_setup_default_assignments is defined and bwc_superuser is defined
 
-  - name: Copy user supplied RBAC roles to the box
-    template:
-      src: "{{ item }}"
-      dest: /opt/stackstorm/rbac/roles/"{{ item | basename | regex_replace('\.j2','') }}"
-      owner: st2
-      group: st2
-    with_fileglob:
-      - '"{{ rbac_roles_src_path }}"/*.j2'
-    when: rbac_roles_src_path is defined
-
-  - name: Copy user supplied RBAC assignments to the box
-    template:
-      src: "{{ item }}"
-      dest: /opt/stackstorm/rbac/assignments/"{{ item | basename | regex_replace('\.j2','') }}"
-      owner: st2
-      group: st2
-    with_fileglob:
-      - '"{{ rbac_assignments_src_path }}"/*.j2'
-    when: rbac_assignments_src_path is defined
-
   - name: Enable RBAC in st2 configuration
     become: yes
     ini_file:
