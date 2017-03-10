@@ -19,7 +19,7 @@
       dest: /opt/stackstorm/rbac/roles/{{ item.name }}.yaml
       owner: st2
       group: st2
-    with_items: "{{ rbac.roles }}"
+    with_items: "{{ bwc_rbac.roles }}"
     when: bwc_rbac_roles is defined
 
   - name: Copy RBAC assignments to /opt/stackstorm/rbac/assignments directory
@@ -29,7 +29,7 @@
       dest: /opt/stackstorm/rbac/assignments/{{ item.name }}.yaml
       owner: st2
       group: st2
-    with_items: "{{ rbac.assignments }}"
+    with_items: "{{ bwc_rbac.assignments }}"
     when: bwc_rbac_assignments is defined
 
   - name: Enable RBAC in st2 configuration
