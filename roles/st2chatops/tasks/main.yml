@@ -20,8 +20,8 @@
   replace:
     dest: /opt/stackstorm/chatops/st2chatops.env
     regexp: '(?<=ST2_API_KEY=)(.*)$'
-    replace: '{{ st2chatops_config.ST2_API_KEY }}'
-  when: st2chatops_config.ST2_API_KEY != "CHANGE-ME-PLEASE"
+    replace: '{{ st2chatops_ST2_API_KEY }}'
+  when: st2chatops_ST2_API_KEY != "CHANGE-ME-PLEASE"
   register: st2chatops_api_key
   tags: st2chatops
 
@@ -38,25 +38,29 @@
   when: st2chatops_api_key.changed
   tags: [st2chatops, skip_ansible_lint]
 
-- name: Uncomment Hubot Slack Adapter in st2chatops.env
+- name: Uncomment Hubot "{{ st2chatops_HUBOT_ADAPTER|upper }}" adapter in "/opt/stackstorm/chatops/st2chatops.env"
   become: yes
   replace:
     dest: /opt/stackstorm/chatops/st2chatops.env
-    regexp: '^# (export HUBOT_ADAPTER=slack)$'
+    regexp: '^# (export HUBOT_ADAPTER={{ st2chatops_HUBOT_ADAPTER }})$'
     replace: '\1'
-  when: st2chatops_api_key.changed and st2chatops_config.HUBOT_ADAPTER == "slack"
-  register: uncomment_slack_adapter
+    when: st2chatops_api_key.changed and "st2chatops_HUBOT_ADAPTER" in supported_hubot_adapter
+  register: uncomment_adapter
   tags: [st2chatops, skip_ansible_lint]
 
-- name: Uncomment and replace Hubot Slack Token in st2chatops.env
+
+- name: Configure "{{ st2chatops_HUBOT_ADAPTER|upper }}" adapter setttings in "/opt/stackstorm/chatops/st2chatops.env"
   become: yes
-  replace:
+  ini_file:
     dest: /opt/stackstorm/chatops/st2chatops.env
-    regexp: '^# (export HUBOT_SLACK_TOKEN.).*'
-    replace: '\1{{ st2chatops_config.HUBOT_SLACK_TOKEN }}'
-  when: uncomment_slack_adapter.changed and st2chatops_config.HUBOT_SLACK_TOKEN != "xoxb-CHANGE-ME-PLEASE"
-  notify:
-    - restart st2chatops
+    section: null
+    option: "export {{ _conf_option.key }}"
+    value: "{{ _conf_option.value }}"
+    no_extra_spaces: yes
+  with_dict: "{{ st2chatops_config }}"
+  loop_control:
+    loop_var: _conf_option
+  when: uncomment_adapter.changed  # TODO: Add check for Individual keys in hash
   tags: [st2chatops, skip_ansible_lint]
 
 - name: Ensure st2chatops service is enabled and running
