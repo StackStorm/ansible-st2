@@ -44,7 +44,7 @@
     dest: /opt/stackstorm/chatops/st2chatops.env
     regexp: '^# (export HUBOT_ADAPTER={{ st2chatops_HUBOT_ADAPTER }})$'
     replace: '\1'
-    when: st2chatops_api_key.changed and "st2chatops_HUBOT_ADAPTER" in supported_hubot_adapter
+  when: st2chatops_api_key.changed and st2chatops_HUBOT_ADAPTER in supported_hubot_adapter
   register: uncomment_adapter
   tags: [st2chatops, skip_ansible_lint]
 
