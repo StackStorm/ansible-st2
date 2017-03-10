@@ -1,0 +1,22 @@
+---
+
+- name: Setup st2.conf auth backend to LDAP
+  become: yes
+  ini_file:
+    dest: "{{ st2_config_file_path }}"
+    section: auth
+    option: backend
+    value: ldap
+    backup: yes
+
+- name: Setup st2.conf auth backend_kwargs for LDAP
+  become: yes
+  ini_file:
+    dest: "{{ st2_config_file_path }}"
+    section: auth
+    option: backend_kwargs
+    value: "{{ ldap.config | to_nice_json }}"
+    backup: yes
+  notify:
+    - restart st2api
+    - restart st2stream

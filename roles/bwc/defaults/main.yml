@@ -4,3 +4,5 @@ bwc_pkg_repo: "enterprise"
 bwc_version: latest
 # used only if 'bwc_version' is numeric
 bwc_revision: 1
+
+st2_config_file_path: /etc/st2/st2.conf

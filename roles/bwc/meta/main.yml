@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  description: Install BWC Entperprise components
+  description: Install BWC Entperprise components, setup RBAC and LDAP
   author: lakshmi-kannan
   company: StackStorm
   license: Apache 2.0

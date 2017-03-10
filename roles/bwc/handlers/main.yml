@@ -1,0 +1,5 @@
+---
+
+- name: reload bwc_rbac
+  become: yes
+  command: st2-apply-rbac-definitions --config-file {{ st2_config_file_path }}

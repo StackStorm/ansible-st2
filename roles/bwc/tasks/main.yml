@@ -19,3 +19,11 @@
   tags:
     - bwc
     - st2 enterprise
+
+- name: Setup RBAC and setup roles and assignments if enable_rbac is defined
+  include: "rbac.yml"
+  when: rbac is defined
+
+- name: Setup LDAP and set up LDAP configuration
+  include: "ldap.yml"
+  when: ldap is defined
