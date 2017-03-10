@@ -21,10 +21,11 @@
     url: https://packagecloud.io/StackStorm/{{ bwc_pkg_repo }}/gpgkey
     state: present
 
-- name: "Add packagecloud.io repository: StackStorm/{{ bwc_pkg_repo }} with generated read token {{ bwc_read_token }}"
+- name: "Add packagecloud.io repository: StackStorm/{{ bwc_pkg_repo }}"
   become: yes
   apt_repository:
-    repo: 'deb https://{{ bwc_read_token }}:packagecloud.io/StackStorm/{{ st2_pkg_repo }}/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} main'
+    filename: "StackStorm_{{ bwc_pkg_repo }}"
+    repo: 'deb https://{{ bwc_read_token }}:@packagecloud.io/StackStorm/{{ bwc_pkg_repo }}/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} main'
     state: present
     update_cache: yes
   register: added_bwc_deb_repository

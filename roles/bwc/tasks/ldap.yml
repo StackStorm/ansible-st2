@@ -8,6 +8,9 @@
     option: backend
     value: ldap
     backup: yes
+  notify:
+    - restart st2api
+    - restart st2stream
 
 - name: Setup st2.conf auth backend_kwargs for LDAP
   become: yes

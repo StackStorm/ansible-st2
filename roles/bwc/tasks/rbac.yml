@@ -4,7 +4,7 @@
     become: yes
     file:
       path: "{{ item }}"
-      mode: "u+rw,g-wx,o-rwx"
+      mode: "u=rwx,g=r,o=r"
       owner: st2
       group: st2
       state: directory
