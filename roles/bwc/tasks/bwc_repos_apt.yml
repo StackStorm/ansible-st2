@@ -1,0 +1,31 @@
+---
+
+- name: Assert that master_token is specified
+  fail: msg="License key must be supplied for BWC enterprise installation."
+  when: bwc_license is not defined
+
+- name: Install prereqs (Debian)
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - debian-archive-keyring
+    - apt-transport-https
+
+# This is the exact key as the open source repo but this behavior might change.
+- name: Add keys to keyring
+  become: yes
+  apt_key:
+    id: 418A7F2FB0E1E6E7EABF6FE8C2E73424D59097AB
+    url: https://packagecloud.io/StackStorm/{{ bwc_pkg_repo }}/gpgkey
+    state: present
+
+- name: "Add packagecloud.io repository: StackStorm/{{ bwc_pkg_repo }} with generated read token {{ bwc_read_token }}"
+  become: yes
+  apt_repository:
+    repo: 'deb https://{{ bwc_read_token }}:packagecloud.io/StackStorm/{{ st2_pkg_repo }}/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} main'
+    state: present
+    update_cache: yes
+  register: added_bwc_deb_repository
+

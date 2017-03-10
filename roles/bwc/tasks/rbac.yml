@@ -20,7 +20,7 @@
       owner: st2
       group: st2
     with_items: "{{ rbac.roles }}"
-    when: rbac_roles is defined
+    when: bwc_rbac_roles is defined
 
   - name: Copy RBAC assignments to /opt/stackstorm/rbac/assignments directory
     become: yes
@@ -30,13 +30,13 @@
       owner: st2
       group: st2
     with_items: "{{ rbac.assignments }}"
-    when: rbac_assignments is defined
+    when: bwc_rbac_assignments is defined
 
   - name: Enable RBAC in st2 configuration
     become: yes
     ini_file:
       dest: /etc/st2/st2.conf
-      section: auth
+      section: rbac
       option: enable
       value: True
       backup: yes

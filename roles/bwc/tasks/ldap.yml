@@ -12,7 +12,7 @@
 - name: Setup st2.conf auth backend_kwargs for LDAP
   become: yes
   ini_file:
-    dest: "{{ st2_config_file_path }}"
+    dest: /etc/st2/st2.conf
     section: auth
     option: backend_kwargs
     value: "{{ ldap.config | to_nice_json }}"

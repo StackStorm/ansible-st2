@@ -1,0 +1,28 @@
+---
+
+- name: Assert that master_token is specified
+  fail: msg="License key must be supplied for BWC enterprise installation."
+  when: bwc_license is not defined
+
+- name: Get read token for repo from packagecloud
+  become: yes
+  uri:
+    url: https://packagecloud.io/install/repositories/StackStorm/{{ bwc_pkg_repo }}/tokens.text
+    user: "{{ bwc_license }}"
+    creates: "/etc/packagecloud/read_token.txt"  # Don't download if file already exists
+    force_basic_auth: yes
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+    body: "name={{ ansible_nodename }}"
+
+- name: Set bwc_read_token variable
+  set_fact:
+    bwc_read_token: "{{ lookup('file', '/etc/packagecloud/read_token.txt') }}"
+
+- name: Add BWC enterprise repos on {{ ansible_distribution }}
+  include: bwc_repos_{{ ansible_pkg_mgr }}.yml
+  tags:
+    - BWC repos
+    - StackStorm enterprise
+  register: bwc_repo_added
+  when: bwc_read_token != ''
