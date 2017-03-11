@@ -28,7 +28,7 @@
     file: "StackStorm_{{ bwc_pkg_repo }}"
     baseurl: https://{{ bwc_read_token }}:@packagecloud.io/StackStorm/{{ bwc_pkg_repo }}/el/{{ ansible_distribution_major_version }}/$basearch
     repo_gpgcheck: yes
-    gpgkey: "https://{{ bwc_read_token }}:packagecloud.io/StackStorm/{{ bwc_pkg_repo }}/gpgkey"
+    gpgkey: "https://{{ bwc_read_token }}:@packagecloud.io/StackStorm/{{ bwc_pkg_repo }}/gpgkey"
     sslcacert: /etc/pki/tls/certs/ca-bundle.crt
     metadata_expire: 300
     gpgcheck: no
