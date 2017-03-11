@@ -16,6 +16,8 @@ provisioner:
   idempotency_test: true
   extra_vars:
     st2_pkg_repo: <%= ENV['ST2_REPO'] || 'stable' %>
+    bwc_pkg_repo: <%= ENV['BWC_REPO'] || 'enterprise' %>
+    bwc_license: <%= ENV[ENV['LICENSE']] || ENV['BWC_ENTERPRISE_LICENSE'] %>
 
 platforms:
   # Ubuntu Trusty with Upstart
