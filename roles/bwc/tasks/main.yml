@@ -16,6 +16,7 @@
   tags:
     - bwc
     - st2 enterprise
+    - skip_ansible_lint
 
 - name: Install pinned bwc-enterprise package
   become: yes
