@@ -6,7 +6,7 @@ st2_version: latest
 # used only if 'st2_version' is numeric
 st2_revision: 1
 
-# Hash of StackStorm settings to edit in 'st2.conf' ini file
+# Hash with StackStorm configuration settings to set in 'st2.conf' ini file
 # See https://github.com/StackStorm/st2/blob/master/conf/st2.conf.sample for a full list
 st2_config: {}
 
