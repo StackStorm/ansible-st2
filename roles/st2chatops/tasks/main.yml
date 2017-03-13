@@ -70,7 +70,7 @@
     replace: '\1'
   notify: restart st2chatops
   when: task_shell_adapter.changed == false
-  tags: st2chatops
+  tags: [st2chatops, skip_ansible_lint]
 
 - name: Configure "{{ st2chatops_hubot_adapter|upper }}" adapter setttings in "/opt/stackstorm/chatops/st2chatops.env"
   become: yes

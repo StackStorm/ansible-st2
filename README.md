@@ -49,7 +49,7 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2mistral_db_password` | `StackStorm`  | PostgreSQL DB password for Mistral.
 | **st2chatops**
 | `st2chatops_st2_api_key` |               | st2 API key to be updated in st2chatops.env using "st2 apikey create -k" in a task [**Required**]
-| `st2chatops_hubot_adapter` |             | Hubot Adapter to be used for st2chatops. Default is `shell`, but should be changed to one of the [supported adapters](`https://github.com/StackStorm/ansible-st2/blob/master/roles/st2chatops/vars/main.yml`).[**Required**]
+| `st2chatops_hubot_adapter` |             | Hubot Adapter to be used for st2chatops. Default is `shell`, but should be changed to one of the [`supported adapters`](`https://github.com/StackStorm/ansible-st2/blob/master/roles/st2chatops/vars/main.yml`).[**Required**]
 | `st2chatops_config`      | `{ }`         | Based on adapter in `st2chatops_hubot_adapter`, provide hash for the adapter settings, to update [`st2chatops.env`](https://github.com/StackStorm/st2chatops/blob/master/st2chatops.env). For example, for `Slack` hubot adapter: `st2chatops_config: {"HUBOT_SLACK_TOKEN": "xoxb-CHANGE-ME-PLEASE"}`
 | `st2chatops_version`     | `latest`      | st2chatops version to install. Use `latest` to get automatic updates or pin it to numeric version like `2.2.0`.
 
