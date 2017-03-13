@@ -1,4 +1,16 @@
 ---
+- name: Assert st2chatops_hubot_adapter is specified
+  fail:
+    msg: >
+      '"st2chatops_hubot_adapter" must be supplied in roles/st2chatops/defaults/main.yml for st2chatops installation.
+      For supported hubot adapters please check: https://github.com/StackStorm/ansible-st2/blob/master/roles/st2chatops/vars/main.yml'
+  when: st2chatops_hubot_adapter not in supported_hubot_adapters
+
+- name: Assert st2chatops_hubot_adapter "{{ st2chatops_hubot_adapter|upper }}" settings are specified
+  fail:
+    msg: '"st2chatops_config" hash cannot be empty for "{{ st2chatops_hubot_adapter|upper }}" hubot adapter.'
+  when: st2chatops_config.keys() == [] and st2chatops_hubot_adapter != "shell"
+
 - name: Install latest st2chatops package
   become: yes
   package:
@@ -20,9 +32,11 @@
   replace:
     dest: /opt/stackstorm/chatops/st2chatops.env
     regexp: '(?<=ST2_API_KEY=)(.*)$'
-    replace: '{{ st2chatops_ST2_API_KEY }}'
-  when: st2chatops_ST2_API_KEY != "CHANGE-ME-PLEASE"
-  register: st2chatops_api_key
+    replace: '{{ st2chatops_st2_api_key }}'
+  when: st2chatops_st2_api_key != 'CHANGE-ME-PLEASE'
+  register: task_st2_api_key
+  no_log: true
+  notify: restart st2chatops
   tags: st2chatops
 
 - name: Comment Username, Password and Auth URL, if API_KEY provided
@@ -35,33 +49,43 @@
     - '^(export ST2_AUTH_URL.*)'
     - '^(export ST2_AUTH_USERNAME.*)'
     - '^(export ST2_AUTH_PASSWORD.*)'
-  when: st2chatops_api_key.changed
+  when: task_st2_api_key.changed
   tags: [st2chatops, skip_ansible_lint]
 
-- name: Uncomment Hubot "{{ st2chatops_HUBOT_ADAPTER|upper }}" adapter in "/opt/stackstorm/chatops/st2chatops.env"
+- name: Add entry for "SHELL" adapter
+  become: yes
+  lineinfile:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    line: export HUBOT_ADAPTER=shell
+  when: st2chatops_hubot_adapter == "shell"
+  register: task_shell_adapter
+  tags: st2chatops
+
+
+- name: Uncomment Hubot "{{ st2chatops_hubot_adapter|upper }}" adapter in "/opt/stackstorm/chatops/st2chatops.env"
   become: yes
   replace:
     dest: /opt/stackstorm/chatops/st2chatops.env
-    regexp: '^# (export HUBOT_ADAPTER={{ st2chatops_HUBOT_ADAPTER }})$'
+    regexp: '^# (export HUBOT_ADAPTER={{ st2chatops_hubot_adapter }})$'
     replace: '\1'
-  when: st2chatops_api_key.changed and st2chatops_HUBOT_ADAPTER in supported_hubot_adapter
-  register: uncomment_adapter
-  tags: [st2chatops, skip_ansible_lint]
+  notify: restart st2chatops
+  when: task_shell_adapter.changed == false
+  tags: st2chatops
 
-
-- name: Configure "{{ st2chatops_HUBOT_ADAPTER|upper }}" adapter setttings in "/opt/stackstorm/chatops/st2chatops.env"
+- name: Configure "{{ st2chatops_hubot_adapter|upper }}" adapter setttings in "/opt/stackstorm/chatops/st2chatops.env"
   become: yes
   ini_file:
     dest: /opt/stackstorm/chatops/st2chatops.env
     section: null
-    option: "export {{ _conf_option.key }}"
-    value: "{{ _conf_option.value }}"
+    option: 'export {{ _conf_option.key }}'
+    value: '{{ _conf_option.value }}'
     no_extra_spaces: yes
-  with_dict: "{{ st2chatops_config }}"
+  with_dict: '{{ st2chatops_config }}'
   loop_control:
     loop_var: _conf_option
-  when: uncomment_adapter.changed  # TODO: Add check for Individual keys in hash
-  tags: [st2chatops, skip_ansible_lint]
+  no_log: true
+  notify: restart st2chatops
+  tags: st2chatops
 
 - name: Ensure st2chatops service is enabled and running
   become: yes
