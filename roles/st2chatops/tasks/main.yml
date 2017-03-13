@@ -58,6 +58,7 @@
     dest: /opt/stackstorm/chatops/st2chatops.env
     line: export HUBOT_ADAPTER=shell
   when: st2chatops_hubot_adapter == "shell"
+  notify: restart st2chatops
   register: task_shell_adapter
   tags: st2chatops
 
