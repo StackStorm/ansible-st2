@@ -17,7 +17,8 @@ provisioner:
   extra_vars:
     st2_pkg_repo: <%= ENV['ST2_REPO'] || 'stable' %>
     bwc_pkg_repo: <%= ENV['BWC_REPO'] || 'enterprise' %>
-    bwc_license: <%= ENV[ENV['LICENSE']] || ENV['BWC_ENTERPRISE_LICENSE'] %>
+    license_var: <%= ENV['LICENSE'] %>
+    bwc_license: <%= ENV[ENV['LICENSE']] || ENV['BWC_LICENSE_ENTERPRISE'] %>
 
 platforms:
   # Ubuntu Trusty with Upstart

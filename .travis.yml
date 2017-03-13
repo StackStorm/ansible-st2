@@ -9,16 +9,16 @@ branches:
 
 env:
   # default is stable repo
-  - DISTRO=ubuntu-14 LICENSE='BWC_ENTERPRISE_LICENSE'
-  - DISTRO=ubuntu-16 LICENSE='BWC_ENTERPRISE_LICENSE'
-  - DISTRO=centos-6 LICENSE='BWC_ENTERPRISE_LICENSE'
-  - DISTRO=centos-7 LICENSE='BWC_ENTERPRISE_LICENSE'
+  - DISTRO=ubuntu-14 LICENSE='BWC_LICENSE_ENTERPRISE'
+  - DISTRO=ubuntu-16 LICENSE='BWC_LICENSE_ENTERPRISE'
+  - DISTRO=centos-6 LICENSE='BWC_LICENSE_ENTERPRISE'
+  - DISTRO=centos-7 LICENSE='BWC_LICENSE_ENTERPRISE'
 
   # StackStorm 'unstable' repo check
-  - DISTRO=ubuntu-14 ST2_REPO=unstable BWC_REPO=enterprise-unstable LICENSE='BWC_ENTERPRISE_LICENSE_UNSTABLE'
-  - DISTRO=ubuntu-16 ST2_REPO=unstable BWC_REPO=enterprise-unstable LICENSE='BWC_ENTERPRISE_LICENSE_UNSTABLE'
-  - DISTRO=centos-6 ST2_REPO=unstable BWC_REPO=enterprise-unstable LICENSE='BWC_ENTERPRISE_LICENSE_UNSTABLE'
-  - DISTRO=centos-7 ST2_REPO=unstable BWC_REPO=enterprise-unstable LICENSE='BWC_ENTERPRISE_LICENSE_UNSTABLE'
+  - DISTRO=ubuntu-14 ST2_REPO=unstable BWC_REPO=enterprise-unstable LICENSE='BWC_LICENSE_ENTERPRISE_UNSTABLE'
+  - DISTRO=ubuntu-16 ST2_REPO=unstable BWC_REPO=enterprise-unstable LICENSE='BWC_LICENSE_ENTERPRISE_UNSTABLE'
+  - DISTRO=centos-6 ST2_REPO=unstable BWC_REPO=enterprise-unstable LICENSE='BWC_LICENSE_ENTERPRISE_UNSTABLE'
+  - DISTRO=centos-7 ST2_REPO=unstable BWC_REPO=enterprise-unstable LICENSE='BWC_LICENSE_ENTERPRISE_UNSTABLE'
 
 script:
   # run kitchen tests (destroy, create, converge, setup, verify and destroy)
