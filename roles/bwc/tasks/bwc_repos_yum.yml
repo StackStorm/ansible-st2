@@ -8,18 +8,6 @@
     state: latest
   tags: skip_ansible_lint
 
-# See: https://github.com/docker-library/docs/tree/master/centos#package-documentation
-# We ship `nginx.conf` via `st2` package doc files, for example
-- name: Enable shipping package documentation files for EL
-  become: yes
-  ini_file:
-    dest: /etc/yum.conf
-    section: main
-    option: tsflags
-    value: nodocs
-    state: absent
-  when: ansible_os_family == "RedHat"
-
 - name: "Add packagecloud.io repository: StackStorm/{{ bwc_pkg_repo }}"
   become: yes
   yum_repository:

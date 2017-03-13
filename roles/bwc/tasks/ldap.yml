@@ -18,8 +18,9 @@
     dest: /etc/st2/st2.conf
     section: auth
     option: backend_kwargs
-    value: "{{ bwc_ldap.config | to_nice_json }}"
+    value: "{{ bwc_ldap.config.backend_kwargs | to_nice_json }}"
     backup: yes
+  when: bwc_ldap.config is defined and bwc_ldap.config.backend_kwargs is defined
   notify:
     - restart st2api
     - restart st2stream
