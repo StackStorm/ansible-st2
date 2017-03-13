@@ -1,5 +1,5 @@
 ---
-supported_hubot_adapter:
+supported_hubot_adapters:
  - slack
  - hipchat
  - xmpp
@@ -7,3 +7,5 @@ supported_hubot_adapter:
  - yammer
  - spark
  - irc
+ - mattermost
+ - shell
