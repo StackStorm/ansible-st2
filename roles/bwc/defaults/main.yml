@@ -17,12 +17,19 @@ master_token: "{{ bwc_license }}"
 # and https://bwc-docs.brocade.com/rbac.html#defining-user-role-assignments.
 bwc_rbac:
   roles: []
-  assignments: []
+
+  assignments:
+    - name: "{{ st2_system_user }}"
+      roles:
+        - admin
+
+    - name: "{{ st2_auth_username }}"
+      roles:
+        - system_admin
 
 # By specifying a valid configuration for LDAP,
 # (See https://bwc-docs.brocade.com/authentication.html#ldap )
 # LDAP auth backend is setup for st2 and BWC.
 # Note that you just need to provide the backend_kwargs.
 bwc_ldap:
-  config:
-    backend_kwargs: {}
+  backend_kwargs: {}

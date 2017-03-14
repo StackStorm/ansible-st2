@@ -1,4 +1,5 @@
 ---
 
   username: {{ item.name }}
-  roles: {{ item.roles | to_nice_yaml }}
+  roles:
+    {{ item.roles | to_nice_yaml }}

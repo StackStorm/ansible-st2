@@ -4,7 +4,7 @@
     become: yes
     file:
       path: "{{ item }}"
-      mode: "u=rwx,g=r,o=r"
+      mode: "u=rwx,g=rx,o=rx"
       owner: st2
       group: st2
       state: directory
@@ -20,7 +20,7 @@
       owner: st2
       group: st2
     with_items: "{{ bwc_rbac.roles }}"
-    when: bwc_rbac_roles is defined
+    when: bwc_rbac.roles is defined
 
   - name: Copy RBAC assignments to /opt/stackstorm/rbac/assignments directory
     become: yes
@@ -30,7 +30,7 @@
       owner: st2
       group: st2
     with_items: "{{ bwc_rbac.assignments }}"
-    when: bwc_rbac_assignments is defined
+    when: bwc_rbac.assignments is defined
 
   - name: Enable RBAC in st2 configuration
     become: yes

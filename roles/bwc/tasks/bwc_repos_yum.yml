@@ -10,6 +10,7 @@
 
 - name: "Add packagecloud.io repository: StackStorm/{{ bwc_pkg_repo }}"
   become: yes
+  no_log: yes
   yum_repository:
     name: "StackStorm_{{ bwc_pkg_repo }}"
     description: "StackStorm_{{ bwc_pkg_repo }}"
