@@ -44,4 +44,3 @@
       - restart st2
       - reload bwc_rbac
       - restart st2api
-

@@ -15,6 +15,7 @@
 
 - name: Get read token for repo from packagecloud
   become: yes
+  no_log: yes
   uri:
     url: https://{{ bwc_license }}:@packagecloud.io/install/repositories/StackStorm/{{ bwc_pkg_repo }}/tokens.text
     creates: "/etc/packagecloud/StackStorm_{{ bwc_pkg_repo }}_read_token.txt"  # Don't download if file already exists
@@ -28,6 +29,7 @@
 
 - name: Set bwc_read_token variable
   become: yes
+  no_log: yes
   set_fact:
     bwc_read_token: "{{ lookup('file', '/etc/packagecloud/StackStorm_{{ bwc_pkg_repo }}_read_token.txt') }}"
 
