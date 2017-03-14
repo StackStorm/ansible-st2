@@ -38,8 +38,7 @@
       dest: /opt/stackstorm/rbac/assignments/{{ item.name }}.yaml
       owner: st2
       group: st2
-    with_items:
-      - "{{ bwc_rbac_default_assignments }}"
+    with_items: "{{ bwc_rbac_default_assignments }}"
 
   - name: Copy user defined RBAC assignments to /opt/stackstorm/rbac/assignments directory
     become: yes
