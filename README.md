@@ -48,20 +48,12 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2mistral_db_username` | `mistral`     | PostgreSQL DB user for Mistral.
 | `st2mistral_db_password` | `StackStorm`  | PostgreSQL DB password for Mistral.
 | **bwc**
-| `bwc_license`            | `null`        | BWC license key is required for 
-installing BWC enteprise bits via this ansible role. 
-| `bwc_pkg_repo`           | `enterprise`  | BWC PackageCloud 
-repository to install. [`enterprise`](https://packagecloud.io/StackStorm/enterprise/), [`enterprise-unstable`](https://packagecloud.io/StackStorm/enterprise-unstable/), [`staging-enterprise`](https://packagecloud.io/StackStorm/staging-enteprise/), [`staging-enterprise-unstable`](https://packagecloud.io/StackStorm/staging-enterprise-unstable/)
+| `bwc_license`            | `null`        | BWC license key is required for installing BWC enteprise bits via this ansible role. 
+| `bwc_pkg_repo`           | `enterprise`  | BWC PackageCloud repository to install. [`enterprise`](https://packagecloud.io/StackStorm/enterprise/), [`enterprise-unstable`](https://packagecloud.io/StackStorm/enterprise-unstable/), [`staging-enterprise`](https://packagecloud.io/StackStorm/staging-enteprise/), [`staging-enterprise-unstable`](https://packagecloud.io/StackStorm/staging-enterprise-unstable/)
 | `bwc_version`            | `latest`      | BWC enterprise version to install. Use latest `latest` to get automatic updates or pin it to numeric version like `2.1.1`. The version used here should match `st2_version`. 
 | `bwc_revision`           | `1`           | BWC enterprise revision to install. Used only with pinned `bwc_version`.
-| `bwc_rbac`               |               | BWC RBAC roles and assignments.
-This is a dictionary with two keys `roles` and `assignments`. `roles` and
-`assignments` are in turn both arrays. Each element in the array follows
-the exact YAML schema for [roles](https://bwc-docs.brocade.com/rbac.html#user-permissions) and [assignments](https://bwc-docs.brocade.com/rbac.html#defining-user-role-assignments) defined in BWC documentation.
-| `bwc_ldap`               |                | Settings for BWC
-LDAP authentication backend. `bwc_ldap` is a dictionary and has one item
-`backend_kwargs`. `backend_kwargs` should be provided as exactly listed
-in BWC documentation for [LDAP configuration](https://bwc-docs.brocade.com/authentication.html#auth-backends).
+| `bwc_rbac` | [See `bwc_rbac` variable in role defaults](roles/bwc/defaults/main.yml) | BWC RBAC roles and assignments. This is a dictionary with two keys `roles` and `assignments`. `roles` and `assignments` are in turn both arrays. Each element in the array follows the exact YAML schema for [roles](https://bwc-docs.brocade.com/rbac.html#user-permissions) and [assignments](https://bwc-docs.brocade.com/rbac.html#defining-user-role-assignments) defined in BWC documentation.
+| `bwc_ldap` | [See `bwc_ldap` variable in role defaults](roles/bwc/defaults/main.yml) | Settings for BWC LDAP authentication backend. `bwc_ldap` is a dictionary and has one item `backend_kwargs`. `backend_kwargs` should be provided as exactly listed in BWC documentation for [LDAP configuration](https://bwc-docs.brocade.com/authentication.html#auth-backends).
 
 ## Examples
 Install latest `stable` StackStorm with all its components on local machine:
