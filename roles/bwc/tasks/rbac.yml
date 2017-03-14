@@ -12,7 +12,16 @@
       - /opt/stackstorm/rbac/assignments
       - /opt/stackstorm/rbac/roles
 
-  - name: Copy RBAC roles to /opt/stackstorm/rbac/roles directory
+  - name: Copy default RBAC roles to /opt/stackstorm/rbac/roles directory
+    become: yes
+    template:
+      src: rbac_roles/roles.yml.j2
+      dest: /opt/stackstorm/rbac/roles/{{ item.name }}.yaml
+      owner: st2
+      group: st2
+    with_items: "{{ bwc_rbac_default_roles }}"
+
+  - name: Copy user defined RBAC roles to /opt/stackstorm/rbac/roles directory
     become: yes
     template:
       src: rbac_roles/roles.yml.j2
@@ -22,7 +31,17 @@
     with_items: "{{ bwc_rbac.roles }}"
     when: bwc_rbac.roles is defined
 
-  - name: Copy RBAC assignments to /opt/stackstorm/rbac/assignments directory
+  - name: Copy default RBAC assignments to /opt/stackstorm/rbac/assignments directory
+    become: yes
+    template:
+      src: rbac_assignments/assignments.yml.j2
+      dest: /opt/stackstorm/rbac/assignments/{{ item.name }}.yaml
+      owner: st2
+      group: st2
+    with_items:
+      - "{{ bwc_rbac_default_assignments }}"
+
+  - name: Copy user defined RBAC assignments to /opt/stackstorm/rbac/assignments directory
     become: yes
     template:
       src: rbac_assignments/assignments.yml.j2

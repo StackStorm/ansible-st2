@@ -15,17 +15,23 @@ master_token: "{{ bwc_license }}"
 # The schema for roles and assignments follow the exact schema definition
 # define in https://bwc-docs.brocade.com/rbac.html#defining-roles-and-permission-grants
 # and https://bwc-docs.brocade.com/rbac.html#defining-user-role-assignments.
+
+bwc_rbac_default_roles: []
+
+bwc_rbac_default_assignments:
+  - name: "{{ st2_system_user }}"
+    roles:
+      - admin
+
+  - name: "{{ st2_auth_username }}"
+    roles:
+      - system_admin
+
 bwc_rbac:
-  roles: []
+  roles: "{{ bwc_rbac_default_roles }}"
 
-  assignments:
-    - name: "{{ st2_system_user }}"
-      roles:
-        - admin
+  assignments: "{{ bwc_rbac_default_assignments }}"
 
-    - name: "{{ st2_auth_username }}"
-      roles:
-        - system_admin
 
 # By specifying a valid configuration for LDAP,
 # (See https://bwc-docs.brocade.com/authentication.html#ldap )
