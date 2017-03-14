@@ -25,15 +25,6 @@
   tags:
     - smoke-tests
 
-- name: Ensuring action runners are listening before proceeding
-  shell: cat /var/log/st2/st2actionrunner.*.log | grep amqp
-  register: output
-  until: output.stdout_lines|length > 1
-  retries: 5
-  changed_when: no
-  tags:
-    - smoke-tests
-
 - name: st2 run core.local -- date -R
   command: st2 run core.local -- date -R
   environment:
