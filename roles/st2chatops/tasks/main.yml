@@ -51,12 +51,25 @@
   when: task_st2_api_key.changed
   tags: [st2chatops, skip_ansible_lint]
 
+- name: Check if any adapter is enabled
+  shell: "cat /opt/stackstorm/chatops/st2chatops.env | grep -e '^export HUBOT_ADAPTER=' "
+  ignore_errors: True
+  register: task_adapter_enabled
+  changed_when: False
+
+- name: Set variable enabled_adapter
+  set_fact:
+    enabled_adapter: '{% set list_var = (task_adapter_enabled.stdout).split("=") %}{{ list_var[1] }}'
+  ignore_errors: True
+  changed_when: False
+
 - name: Comment existing hubot adapters in "/opt/stackstorm/chatops/st2chatops.env"
   become: yes
   replace:
     dest: /opt/stackstorm/chatops/st2chatops.env
     regexp: '^(export HUBOT_ADAPTER=.*)'
     replace: '# \1'
+  when: 'enabled_adapter != "{{ st2chatops_hubot_adapter }}" or enabled_adapter is not defined'
   tags: st2chatops
 
 - name: Uncomment Hubot "{{ st2chatops_hubot_adapter|upper }}" adapter in "/opt/stackstorm/chatops/st2chatops.env"
@@ -66,7 +79,7 @@
     regexp: '^# (export HUBOT_ADAPTER={{ st2chatops_hubot_adapter }})$'
     replace: '\1'
   notify: restart st2chatops
-  tags: [st2chatops, skip_ansible_lint]
+  tags: st2chatops
 
 - name: Add entry for "SHELL" adapter
   become: yes
