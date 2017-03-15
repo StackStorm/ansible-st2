@@ -6,7 +6,7 @@
   register: bwc_installed
 
 # For enterprise 'bwc-ui' replaces 'st2web' package
-- name: Decide which package to use: 'st2web' vs 'bwc-ui'
+- name: "Decide which package to use: 'st2web' vs 'bwc-ui'"
   set_fact:
     st2web_package_name: bwc-ui
   when: bwc_installed.stat.exists
