@@ -1,16 +1,28 @@
 ---
-- name: Install latest st2web package on {{ ansible_os_family }}
+- name: Check if enterprise is installed
+  become: yes
+  stat:
+    path: /opt/stackstorm/static/webui/flow/
+  register: bwc_installed
+
+# For enterprise 'bwc-ui' replaces 'st2web' package
+- name: Decide which package to use: 'st2web' vs 'bwc-ui'
+  set_fact:
+    st2web_package_name: bwc-ui
+  when: bwc_installed.stat.exists
+
+- name: Install latest {{ st2web_package_name }} package on {{ ansible_os_family }}
   become: yes
   package:
-    name: st2web
+    name: "{{ st2web_package_name }}"
     state: latest
   when: st2_version == "latest"
   tags: st2web, skip_ansible_lint
 
-- name: Install exact st2web package on {{ ansible_os_family }}
+- name: Install exact {{ st2web_package_name }} package on {{ ansible_os_family }}
   become: yes
   package:
-    name: st2web={{ st2_version }}-{{ st2web_revision }}
+    name: "{{ st2web_package_name }}={{ st2_version }}-{{ st2web_revision }}"
     state: present
   when: st2_version != "latest"
   tags: st2web
