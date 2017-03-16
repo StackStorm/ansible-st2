@@ -12,7 +12,7 @@
     name: bwc-enterprise
     state: latest
   register: bwc_installed
-  when: bwc_repo_added|success and bwc_version == "latest"
+  when: bwc_version == "latest"
   tags:
     - bwc
     - st2 enterprise
@@ -24,15 +24,15 @@
     name: bwc-enterprise={{ bwc_version }}-{{ bwc_revision }}
     state: present
   register: bwc_installed
-  when: bwc_repo_added|success and bwc_version != "latest"
+  when: bwc_version != "latest"
   tags:
     - bwc
     - st2 enterprise
 
 - name: Setup RBAC and setup roles and assignments if bwc_rbac is defined
   include: "rbac.yml"
-  when: bwc_installed|success and  bwc_rbac is defined
+  when: bwc_rbac is defined
 
 - name: Setup LDAP and set up LDAP configuration
   include: "ldap.yml"
-  when: bwc_installed|success and bwc_ldap is defined
+  when: bwc_ldap is defined

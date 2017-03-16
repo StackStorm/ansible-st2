@@ -20,6 +20,8 @@
       owner: st2
       group: st2
     with_items: "{{ bwc_rbac_default_roles }}"
+    notify:
+      - reload bwc_rbac
 
   - name: Copy user defined RBAC roles to /opt/stackstorm/rbac/roles directory
     become: yes
@@ -30,6 +32,8 @@
       group: st2
     with_items: "{{ bwc_rbac.roles }}"
     when: bwc_rbac.roles is defined
+    notify:
+      - reload bwc_rbac
 
   - name: Copy default RBAC assignments to /opt/stackstorm/rbac/assignments directory
     become: yes
@@ -39,6 +43,8 @@
       owner: st2
       group: st2
     with_items: "{{ bwc_rbac_default_assignments }}"
+    notify:
+      - reload bwc_rbac
 
   - name: Copy user defined RBAC assignments to /opt/stackstorm/rbac/assignments directory
     become: yes
@@ -49,6 +55,8 @@
       group: st2
     with_items: "{{ bwc_rbac.assignments }}"
     when: bwc_rbac.assignments is defined
+    notify:
+      - reload bwc_rbac
 
   - name: Enable RBAC in st2 configuration
     become: yes

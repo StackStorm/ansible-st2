@@ -1,9 +1,5 @@
 ---
 
-- name: Assert that master_token is specified
-  fail: msg="License key must be supplied for BWC enterprise installation."
-  when: bwc_license is not defined
-
 - name: Install prereqs (Debian)
   become: yes
   apt:

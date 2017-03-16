@@ -11,7 +11,7 @@
     value: ldap
     backup: yes
   # Don't even setup LDAP if backend_kwargs is not defined
-  with_dict: "{{ bwc_ldap.backend_kwargs | default({}) }}"
+  when: bwc_ldap.backend_kwargs is defined and bwc_ldap.backend_kwargs|length > 0
   notify:
     - restart st2api
     - restart st2stream
@@ -26,7 +26,8 @@
     option: backend_kwargs
     value: "{{ bwc_ldap.backend_kwargs | to_json | string }}"
     backup: yes
-  with_dict: "{{ bwc_ldap.backend_kwargs | default({}) }}"
+  # Don't even setup LDAP if backend_kwargs is not defined
+  when: bwc_ldap.backend_kwargs is defined and bwc_ldap.backend_kwargs|length > 0
   notify:
     - restart st2api
     - restart st2stream
