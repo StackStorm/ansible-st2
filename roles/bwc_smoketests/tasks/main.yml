@@ -61,7 +61,7 @@
   tags:
     - bwc-smoke-tests
 
-- name: Test some other action that ``bwc_smoke_tests_user`` cannot run
+- name: Test some other action that "{{ bwc_smoke_tests_user }}" cannot run
   command: st2 run core.http url="https://google.com"
   environment:
     ST2_AUTH_TOKEN: "{{ st2_token_smoke_tests_user.stdout }}"
