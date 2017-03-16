@@ -1,0 +1,83 @@
+---
+
+# Small suite of smoke tests to ensure that BWC role has deployed as expected
+
+- name: auth | Add a new bwc_smoke_tests_user in st2 htpasswd file
+  become: true
+  htpasswd:
+    path: /etc/st2/htpasswd
+    name: "{{ bwc_smoke_tests_user }}"
+    password: "{{ bwc_smoke_tests_password }}"
+  notify:
+    - restart st2api
+    - restart st2stream
+  tags:
+    - bwc-smoke-tests
+
+- name: Copy smoke tests RBAC roles to /opt/stackstorm/rbac/roles directory
+  become: yes
+  template:
+    src: rbac_roles/roles.yml.j2
+    dest: /opt/stackstorm/rbac/roles/{{ item.name }}.yaml
+    owner: st2
+    group: st2
+  with_items: "{{ bwc_smoke_tests_rbac.roles }}"
+  when: bwc_smoke_tests_rbac.roles is defined
+  notify:
+    - reload bwc_rbac
+  tags:
+    - bwc-smoke-tests
+
+- name: Copy smoke tests RBAC assignments to /opt/stackstorm/rbac/assignments directory
+  become: yes
+  template:
+    src: rbac_assignments/assignments.yml.j2
+    dest: /opt/stackstorm/rbac/assignments/{{ item.name }}.yaml
+    owner: st2
+    group: st2
+  with_items: "{{ bwc_smoke_tests_rbac.assignments }}"
+  when: bwc_smoke_tests_rbac.assignments is defined
+  notify:
+    - reload bwc_rbac
+  tags:
+    - bwc-smoke-tests
+
+- meta: flush_handlers
+  tags:
+    - bwc-smoke-tests
+
+- name: Get authentication token for bwc_smoke_tests  # Note this will not use LDAP.
+  command: st2 auth "{{ bwc_smoke_tests_user }}" -p "{{ bwc_smoke_tests_password }}"  -t
+  register: st2_token_smoke_tests_user
+  changed_when: no
+  tags:
+    - bwc-smoke-tests
+
+- name: Test a simple core.local action as user ``bwc_smoke_tests_user``
+  command: st2 run core.local -- date -R
+  environment:
+    ST2_AUTH_TOKEN: "{{ st2_token_smoke_tests_user.stdout }}"
+  changed_when: no
+  tags:
+    - bwc-smoke-tests
+
+- name: Test some other action that ``bwc_smoke_tests_user`` cannot run
+  command: st2 run core.http url="https://google.com"
+  environment:
+    ST2_AUTH_TOKEN: "{{ st2_token_smoke_tests_user.stdout }}"
+  ignore_errors: yes
+  register: bwc_smoke_tests_forbidden_action
+  tags:
+    - bwc-smoke-tests
+
+- name: Assert forbidden error was indeed thrown
+  fail:
+    msg: "St2 action was forbidden to run because of RBAC permissions but action still ran."
+  when: "bwc_smoke_tests_forbidden_action.stdout.find('Forbidden') == -1"
+  tags:
+    - bwc-smoke-tests
+
+- name: Teardown test artifacts
+  include: "teardown.yml"
+  tags:
+    - bwc-smoke-tests

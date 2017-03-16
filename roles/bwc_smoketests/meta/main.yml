@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  description: Install BWC Entperprise components, setup RBAC and LDAP
+  description: Test BWC enteprise components were installed correctly.
   author: lakshmi-kannan
   company: StackStorm
   license: Apache 2.0
@@ -24,3 +24,4 @@ galaxy_info:
     - role: st2repos
     - role: st2
     - role: st2web
+    - role: bwc

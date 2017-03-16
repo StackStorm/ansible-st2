@@ -1,7 +1,8 @@
 ---
 
 - name: Assert that master_token is specified
-  fail: msg="License key must be supplied for BWC enterprise installation."
+  fail:
+    msg: "License key must be supplied for BWC enterprise installation."
   when: bwc_license is not defined
 
 - name: Create packagecloud dir
@@ -16,9 +17,10 @@
 - name: Get read token for repo from packagecloud
   become: yes
   no_log: yes
+  changed_when: no
   uri:
     url: https://{{ bwc_license }}:@packagecloud.io/install/repositories/StackStorm/{{ bwc_pkg_repo }}/tokens.text
-    creates: "/etc/packagecloud/StackStorm_{{ bwc_pkg_repo }}_read_token.txt"  # Don't download if file already exists
+    # creates: "/etc/packagecloud/StackStorm_{{ bwc_pkg_repo }}_read_token.txt"  # Don't download if file already exists
     dest: "/etc/packagecloud/StackStorm_{{ bwc_pkg_repo }}_read_token.txt"
     force_basic_auth: yes
     method: POST
