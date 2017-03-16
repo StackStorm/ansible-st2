@@ -13,3 +13,4 @@
     - nodejs
     - st2smoketests
     - bwc
+    - bwc_smoketests
