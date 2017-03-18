@@ -65,13 +65,14 @@
     st2chatops_api_key: "{{ st2_api_key.stdout  }}"
     st2chatops_hubot_adapter: "slack"
     st2chatops_config: {"HUBOT_SLACK_TOKEN": "{{ hubot_token }}"}
+  changed_when: no
   no_log: true
   tags:
     - smoke-tests
 
 - name: Install st2 pack from exchange
   become: yes
-  shell: "st2 pack install st2"
+  command: "st2 pack install st2"
   changed_when: no
   tags:
     - smoke-tests
