@@ -72,6 +72,8 @@
 
 - name: Install st2 pack from exchange
   become: yes
+  environment:
+    ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
   command: "st2 pack install st2"
   changed_when: no
   tags:
