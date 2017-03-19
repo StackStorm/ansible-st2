@@ -87,7 +87,6 @@
     replace: '{{ st2chatops_api_key }}'
   no_log: true
   changed_when: no
-  notify: restart st2chatops
   tags:
     - smoke-tests
 
@@ -121,7 +120,6 @@
     regexp: '^# (export HUBOT_ADAPTER={{ st2chatops_hubot_adapter }})$'
     replace: '\1'
   changed_when: no
-  notify: restart st2chatops
   tags:
     - smoke-tests
 
