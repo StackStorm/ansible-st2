@@ -8,6 +8,7 @@
     path: /etc/st2/htpasswd
     name: "{{ bwc_smoke_tests_user }}"
     password: "{{ bwc_smoke_tests_password }}"
+  changed_when: no
   notify:
     - restart st2api
     - restart st2stream
@@ -22,6 +23,7 @@
     owner: st2
     group: st2
   with_items: "{{ bwc_smoke_tests_rbac.roles }}"
+  changed_when: no
   when: bwc_smoke_tests_rbac.roles is defined
   notify:
     - reload bwc_rbac
@@ -36,6 +38,7 @@
     owner: st2
     group: st2
   with_items: "{{ bwc_smoke_tests_rbac.assignments }}"
+  changed_when: no
   when: bwc_smoke_tests_rbac.assignments is defined
   notify:
     - reload bwc_rbac
@@ -66,6 +69,7 @@
   environment:
     ST2_AUTH_TOKEN: "{{ st2_token_smoke_tests_user.stdout }}"
   ignore_errors: yes
+  changed_when: no
   register: bwc_smoke_tests_forbidden_action
   tags:
     - bwc-smoke-tests
@@ -73,11 +77,13 @@
 - name: Assert forbidden error was indeed thrown
   fail:
     msg: "St2 action was forbidden to run because of RBAC permissions but action still ran."
+  changed_when: no
   when: "bwc_smoke_tests_forbidden_action.stdout.find('Forbidden') == -1"
   tags:
     - bwc-smoke-tests
 
 - name: Teardown test artifacts
   include: "teardown.yml"
+  changed_when: no
   tags:
     - bwc-smoke-tests
