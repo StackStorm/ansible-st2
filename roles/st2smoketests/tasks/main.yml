@@ -144,7 +144,9 @@
     - smoke-tests
 
 - name: Verify st2chatops using bin/hubot
-  shell: "cd /opt/stackstorm/chatops/ && { echo -n; sleep 5; echo '! st2 list actions'; echo; sleep 10; } | bin/hubot --test "
+  shell: "timeout 10 bin/hubot"
+  args:
+    chdir: "/opt/stackstorm/chatops/"
   register: test_output
-  failed_when: "'st2 list' not in test_output.stdout and 'core.local' not in test_output.stdout"
+  failed_when: "'Slack client now connected' not in test_output.stdout or 'DEBUG Added command: st2 list' not in test_output.stdout"
   changed_when: no
