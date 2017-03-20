@@ -144,9 +144,11 @@
     - smoke-tests
 
 - name: Verify st2chatops using bin/hubot
-  shell: "timeout 10 bin/hubot"
+  command: "timeout 10 bin/hubot"
   args:
     chdir: "/opt/stackstorm/chatops/"
   register: test_output
   failed_when: "'Slack client now connected' not in test_output.stdout or 'DEBUG Added command: st2 list' not in test_output.stdout"
   changed_when: no
+  tags:
+    - smoke-tests

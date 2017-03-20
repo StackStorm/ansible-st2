@@ -2,7 +2,7 @@
 - name: Assert st2chatops_hubot_adapter is specified
   fail:
     msg: >
-      '"st2chatops_hubot_adapter" must be supplied in roles/st2chatops/defaults/main.yml for st2chatops installation.'
+      '"st2chatops_hubot_adapter" must be one of the supported adapters in https://github.com/StackStorm/st2chatops/blob/master/st2chatops.env'
   when: st2chatops_hubot_adapter not in supported_hubot_adapters
 
 - name: Assert st2chatops_hubot_adapter "{{ st2chatops_hubot_adapter|upper }}" settings are specified
