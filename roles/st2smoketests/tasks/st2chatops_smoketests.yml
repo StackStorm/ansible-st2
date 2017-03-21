@@ -1,6 +1,6 @@
 - name: Set variables and hubot adapter settings
   set_fact:
-    st2chatops_api_key: "{{ st2_api_key.stdout  }}"
+    st2chatops_api_key: "{{ st2chatops_api_key  }}"
     st2chatops_hubot_adapter: "{{ st2chatops_hubot_adapter }}"
     st2chatops_config: "{{ st2chatops_config }}"
   changed_when: no
@@ -11,7 +11,7 @@
 - name: Install st2 pack from exchange
   become: yes
   environment:
-    ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
+    ST2_AUTH_TOKEN: "{{ ST2_AUTH_TOKEN }}"
   command: "st2 pack install st2"
   changed_when: no
   tags:
