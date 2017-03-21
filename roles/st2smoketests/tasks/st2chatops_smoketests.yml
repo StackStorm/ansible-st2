@@ -1,43 +1,9 @@
 - name: Set variables and hubot adapter settings
   set_fact:
-    st2chatops_api_key: "{{ st2chatops_api_key  }}"
     st2chatops_hubot_adapter: "{{ st2chatops_hubot_adapter }}"
     st2chatops_config: "{{ st2chatops_config }}"
   changed_when: no
   no_log: true
-  tags:
-    - smoke-tests
-
-- name: Install st2 pack from exchange
-  become: yes
-  environment:
-    ST2_AUTH_TOKEN: "{{ ST2_AUTH_TOKEN }}"
-  command: "st2 pack install st2"
-  changed_when: no
-  tags:
-    - smoke-tests
-
-- name: Update st2_api_key in st2chatops.env
-  become: yes
-  replace:
-    dest: /opt/stackstorm/chatops/st2chatops.env
-    regexp: '(?<=ST2_API_KEY=)(.*)$'
-    replace: '{{ st2chatops_api_key }}'
-  no_log: true
-  changed_when: no
-  tags:
-    - smoke-tests
-
-- name: Comment Username, Password and Auth URL, if API_KEY provided
-  become: yes
-  replace:
-    dest: /opt/stackstorm/chatops/st2chatops.env
-    regexp: '{{ item }}'
-    replace: '# \1'
-  with_items:
-    - '^(export ST2_AUTH_URL.*)'
-    - '^(export ST2_AUTH_USERNAME.*)'
-    - '^(export ST2_AUTH_PASSWORD.*)'
   tags:
     - smoke-tests
 
