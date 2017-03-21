@@ -14,6 +14,9 @@
     group: st2
     state: directory
 
+- name: Handle bwc_license change
+  include: license.yml
+
 - name: Get read token for repo from packagecloud
   become: yes
   no_log: yes

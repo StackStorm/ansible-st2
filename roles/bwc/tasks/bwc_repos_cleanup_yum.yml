@@ -1,0 +1,7 @@
+---
+
+- name: Cleanup repo list file from disk
+  become: yes
+  yum_resository:
+    name: "StackStorm_{{ bwc_pkg_repo }}"
+    state: absent
