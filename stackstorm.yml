@@ -11,4 +11,5 @@
     - nginx
     - st2web
     - nodejs
+    - st2chatops
     - st2smoketests
