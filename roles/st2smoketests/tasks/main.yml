@@ -60,12 +60,13 @@
   tags:
     - smoke-tests
 
-- name: st2chatops smoketests
+- name: st2chatops smoketests for "SLACK"
   include: >
     st2chatops_smoketests.yml
     ST2_AUTH_TOKEN={{ st2_token.stdout }}
     st2chatops_api_key={{ st2_api_key.stdout  }}
     st2chatops_hubot_adapter=slack
     st2chatops_config={'HUBOT_SLACK_TOKEN':'{{ hubot_token }}'}
+  when: hubot_token is defined
   tags:
     - smoke-tests
