@@ -1,0 +1,92 @@
+- name: Set variables and hubot adapter settings
+  set_fact:
+    st2chatops_api_key: "{{ st2_api_key.stdout  }}"
+    st2chatops_hubot_adapter: "{{ st2chatops_hubot_adapter }}"
+    st2chatops_config: "{{ st2chatops_config }}"
+  changed_when: no
+  no_log: true
+  tags:
+    - smoke-tests
+
+- name: Install st2 pack from exchange
+  become: yes
+  environment:
+    ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
+  command: "st2 pack install st2"
+  changed_when: no
+  tags:
+    - smoke-tests
+
+- name: Update st2_api_key in st2chatops.env
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '(?<=ST2_API_KEY=)(.*)$'
+    replace: '{{ st2chatops_api_key }}'
+  no_log: true
+  changed_when: no
+  tags:
+    - smoke-tests
+
+- name: Comment Username, Password and Auth URL, if API_KEY provided
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '{{ item }}'
+    replace: '# \1'
+  with_items:
+    - '^(export ST2_AUTH_URL.*)'
+    - '^(export ST2_AUTH_USERNAME.*)'
+    - '^(export ST2_AUTH_PASSWORD.*)'
+  tags:
+    - smoke-tests
+
+- name: Comment existing hubot adapters in "/opt/stackstorm/chatops/st2chatops.env"
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '^(export HUBOT_ADAPTER=.*)'
+    replace: '# \1'
+  changed_when: no
+  tags:
+    - smoke-tests
+
+- name: Update "{{ st2chatops_hubot_adapter|upper }}" adapter
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '^# (export HUBOT_ADAPTER={{ st2chatops_hubot_adapter }})$'
+    replace: '\1'
+  changed_when: no
+  tags:
+    - smoke-tests
+
+- name: Configure "{{ st2chatops_hubot_adapter|upper }}" settings
+  become: yes
+  ini_file:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    section: null
+    option: 'export {{ _conf_option.key }}'
+    value: '{{ _conf_option.value }}'
+    no_extra_spaces: yes
+  with_dict: '{{ st2chatops_config }}'
+  loop_control:
+    loop_var: _conf_option
+  no_log: true
+  notify: restart st2chatops
+  tags:
+    - smoke-tests
+
+- meta: flush_handlers
+  tags:
+    - smoke-tests
+
+- name: Verify st2chatops using bin/hubot
+  command: "timeout 10 bin/hubot"
+  args:
+    chdir: "/opt/stackstorm/chatops/"
+  register: test_output
+  failed_when: "'{{ st2chatops_hubot_adapter|title }} client now connected' not in test_output.stdout or 'DEBUG Added command: st2 list' not in test_output.stdout"
+  changed_when: no
+  tags:
+    - smoke-tests
