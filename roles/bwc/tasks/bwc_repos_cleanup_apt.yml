@@ -5,4 +5,3 @@
   file:
     path: /etc/apt/sources.list.d/StackStorm_{{ bwc_pkg_repo }}
     state: absent
-

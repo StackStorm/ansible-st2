@@ -14,12 +14,12 @@
 - name: Set bwc_license_hash to incoming hash if not defined
   no_log: yes
   set_fact:
-    bwc_license_hash: '{{ bwc_license | password_hash("sha512", "7nA5RbWEJpzQS6FM") }}'
+    bwc_license_hash: '{{ bwc_license | hash("sha512") }}'
   when: not bwc_license_hash_file.stat.exists
 
 - name: Write bwc_license_hash to file if file not found on disk
   copy:
-    content: "{{ bwc_license | password_hash('sha512', '7nA5RbWEJpzQS6FM') }}"
+    content: "{{ bwc_license | hash('sha512') }}"
     dest: "/etc/packagecloud/bwc_license_hash.txt"
     force: yes
   become: yes
@@ -30,18 +30,18 @@
   file:
     path: "/etc/packagecloud/StackStorm_{{ bwc_pkg_repo }}_read_token.txt"
     state: absent
-  when: '"{{ bwc_license | password_hash("sha512", "7nA5RbWEJpzQS6FM") }}" != "{{ bwc_license_hash }}"'
+  when: '"{{ bwc_license | hash("sha512") }}" != "{{ bwc_license_hash }}"'
 
 - name: "Cleanup repo list file from disk"
   become: yes
   include: "bwc_repos_cleanup_{{ ansible_pkg_mgr }}.yml"
-  when: '"{{ bwc_license | password_hash("sha512", "7nA5RbWEJpzQS6FM") }}" != "{{ bwc_license_hash }}"'
+  when: '"{{ bwc_license | hash("sha512") }}" != "{{ bwc_license_hash }}"'
 
 - name: Write new bwc_license_hash to file
   copy:
-    content: "{{ bwc_license | password_hash('sha512', '7nA5RbWEJpzQS6FM') }}"
+    content: "{{ bwc_license | hash('sha512') }}"
     dest: "/etc/packagecloud/bwc_license_hash.txt"
     force: yes
   become: yes
   no_log: yes
-  when: '"{{ bwc_license | password_hash("sha512", "7nA5RbWEJpzQS6FM") }}" != "{{ bwc_license_hash }}"'
+  when: '"{{ bwc_license | hash("sha512") }}" != "{{ bwc_license_hash }}"'
