@@ -1,0 +1,17 @@
+# st2chatops version to install. Use `latest` to get automatic updates or pin it to numeric version like `2.2.0`
+st2chatops_version: latest
+
+# Please provide ST2_API_KEY using "st2 apikey create -k"
+st2chatops_st2_api_key: CHANGE-ME-PLEASE
+
+# Hubot Adapter to be used for st2chatops.
+# For supported adapters, please check: https://github.com/StackStorm/ansible-st2/blob/master/roles/st2chatops/vars/main.yml
+#
+# Example, for slack: st2chatops_hubot_adapter: slack
+st2chatops_hubot_adapter: shell
+
+# Hash to configure values for the adapter in  "/opt/stackstorm/chatops/st2chatops.env"
+# Original: https://github.com/StackStorm/st2chatops/blob/master/st2chatops.env
+#
+# Example, for slack: st2chatops_config: {"HUBOT_SLACK_TOKEN":"xoxb-CHANGE-ME-PLEASE"}
+st2chatops_config: {}
