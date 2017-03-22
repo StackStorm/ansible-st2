@@ -50,40 +50,6 @@
   tags:
     - smoke-tests
 
-- name: Generate st2api key
-  command: st2 apikey create -k
-  environment:
-    ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
-  register: st2_api_key
-  changed_when: no
-  no_log: true
-  tags:
-    - smoke-tests
-
-- name: Update st2_api_key in st2chatops.env
-  become: yes
-  replace:
-    dest: /opt/stackstorm/chatops/st2chatops.env
-    regexp: '(?<=ST2_API_KEY=)(.*)$'
-    replace: '{{ st2_api_key.stdout }}'
-  no_log: true
-  changed_when: no
-  tags:
-    - smoke-tests
-
-- name: Comment Username, Password and Auth URL, if API_KEY provided
-  become: yes
-  replace:
-    dest: /opt/stackstorm/chatops/st2chatops.env
-    regexp: '{{ item }}'
-    replace: '# \1'
-  with_items:
-    - '^(export ST2_AUTH_URL.*)'
-    - '^(export ST2_AUTH_USERNAME.*)'
-    - '^(export ST2_AUTH_PASSWORD.*)'
-  tags:
-    - smoke-tests
-
 - name: Install st2 pack from exchange
   become: yes
   environment:

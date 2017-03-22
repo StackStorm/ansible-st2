@@ -26,12 +26,27 @@
   when: st2chatops_version != "latest"
   tags: [st2chatops, skip_ansible_lint]
 
+- name: Get authentication token
+  command: st2 auth {{ st2_auth_username }} -p {{ st2_auth_password }} -t
+  register: st2_token
+  changed_when: no
+  tags: st2chatops
+
+- name: Generate st2api key
+  command: st2 apikey create -k
+  environment:
+    ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
+  register: st2chatops_st2_api_key
+  changed_when: no
+  no_log: true
+  tags: st2chatops
+
 - name: Add st2_api_key in st2chatops.env
   become: yes
   replace:
     dest: /opt/stackstorm/chatops/st2chatops.env
-    regexp: '(?<=ST2_API_KEY=)(.*)$'
-    replace: '{{ st2chatops_st2_api_key }}'
+    regexp: '(?<=ST2_API_KEY=)(\"\$\{ST2_API_KEY\}\")$'
+    replace: '{{ st2chatops_st2_api_key.stdout }}'
   when: st2chatops_st2_api_key != 'CHANGE-ME-PLEASE'
   register: task_st2_api_key
   no_log: true
