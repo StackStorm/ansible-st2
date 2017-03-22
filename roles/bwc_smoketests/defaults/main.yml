@@ -1,0 +1,23 @@
+---
+
+bwc_smoke_tests_user: bwc_smoke_tests_user
+bwc_smoke_tests_password: holyjolly
+
+bwc_smoke_tests_rbac:
+  roles:
+    - name: bwc_smoke_tests_basic
+      description: "This role has access only to action core.local in pack 'core'"
+      permission_grants:
+
+        - resource_uid: "action:core:local"
+          permission_types:
+            - "action_execute"
+            - "action_view"
+
+        - permission_types:
+            - "runner_type_list"
+
+  assignments:
+    - name: "{{ bwc_smoke_tests_user }}"
+      roles:
+        - bwc_smoke_tests_basic

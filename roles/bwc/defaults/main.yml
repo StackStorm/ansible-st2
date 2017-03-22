@@ -1,0 +1,41 @@
+---
+# BWC PackageCloud repository to install: enterprise, enterprise-unstable, staging-enterprise, staging-enterprise-unstable.
+bwc_pkg_repo: "enterprise"
+# 'latest' to get latest version or numeric like '2.1.1'
+bwc_version: latest
+# used only if 'bwc_version' is numeric
+bwc_revision: 1
+
+# BWC license to install BWC enterprise bits
+master_token: "{{ bwc_license }}"
+
+# Specify roles and assignments for BWC RBAC.
+# Roles are pushed as YML files to /opt/stackstorm/rbac/roles
+# Assignments are pushed as YML files to /opt/stackstorm/rbac/assignments/
+# The schema for roles and assignments follow the exact schema definition
+# define in https://bwc-docs.brocade.com/rbac.html#defining-roles-and-permission-grants
+# and https://bwc-docs.brocade.com/rbac.html#defining-user-role-assignments.
+
+bwc_rbac_default_roles: []
+
+bwc_rbac_default_assignments:
+  - name: "{{ st2_system_user }}"
+    roles:
+      - admin
+
+  - name: "{{ st2_auth_username }}"
+    roles:
+      - system_admin
+
+bwc_rbac:
+  roles: "{{ bwc_rbac_default_roles }}"
+
+  assignments: "{{ bwc_rbac_default_assignments }}"
+
+
+# By specifying a valid configuration for LDAP,
+# (See https://bwc-docs.brocade.com/authentication.html#ldap )
+# LDAP auth backend is setup for st2 and BWC.
+# Note that you just need to provide the backend_kwargs.
+bwc_ldap:
+  backend_kwargs: {}

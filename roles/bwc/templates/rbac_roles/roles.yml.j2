@@ -1,0 +1,6 @@
+---
+
+name: {{ item.name }}
+description: {{ item.description }}
+permission_grants:
+  {{ item.permission_grants | to_nice_yaml(2) | indent(2) }}

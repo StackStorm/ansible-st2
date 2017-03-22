@@ -1,0 +1,27 @@
+---
+galaxy_info:
+  description: Test BWC enteprise components were installed correctly.
+  author: lakshmi-kannan
+  company: StackStorm
+  license: Apache 2.0
+  min_ansible_version: 2.2
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+        - xenial
+    - name: EL
+      versions:
+        - 6
+        - 7
+  categories:
+    - stackstorm
+    - BWC
+    - Brocade Workflow Composer
+    - repositories
+    - packagecloud
+  dependencies:
+    - role: st2repos
+    - role: st2
+    - role: st2web
+    - role: bwc
