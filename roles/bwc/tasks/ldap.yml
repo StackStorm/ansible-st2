@@ -1,0 +1,33 @@
+---
+
+- name: Setup st2.conf auth backend to LDAP
+  become: yes
+  # Unfortunately, ``with_dict`` also logs the dict which could leak passwords.
+  no_log: yes
+  ini_file:
+    dest: /etc/st2/st2.conf
+    section: auth
+    option: backend
+    value: ldap
+    backup: yes
+  # Don't even setup LDAP if backend_kwargs is not defined
+  when: bwc_ldap.backend_kwargs is defined and bwc_ldap.backend_kwargs|length > 0
+  notify:
+    - restart st2api
+    - restart st2stream
+
+- name: Setup st2.conf auth backend_kwargs for LDAP
+  become: yes
+  # Unfortunately, ``with_dict`` also logs the dict which could leak passwords.
+  no_log: yes
+  ini_file:
+    dest: /etc/st2/st2.conf
+    section: auth
+    option: backend_kwargs
+    value: "{{ bwc_ldap.backend_kwargs | to_json | string }}"
+    backup: yes
+  # Don't even setup LDAP if backend_kwargs is not defined
+  when: bwc_ldap.backend_kwargs is defined and bwc_ldap.backend_kwargs|length > 0
+  notify:
+    - restart st2api
+    - restart st2stream

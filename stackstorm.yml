@@ -13,3 +13,5 @@
     - nodejs
     - st2chatops
     - st2smoketests
+    - bwc
+    - bwc_smoketests

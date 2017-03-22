@@ -1,0 +1,5 @@
+---
+
+username: {{ item.name }}
+roles:
+  {{ item.roles | to_nice_yaml(2) | indent(2) }}
