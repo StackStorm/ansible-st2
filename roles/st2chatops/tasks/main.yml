@@ -29,7 +29,7 @@
 
 - name: Check if api key already exist. No change if it already exists
   become: yes
-  shell: "cat /opt/stackstorm/chatops/st2chatops.env | grep -e '^export ST2_API_KEY=\"\\${ST2_API_KEY}\"$'"
+  shell: "grep -e '^export ST2_API_KEY=\"\\${ST2_API_KEY}\"$' /opt/stackstorm/chatops/st2chatops.env"
   changed_when: no
   ignore_errors: True
   register: task_apikey_exists
@@ -90,7 +90,7 @@
   tags: [st2chatops, skip_ansible_lint]
 
 - name: Check if any adapter is enabled
-  shell: "cat /opt/stackstorm/chatops/st2chatops.env | grep -e '^export HUBOT_ADAPTER=' "
+  shell: "grep -e '^export HUBOT_ADAPTER=' /opt/stackstorm/chatops/st2chatops.env"
   ignore_errors: True
   register: task_adapter_enabled
   changed_when: False
