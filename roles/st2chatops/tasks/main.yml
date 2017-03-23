@@ -5,11 +5,13 @@
       '"st2chatops_hubot_adapter" must be one of the supported adapters in
       https://github.com/StackStorm/st2chatops/blob/master/st2chatops.env'
   when: st2chatops_hubot_adapter not in supported_hubot_adapters
+  tags: st2chatops
 
 - name: Assert st2chatops_hubot_adapter "{{ st2chatops_hubot_adapter|upper }}" settings are specified
   fail:
     msg: '"st2chatops_config" hash cannot be empty for "{{ st2chatops_hubot_adapter|upper }}" hubot adapter.'
   when: st2chatops_config.keys() == [] and st2chatops_hubot_adapter != "shell"
+  tags: st2chatops
 
 - name: Install latest st2chatops package
   become: yes
@@ -29,10 +31,11 @@
 
 - name: Check if api key already exist. No change if it already exists
   become: yes
-  shell: "grep -e '^export ST2_API_KEY=\"\\${ST2_API_KEY}\"$' /opt/stackstorm/chatops/st2chatops.env"
+  command: "grep -e '^export ST2_API_KEY=\"\\${ST2_API_KEY}\"$' /opt/stackstorm/chatops/st2chatops.env"
   changed_when: no
   ignore_errors: True
   register: task_apikey_exists
+  tags: st2chatops
 
 - name: Add user defined "st2chatops_st2_api_key" in st2chatops.env, from "role" or "defaults/main.yml"
   become: yes
@@ -90,16 +93,18 @@
   tags: [st2chatops, skip_ansible_lint]
 
 - name: Check if any adapter is enabled
-  shell: "grep -e '^export HUBOT_ADAPTER=' /opt/stackstorm/chatops/st2chatops.env"
+  command: "grep -e '^export HUBOT_ADAPTER=' /opt/stackstorm/chatops/st2chatops.env"
   ignore_errors: True
   register: task_adapter_enabled
   changed_when: False
+  tags: st2chatops
 
 - name: Set variable enabled_adapter
   set_fact:
     enabled_adapter: '{% set list_var = (task_adapter_enabled.stdout).split("=") %}{{ list_var[1] }}'
   ignore_errors: True
   changed_when: False
+  tags: st2chatops
 
 - name: Comment existing hubot adapters in "/opt/stackstorm/chatops/st2chatops.env"
   become: yes
