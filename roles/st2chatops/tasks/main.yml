@@ -10,7 +10,9 @@
 - name: Assert st2chatops_hubot_adapter "{{ st2chatops_hubot_adapter|upper }}" settings are specified
   fail:
     msg: '"st2chatops_config" hash cannot be empty for "{{ st2chatops_hubot_adapter|upper }}" hubot adapter.'
-  when: st2chatops_config.keys() == [] and st2chatops_hubot_adapter != "shell"
+  when: >
+    (st2chatops_config == None) or
+    (st2chatops_config == {} and st2chatops_hubot_adapter != "shell")
   tags: st2chatops
 
 - name: Install latest st2chatops package
@@ -33,7 +35,7 @@
   become: yes
   command: "grep -e '^export ST2_API_KEY=\"\\${ST2_API_KEY}\"$' /opt/stackstorm/chatops/st2chatops.env"
   changed_when: no
-  ignore_errors: True
+  ignore_errors: true
   register: task_apikey_exists
   tags: st2chatops
 
@@ -54,7 +56,9 @@
 
 - name: Generate authentication token
   command: st2 auth {{ st2_auth_username }} -p {{ st2_auth_password }} -t
-  when: (task_apikey_exists.failed is not defined) and (task_user_st2_api_key.changed == false)
+  when: >
+    (task_apikey_exists.failed is not defined) and
+    (task_user_st2_api_key.changed == false)
   register: task_st2_token
   tags: [st2chatops, skip_ansible_lint]
 
@@ -94,16 +98,16 @@
 
 - name: Check if any adapter is enabled
   command: "grep -e '^export HUBOT_ADAPTER=' /opt/stackstorm/chatops/st2chatops.env"
-  ignore_errors: True
+  ignore_errors: true
   register: task_adapter_enabled
-  changed_when: False
+  changed_when: no
   tags: st2chatops
 
 - name: Set variable enabled_adapter
   set_fact:
     enabled_adapter: '{% set list_var = (task_adapter_enabled.stdout).split("=") %}{{ list_var[1] }}'
-  ignore_errors: True
-  changed_when: False
+  ignore_errors: true
+  changed_when: no
   tags: st2chatops
 
 - name: Comment existing hubot adapters in "/opt/stackstorm/chatops/st2chatops.env"
@@ -112,8 +116,9 @@
     dest: /opt/stackstorm/chatops/st2chatops.env
     regexp: '^(export HUBOT_ADAPTER=.*)'
     replace: '# \1'
-  when: 'enabled_adapter != "{{ st2chatops_hubot_adapter }}" or enabled_adapter is not defined'
-  changed_when: no
+  when: >
+    (enabled_adapter != "{{ st2chatops_hubot_adapter }}") or
+    (enabled_adapter is not defined)
   tags: st2chatops
 
 - name: Uncomment Hubot "{{ st2chatops_hubot_adapter|upper }}" adapter in "/opt/stackstorm/chatops/st2chatops.env"
