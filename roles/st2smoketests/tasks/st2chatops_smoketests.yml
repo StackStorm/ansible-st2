@@ -52,9 +52,7 @@
   args:
     chdir: "/opt/stackstorm/chatops/"
   register: test_output
-  failed_when: >
-    "'{{ st2chatops_hubot_adapter|title }} client now connected' not in test_output.stdout or
-    'DEBUG Added command: st2 list' not in test_output.stdout"
+  failed_when: "'{{ st2chatops_hubot_adapter|title }} client now connected' not in test_output.stdout or 'DEBUG Added command: st2 list' not in test_output.stdout"
   changed_when: no
   tags:
     - smoke-tests
