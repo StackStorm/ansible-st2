@@ -52,7 +52,29 @@
   args:
     chdir: "/opt/stackstorm/chatops/"
   register: test_output
-  failed_when: "'{{ st2chatops_hubot_adapter|title }} client now connected' not in test_output.stdout or 'DEBUG Added command: st2 list' not in test_output.stdout"
+  failed_when: >
+    "'{{ st2chatops_hubot_adapter|title }} client now connected' not in test_output.stdout or
+    'DEBUG Added command: st2 list' not in test_output.stdout"
+  changed_when: no
+  tags:
+    - smoke-tests
+
+- name: TEARDOWN Comment "SLACK" hubot adapters in "st2chatops.env"
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '^(export HUBOT_ADAPTER=slack)'
+    replace: '# \1'
+  changed_when: no
+  tags:
+    - smoke-tests
+
+- name: TEARDOWN Uncomment "SHELL" adapter
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '^# (export HUBOT_ADAPTER=shell)$'
+    replace: '\1'
   changed_when: no
   tags:
     - smoke-tests
