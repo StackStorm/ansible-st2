@@ -28,7 +28,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.ssh.forward_agent = true
 
   VIRTUAL_MACHINES.each do |name, cfg|
-    config.vm.define name do |vm_config|
+    config.vm.define name, autostart: (name == :ubuntu16) do |vm_config|
       vm_config.vm.hostname = cfg[:hostname]
       vm_config.vm.box = cfg[:box]
 
