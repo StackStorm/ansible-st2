@@ -1,0 +1,38 @@
+---
+
+- name: Add BWC enterprise repos
+  include: bwc_repos_setup.yml
+  tags:
+    - BWC repos
+    - StackStorm enterprise
+
+- name: Install latest bwc-enterprise package
+  become: yes
+  package:
+    name: bwc-enterprise
+    state: latest
+  register: bwc_installed
+  when: bwc_version == "latest"
+  tags:
+    - bwc
+    - st2 enterprise
+    - skip_ansible_lint
+
+- name: Install pinned bwc-enterprise package
+  become: yes
+  package:
+    name: bwc-enterprise={{ bwc_version }}-{{ bwc_revision }}
+    state: present
+  register: bwc_installed
+  when: bwc_version != "latest"
+  tags:
+    - bwc
+    - st2 enterprise
+
+- name: Setup RBAC and setup roles and assignments if bwc_rbac is defined
+  include: "rbac.yml"
+  when: bwc_rbac is defined
+
+- name: Setup LDAP and set up LDAP configuration
+  include: "ldap.yml"
+  when: bwc_ldap is defined

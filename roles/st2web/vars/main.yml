@@ -1,0 +1,5 @@
+# Default st2web immutable vars
+---
+# Default StackStorm WebUI package name to install
+# For enterprise 'bwc-ui' replaces 'st2web' package
+st2web_package_name: st2web

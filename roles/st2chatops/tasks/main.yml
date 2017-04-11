@@ -1,0 +1,163 @@
+---
+- name: Assert st2chatops_hubot_adapter is specified
+  fail:
+    msg: >
+      '"st2chatops_hubot_adapter" must be one of the supported adapters in
+      https://github.com/StackStorm/st2chatops/blob/master/st2chatops.env'
+  when: st2chatops_hubot_adapter not in supported_hubot_adapters
+  tags: st2chatops
+
+- name: Assert st2chatops_hubot_adapter "{{ st2chatops_hubot_adapter|upper }}" settings are specified
+  fail:
+    msg: '"st2chatops_config" hash cannot be empty for "{{ st2chatops_hubot_adapter|upper }}" hubot adapter.'
+  when: >
+    (st2chatops_config == None) or
+    (st2chatops_config == {} and st2chatops_hubot_adapter != "shell")
+  tags: st2chatops
+
+- name: Install latest st2chatops package
+  become: yes
+  package:
+    name: st2chatops
+    state: latest
+  when: st2chatops_version == "latest"
+  tags: [st2chatops, skip_ansible_lint]
+
+- name: Install pinned st2chatops package
+  become: yes
+  package:
+    name: st2chatops={{ st2chatops_version }}
+    state: present
+  when: st2chatops_version != "latest"
+  tags: [st2chatops, skip_ansible_lint]
+
+- name: Check if api key already exist. No change if it already exists
+  become: yes
+  command: "grep -e '^export ST2_API_KEY=\"\\${ST2_API_KEY}\"$' /opt/stackstorm/chatops/st2chatops.env"
+  changed_when: no
+  ignore_errors: true
+  register: task_apikey_exists
+  tags: st2chatops
+
+- name: Add user defined "st2chatops_st2_api_key" in st2chatops.env, from "role" or "defaults/main.yml"
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '(?<=ST2_API_KEY=)(\"\$\{ST2_API_KEY\}\")$'
+    replace: '{{ st2chatops_st2_api_key }}'
+  when: >
+    (task_apikey_exists.failed is not defined) and
+    (st2chatops_st2_api_key is defined) and
+    (st2chatops_st2_api_key != "CHANGE-ME-PLEASE")
+  register: task_user_st2_api_key
+  no_log: true
+  notify: restart st2chatops
+  tags: st2chatops
+
+- name: Generate authentication token
+  command: st2 auth {{ st2_auth_username }} -p {{ st2_auth_password }} -t
+  when: >
+    (task_apikey_exists.failed is not defined) and
+    (task_user_st2_api_key.changed == false)
+  register: task_st2_token
+  tags: [st2chatops, skip_ansible_lint]
+
+- name: Generate "st2_api_key" if not provided with the "role" or in "defaults/main.yml"
+  command: st2 apikey create -k
+  environment:
+    ST2_AUTH_TOKEN: "{{ task_st2_token.stdout }}"
+  when: task_st2_token.changed
+  register: task_generated_api_key
+  no_log: true
+  tags: [st2chatops, skip_ansible_lint]
+
+- name: Add generated "st2_api_key" in st2chatops.env
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '(?<=ST2_API_KEY=)(\"\$\{ST2_API_KEY\}\")$'
+    replace: '{{ task_generated_api_key.stdout }}'
+  when: task_generated_api_key.changed
+  register: task_st2_api_key
+  no_log: true
+  notify: restart st2chatops
+  tags: [st2chatops, skip_ansible_lint]
+
+- name: Comment Username, Password and Auth URL, if API_KEY provided
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '{{ item }}'
+    replace: '# \1'
+  with_items:
+    - '^(export ST2_AUTH_URL.*)'
+    - '^(export ST2_AUTH_USERNAME.*)'
+    - '^(export ST2_AUTH_PASSWORD.*)'
+  when: (task_st2_api_key.changed) or (task_user_st2_api_key.changed)
+  tags: [st2chatops, skip_ansible_lint]
+
+- name: Check if any adapter is enabled
+  command: "grep -e '^export HUBOT_ADAPTER=' /opt/stackstorm/chatops/st2chatops.env"
+  ignore_errors: true
+  register: task_adapter_enabled
+  changed_when: no
+  tags: st2chatops
+
+- name: Set variable enabled_adapter
+  set_fact:
+    enabled_adapter: '{% set list_var = (task_adapter_enabled.stdout).split("=") %}{{ list_var[1] }}'
+  ignore_errors: true
+  changed_when: no
+  tags: st2chatops
+
+- name: Comment existing hubot adapters in "/opt/stackstorm/chatops/st2chatops.env"
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '^(export HUBOT_ADAPTER=.*)'
+    replace: '# \1'
+  when: >
+    (enabled_adapter != "{{ st2chatops_hubot_adapter }}") or
+    (enabled_adapter is not defined)
+  tags: st2chatops
+
+- name: Uncomment Hubot "{{ st2chatops_hubot_adapter|upper }}" adapter in "/opt/stackstorm/chatops/st2chatops.env"
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '^# (export HUBOT_ADAPTER={{ st2chatops_hubot_adapter }})$'
+    replace: '\1'
+  changed_when: no
+  notify: restart st2chatops
+  tags: st2chatops
+
+- name: Add entry for "SHELL" adapter
+  become: yes
+  lineinfile:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    line: export HUBOT_ADAPTER=shell
+  when: st2chatops_hubot_adapter == "shell"
+  notify: restart st2chatops
+  tags: st2chatops
+
+- name: Configure "{{ st2chatops_hubot_adapter|upper }}" adapter setttings in "/opt/stackstorm/chatops/st2chatops.env"
+  become: yes
+  ini_file:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    section: null
+    option: 'export {{ _conf_option.key }}'
+    value: '{{ _conf_option.value }}'
+    no_extra_spaces: yes
+  with_dict: '{{ st2chatops_config }}'
+  loop_control:
+    loop_var: _conf_option
+  no_log: true
+  notify: restart st2chatops
+  tags: st2chatops
+
+- name: Ensure st2chatops service is enabled and running
+  become: yes
+  service:
+    name: st2chatops
+    enabled: yes
+  tags: st2chatops

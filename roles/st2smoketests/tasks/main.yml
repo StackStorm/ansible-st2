@@ -40,3 +40,21 @@
   changed_when: no
   tags:
     - smoke-tests
+
+- name: Install st2 pack from exchange
+  become: yes
+  environment:
+    ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
+  command: "st2 pack install st2"
+  changed_when: no
+  tags:
+    - smoke-tests
+
+- name: st2chatops smoketests for "SLACK"
+  include: >
+    st2chatops_smoketests.yml
+    st2chatops_hubot_adapter=slack
+    st2chatops_config={'HUBOT_SLACK_TOKEN':'{{ hubot_token }}'}
+  when: hubot_token is defined
+  tags:
+    - smoke-tests
