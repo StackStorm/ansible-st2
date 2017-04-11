@@ -87,8 +87,7 @@ st2smoketests, you will need to disable proxy for localhost.
 ```
 
 ## Developing
-
-There are a few requirements when developing on `ansible-st2`:
+There are a few requirements when developing on `ansible-st2`.
 
 These are the platforms we must support (must pass end-to-end testing):
 - Xenial
@@ -99,6 +98,18 @@ These are the platforms we must support (must pass end-to-end testing):
 - RHEL7 (via AWS)
 
 Must also support Ansible Idempotence (Eg. Ansible-playbook re-run should end with the following results: `changed=0.*failed=0`)
+
+For development purposes there is [Vagrantfile](Vagrantfile) available. The following command will setup ubuntu16 box (`ubuntu/xenial64`) by default:
+```sh
+vagrant up
+```
+
+Other distros:
+```sh
+vagrant up ubuntu14
+vagrant up centos6
+vagrant up centos7
+```
 
 ## Other Installers
 You might be interested in other methods to deploy StackStorm engine:
