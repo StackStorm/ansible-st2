@@ -14,7 +14,7 @@ Aka IFTTT orchestration for Ops.
 * RHEL6 / CentOS6
 * RHEL7 / CentOS7
 
-> If you're using the provided Vagrantfile, note that it uses Xenial by default. Due to some of the changes there, Vagrant 1.9.1 or better is required.
+> If you're using the provided Vagrantfile, note that it uses Xenial by default.
 
 ## Requirements
 At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, PostgreSQL, Mongo, nginx and OpenStack Mistral.

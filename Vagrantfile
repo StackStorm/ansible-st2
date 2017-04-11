@@ -1,7 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-VAGRANTFILE_API_VERSION = '2'
 VIRTUAL_MACHINES = {
   :ubuntu14 => {
     :hostname => 'ansible-st2-ubuntu14',
@@ -21,8 +20,8 @@ VIRTUAL_MACHINES = {
   },
 }
 
-
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+Vagrant.require_version ">= 1.9.1"
+Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 22, host: 2200, auto_correct: true
   config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
   config.ssh.forward_agent = true
