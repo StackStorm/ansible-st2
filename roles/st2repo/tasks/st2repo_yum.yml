@@ -22,12 +22,12 @@
 - name: Add StackStorm repo
   become: yes
   yum_repository:
-    name: "StackStorm_{{ st2_pkg_repo }}"
-    description: "StackStorm_{{ st2_pkg_repo }}"
-    file: "StackStorm_{{ st2_pkg_repo }}"
-    baseurl: https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/el/{{ ansible_distribution_major_version }}/$basearch
+    name: "StackStorm_{{ st2repo_name }}"
+    description: "StackStorm_{{ st2repo_name }}"
+    file: "StackStorm_{{ st2repo_name }}"
+    baseurl: https://packagecloud.io/StackStorm/{{ st2repo_name }}/el/{{ ansible_distribution_major_version }}/$basearch
     repo_gpgcheck: yes
-    gpgkey: "https://packagecloud.io/StackStorm/{{ st2_pkg_repo }}/gpgkey"
+    gpgkey: "https://packagecloud.io/StackStorm/{{ st2repo_name }}/gpgkey"
     sslcacert: /etc/pki/tls/certs/ca-bundle.crt
     metadata_expire: 300
     gpgcheck: no
