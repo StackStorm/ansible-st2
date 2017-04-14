@@ -1,6 +1,4 @@
 ---
-# StackStorm package repository in packagecloud: 'stable', 'unstable', 'staging-stable', 'staging-unstable'
-st2repo_name: stable
 # 'latest' to get latest version or numeric like '2.1.1'
 st2_version: latest
 # used only if 'st2_version' is numeric
