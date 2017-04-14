@@ -47,6 +47,9 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2mistral_db`          | `mistral`     | PostgreSQL DB name for Mistral.
 | `st2mistral_db_username` | `mistral`     | PostgreSQL DB user for Mistral.
 | `st2mistral_db_password` | `StackStorm`  | PostgreSQL DB password for Mistral.
+| **st2web**
+| `st2web_ssl_certificate`     | `null` | String with custom SSL certificate (`.crt`). If not provided, self-signed certificate will be generated.
+| `st2web_ssl_certificate_key` | `null` | String with custom SSL certificate secret key (`.key`). If not provided, self-signed certificate will be generated.
 | **bwc**
 | `bwc_license`            | `null`        | BWC license key is required for installing BWC enteprise bits via this ansible role.
 | `bwc_pkg_repo`           | `enterprise`  | BWC PackageCloud repository to install. [`enterprise`](https://packagecloud.io/StackStorm/enterprise/), [`enterprise-unstable`](https://packagecloud.io/StackStorm/enterprise-unstable/), [`staging-enterprise`](https://packagecloud.io/StackStorm/staging-enteprise/), [`staging-enterprise-unstable`](https://packagecloud.io/StackStorm/staging-enterprise-unstable/)

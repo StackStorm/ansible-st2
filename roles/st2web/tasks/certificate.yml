@@ -1,0 +1,37 @@
+---
+- name: Verify if custom SSL certificate was correctly specified
+  fail:
+    msg: "When using custom certificate, both 'st2web_ssl_certificate' and 'st2web_ssl_certificate_key' must be provided"
+  # no XOR in Yaml
+  when: (st2web_ssl_certificate and not st2web_ssl_certificate_key) or (not st2web_ssl_certificate and st2web_ssl_certificate_key)
+
+- name: Create SSL certificate directory
+  become: yes
+  file:
+    state: directory
+    dest: /etc/ssl/st2
+    mode: 0700
+
+- name: Save custom SSL certificate
+  become: yes
+  copy:
+    content: "{{ item.cert }}"
+    dest: "{{ item.path }}"
+    mode: 0600
+  with_items:
+    - cert: "{{ st2web_ssl_certificate }}"
+      path: /etc/ssl/st2/st2.crt
+    - cert: "{{ st2web_ssl_certificate_key }}"
+      path: /etc/ssl/st2/st2.key
+  notify:
+    - restart nginx
+  when: st2web_ssl_certificate and st2web_ssl_certificate_key
+
+- name: Generate self-signed SSL certificate
+  become: yes
+  shell: openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information Technology/CN=$(hostname)"
+  args:
+    creates: /etc/ssl/st2/st2.key
+  notify:
+    - restart nginx
+  when: not st2web_ssl_certificate and not st2web_ssl_certificate_key
