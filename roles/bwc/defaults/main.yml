@@ -1,6 +1,6 @@
 ---
 # BWC PackageCloud repository to install: enterprise, enterprise-unstable, staging-enterprise, staging-enterprise-unstable.
-bwc_pkg_repo: "enterprise"
+bwc_repo: "enterprise"
 # 'latest' to get latest version or numeric like '2.1.1'
 bwc_version: latest
 # used only if 'bwc_version' is numeric
