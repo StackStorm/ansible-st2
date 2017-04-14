@@ -33,4 +33,3 @@
     gpgcheck: no
     enabled: yes
     sslverify: yes
-  register: st2_repo_installed
