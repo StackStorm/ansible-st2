@@ -21,4 +21,4 @@ galaxy_info:
     - workflows
 dependencies:
   - role: postgresql
-  - role: st2repos
+  - role: st2repo

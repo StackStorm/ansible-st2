@@ -1,4 +1,0 @@
----
-- name: Add st2repos on {{ ansible_distribution }}
-  include: st2repos_{{ ansible_pkg_mgr }}.yml
-  tags: st2repos
