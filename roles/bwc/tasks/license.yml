@@ -28,7 +28,7 @@
 - name: "Cleanup read token cached file from disk"
   become: yes
   file:
-    path: "/etc/packagecloud/StackStorm_{{ bwc_pkg_repo }}_read_token.txt"
+    path: "/etc/packagecloud/StackStorm_{{ bwc_repo }}_read_token.txt"
     state: absent
   when: '"{{ bwc_license | hash("sha512") }}" != "{{ bwc_license_hash }}"'
 
