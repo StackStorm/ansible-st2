@@ -15,7 +15,7 @@ provisioner:
   ansible_verbosity: 2
   idempotency_test: true
   extra_vars:
-    st2_pkg_repo: <%= ENV['ST2_REPO'] || 'stable' %>
+    st2repo_name: <%= ENV['ST2_REPO'] || 'stable' %>
     bwc_pkg_repo: <%= ENV['BWC_REPO'] || 'enterprise' %>
     license_var: <%= ENV['LICENSE'] %>
     bwc_license: <%= ENV[ENV['LICENSE']] || ENV['BWC_LICENSE_ENTERPRISE'] %>

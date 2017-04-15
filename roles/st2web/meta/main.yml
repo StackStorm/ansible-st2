@@ -19,5 +19,5 @@ galaxy_info:
     - system
 dependencies:
   - role: nginx
-  - role: st2repos
+  - role: st2repo
   - role: st2

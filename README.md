@@ -31,7 +31,7 @@ Below is the list of variables you can redefine in your playbook to customize st
 | Variable                 | Default       | Description  |
 | ------------------------ | ------------- | ------------ |
 | **st2repo**
-| `st2_pkg_repo`           | `stable`      | StackStorm PackageCloud repository to install. [`stable`](https://packagecloud.io/StackStorm/stable/), [`unstable`](https://packagecloud.io/StackStorm/unstable/), [`staging-stable`](https://packagecloud.io/StackStorm/staging-stable/), [`staging-unstable`](https://packagecloud.io/StackStorm/staging-unstable/)
+| `st2repo_name`           | `stable`      | StackStorm PackageCloud repository to install. [`stable`](https://packagecloud.io/StackStorm/stable/), [`unstable`](https://packagecloud.io/StackStorm/unstable/), [`staging-stable`](https://packagecloud.io/StackStorm/staging-stable/), [`staging-unstable`](https://packagecloud.io/StackStorm/staging-unstable/)
 | **st2**
 | `st2_version`            | `latest`      | StackStorm version to install. Use latest `latest` to get automatic updates or pin it to numeric version like `2.2.0`.
 | `st2_revision`           | `1`           | StackStorm revision to install. Used only with pinned `st2_version`.

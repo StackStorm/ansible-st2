@@ -23,4 +23,4 @@ galaxy_info:
 dependencies:
   - role: epel
     when: ansible_os_family == 'RedHat'
-  - role: st2repos
+  - role: st2repo
