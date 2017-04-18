@@ -11,6 +11,8 @@
     state: directory
     dest: /etc/ssl/st2
     mode: 0700
+    owner: root
+    group: root
 
 - name: Save custom SSL certificate
   become: yes
@@ -18,6 +20,8 @@
     content: "{{ item.cert }}"
     dest: "{{ item.path }}"
     mode: 0600
+    owner: root
+    group: root
   with_items:
     - cert: "{{ st2web_ssl_certificate }}"
       path: /etc/ssl/st2/st2.crt
