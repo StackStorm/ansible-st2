@@ -48,7 +48,7 @@
     - smoke-tests
 
 - name: Verify st2chatops using bin/hubot
-  command: "timeout 10 bin/hubot"
+  command: "timeout 25 bin/hubot"
   args:
     chdir: "/opt/stackstorm/chatops/"
   register: test_output
