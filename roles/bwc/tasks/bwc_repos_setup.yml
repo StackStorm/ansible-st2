@@ -32,11 +32,17 @@
       Content-Type: "application/x-www-form-urlencoded"
     body: "name={{ ansible_nodename }}"
 
-- name: Set bwc_read_token variable
+- name: Read bwc_read_token from file
   become: yes
   no_log: yes
+  changed_when: no
+  command: cat "/etc/packagecloud/StackStorm_{{ bwc_repo }}_read_token.txt"
+  register: _bwc_read_token
+
+- name: Set bwc_read_token variable
+  no_log: yes
   set_fact:
-    bwc_read_token: "{{ lookup('file', '/etc/packagecloud/StackStorm_{{ bwc_repo }}_read_token.txt') }}"
+    bwc_read_token: "{{ _bwc_read_token.stdout }}"
 
 - name: Add BWC enterprise repos on {{ ansible_distribution }}
   include: bwc_repos_{{ ansible_pkg_mgr }}.yml
