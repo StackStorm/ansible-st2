@@ -27,19 +27,24 @@
   tags:
     - smoke-tests
 
-- name: Configure "{{ st2chatops_hubot_adapter|upper }}" settings
+- name: Uncomment "{{ st2chatops_hubot_adapter|upper }}" token
   become: yes
-  ini_file:
+  replace:
     dest: /opt/stackstorm/chatops/st2chatops.env
-    section: null
-    option: 'export {{ _conf_option.key }}'
-    value: '{{ _conf_option.value }}'
-    no_extra_spaces: yes
-  with_dict: '{{ st2chatops_config }}'
-  loop_control:
-    loop_var: _conf_option
+    regexp: '^# (export HUBOT_SLACK_TOKEN=)'
+    replace: '\1'
+  changed_when: no
+  tags:
+    - smoke-tests
+
+- name: Add new "{{ st2chatops_hubot_adapter|upper }}" token
+  become: yes
+  replace:
+    dest: /opt/stackstorm/chatops/st2chatops.env
+    regexp: '(xoxb-)CHANGE-ME-PLEASE'
+    replace: '\1{{ hubot_token }}'
+  changed_when: no
   no_log: true
-  notify: restart st2chatops
   tags:
     - smoke-tests
 

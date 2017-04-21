@@ -54,7 +54,7 @@
   include: >
     st2chatops_smoketests.yml
     st2chatops_hubot_adapter=slack
-    st2chatops_config={'HUBOT_SLACK_TOKEN':'{{ hubot_token }}'}
+    st2chatops_config={'HUBOT_SLACK_TOKEN':'hubot_token'}
   when: hubot_token is defined
   tags:
     - smoke-tests
