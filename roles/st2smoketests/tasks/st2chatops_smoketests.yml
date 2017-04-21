@@ -3,7 +3,7 @@
     st2chatops_hubot_adapter: "{{ st2chatops_hubot_adapter }}"
     st2chatops_token: "{{ hubot_token }}"
   changed_when: no
-  no_log: true
+  # no_log: true
   tags:
     - smoke-tests
 
@@ -44,7 +44,7 @@
     regexp: '(xoxb-)CHANGE-ME-PLEASE'
     replace: '\1{{ st2chatops_token }}'
   changed_when: no
-  no_log: true
+  # no_log: true
   tags:
     - smoke-tests
 
