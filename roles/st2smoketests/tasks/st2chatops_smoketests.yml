@@ -1,7 +1,7 @@
 - name: Set variables and hubot adapter settings
   set_fact:
     st2chatops_hubot_adapter: "{{ st2chatops_hubot_adapter }}"
-    st2chatops_config: "{{ st2chatops_config }}"
+    st2chatops_token: "{{ hubot_token }}"
   changed_when: no
   no_log: true
   tags:
@@ -42,7 +42,7 @@
   replace:
     dest: /opt/stackstorm/chatops/st2chatops.env
     regexp: '(xoxb-)CHANGE-ME-PLEASE'
-    replace: '\1{{ hubot_token }}'
+    replace: '\1{{ st2chatops_token}}'
   changed_when: no
   no_log: true
   tags:
