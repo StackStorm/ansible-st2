@@ -3,7 +3,7 @@
     st2chatops_hubot_adapter: "{{ st2chatops_hubot_adapter }}"
     st2chatops_token: "{{ hubot_token }}"
   changed_when: no
-  # no_log: true
+  no_log: true
   tags:
     - smoke-tests
 
@@ -41,20 +41,16 @@
   become: yes
   replace:
     dest: /opt/stackstorm/chatops/st2chatops.env
-    regexp: '(xoxb-)CHANGE-ME-PLEASE'
+    regexp: '^(export HUBOT_SLACK_TOKEN=)xoxb-CHANGE-ME-PLEASE$'
     replace: '\1{{ st2chatops_token }}'
   changed_when: no
-  # no_log: true
+  no_log: true
   tags:
     - smoke-tests
 
 - meta: flush_handlers
   tags:
     - smoke-tests
-
-- name: Read content of st2chatops.env
-  become: yes
-  shell: "cat /opt/stackstorm/chatops/st2chatops.env | grep -i hubot_slack_token"
 
 - name: Verify st2chatops using bin/hubot
   command: "timeout 25 bin/hubot"
