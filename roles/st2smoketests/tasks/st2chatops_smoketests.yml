@@ -52,6 +52,10 @@
   tags:
     - smoke-tests
 
+- name: Read content of st2chatops.env
+  become: yes
+  shell: "cat /opt/stackstorm/chatops/st2chatops.env | grep -i hubot_slack_token"
+
 - name: Verify st2chatops using bin/hubot
   command: "timeout 25 bin/hubot"
   args:
