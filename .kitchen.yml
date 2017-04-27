@@ -17,9 +17,10 @@ provisioner:
   extra_vars:
     st2repo_name: <%= ENV['ST2_REPO'] || 'stable' %>
     bwc_repo: <%= ENV['BWC_REPO'] || 'enterprise' %>
-    license_var: <%= ENV['LICENSE'] %>
     bwc_license: <%= ENV[ENV['LICENSE']] || ENV['BWC_LICENSE_ENTERPRISE'] %>
-    hubot_token: <%= ENV['HUBOT_TOKEN'] %>
+    st2chatops_hubot_adapter: slack
+    st2chatops_config:
+      HUBOT_SLACK_TOKEN: <%= ENV['HUBOT_TOKEN'] %>
 
 platforms:
   # Ubuntu Trusty with Upstart
