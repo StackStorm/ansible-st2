@@ -20,7 +20,7 @@ provisioner:
     bwc_license: <%= ENV['LICENSE'] ? ENV[ENV['LICENSE']] : ENV['BWC_LICENSE_ENTERPRISE'] %>
     st2chatops_hubot_adapter: slack
     st2chatops_config:
-      HUBOT_SLACK_TOKEN: <%= ENV['HUBOT_TOKEN'] %>
+      HUBOT_SLACK_TOKEN: <%= ENV['HUBOT_SLACK_TOKEN'] %>
 
 platforms:
   # Ubuntu Trusty with Upstart
