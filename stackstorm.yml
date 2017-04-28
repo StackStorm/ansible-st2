@@ -13,5 +13,7 @@
     - nodejs
     - st2chatops
     - st2smoketests
-    - bwc
-    - bwc_smoketests
+    - name: bwc
+      when: bwc_license
+    - name: bwc_smoketests
+      when: bwc_license
