@@ -1,4 +1,8 @@
 ---
+- name: Assert that 'bwc_license' is specified
+  fail:
+    msg: "License key must be supplied for BWC enterprise installation."
+  when: bwc_license is not defined or bwc_license|length < 48
 
 - name: Add BWC enterprise repos
   include: bwc_repos_setup.yml
