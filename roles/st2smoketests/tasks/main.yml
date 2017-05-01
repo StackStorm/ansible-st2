@@ -50,11 +50,15 @@
   tags:
     - smoke-tests
 
-- name: st2chatops smoketests for "SLACK"
-  include: >
-    st2chatops_smoketests.yml
-    st2chatops_hubot_adapter=slack
-    st2chatops_config={'HUBOT_SLACK_TOKEN':'{{ hubot_token }}'}
-  when: hubot_token is defined
+- name: Verify st2chatops using bin/hubot
+  command: "timeout 25 bin/hubot"
+  args:
+    chdir: "/opt/stackstorm/chatops/"
+  register: test_output
+  # st2chatops is installed
+  when: st2chatops_version is defined
+  failed_when: "'{{ st2chatops_hubot_adapter|title }} client now connected' not in test_output.stdout or 'DEBUG Added command: st2 list' not in test_output.stdout"
+  changed_when: no
   tags:
     - smoke-tests
+    - st2chatops
