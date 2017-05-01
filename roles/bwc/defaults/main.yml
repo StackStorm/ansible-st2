@@ -7,7 +7,7 @@ bwc_version: latest
 bwc_revision: 1
 
 # BWC license to install BWC enterprise bits
-master_token: "{{ bwc_license }}"
+bwc_license: null
 
 # Specify roles and assignments for BWC RBAC.
 # Roles are pushed as YML files to /opt/stackstorm/rbac/roles
