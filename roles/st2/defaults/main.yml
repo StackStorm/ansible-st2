@@ -4,6 +4,9 @@ st2_version: latest
 # used only if 'st2_version' is numeric
 st2_revision: 1
 
+# List of integration packs to install from StackStorm Exchange or GitHub
+st2_packs: []
+
 # System user from which st2 will execute local/remote shell actions
 st2_system_user: stanley
 # Add `st2_system_user` to the sudoers (recommended for most `st2` features to work)

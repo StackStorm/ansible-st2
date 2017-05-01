@@ -46,3 +46,8 @@
     state: started
   with_items: "{{ st2_services }}"
   tags: st2
+
+- name: Install and configure StackStorm integration packs
+  include: packs.yml
+  when: st2_packs|length > 0
+  tags: st2, packs
