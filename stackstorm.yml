@@ -14,6 +14,6 @@
     - st2chatops
     - st2smoketests
     - role: bwc
-      when: bwc_license is defined and bwc_license is not null
+      when: bwc_license is defined and bwc_license is not none
     - role: bwc_smoketests
-      when: bwc_license is defined and bwc_license is not null
+      when: bwc_license is defined and bwc_license is not none
