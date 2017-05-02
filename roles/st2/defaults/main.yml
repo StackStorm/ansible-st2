@@ -9,6 +9,17 @@ st2_revision: 1
 # Hash with StackStorm configuration settings to set in 'st2.conf' ini file
 # See https://github.com/StackStorm/st2/blob/master/conf/st2.conf.sample for a full list
 st2_config: {}
+# Example:
+#st2_config:
+#  auth:
+#    debug: True
+#    enable: True
+#  database:
+#    username: st2
+#    db_name: st2
+#    password: random-password123
+#  messaging:
+#    url: amqp://st2:st2@127.0.0.1:5672//
 
 # System user from which st2 will execute local/remote shell actions
 st2_system_user: stanley
