@@ -35,7 +35,7 @@
 
 - name: Configure StackStorm authentication
   include: auth.yml
-  when: st2_auth_enable
+  when: "{{ st2_config.auth.enable|default(st2_auth_enable) if st2_config.auth is defined else st2auth_enable }}"
   tags: st2, auth
 
 - name: Configure StackStorm st2.conf settings
