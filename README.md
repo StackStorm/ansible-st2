@@ -45,8 +45,8 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2_save_credentials`   | `yes`         | Save credentials for local CLI in `/root/.st2/config` file.
 | **st2mistral**
 | `st2mistral_version`     | `latest`      | st2mistral version to install. Use latest `latest` to get automatic updates or pin it to numeric version like `2.2.0`.
-| `st2mistral_db`          | `mistral`     | PostgreSQL DB name for Mistral.
-| `st2mistral_db_username` | `mistral`     | PostgreSQL DB user for Mistral.
+| `st2mistral_db`          | `mistral`     | PostgreSQL DB name that will be created for Mistral.
+| `st2mistral_db_username` | `mistral`     | PostgreSQL DB user that will be created for Mistral.
 | `st2mistral_db_password` | `StackStorm`  | PostgreSQL DB password for Mistral.
 | `st2mistral_config`      | `{}`          | Hash with configuration settings to set in [`mistral.conf`](https://github.com/StackStorm/st2-packages/blob/master/packages/st2mistral/conf/mistral.conf) ini file.
 | **bwc**
