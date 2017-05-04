@@ -6,3 +6,13 @@ st2mistral_db: mistral
 st2mistral_db_username: mistral
 # PostgreSQL DB password for Mistral.
 st2mistral_db_password: StackStorm
+
+# Hash with configuration settings to set in `mistral.conf` ini file.
+# See: https://github.com/StackStorm/st2-packages/blob/master/packages/st2mistral/conf/mistral.conf for a full list.
+st2mistral_config: {}
+# Example:
+#st2mistral_config:
+#  DEFAULT:
+#    transport_url: rabbit://guest:guest@127.0.0.1:5672
+#  database:
+#    connection: postgresql://mistral:StackStorm@localhost/mistral

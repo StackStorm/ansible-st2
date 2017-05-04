@@ -63,6 +63,14 @@
     - restart mistral
   tags: st2mistral
 
+- name: Configure mistral.conf settings
+  # Ansible nested loop to iterate through a hash of hashes
+  include: config.yml _conf_section_name={{ _conf_section.key }} _conf_options={{ _conf_section.value }}
+  with_dict: "{{ st2mistral_config }}"
+  loop_control:
+    loop_var: _conf_section
+  tags: st2mistral, config
+
 - name: Setup mistral DB tables, etc
   become: yes
   shell: /opt/stackstorm/mistral/bin/mistral-db-manage --config-file /etc/mistral/mistral.conf upgrade head && touch /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run

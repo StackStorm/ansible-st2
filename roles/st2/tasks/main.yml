@@ -35,8 +35,16 @@
 
 - name: Configure StackStorm authentication
   include: auth.yml
-  when: st2_auth_enable
+  when: "{{ st2_config.auth.enable|default(st2_auth_enable) if st2_config.auth is defined else st2_auth_enable }}"
   tags: st2, auth
+
+- name: Configure StackStorm st2.conf settings
+  # Ansible nested loop to iterate through a hash of hashes
+  include: config.yml _conf_section_name={{ _conf_section.key }} _conf_options={{ _conf_section.value }}
+  with_dict: "{{ st2_config }}"
+  loop_control:
+    loop_var: _conf_section
+  tags: st2, config
 
 - name: Ensure StackStorm services are enabled and running
   become: yes

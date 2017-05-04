@@ -1,0 +1,14 @@
+---
+- name: Change '[{{ _conf_section_name }}]' options in mistral.conf
+  become: yes
+  ini_file:
+    dest: /etc/mistral/mistral.conf
+    section: "{{ _conf_section_name }}"
+    option: "{{ _conf_option.key }}"
+    value: "{{ _conf_option.value }}"
+  with_dict: "{{ _conf_options }}"
+  loop_control:
+    loop_var: _conf_option
+  notify:
+    - restart mistral
+  tags: st2mistral, config
