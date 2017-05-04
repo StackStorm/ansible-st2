@@ -27,21 +27,9 @@
   when: st2_version != "latest"
   tags: st2web
 
-- name: Create ssl cert dir
-  become: yes
-  file:
-    state: directory
-    dest: /etc/ssl/st2
-  tags: st2web
-
-- name: Create ssl cert
-  become: yes
-  shell: openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information Technology/CN=$(hostname)"
-  args:
-    creates: /etc/ssl/st2/st2.key
-  notify:
-    - restart nginx
-  tags: st2web
+- name: Configure SSL certificate for st2web UI
+  include: certificate.yml
+  tags: st2web, certificate
 
 - name: Copy Nginx config
   become: yes

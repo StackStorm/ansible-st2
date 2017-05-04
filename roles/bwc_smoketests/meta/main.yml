@@ -21,7 +21,7 @@ galaxy_info:
     - repositories
     - packagecloud
   dependencies:
-    - role: st2repos
+    - role: st2repo
     - role: st2
     - role: st2web
     - role: bwc

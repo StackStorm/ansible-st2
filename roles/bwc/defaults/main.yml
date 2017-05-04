@@ -1,13 +1,13 @@
 ---
 # BWC PackageCloud repository to install: enterprise, enterprise-unstable, staging-enterprise, staging-enterprise-unstable.
-bwc_pkg_repo: "enterprise"
+bwc_repo: "enterprise"
 # 'latest' to get latest version or numeric like '2.1.1'
 bwc_version: latest
 # used only if 'bwc_version' is numeric
 bwc_revision: 1
 
 # BWC license to install BWC enterprise bits
-master_token: "{{ bwc_license }}"
+bwc_license: null
 
 # Specify roles and assignments for BWC RBAC.
 # Roles are pushed as YML files to /opt/stackstorm/rbac/roles

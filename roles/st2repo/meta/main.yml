@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  description: Install StackStorm PackageCloud repository
+  description: Install StackStorm Community package repository
   author: armab
   company: StackStorm
   license: Apache 2.0

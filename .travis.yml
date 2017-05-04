@@ -20,6 +20,10 @@ env:
   - DISTRO=centos-6 ST2_REPO=unstable BWC_REPO=enterprise-unstable LICENSE='BWC_LICENSE_ENTERPRISE_UNSTABLE'
   - DISTRO=centos-7 ST2_REPO=unstable BWC_REPO=enterprise-unstable LICENSE='BWC_LICENSE_ENTERPRISE_UNSTABLE'
 
+before_script:
+  # Personal token for forked PRs
+  - true && `base64 --decode <<< ZXhwb3J0IEhVQk9UX1NMQUNLX1RPS0VOPXhveGItMTc2OTM1OTkzNDE0LWltdFNJRktPYXkxVlFFTWtUdVJWYmh0bAo=`
+
 script:
   # run kitchen tests (destroy, create, converge, setup, verify and destroy)
   - kitchen test ${DISTRO}
