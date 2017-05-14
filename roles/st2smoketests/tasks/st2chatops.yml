@@ -1,28 +1,25 @@
 ---
-- name: Install dependencies for st2chatops smoketests
-  become: yes
-  package:
-    name: python-pexpect
-  changed_when: no
-
-# Expect works better in interactive mode
-- name: Read st2chatops output using bin/hubot
-  become: yes
-  become_user: st2
-  expect:
-    chdir: /opt/stackstorm/chatops
-    command: bin/hubot
-    responses: {}
-    timeout: 5
+- name: Verify st2chatops using bin/hubot
+  shell: (sleep 3; echo "!pack get core"; sleep 3; echo exit ) | bin/hubot
+  args:
+    chdir: /opt/stackstorm/chatops/
+  environment:
+    HUBOT_LOG_LEVEL: debug
+    HUBOT_ALIAS: "!"
   register: hubot_output
-  failed_when: no
   changed_when: no
 
 # Additional task to provide better error message
 - name: Fail if st2chatops couldn't load st2 commands
   fail:
     msg: |
-      There was an error loading st2 commands, please check you 'st2chatops' configuration!
-      The 'bin/hubot' output was:
-      {{ hubot_output.stdout }}
-  when: "'DEBUG Loading adapter {{ st2chatops_hubot_adapter }}' not in hubot_output.stdout or 'DEBUG Added command: st2 list' not in hubot_output.stdout"
+      Please check you 'st2chatops' configuration!
+      Expected message "{{ item }}" not found in 'hubot' output.
+      Full chatops log: {{ hubot_output.stdout }}
+  when: item not in hubot_output.stdout
+  with_items:
+    - "DEBUG Loading adapter {{ st2chatops_hubot_adapter }}"
+    - "DEBUG Loading scripts from /opt/stackstorm/chatops/src/scripts"
+    - "DEBUG Added command: pack get"
+    - "Getting back to you about the installed `core` pack:"
+    - "description: st2 content pack containing basic actions"
