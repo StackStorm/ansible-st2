@@ -1,0 +1,28 @@
+---
+- name: Install dependencies for st2chatops smoketests
+  become: yes
+  package:
+    name: python-pexpect
+  changed_when: no
+
+# Expect works better in interactive mode
+- name: Read st2chatops output using bin/hubot
+  become: yes
+  become_user: st2
+  expect:
+    chdir: /opt/stackstorm/chatops
+    command: bin/hubot
+    responses: {}
+    timeout: 5
+  register: hubot_output
+  failed_when: no
+  changed_when: no
+
+# Additional task to provide better error message
+- name: Fail if st2chatops couldn't load st2 commands
+  fail:
+    msg: |
+      There was an error loading st2 commands, please check you 'st2chatops' configuration!
+      The 'bin/hubot' output was:
+      {{ hubot_output.stdout }}
+  when: "'DEBUG Loading adapter {{ st2chatops_hubot_adapter }}' not in hubot_output.stdout or 'DEBUG Added command: st2 list' not in hubot_output.stdout"
