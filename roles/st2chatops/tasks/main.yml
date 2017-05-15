@@ -119,6 +119,7 @@
   when: >
     (enabled_adapter != "{{ st2chatops_hubot_adapter }}") or
     (enabled_adapter is not defined)
+  notify: restart st2chatops
   tags: st2chatops
 
 - name: Uncomment Hubot "{{ st2chatops_hubot_adapter|upper }}" adapter in "/opt/stackstorm/chatops/st2chatops.env"
