@@ -117,7 +117,7 @@
     regexp: '^(export HUBOT_ADAPTER=.*)'
     replace: '# \1'
   when: >
-    (enabled_adapter != "{{ st2chatops_hubot_adapter }}") or
+    (enabled_adapter != st2chatops_hubot_adapter) or
     (enabled_adapter is not defined)
   notify: restart st2chatops
   tags: st2chatops
