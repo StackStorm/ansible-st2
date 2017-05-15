@@ -1,12 +1,13 @@
 ---
 - name: Verify st2chatops using bin/hubot
-  shell: (sleep 3; echo "!pack get core"; sleep 3; echo exit ) | bin/hubot
+  # when editing, make sure it works for at least 2 adapters: 'shell' and 'slack'
+  shell: timeout 10 bash -c '(sleep 5; echo exit ) | bin/hubot'
   args:
     chdir: /opt/stackstorm/chatops/
   environment:
     HUBOT_LOG_LEVEL: debug
-    HUBOT_ALIAS: "!"
   register: hubot_output
+  failed_when: no
   changed_when: no
 
 # Additional task to provide better error message
@@ -21,5 +22,4 @@
     - "DEBUG Loading adapter {{ st2chatops_hubot_adapter }}"
     - "DEBUG Loading scripts from /opt/stackstorm/chatops/src/scripts"
     - "DEBUG Added command: pack get"
-    - "Getting back to you about the installed `core` pack:"
-    - "description: st2 content pack containing basic actions"
+    - "commands are loaded"
