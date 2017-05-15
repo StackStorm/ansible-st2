@@ -50,15 +50,10 @@
   tags:
     - smoke-tests
 
-- name: Verify st2chatops using bin/hubot
-  command: "timeout 25 bin/hubot"
-  args:
-    chdir: "/opt/stackstorm/chatops/"
-  register: test_output
+- name: Verify st2chatops
+  include: st2chatops.yml
   # st2chatops is installed
   when: st2chatops_version is defined
-  failed_when: "'{{ st2chatops_hubot_adapter|title }} client now connected' not in test_output.stdout or 'DEBUG Added command: st2 list' not in test_output.stdout"
-  changed_when: no
   tags:
     - smoke-tests
     - st2chatops

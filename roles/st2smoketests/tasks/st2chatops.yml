@@ -1,0 +1,25 @@
+---
+- name: Verify st2chatops using bin/hubot
+  # when editing, make sure it works for at least 2 adapters: 'shell' and 'slack'
+  shell: timeout 10 bash -c '(sleep 5; echo exit ) | bin/hubot'
+  args:
+    chdir: /opt/stackstorm/chatops/
+  environment:
+    HUBOT_LOG_LEVEL: debug
+  register: hubot_output
+  failed_when: no
+  changed_when: no
+
+# Additional task to provide better error message
+- name: Fail if st2chatops couldn't load st2 commands
+  fail:
+    msg: |
+      Please check you 'st2chatops' configuration!
+      Expected message "{{ item }}" not found in 'hubot' output.
+      Full chatops log: {{ hubot_output.stdout }}
+  when: item not in hubot_output.stdout
+  with_items:
+    - "DEBUG Loading adapter {{ st2chatops_hubot_adapter }}"
+    - "DEBUG Loading scripts from /opt/stackstorm/chatops/src/scripts"
+    - "DEBUG Added command: pack get"
+    - "commands are loaded"
