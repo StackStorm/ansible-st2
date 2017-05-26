@@ -15,12 +15,22 @@
   when: st2mistral_version == "latest"
   tags: [st2mistral, skip_ansible_lint]
 
+- name: Install present st2mistral package
+  become: yes
+  package:
+    name: st2mistral
+    state: present
+  when: st2mistral_version == "present"
+  tags: [st2mistral, skip_ansible_lint]
+
 - name: Install pinned st2mistral package
   become: yes
   package:
     name: st2mistral={{ st2mistral_version }}
     state: present
-  when: st2mistral_version != "latest"
+  when:
+    - st2mistral_version != "latest"
+    - st2mistral_version != "present"
   tags: st2mistral
 
 - name: Deploy database init script

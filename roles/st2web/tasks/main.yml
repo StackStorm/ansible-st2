@@ -19,12 +19,22 @@
   when: st2_version == "latest"
   tags: st2web, skip_ansible_lint
 
+- name: Install present {{ st2web_package_name }} package on {{ ansible_os_family }}
+  become: yes
+  package:
+    name: "{{ st2web_package_name }}"
+    state: present
+  when: st2_version == "present"
+  tags: st2web, skip_ansible_lint
+
 - name: Install exact {{ st2web_package_name }} package on {{ ansible_os_family }}
   become: yes
   package:
     name: "{{ st2web_package_name }}={{ st2_version }}-{{ st2web_revision }}"
     state: present
-  when: st2_version != "latest"
+  when:
+    - st2_version != "latest"
+    - st2_version != "present"
   tags: st2web
 
 - name: Configure SSL certificate for st2web UI

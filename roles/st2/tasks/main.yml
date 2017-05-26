@@ -18,12 +18,25 @@
     - reload st2
   tags: st2, skip_ansible_lint
 
+- name: Install present st2 package
+  become: yes
+  package:
+    name: st2
+    state: present
+  when: st2_version == "present"
+  notify:
+    - restart st2
+    - reload st2
+  tags: st2, skip_ansible_lint
+
 - name: Install pinned st2 package
   become: yes
   package:
     name: st2={{ st2_version }}-{{ st2_revision }}
     state: present
-  when: st2_version != "latest"
+  when:
+    - st2_version != "latest"
+    - st2_version != "present"
   notify:
     - restart st2
     - reload st2
