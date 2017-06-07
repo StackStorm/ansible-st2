@@ -15,7 +15,7 @@
     (st2chatops_config == {} and st2chatops_hubot_adapter != "shell")
   tags: st2chatops
 
-- name: Install latest st2chatops package
+- name: Install latest st2chatops package, auto-update
   become: yes
   package:
     name: st2chatops
@@ -23,13 +23,21 @@
   when: st2chatops_version == "latest"
   tags: [st2chatops, skip_ansible_lint]
 
+- name: Install present st2chatops package, no auto-update
+  become: yes
+  package:
+    name: st2chatops
+    state: present
+  when: st2chatops_version == "present"
+  tags: st2chatops
+
 - name: Install pinned st2chatops package
   become: yes
   package:
     name: st2chatops={{ st2chatops_version }}
     state: present
   when: st2chatops_version != "latest"
-  tags: [st2chatops, skip_ansible_lint]
+  tags: st2chatops
 
 - name: Check if api key already exist. No change if it already exists
   become: yes
