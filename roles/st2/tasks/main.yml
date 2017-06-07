@@ -7,7 +7,7 @@
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "6"
   tags: st2
 
-- name: Install latest st2 package
+- name: Install latest st2 package, auto-update
   become: yes
   package:
     name: st2
@@ -18,7 +18,7 @@
     - reload st2
   tags: st2, skip_ansible_lint
 
-- name: Install present st2 package
+- name: Install present st2 package, no auto-update
   become: yes
   package:
     name: st2
@@ -27,7 +27,7 @@
   notify:
     - restart st2
     - reload st2
-  tags: st2, skip_ansible_lint
+  tags: st2
 
 - name: Install pinned st2 package
   become: yes
