@@ -26,7 +26,7 @@
 - name: Install pinned st2mistral package
   become: yes
   package:
-    name: st2mistral={{ st2mistral_version }}
+    name: st2mistral{{ '-' if ansible_pkg_mgr == 'yum' else '=' }}{{ st2mistral_version }}
     state: present
   when:
     - st2mistral_version != "latest"

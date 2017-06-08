@@ -32,7 +32,7 @@
 - name: Install pinned st2 package
   become: yes
   package:
-    name: st2={{ st2_version }}-{{ st2_revision }}
+    name: st2{{ '-' if ansible_pkg_mgr == 'yum' else '=' }}{{ st2_version }}-{{ st2_revision }}
     state: present
   when:
     - st2_version != "latest"
