@@ -1,4 +1,4 @@
-# st2mistral version to install. Use latest `latest` to get automatic updates or pin it to numeric version like `2.1.1`
+# st2mistral version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0`.
 st2mistral_version: latest
 # PostgreSQL DB name for Mistral.
 st2mistral_db: mistral
