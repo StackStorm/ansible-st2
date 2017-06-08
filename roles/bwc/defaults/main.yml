@@ -1,7 +1,7 @@
 ---
 # BWC PackageCloud repository to install: enterprise, enterprise-unstable, staging-enterprise, staging-enterprise-unstable.
 bwc_repo: "enterprise"
-# 'latest' to get latest version or numeric like '2.1.1'
+# `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0`.
 bwc_version: latest
 # used only if 'bwc_version' is numeric
 bwc_revision: 1

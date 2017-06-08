@@ -11,7 +11,7 @@
     st2web_package_name: bwc-ui
   when: bwc_installed.stat.exists
 
-- name: Install latest {{ st2web_package_name }} package on {{ ansible_os_family }}
+- name: Install latest {{ st2web_package_name }} package, auto-update
   become: yes
   package:
     name: "{{ st2web_package_name }}"
@@ -19,12 +19,22 @@
   when: st2_version == "latest"
   tags: st2web, skip_ansible_lint
 
-- name: Install exact {{ st2web_package_name }} package on {{ ansible_os_family }}
+- name: Install present {{ st2web_package_name }} package, no auto-update
   become: yes
   package:
-    name: "{{ st2web_package_name }}={{ st2_version }}-{{ st2web_revision }}"
+    name: "{{ st2web_package_name }}"
     state: present
-  when: st2_version != "latest"
+  when: st2_version == "present"
+  tags: st2web
+
+- name: Install pinned {{ st2web_package_name }} package
+  become: yes
+  package:
+    name: "{{ st2web_package_name }}{{ '-' if ansible_pkg_mgr == 'yum' else '=' }}{{ st2_version }}-{{ st2web_revision }}"
+    state: present
+  when:
+    - st2_version != "latest"
+    - st2_version != "present"
   tags: st2web
 
 - name: Configure SSL certificate for st2web UI

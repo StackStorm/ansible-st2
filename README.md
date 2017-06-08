@@ -33,7 +33,7 @@ Below is the list of variables you can redefine in your playbook to customize st
 | **st2repo**
 | `st2repo_name`           | `stable`      | StackStorm PackageCloud repository to install. [`stable`](https://packagecloud.io/StackStorm/stable/), [`unstable`](https://packagecloud.io/StackStorm/unstable/), [`staging-stable`](https://packagecloud.io/StackStorm/staging-stable/), [`staging-unstable`](https://packagecloud.io/StackStorm/staging-unstable/)
 | **st2**
-| `st2_version`            | `latest`      | StackStorm version to install. Use latest `latest` to get automatic updates or pin it to numeric version like `2.2.0`.
+| `st2_version`            | `latest`      | StackStorm version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0`.
 | `st2_revision`           | `1`           | StackStorm revision to install. Used only with pinned `st2_version`.
 | `st2_config`             | `{}`          | Hash with StackStorm configuration settings to set in [`st2.conf`](https://github.com/StackStorm/st2/blob/master/conf/st2.conf.sample) ini file.
 | `st2_system_user`        | `stanley`     | System user from which st2 will execute local/remote shell actions.
@@ -44,7 +44,7 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2_auth_password`      | `testp`       | Password used by StackStorm standalone authentication.
 | `st2_save_credentials`   | `yes`         | Save credentials for local CLI in `/root/.st2/config` file.
 | **st2mistral**
-| `st2mistral_version`     | `latest`      | st2mistral version to install. Use latest `latest` to get automatic updates or pin it to numeric version like `2.2.0`.
+| `st2mistral_version`     | `latest`      | st2mistral version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0`.
 | `st2mistral_db`          | `mistral`     | PostgreSQL DB name that will be created for Mistral.
 | `st2mistral_db_username` | `mistral`     | PostgreSQL DB user that will be created for Mistral.
 | `st2mistral_db_password` | `StackStorm`  | PostgreSQL DB password for Mistral.
@@ -55,11 +55,12 @@ Below is the list of variables you can redefine in your playbook to customize st
 | **bwc**
 | `bwc_license`            | `null`        | BWC license key is required for installing BWC enteprise bits via this ansible role.
 | `bwc_repo`               | `enterprise`  | BWC PackageCloud repository to install. [`enterprise`](https://packagecloud.io/StackStorm/enterprise/), [`enterprise-unstable`](https://packagecloud.io/StackStorm/enterprise-unstable/), [`staging-enterprise`](https://packagecloud.io/StackStorm/staging-enteprise/), [`staging-enterprise-unstable`](https://packagecloud.io/StackStorm/staging-enterprise-unstable/)
-| `bwc_version`            | `latest`      | BWC enterprise version to install. Use latest `latest` to get automatic updates or pin it to numeric version like `2.2.0`. The version used here should match `st2_version`.
+| `bwc_version`            | `latest`      | BWC enterprise version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0`. The version used here should match `st2_version`.
 | `bwc_revision`           | `1`           | BWC enterprise revision to install. Used only with pinned `bwc_version`.
 | `bwc_rbac` | [See `bwc_rbac` variable in role defaults](roles/bwc/defaults/main.yml) | BWC RBAC roles and assignments. This is a dictionary with two keys `roles` and `assignments`. `roles` and `assignments` are in turn both arrays. Each element in the array follows the exact YAML schema for [roles](https://bwc-docs.brocade.com/rbac.html#user-permissions) and [assignments](https://bwc-docs.brocade.com/rbac.html#defining-user-role-assignments) defined in BWC documentation.
 | `bwc_ldap` | [See `bwc_ldap` variable in role defaults](roles/bwc/defaults/main.yml) | Settings for BWC LDAP authentication backend. `bwc_ldap` is a dictionary and has one item `backend_kwargs`. `backend_kwargs` should be provided as exactly listed in BWC documentation for [LDAP configuration](https://bwc-docs.brocade.com/authentication.html#auth-backends).
 | **st2chatops**
+| `st2chatops_version`     | `latest`      | st2chatops version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0`.
 | `st2chatops_st2_api_key` |               | st2 API key to be updated in st2chatops.env using "st2 apikey create -k" in a task
 | `st2chatops_hubot_adapter` |             | Hubot Adapter to be used for st2chatops. Default is `shell`, but should be changed to one of the [`supported adapters`](`https://github.com/StackStorm/ansible-st2/blob/master/roles/st2chatops/vars/main.yml`).[**Required**]
 | `st2chatops_config`      | `{ }`         | Based on adapter in `st2chatops_hubot_adapter`, provide hash for the adapter settings, to update [`st2chatops.env`](https://github.com/StackStorm/st2chatops/blob/master/st2chatops.env). For example, for `Slack` hubot adapter: `st2chatops_config:` `HUBOT_SLACK_TOKEN: xoxb-CHANGE-ME-PLEASE`

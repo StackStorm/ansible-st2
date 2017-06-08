@@ -10,7 +10,7 @@
     - BWC repos
     - StackStorm enterprise
 
-- name: Install latest bwc-enterprise package
+- name: Install latest bwc-enterprise package, auto-update
   become: yes
   package:
     name: bwc-enterprise
@@ -22,13 +22,26 @@
     - st2 enterprise
     - skip_ansible_lint
 
+- name: Install present bwc-enterprise package, no auto-update
+  become: yes
+  package:
+    name: bwc-enterprise
+    state: present
+  register: bwc_installed
+  when: bwc_version == "present"
+  tags:
+    - bwc
+    - st2 enterprise
+
 - name: Install pinned bwc-enterprise package
   become: yes
   package:
-    name: bwc-enterprise={{ bwc_version }}-{{ bwc_revision }}
+    name: bwc-enterprise{{ '-' if ansible_pkg_mgr == 'yum' else '=' }}{{ bwc_version }}-{{ bwc_revision }}
     state: present
   register: bwc_installed
-  when: bwc_version != "latest"
+  when:
+    - bwc_version != "latest"
+    - bwc_version != "present"
   tags:
     - bwc
     - st2 enterprise
