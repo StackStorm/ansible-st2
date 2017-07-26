@@ -6,7 +6,7 @@ Aka IFTTT orchestration for Ops.
 
 [![Build Status](https://travis-ci.org/StackStorm/ansible-st2.svg?branch=master)](https://travis-ci.org/StackStorm/ansible-st2)
 [![Repository deb/rpm](https://img.shields.io/badge/Repository-deb/rpm-blue.svg)](https://packagecloud.io/StackStorm/stable/)
-[![Join our community Slack](https://stackstorm-community.herokuapp.com/badge.svg)](https://stackstorm.typeform.com/to/K76GRP)
+[![Join our community Slack](https://stackstorm-community.herokuapp.com/badge.svg)](https://stackstorm.com/community-signup)
 
 ## Supported platforms
 * Ubuntu Trusty (14.04)
