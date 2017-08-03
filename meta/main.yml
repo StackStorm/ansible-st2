@@ -1,10 +1,14 @@
-# Meta which allows installing `ansible-st2` via ansible-galaxy
-# Workaround for `ansible.cfg` to find stackstorm roles:
+# "Fake role" meta which allows installing `ansible-st2` via ansible-galaxy.
+# All the project roles are located under the 'roles' dir.
+# See why: https://github.com/StackStorm/ansible-st2/issues/45
+#
+# `ansible.cfg` workaround to find stackstorm roles:
+#
 # [defaults]
 # roles_path = /etc/ansible/roles/:/etc/ansible/roles/stackstorm/roles/
 ---
 galaxy_info:
-  description: Install StackStorm with all components and dependant services including RabbitMQ, MongoDB, PostgreSQL, nginx.
+  description: Install StackStorm (IFTTT for Ops) with all the components like Web UI, ChatOps, BWC and dependant services including RabbitMQ, MongoDB, PostgreSQL, nginx.
   author: armab
   company: StackStorm
   license: Apache 2.0
@@ -21,12 +25,16 @@ galaxy_info:
   categories:
     - ops
     - devops
+    - chatops
     - automation
     - remediation
+    - workflows
     - stackstorm
     - st2
     - st2web
     - st2mistral
+    - st2chatops
+    - bwc
     - rabbitmq
     - mongodb
     - postgresql
