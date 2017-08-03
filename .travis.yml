@@ -27,3 +27,6 @@ before_script:
 script:
   # run kitchen tests (destroy, create, converge, setup, verify and destroy)
   - kitchen test ${DISTRO}
+
+notifications:
+    webhooks: https://galaxy.ansible.com/api/v1/notifications/
