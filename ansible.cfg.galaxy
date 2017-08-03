@@ -1,0 +1,8 @@
+# If installed `ansible-st2` via ansible-galaxy.
+# All the project roles are located under the 'roles' dir.
+# See why: https://github.com/StackStorm/ansible-st2/issues/45
+#
+# Use this `ansible.cfg` workaround to help Ansible find StackStorm roles:
+
+[defaults]
+roles_path = /etc/ansible/roles/:/etc/ansible/roles/stackstorm/roles/
