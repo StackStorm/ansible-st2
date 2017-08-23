@@ -44,7 +44,7 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2_auth_password`      | `testp`       | Password used by StackStorm standalone authentication.
 | `st2_save_credentials`   | `yes`         | Save credentials for local CLI in `/root/.st2/config` file.
 | **st2mistral**
-| `st2mistral_version`     | `latest`      | st2mistral version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0`.
+| `st2mistral_version`     | `latest`      | st2mistral version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0`. This must be the same version as st2_version
 | `st2mistral_db`          | `mistral`     | PostgreSQL DB name that will be created for Mistral.
 | `st2mistral_db_username` | `mistral`     | PostgreSQL DB user that will be created for Mistral.
 | `st2mistral_db_password` | `StackStorm`  | PostgreSQL DB password for Mistral.
@@ -77,7 +77,7 @@ This is default behavior. If you don't want updates - consider pinning version-r
 
 Install specific numeric version of st2 with pinned revision number as well:
 ```sh
-ansible-playbook stackstorm.yml --extra-vars='st2_version=2.2.0 st2_revision=8'
+ansible-playbook stackstorm.yml --extra-vars='st2_version=2.2.1 st2_revision=5 st2mistral_version=2.2.1-4'
 ```
 
 ## Installing behind a proxy.
