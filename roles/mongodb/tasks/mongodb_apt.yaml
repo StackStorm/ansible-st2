@@ -2,8 +2,7 @@
 - name: apt | Add mongodb key
   become: yes
   apt_key:
-    keyserver: "hkp://keyserver.ubuntu.com:80"
-    id: 0C49F3730359A14518585931BC711F9BA15703C6
+    url: https://www.mongodb.org/static/pgp/server-{{ mongodb_major_minor_version }}.asc
     state: present
   tags: [databases, mongodb]
 
