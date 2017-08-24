@@ -12,13 +12,12 @@
   apt_repository:
     repo: 'deb http://repo.mongodb.org/apt/{{ ansible_distribution|lower }} {{ ansible_distribution_release|lower }}/mongodb-org/3.4 multiverse'
     state: present
-  register: mongodb_repo_add
   tags: [databases, mongodb]
 
 - name: apt | Install mongodb
   become: yes
   apt:
     name: mongodb-org
-    state: "{{ 'latest' if mongodb_repo_add.changed or 'present' }}"
-  notify: restart mongod
+    state: present
+  notify: Restart mongod
   tags: [databases, mongodb]
