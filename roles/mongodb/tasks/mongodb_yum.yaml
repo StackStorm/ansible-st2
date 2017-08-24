@@ -4,7 +4,7 @@
 - name: yum | Add mongodb key
   become: yes
   rpm_key:
-    key: https://www.mongodb.org/static/pgp/server-3.4.asc
+    key: https://www.mongodb.org/static/pgp/server-{{ mongodb_major_minor_version }}.asc
     state: present
   tags: [databases, mongodb]
 
@@ -15,15 +15,15 @@
     description: MongoDB Repository
     gpgcheck: yes
     enabled: yes
-    baseurl: https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.4/x86_64/
-    gpgkey: https://www.mongodb.org/static/pgp/server-3.4.asc
+    baseurl: https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/{{ mongodb_major_minor_version }}/x86_64/
+    gpgkey: https://www.mongodb.org/static/pgp/server-{{ mongodb_major_minor_version }}.asc
     state: present
   tags: [databases, mongodb]
 
 - name: yum | Install mongodb
   become: yes
   yum:
-    name: mongodb-org
+    name: mongodb-org-{{ mongodb_version }}*
     state: present
   notify:
     - Restart mongod
