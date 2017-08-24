@@ -14,11 +14,3 @@
     state: present
   register: mongodb_repo_add
   tags: [databases, mongodb]
-
-- name: apt | Install mongodb
-  become: yes
-  apt:
-    name: mongodb-org
-    state: "{{ 'latest' if mongodb_repo_add.changed or 'present' }}"
-  notify: restart mongod
-  tags: [databases, mongodb]

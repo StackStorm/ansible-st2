@@ -1,6 +1,16 @@
 ---
-- name: Install mongodb on {{ ansible_distribution }}
+- name: Add mongodb repo on {{ ansible_distribution }}
   include: mongodb_{{ ansible_pkg_mgr }}.yaml
+  tags: [databases, mongodb]
+
+- name: Install mongodb
+  become: yes
+  package:
+    name: mongodb-org
+    # Try to upgrade the package just in case if user changed the major version
+    state: "{{ 'latest' if mongodb_repo_add.changed or 'present' }}"
+  notify:
+    - restart mongod
   tags: [databases, mongodb]
 
 - name: Start & Enable mongodb
