@@ -18,13 +18,14 @@
     baseurl: https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.4/x86_64/
     gpgkey: https://www.mongodb.org/static/pgp/server-3.4.asc
     state: present
+  register: mongodb_repo_add
   tags: [databases, mongodb]
 
 - name: yum | Install mongodb
   become: yes
   yum:
     name: mongodb-org
-    state: present
+    state: state: "{{ 'latest' if mongodb_repo_add.changed or 'present' }}"
   notify:
-    - Restart mongod
+    - restart mongod
   tags: [databases, mongodb]
