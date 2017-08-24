@@ -25,7 +25,7 @@
   become: yes
   yum:
     name: mongodb-org
-    state: state: "{{ 'latest' if mongodb_repo_add.changed or 'present' }}"
+    state: "{{ 'latest' if mongodb_repo_add.changed or 'present' }}"
   notify:
     - restart mongod
   tags: [databases, mongodb]
