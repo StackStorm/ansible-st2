@@ -1,4 +1,4 @@
 ---
 # MongoDB version to install
 # Should be '3.0', '3.2' or '3.4'
-mongodb_version: 3.4
+mongodb_version: "3.4"
