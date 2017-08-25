@@ -34,5 +34,5 @@
     name: mongodb-org-{{ mongodb_version }}*
     state: present
   notify:
-    - Restart mongod
+    - restart mongodb
   tags: [databases, mongodb]

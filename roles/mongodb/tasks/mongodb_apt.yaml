@@ -20,5 +20,5 @@
   apt:
     name: mongodb-org={{ mongodb_version }}*
     state: present
-  notify: Restart mongod
+  notify: restart mongodb
   tags: [databases, mongodb]
