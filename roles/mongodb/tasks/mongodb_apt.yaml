@@ -3,7 +3,7 @@
   become: yes
   apt_key:
     # Don't use mongodb.org key location due to SNI verification problems under Ubuntu Trusty
-    url: "hkp://keyserver.ubuntu.com:80"
+    keyserver: "hkp://keyserver.ubuntu.com:80"
     id: "{{ mongodb_apt_keys[mongodb_major_minor_version] }}"
     state: present
   tags: [databases, mongodb]
