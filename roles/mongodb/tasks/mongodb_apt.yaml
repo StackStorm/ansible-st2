@@ -1,4 +1,15 @@
 ---
+- name: apt | Install mongodb dependencies
+  become: yes
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    # Failed to validate the SSL certificate for www.mongodb.org:443. Make sure your managed systems have a valid CA certificate installed. If the website serving the url uses SNI you need python >= 2.7.9 on your managed machine or you can install the `urllib3`, `pyOpenSSL`, `ndg-httpsclient`, and `pyasn1` python modules to perform SNI verification in python >= 2.6. You can use validate_certs=False if you do not need to confirm the servers identity but this is unsafe and not recommended. Paths checked for this platform: /etc/ssl/certs, /etc/pki/ca-trust/extracted/pem, /etc/pki/tls/certs, /usr/share/ca-certificates/cacert.org, /etc/ansible. The exception msg was: hostname 'www.mongodb.org' doesn't match either of '*.mongodb.com', 'mongodb.com'.
+    - python-urllib3
+    - python-openssl
+    - python-pyasn1
+
 - name: apt | Add mongodb key
   become: yes
   apt_key:
