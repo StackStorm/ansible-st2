@@ -25,9 +25,8 @@ before_script:
   - true && `base64 --decode <<< ZXhwb3J0IEhVQk9UX1NMQUNLX1RPS0VOPXhveGItMTc2OTM1OTkzNDE0LWltdFNJRktPYXkxVlFFTWtUdVJWYmh0bAo=`
 
 script:
-  - false
   # run kitchen tests (destroy, create, converge, setup, verify and destroy)
-  #- kitchen test ${DISTRO}
+  - kitchen test ${DISTRO}
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
