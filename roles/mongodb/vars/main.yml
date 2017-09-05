@@ -4,3 +4,8 @@ mongodb_major_minor_version: "{{ (mongodb_version|string)[:3] }}"
 mongodb_apt_keys:
   "3.2": "42F3E95A2C4F08279C4960ADD68FA50FEA312927"
   "3.4": "0C49F3730359A14518585931BC711F9BA15703C6"
+
+# The admin database, used to add users
+mongodb_admin_db: admin
+
+mongodb_python: "{{ ansible_python_interpreter | default( (ansible_python|default({})).get('executable', 'python') ) }}"

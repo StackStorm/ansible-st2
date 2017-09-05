@@ -10,3 +10,8 @@
     state: started
     enabled: yes
   tags: [databases, mongodb]
+
+- name: Enable mongodb authentication
+  when: mongodb_enable_auth
+  include: mongodb_auth.yml
+  tags: [databases, mongodb]

@@ -1,0 +1,136 @@
+---
+- name: Check for pip (used to install pymongo)
+  command: "{{ pip | default('pip') }} --version"
+  register: pip_check
+  changed_when: no
+  failed_when: no
+
+# It shouldn't matter if it's an old version of pip for installing pymongo, so use the system package instead of get-pip.py
+- name: Install pip with system package (used to install pymongo)
+  when: pip_check.rc != 0
+  become: yes
+  package:
+    name: 'python{% if ansible_os_family == "RedHat" and ansible_distribution_major_version == "7" %}2{% endif %}-pip'
+    state: present
+
+- name: Ensure pymongo is installed for the mongodb_user ansible module
+  become: yes
+  pip:
+    name: pymongo
+
+- name: See if mongodb authorization is enabled and users are configured
+  command: 'mongo --eval "db.getUsers()" {{ mongodb_admin_db }}'
+  # this will fail (rc 252) if auth is enabled and users are configured
+  # With the localhost exception, this will succeed (rc 0) when users are not configured even if auth is enabled.
+  # see:
+  #   - https://docs.mongodb.com/manual/core/security-users/#localhost-exception
+  #   - https://stackoverflow.com/q/31949586/1134951
+  #   - https://github.com/ansible/ansible/issues/33832#issuecomment-358031733
+  register: _mongo_authorization
+  changed_when: no # this does not change anything, it only checks
+  failed_when: no # The rc determines whether or not auth is required to create/update the admin user
+
+- name: Show mongodb auth check output
+  debug:
+    var: _mongo_authorization
+    verbosity: 2
+
+- name: Warn about default credentials
+  when: "mongodb_admin_password == 'Ch@ngeMe'"
+  debug:
+    msg: "[WARNING] Using default admin credentials for mongodb admin account! Please change them!"
+
+- name: Add mongo admin
+  mongodb_user:
+    state: present
+
+    # NOTE: on_create is idempotent - see comment below
+    update_password: on_create
+
+    name: "{{ mongodb_admin_username }}"
+    password: "{{ mongodb_admin_password }}"
+    database: "{{ mongodb_admin_db }}"
+    roles: userAdminAnyDatabase
+
+    login_host: "{{ mongodb_host }}"
+    login_port: "{{ mongodb_port }}"
+    login_user: "{{ (_mongo_authorization.rc == 0) | ternary(omit, mongodb_admin_username) }}"
+    login_password: "{{ (_mongo_authorization.rc == 0) | ternary(omit, mongodb_admin_password) }}"
+    login_database: "{{ (_mongo_authorization.rc == 0) | ternary(omit, mongodb_admin_db) }}"
+
+- name: Enable security section in mongod.conf
+  become: yes
+  lineinfile:
+    path: /etc/mongod.conf
+    regexp: |-
+      ^[#'"\s]*security['"]?\s*:
+    line: 'security:'
+    validate: |
+      {{ mongodb_python }} -c '
+      import yaml, io
+      if "security" not in yaml.safe_load(io.open("%s")):
+          exit(1)
+      '
+
+- name: Enable authentication in mongod.conf
+  become: yes
+  lineinfile:
+    path: /etc/mongod.conf
+    insertafter: '^security:'
+    # two space indentation (the default) assumed
+    line: '  authorization: enabled'
+    regexp: |-
+      ^[#'"\s]+authorization['"]?\s*:
+    validate: |
+      {{ mongodb_python }} -c '
+      import yaml, io
+      if yaml.safe_load(io.open("%s"))["security"]["authorization"] != "enabled":
+          exit(1)
+      '
+  register: _enable_mongo_auth
+  #notify: restart mongodb
+
+- name: Restart mongodb to enable auth before adding additional users
+  # This allows us to safely assume auth is already enabled when adding more users
+  when:
+    - mongodb_users
+    - _enable_mongo_auth is changed
+  become: yes
+  service:
+    name: mongod
+    state: restarted
+# TODO: Use filtered flush_handlers once this is merged: https://github.com/ansible/ansible/pull/25573
+#       As is, mongo may restart twice, once here and whenever the upgrade handlers get flushed.
+#  when: mongodb_users
+#  meta:
+#    name: flush_handlers
+#    filter: restart mongodb
+
+- name: Add additional mongo users
+  mongodb_user:
+    state: present
+
+    # NOTE: on_create is idempotent, always is not.
+    # With `update_password: on_create`, mongodb_user checks to see if the user
+    # (a) exists on the db, and (b) has the same roles,
+    # and then it only adds the user if it's not there or the roles have changed.
+    # With `update_password: always`, mongodb_user cannot tell if the password
+    # needs to be changed without attempting a login with those credentials.
+    # But mongodb_user does not currently implement such a check.
+    # A comment in mongodb_user points to https://jira.mongodb.org/browse/SERVER-22848
+    update_password: "{{ mongodb_force_update_password|ternary('always', 'on_create') }}"
+
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+    database: "{{ item.db }}"
+    roles: "{{ item.roles|default('readWrite') }}"
+
+    login_host: "{{ mongodb_host }}"
+    login_port: "{{ mongodb_port }}"
+    login_user: "{{ mongodb_admin_username }}"
+    login_password: "{{ mongodb_admin_password }}"
+    login_database: "{{ mongodb_admin_db }}"
+  loop_control:
+    label: "{{ item.username }} on {{ item.db }}"
+  with_items: "{{ mongodb_users }}"
+
