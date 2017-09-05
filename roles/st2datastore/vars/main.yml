@@ -1,0 +1,3 @@
+---
+st2ds_keys_dir: /etc/st2/keys
+st2ds_key_file: datastore_key.json

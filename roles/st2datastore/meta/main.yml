@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  description: Configure StackStorm Datastore
+  author: cognifloyd
+  company: StackStorm
+  license: Apache
+  min_ansible_version: 2.2
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+        - xenial
+    - name: EL
+      versions:
+        - 6
+        - 7
+  categories:
+    - system
+dependencies: []
