@@ -1,0 +1,38 @@
+---
+- name: Make sure rabbitmq user options are specified correctly
+  assert:
+    that: (rabbitmq_keep_guest_user and 'guest' not in rabbitmq_absent_users) or rabbitmq_users|length > 0
+    msg: "If the guest user is deleted, at least one other user needs to be added."
+  tags: rabbitmq
+
+- name: Remove the guest user from RabbitMQ
+  become: yes
+  rabbitmq_user:
+    user: guest
+    state: absent
+  when: not rabbitmq_keep_guest_user
+  tags: rabbitmq
+
+- name: Remove other users from RabbitMQ
+  become: yes
+  rabbitmq_user:
+    user: "{{ _rmq_user }}"
+    state: absent
+  with_items: "{{ rabbitmq_absent_users }}"
+  tags: rabbitmq
+
+- name: Add RabbitMQ Users
+  become: yes
+  rabbitmq_user:
+    force: "{{ rabbitmq_force_user_recreate|default(omit) }}"
+    # NOTE: This does not handle erlang nodes other than "rabbit" (when is that even used?)
+    user: "{{ _rmq_user.user }}"
+    password: "{{ _rmq_user.password }}"
+    permissions: "{{ _rmq_user.permissions }}"
+    tags: "{{ _rmq_user.tags | default(omit) }}"
+    state: present
+  loop_control:
+    loop_var: _rmq_user
+    label: "{{ _rmq_user.user }}"
+  with_items: "{{ rabbitmq_users }}"
+  tags: rabbitmq
