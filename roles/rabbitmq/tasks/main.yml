@@ -21,6 +21,7 @@
   rabbitmq_plugin:
     name: "{{ item }}"
     state: enabled
+    prefix: "{{ is_redhat6 | ternary(rmq_redhat6_prefix, omit) }}"
   with_items: "{{ rmq_plugins }}"
   when: rmq_plugins
   tags: rabbitmq
