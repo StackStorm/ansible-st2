@@ -48,7 +48,7 @@
 
 - name: Configure StackStorm authentication
   include: auth.yml
-  when: "{{ st2_config.auth.enable|default(st2_auth_enable) if st2_config.auth is defined else st2_auth_enable }}"
+  when: _st2_config_auth_enable|default(st2_auth_enable, true)|bool
   tags: st2, auth
 
 - name: Configure StackStorm st2.conf settings
@@ -57,6 +57,8 @@
   with_dict: "{{ st2_config }}"
   loop_control:
     loop_var: _conf_section
+    # prevent logging passwords, auth URIs, and secrets
+    label: "conf | {{ _conf_section.key }}"
   tags: st2, config
 
 - name: Ensure StackStorm services are enabled and running

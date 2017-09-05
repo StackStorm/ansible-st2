@@ -27,6 +27,7 @@
       path: /etc/ssl/st2/st2.crt
     - cert: "{{ st2web_ssl_certificate_key }}"
       path: /etc/ssl/st2/st2.key
+  no_log: yes
   notify:
     - restart nginx
   when: st2web_ssl_certificate and st2web_ssl_certificate_key

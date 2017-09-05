@@ -9,6 +9,8 @@
   with_dict: "{{ _conf_options }}"
   loop_control:
     loop_var: _conf_option
+    # prevent logging passwords, auth URIs, and secrets
+    label: "conf | {{ _conf_section_name }}.{{ _conf_option.key }}"
   notify:
     - restart mistral
   tags: st2mistral, config

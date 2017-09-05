@@ -69,6 +69,8 @@
     option: connection
     value: postgresql://{{ st2mistral_db_username }}:{{ st2mistral_db_password }}@localhost/{{ st2mistral_db }}
     backup: yes
+  # no_log to prevent plain text logging of the password
+  no_log: yes
   notify:
     - restart mistral
   tags: st2mistral
@@ -79,6 +81,8 @@
   with_dict: "{{ st2mistral_config }}"
   loop_control:
     loop_var: _conf_section
+    # prevent logging passwords, auth URIs, and secrets
+    label: "conf | {{ _conf_section.key }}"
   tags: st2mistral, config
 
 - name: Setup mistral DB tables, etc

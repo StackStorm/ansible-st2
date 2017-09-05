@@ -12,3 +12,5 @@ st2_services:
   - st2api
   - st2stream
   - st2auth
+
+_st2_config_auth_enable: "{% if (st2_config and 'auth' in st2_config and 'enable' in st2_config.auth) %}{{ st2_config.auth.enable }}{% endif %}"
