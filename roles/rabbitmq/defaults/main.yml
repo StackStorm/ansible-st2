@@ -1,0 +1,6 @@
+---
+# set to [] to disable.
+rmq_plugins:
+  # you probably want at least one user tagged with administrator to use this plugin
+  - rabbitmq_management
+

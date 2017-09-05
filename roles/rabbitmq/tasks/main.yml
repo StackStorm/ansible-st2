@@ -15,3 +15,12 @@
     enabled: yes
     state: started
   tags: rabbitmq
+
+- name: Add RabbitMQ plugins
+  become: yes
+  rabbitmq_plugin:
+    name: "{{ item }}"
+    state: enabled
+  with_items: "{{ rmq_plugins }}"
+  when: rmq_plugins
+  tags: rabbitmq
