@@ -1,8 +1,10 @@
 ---
-- name: Install pip (for the installation of pymongo)
+- name: Install role dependencies for mongodb config and validation
   become: yes
   package:
-    name: python-pip
+    name:
+      - python-pip  # for the installation of pymongo
+      - "{% if ansible_facts.os_family == 'RedHat' %}PyYAML{% else %}python-yaml{% endif %}"
     state: present
   tags: [databases, mongodb]
 
@@ -12,4 +14,107 @@
   become: yes
   pip:
     name: "pymongo>=3.10.1,<4.0.0"
+  tags: [databases, mongodb]
+
+- name: See if mongodb authorization is enabled and users are configured
+  command: 'mongo --eval "db.getUsers()" admin'
+  # this will fail (rc 252) if auth is enabled and users are configured
+  # With the localhost exception, this will succeed (rc 0) when users are not configured even if auth is enabled.
+  # see:
+  #   - https://docs.mongodb.com/manual/core/security-users/#localhost-exception
+  #   - https://stackoverflow.com/q/31949586/1134951
+  #   - https://github.com/ansible/ansible/issues/33832#issuecomment-358031733
+  register: _mongo_authorization
+  changed_when: no # this does not change anything, it only checks
+  failed_when: no # The rc determines whether or not auth is required to create/update the admin user
+  tags: [databases, mongodb]
+
+- name: Show mongodb auth check output
+  # the purpose of this task is to make sure task output is visible in travis if there are problems
+  debug:
+    var: _mongo_authorization
+    verbosity: 2
+  tags: [databases, mongodb]
+
+- name: Warn about default credentials
+  when: "mongodb_admin_password == 'Ch@ngeMe'"
+  debug:
+    msg: "[WARNING] Using default admin credentials for mongodb admin account! Please change them!"
+  tags: [databases, mongodb]
+
+- name: Add mongo admin
+  mongodb_user:
+    state: present
+
+    # NOTE: on_create is idempotent - see comment below
+    update_password: on_create
+
+    name: "{{ mongodb_admin_username }}"
+    password: "{{ mongodb_admin_password }}"
+    database: admin
+    roles: userAdminAnyDatabase
+
+    # This does NOT include the mongo_auth_user.yml because of the
+    # special omit handling of login_* when mongo auth is not enabled/configured
+    login_host: "{{ mongodb_host }}"
+    login_port: "{{ mongodb_port | string }}"  # silence implicit int->str conversion warning
+    login_user: "{{ (_mongo_authorization.rc == 0) | ternary(omit, mongodb_admin_username) }}"
+    login_password: "{{ (_mongo_authorization.rc == 0) | ternary(omit, mongodb_admin_password) }}"
+    login_database: "{{ (_mongo_authorization.rc == 0) | ternary(omit, 'admin') }}"
+  tags: [databases, mongodb]
+
+- name: Enable security section in mongod.conf
+  become: yes
+  lineinfile:
+    path: /etc/mongod.conf
+    regexp: |-
+      ^[#'"\s]*security['"]?\s*:
+    line: 'security:'
+    validate: |
+      {{ mongodb_python }} -c '
+      import yaml, io
+      if "security" not in yaml.safe_load(io.open("%s")):
+          exit(1)
+      '
+  tags: [databases, mongodb]
+
+- name: Enable authentication in mongod.conf
+  become: yes
+  lineinfile:
+    path: /etc/mongod.conf
+    insertafter: '^security:'
+    # two space indentation (the default) assumed
+    line: '  authorization: enabled'
+    regexp: |-
+      ^[#'"\s]+authorization['"]?\s*:
+    validate: |
+      {{ mongodb_python }} -c '
+      import yaml, io
+      if yaml.safe_load(io.open("%s"))["security"]["authorization"] != "enabled":
+          exit(1)
+      '
+  register: _enable_mongo_auth
+  #notify: restart mongodb
+  tags: [databases, mongodb]
+
+- name: Restart mongodb to enable auth before adding additional users
+  # This is not a handler because restarting mongo now simplifies adding users.
+  # Restarting allows us to safely assume auth is already enabled.
+  when:
+    - mongodb_users | bool
+    - _enable_mongo_auth is changed
+  become: yes
+  service:
+    name: mongod
+    state: restarted
+  tags: [databases, mongodb]
+
+- name: Add additional mongo users
+  include_tasks: mongodb_auth_user.yml
+  loop_control:
+    loop_var: _mongodb_user
+  loop: "{{ mongodb_users }}"
+  # using loop_control: label does not obscure the password in output for verbosity > 1
+  # So, loop over an include where the task name will include the username + db, but the loop var won't print out.
+  no_log: yes
   tags: [databases, mongodb]

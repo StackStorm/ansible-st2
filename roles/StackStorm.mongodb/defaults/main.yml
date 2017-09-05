@@ -2,3 +2,27 @@
 # MongoDB version to install
 # Should be '3.2' or '3.4'
 mongodb_version: "3.4"
+
+# do not enable mongo auth by default. Make sure to add required users in mongodb_users if auth is enabled.
+mongodb_enable_auth: no
+
+# when adding auth, the login credentials to use
+mongodb_host: 127.0.0.1
+mongodb_port: 27017
+mongodb_admin_username: admin
+# For production use - please change the admin password!
+mongodb_admin_password: "{{ mongodb_default_admin_password }}"
+# The default is separate so the st2 role can provide a default without overriding a user provided password.
+mongodb_default_admin_password: "Ch@ngeMe"
+
+# Additional users to add.
+mongodb_users: []
+#  - db: st2
+#    username: st2mongo
+#    password: "Ch@ngeMe"
+#    roles: readWrite
+
+# whether or not to force a password update for any users in mongodb_users
+# Setting this to yes will result in 'changed' on every run, even if the password is the same.
+# See the comment in tasks/mongodb_auth.yml for more details.
+mongodb_force_update_password: no
