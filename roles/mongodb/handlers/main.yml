@@ -1,5 +1,5 @@
 ---
-- name: Restart mongod
+- name: restart mongodb
   become: yes
   service:
     name: mongod
