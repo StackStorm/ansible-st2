@@ -1,6 +1,6 @@
 # Extract mongodb "major.minor" version
 mongodb_major_minor_version: "{{ (mongodb_version|string)[:3] }}"
-# https://www.mongodb.org/static/pgp/server-{{ mongodb_major_minor_version }}.asc
+# Use the following URL to find the key: https://www.mongodb.org/static/pgp/server-{{ mongodb_major_minor_version }}.asc
 mongodb_apt_keys:
   "3.2": "42F3E95A2C4F08279C4960ADD68FA50FEA312927"
   "3.4": "0C49F3730359A14518585931BC711F9BA15703C6"
