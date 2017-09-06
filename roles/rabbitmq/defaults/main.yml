@@ -1,6 +1,8 @@
 ---
-# A comma separated list of plugins to enable (existing plugins will not be disabled)
-rabbitmq_plugins: ''
+rabbitmq_plugins: []
 # To enable the management plugin (in which case you'd want at least one user tagged with administrator):
-#rabbitmq_plugins: rabbitmq_management
+#rabbitmq_plugins:
+#  - rabbitmq_management
 
+# change this to no to remove any plugins that are not in the rabbitmq_plugins list
+rabbitmq_plugins_new_only: yes
