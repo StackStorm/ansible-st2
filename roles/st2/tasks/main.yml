@@ -59,6 +59,9 @@
     loop_var: _conf_section
   tags: st2, config
 
+- name: Configure the StackStorm datastore
+  include: datastore.yaml
+
 - name: Ensure StackStorm services are enabled and running
   become: yes
   service:

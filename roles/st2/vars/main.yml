@@ -12,3 +12,5 @@ st2_services:
   - st2api
   - st2stream
   - st2auth
+
+st2_datastore_key_file: /etc/st2/keys/datastore_key.json

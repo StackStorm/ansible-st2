@@ -1,4 +1,0 @@
----
-- name: restart st2api
-  become: yes
-  command: st2ctl restart-component st2api

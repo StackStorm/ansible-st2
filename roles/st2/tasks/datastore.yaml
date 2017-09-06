@@ -1,30 +1,30 @@
 ---
-- name: Add the st2 system user to the st2 group
+- name: Add the st2 system service user to the service group
   become: yes
   user:
-    user: st2
-    groups: st2
+    user: "{{ st2_system_service_user }}"
+    groups: "{{ st2_system_service_group }}"
     append: yes
 
 - name: Make stackstorm encryption keys directory
   become: yes
   file:
-    path: "{{ st2ds_keys_dir }}"
+    path: "{{ st2_datastore_key_file | dirname }}"
     state: directory
     mode: 0750
     owner: root
-    group: st2
+    group: "{{ st2_system_service_group }}"
 
 - name: Generate st2 encryption key
   become: yes
-  command: st2-generate-symmetric-crypto-key --key-path {{ st2ds_keys_dir }}/{{ st2ds_key_file }}
+  command: st2-generate-symmetric-crypto-key --key-path {{ st2_datastore_key_file }}
   args:
-    creates: "{{ st2ds_keys_dir }}/{{ st2ds_key_file }}"
+    creates: "{{ st2_datastore_key_file }}"
 
 - name: Fix permissions on datastore encryption key
   become: yes
   file:
-    path: "{{ st2ds_keys_dir }}/{{ st2ds_key_file }}"
+    path: "{{ st2_datastore_key_file }}"
     mode: 0640
     owner: root
     group: st2
@@ -35,6 +35,6 @@
     path: /etc/st2/st2.conf
     section: keyvalue
     option: encryption_key_path
-    value: "{{ st2ds_keys_dir }}/{{ st2ds_key_file }}"
+    value: "{{ st2_datastore_key_file }}"
   notify: restart st2api
 

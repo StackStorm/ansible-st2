@@ -7,7 +7,6 @@
     - postgresql
     - st2repo
     - st2
-    - st2datastore
     - st2mistral
     - nginx
     - st2web

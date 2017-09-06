@@ -34,3 +34,9 @@ st2_auth_username: testu
 st2_auth_password: testp
 # Save credentials in ~/.st2/config file
 st2_save_credentials: yes
+
+# System service user installed by the st2 packages
+st2_system_service_user: st2
+# System service user group
+st2_system_service_user: st2
+
