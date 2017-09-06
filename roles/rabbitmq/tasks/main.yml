@@ -19,9 +19,10 @@
 - name: Add RabbitMQ plugins
   become: yes
   rabbitmq_plugin:
-    name: "{{ item }}"
+    names: "{{ rabbitmq_plugins }}"
     state: enabled
-    prefix: "{{ is_redhat6 | ternary(rmq_redhat6_prefix, omit) }}"
-  with_items: "{{ rmq_plugins }}"
-  when: rmq_plugins
+    new_only: yes
+    # the EL6 RPM for rabbitmq-server does not place the rabbitmq-plugins binary in the search path (other distro's packages do, including EL7). Prefix adds it to the binary search path.
+    prefix: "{{ rabbitmq_use_el6_prefix | ternary(rabbitmq_el6_prefix, omit) }}"
+  when: rabbitmq_plugins != ''
   tags: rabbitmq
