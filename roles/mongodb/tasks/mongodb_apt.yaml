@@ -18,7 +18,7 @@
 - name: apt | Install mongodb
   become: yes
   apt:
-    name: {{ item }}={{ mongodb_version }}*
+    name: "{{ item }}={{ mongodb_version }}*"
     state: present
   notify: restart mongodb
   with_items:
