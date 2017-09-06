@@ -20,7 +20,6 @@
   apt:
     name: "{{ item }}={{ mongodb_version }}*"
     state: present
-  notify: restart mongodb
   with_items:
     # re-installing different version of 'mongodb-org' meta package doesn't automatically
     # upgrade or downgrade its dependencies. So we need to explicitly list them one-by-one.
@@ -29,4 +28,5 @@
     - mongodb-org-server
     - mongodb-org-mongos
     - mongodb-org-tools
+  notify: restart mongodb
   tags: [databases, mongodb]
