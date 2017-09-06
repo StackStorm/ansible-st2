@@ -18,7 +18,15 @@
 - name: apt | Install mongodb
   become: yes
   apt:
-    name: mongodb-org={{ mongodb_version }}*
+    name: {{ item }}={{ mongodb_version }}*
     state: present
   notify: restart mongodb
+  with_items:
+    # re-installing different version of 'mongodb-org' meta package doesn't automatically
+    # upgrade or downgrade its dependencies. So we need to explicitly list them one-by-one.
+    - mongodb-org
+    - mongodb-org-shell
+    - mongodb-org-server
+    - mongodb-org-mongos
+    - mongodb-org-tools
   tags: [databases, mongodb]
