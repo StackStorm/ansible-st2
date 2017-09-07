@@ -12,3 +12,16 @@ st2_services:
   - st2api
   - st2stream
   - st2auth
+
+# List of config vars (by section) that should have no_log: true to avoid showing up in ansible output
+st2_config_no_log:
+  coordination:
+    - url
+  database:
+    - username
+    - password
+  messaging:
+    - url
+  mistral:
+    - keystone_username
+    - keystone_password
