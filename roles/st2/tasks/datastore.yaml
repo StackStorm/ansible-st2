@@ -1,11 +1,4 @@
 ---
-- name: Add the st2 system service user to the service group
-  become: yes
-  user:
-    user: "{{ st2_system_service_user }}"
-    groups: "{{ st2_system_service_group }}"
-    append: yes
-
 - name: Make stackstorm encryption keys directory
   become: yes
   file:
@@ -13,7 +6,7 @@
     state: directory
     mode: 0750
     owner: root
-    group: "{{ st2_system_service_group }}"
+    group: st2
 
 - name: Generate st2 encryption key
   become: yes
