@@ -81,8 +81,6 @@
   with_dict: "{{ st2mistral_config }}"
   loop_control:
     loop_var: _conf_section
-    # prevent logging passwords, auth URIs, and secrets
-    label: "conf | {{ _conf_section.key }}"
   tags: st2mistral, config
 
 - name: Setup mistral DB tables, etc

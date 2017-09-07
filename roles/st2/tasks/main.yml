@@ -58,8 +58,6 @@
   with_dict: "{{ st2_config }}"
   loop_control:
     loop_var: _conf_section
-    # prevent logging passwords, auth URIs, and secrets
-    label: "conf | {{ _conf_section.key }}"
   tags: st2, config
 
 - name: Ensure StackStorm services are enabled and running
