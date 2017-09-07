@@ -48,7 +48,8 @@
 
 - name: Configure StackStorm authentication
   include: auth.yml
-  when: _st2_config_auth_enable|default(st2_auth_enable, true)|bool
+  # Use st2_config.auth.enable setting if available, otherwise use st2_auth_enable
+  when: (st2_config.auth|default({})).enable|default(st2_auth_enable)
   tags: st2, auth
 
 - name: Configure StackStorm st2.conf settings
