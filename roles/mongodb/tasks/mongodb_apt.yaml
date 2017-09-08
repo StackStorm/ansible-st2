@@ -2,22 +2,31 @@
 - name: apt | Add mongodb key
   become: yes
   apt_key:
+    # Don't use mongodb.org key location due to SNI verification problems under Ubuntu Trusty
     keyserver: "hkp://keyserver.ubuntu.com:80"
-    id: 0C49F3730359A14518585931BC711F9BA15703C6
+    id: "{{ mongodb_apt_keys[mongodb_major_minor_version] }}"
     state: present
   tags: [databases, mongodb]
 
 - name: apt | Add mongodb repository
   become: yes
   apt_repository:
-    repo: 'deb http://repo.mongodb.org/apt/{{ ansible_distribution|lower }} {{ ansible_distribution_release|lower }}/mongodb-org/3.4 multiverse'
+    repo: 'deb http://repo.mongodb.org/apt/{{ ansible_distribution|lower }} {{ ansible_distribution_release|lower }}/mongodb-org/{{ mongodb_major_minor_version }} multiverse'
     state: present
   tags: [databases, mongodb]
 
 - name: apt | Install mongodb
   become: yes
   apt:
-    name: mongodb-org
+    name: "{{ item }}={{ mongodb_version }}*"
     state: present
-  notify: Restart mongod
+  with_items:
+    # re-installing different version of 'mongodb-org' meta package doesn't automatically
+    # upgrade or downgrade its dependencies. So we need to explicitly list them one-by-one.
+    - mongodb-org
+    - mongodb-org-shell
+    - mongodb-org-server
+    - mongodb-org-mongos
+    - mongodb-org-tools
+  notify: restart mongodb
   tags: [databases, mongodb]
