@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  description: Install MongoDB-3.4
+  description: Install MongoDB
   author: humblearner
   company: StackStorm
   license: Apache
