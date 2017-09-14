@@ -15,3 +15,16 @@ st2_services:
 
 # Where to store the ST2 datastore encryption key (automatically generated during install)
 st2_datastore_key_file: /etc/st2/keys/datastore_key.json
+
+# List of config vars (by section) that should have no_log: true to avoid showing up in ansible output
+st2_config_no_log:
+  coordination:
+    - url
+  database:
+    - username
+    - password
+  messaging:
+    - url
+  mistral:
+    - keystone_username
+    - keystone_password

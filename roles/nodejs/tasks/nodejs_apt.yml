@@ -25,6 +25,6 @@
 - name: Install nodejs
   become: yes
   apt:
-    pkg: nodejs
+    name: nodejs={{ nodejs_major_version }}.*
     state: present
   tags: nodejs

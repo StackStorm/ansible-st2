@@ -21,6 +21,8 @@
     name: st2chatops
     state: latest
   when: st2chatops_version == "latest"
+  notify:
+    - restart st2chatops
   tags: [st2chatops, skip_ansible_lint]
 
 - name: Install present st2chatops package, no auto-update
@@ -29,6 +31,8 @@
     name: st2chatops
     state: present
   when: st2chatops_version == "present"
+  notify:
+    - restart st2chatops
   tags: st2chatops
 
 - name: Install pinned st2chatops package
@@ -37,6 +41,8 @@
     name: st2chatops{{ '-' if ansible_pkg_mgr == 'yum' else '=' }}{{ st2chatops_version }}
     state: present
   when: st2chatops_version != "latest"
+  notify:
+    - restart st2chatops
   tags: st2chatops
 
 - name: Check if api key already exist. No change if it already exists

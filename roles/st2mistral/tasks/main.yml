@@ -69,6 +69,8 @@
     option: connection
     value: postgresql://{{ st2mistral_db_username }}:{{ st2mistral_db_password }}@localhost/{{ st2mistral_db }}
     backup: yes
+  # no_log to prevent plain text logging of the password
+  no_log: yes
   notify:
     - restart mistral
   tags: st2mistral

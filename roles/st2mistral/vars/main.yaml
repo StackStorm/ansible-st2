@@ -1,0 +1,24 @@
+---
+# List of config vars (by section) that should have no_log: true to avoid showing up in ansible output
+st2mistral_config_no_log:
+  DEFAULT:
+    - transport_url
+  database:
+    - connection
+    - slave_connection
+  coordination:
+    - backend_url
+  keystone_authtoken:
+    - admin_token
+    - admin_user
+    - admin_password
+  matchmaker_redis:
+    - password
+  oslo_messaging_amqp:
+    - ssl_key_password
+  oslo_messaging_qpid:
+    - qpid_username
+    - qpid_password
+  oslo_messaging_rabbit:
+    - rabbit_userid
+    - rabbit_password

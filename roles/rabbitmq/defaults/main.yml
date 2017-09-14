@@ -1,0 +1,5 @@
+---
+rabbitmq_plugins: []
+# To enable the management plugin (in which case you'd want at least one user tagged with administrator):
+#rabbitmq_plugins:
+#  - rabbitmq_management
