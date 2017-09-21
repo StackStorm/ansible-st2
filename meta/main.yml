@@ -5,7 +5,7 @@
 # `ansible.cfg` workaround to find stackstorm roles:
 #
 # [defaults]
-# roles_path = /etc/ansible/roles/:/etc/ansible/roles/stackstorm/roles/
+# roles_path = /etc/ansible/roles/:/etc/ansible/roles/StackStorm.stackstorm/roles/
 ---
 galaxy_info:
   description: Install StackStorm (IFTTT for Ops) with all the components like Web UI, ChatOps, BWC and dependant services including RabbitMQ, MongoDB, PostgreSQL, nginx.

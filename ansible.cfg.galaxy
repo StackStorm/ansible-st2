@@ -5,4 +5,4 @@
 # Use this `ansible.cfg` workaround to help Ansible find StackStorm roles:
 
 [defaults]
-roles_path = /etc/ansible/roles/:/etc/ansible/roles/stackstorm/roles/
+roles_path = /etc/ansible/roles/:/etc/ansible/roles/StackStorm.stackstorm/roles/
