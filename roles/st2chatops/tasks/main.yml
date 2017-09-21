@@ -45,12 +45,12 @@
     - restart st2chatops
   tags: st2chatops
 
-- name: Check if api key already exist. No change if it already exists
+- name: Check if API key already exist in st2chatops.env
   become: yes
   command: "grep -e '^export ST2_API_KEY=\"\\${ST2_API_KEY}\"$' /opt/stackstorm/chatops/st2chatops.env"
   changed_when: no
   ignore_errors: true
-  register: task_apikey_exists
+  register: task_apikey_not_exists
   tags: st2chatops
 
 - name: Add user defined "st2chatops_st2_api_key" in st2chatops.env, from "role" or "defaults/main.yml"
@@ -60,7 +60,7 @@
     regexp: '(?<=ST2_API_KEY=)(\"\$\{ST2_API_KEY\}\")$'
     replace: '{{ st2chatops_st2_api_key }}'
   when: >
-    (task_apikey_exists.failed is not defined) and
+    (task_apikey_not_exists|succeeded) and
     (st2chatops_st2_api_key is defined) and
     (st2chatops_st2_api_key != "CHANGE-ME-PLEASE")
   register: task_user_st2_api_key
@@ -70,9 +70,7 @@
 
 - name: Generate authentication token
   command: st2 auth {{ st2_auth_username }} -p {{ st2_auth_password }} -t
-  when: >
-    (task_apikey_exists.failed is not defined) and
-    (task_user_st2_api_key.changed == false)
+  when: task_apikey_not_exists|succeeded and task_user_st2_api_key.changed == false
   register: task_st2_token
   tags: [st2chatops, skip_ansible_lint]
 
