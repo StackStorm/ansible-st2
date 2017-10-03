@@ -1,17 +1,4 @@
 ---
-
-  - name: Create BWC RBAC directories
-    become: yes
-    file:
-      path: "{{ item }}"
-      mode: "u=rwx,g=rx,o=rx"
-      owner: st2
-      group: st2
-      state: directory
-    with_items:
-      - /opt/stackstorm/rbac/assignments
-      - /opt/stackstorm/rbac/roles
-
   - name: Copy default RBAC roles to /opt/stackstorm/rbac/roles directory
     become: yes
     template:
