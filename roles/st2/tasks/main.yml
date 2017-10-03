@@ -61,7 +61,7 @@
   tags: st2, config
 
 - name: Configure the StackStorm datastore
-  include: datastore.yaml
+  include: datastore.yml
   tags: st2, datastore
 
 - name: Ensure StackStorm services are enabled and running
