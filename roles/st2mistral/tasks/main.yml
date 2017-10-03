@@ -13,6 +13,7 @@
     name: st2mistral
     state: latest
   when: st2mistral_version == "latest"
+  register: mistral_install_latest
   tags: [st2mistral, skip_ansible_lint]
 
 - name: Install present st2mistral package, no auto-update
@@ -21,6 +22,7 @@
     name: st2mistral
     state: present
   when: st2mistral_version == "present"
+  register: mistral_install_present
   tags: st2mistral
 
 - name: Install pinned st2mistral package
@@ -31,7 +33,19 @@
   when:
     - st2mistral_version != "latest"
     - st2mistral_version != "present"
+  register: mistral_install_tagged
   tags: st2mistral
+
+- name: Enable mistral db upgrade
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
+    - /etc/mistral/mistral-db-manage.populate.ansible.has.run
+  when: mistral_install_latest|changed or mistral_install_present|changed or mistral_install_tagged|changed
+  tags: st2mistral, skip_ansible_lint
 
 - name: Deploy database init script
   become: yes
