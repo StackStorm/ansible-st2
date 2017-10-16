@@ -9,6 +9,12 @@
   become: yes
   command: st2ctl reload --register-all
 
+- name: restart st2actionrunner
+  become: yes
+  service:
+    name: st2actionrunner
+    state: restarted
+
 - name: restart st2api
   become: yes
   service:
