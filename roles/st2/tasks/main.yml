@@ -64,6 +64,10 @@
   include: datastore.yml
   tags: st2, datastore
 
+- name: Configure StackStorm to work via proxy
+  include: proxy.yml
+  tags: st2, proxy
+
 - name: Ensure StackStorm services are enabled and running
   become: yes
   service:
