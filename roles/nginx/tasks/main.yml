@@ -20,7 +20,7 @@
     dest: /etc/nginx/nginx.conf
     regexp: 'include /etc/nginx/sites-enabled/'
     insertafter: '    include /etc/nginx/conf.d/'
-    line: 'include /etc/nginx/sites-enabled/*;'
+    line: '    include /etc/nginx/sites-enabled/*;'
   tags: nginx
 
 - name: Start & Enable nginx
