@@ -28,9 +28,15 @@
     name: "{{ item }}"
     state: installed
   with_items:
-    - postgresql94-server
-    - postgresql94-contrib
-    - postgresql94-devel
+    # Temp pinning as "/var/lib/pgsql/9.4/data/pg_hba.conf does not exist on postgresql9494-9.4.15-2
+    # - postgresql94-server
+    # - postgresql94-contrib
+    # - postgresql94-devel
+    - postgresql94-9.4.15-2PGDG.rhel6
+    - postgresql94-contrib-9.4.15-2PGDG.rhel6.x86_64
+    - postgresql94-server-9.4.15-2PGDG.rhel6.x86_64
+    - postgresql94-devel-9.4.15-2PGDG.rhel6.x86_64
+    - postgresql94-libs-9.4.15-2PGDG.rhel6.x86_64
   register: install_postgresql
   tags: [db, postgresql]
 
