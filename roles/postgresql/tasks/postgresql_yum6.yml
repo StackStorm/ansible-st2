@@ -28,7 +28,7 @@
     name: "{{ item }}"
     state: installed
   with_items:
-    # Temp pinning as "/var/lib/pgsql/9.4/data/pg_hba.conf does not exist on postgresql9494-9.4.15-2
+    # Temp pinning as "/var/lib/pgsql/9.4/data/pg_hba.conf does't exist with postgresql9494-9.4.15-3 install
     # - postgresql94-server
     # - postgresql94-contrib
     # - postgresql94-devel
