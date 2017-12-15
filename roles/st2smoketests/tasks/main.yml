@@ -19,7 +19,7 @@
     - smoke-tests
 
 - name: get authentication token
-  command: st2 auth {{ st2_auth_username }} -p {{ st2_auth_password }} -t
+  command: st2 auth {{ st2_auth_username }} -p "{{ st2_auth_password }}" -t
   register: st2_token
   changed_when: no
   tags:

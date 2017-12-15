@@ -69,7 +69,7 @@
   tags: st2chatops
 
 - name: Generate authentication token
-  command: st2 auth {{ st2_auth_username }} -p {{ st2_auth_password }} -t
+  command: st2 auth {{ st2_auth_username }} -p "{{ st2_auth_password }}" -t
   when: task_apikey_not_exists|succeeded and task_user_st2_api_key.changed == false
   register: task_st2_token
   tags: [st2chatops, skip_ansible_lint]
