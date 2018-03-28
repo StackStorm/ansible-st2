@@ -22,6 +22,7 @@
   yum:
     name: nginx
     state: present
+    disablerepo: epel
   tags: nginx
 
 - name: Remove default site
