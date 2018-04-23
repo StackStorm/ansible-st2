@@ -4,6 +4,10 @@
   rpm_key:
     key: http://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   tags: nodejs
 
 - name: Add nodesource repo
@@ -21,4 +25,8 @@
     # TODO: Allow yum downgrade since Ansible 2.4
     # https://github.com/ansible/ansible/pull/21516
     # allow_downgrade: yes
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   tags: nodejs

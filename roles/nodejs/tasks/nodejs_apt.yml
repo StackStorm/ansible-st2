@@ -3,6 +3,10 @@
   apt:
     name: apt-transport-https
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   tags: nodejs
 
 - name: Add nodesource key
@@ -11,6 +15,10 @@
     url: https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x1655A0AB68576280
     id: "68576280"
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   tags: nodejs
 
 - name: Add nodesource repos debs
@@ -27,4 +35,8 @@
   apt:
     name: nodejs={{ nodejs_major_version }}.*
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   tags: nodejs
