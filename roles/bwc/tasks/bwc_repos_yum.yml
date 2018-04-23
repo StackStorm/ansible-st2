@@ -6,6 +6,10 @@
   yum:
     name: ca-certificates
     state: latest
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   tags: skip_ansible_lint
 
 - name: "Add packagecloud.io repository: StackStorm/{{ bwc_repo }}"

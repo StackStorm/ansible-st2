@@ -16,6 +16,10 @@
   package:
     name: "{{ st2web_package_name }}"
     state: latest
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   when: st2_version == "latest"
   tags: st2web, skip_ansible_lint
 
@@ -24,6 +28,10 @@
   package:
     name: "{{ st2web_package_name }}"
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   when: st2_version == "present"
   tags: st2web
 
@@ -32,6 +40,10 @@
   package:
     name: "{{ st2web_package_name }}{{ '-' if ansible_pkg_mgr == 'yum' else '=' }}{{ st2_version }}-{{ st2web_revision }}"
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   when:
     - st2_version != "latest"
     - st2_version != "present"

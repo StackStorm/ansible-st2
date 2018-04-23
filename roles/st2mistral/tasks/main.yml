@@ -6,6 +6,9 @@
     state: latest
   when: st2mistral_version == "latest"
   register: mistral_install_latest
+  retries: 5
+  delay: 3
+  until: mistral_install_latest is succeeded
   tags: [st2mistral, skip_ansible_lint]
 
 - name: Install present st2mistral package, no auto-update
@@ -15,6 +18,9 @@
     state: present
   when: st2mistral_version == "present"
   register: mistral_install_present
+  retries: 5
+  delay: 3
+  until: mistral_install_present is succeeded
   tags: st2mistral
 
 - name: Install pinned st2mistral package
@@ -26,6 +32,9 @@
     - st2mistral_version != "latest"
     - st2mistral_version != "present"
   register: mistral_install_tagged
+  retries: 5
+  delay: 3
+  until: mistral_install_tagged is succeeded
   tags: st2mistral
 
 - name: Enable mistral db upgrade

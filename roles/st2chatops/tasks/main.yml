@@ -20,6 +20,10 @@
   package:
     name: st2chatops
     state: latest
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   when: st2chatops_version == "latest"
   notify:
     - restart st2chatops
@@ -30,6 +34,10 @@
   package:
     name: st2chatops
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   when: st2chatops_version == "present"
   notify:
     - restart st2chatops
@@ -40,6 +48,10 @@
   package:
     name: st2chatops{{ '-' if ansible_pkg_mgr == 'yum' else '=' }}{{ st2chatops_version }}
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   when: st2chatops_version != "latest"
   notify:
     - restart st2chatops

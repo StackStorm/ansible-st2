@@ -25,6 +25,10 @@
     headers:
       Content-Type: "application/x-www-form-urlencoded"
     body: "name={{ ansible_nodename }}"
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
 
 - name: Read bwc_read_token from file
   become: yes
