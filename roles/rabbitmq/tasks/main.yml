@@ -4,6 +4,10 @@
   package:
     name: rabbitmq-server
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   notify:
     - restart rabbitmq
   tags: rabbitmq
