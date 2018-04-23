@@ -9,6 +9,9 @@
     - postgresql-contrib
     - postgresql-devel
   register: install_postgresql
+  retries: 5
+  delay: 3
+  until: install_postgresql is succeeded
   tags: [db, postgresql]
 
 - name: yum | Initialize PostgreSQL

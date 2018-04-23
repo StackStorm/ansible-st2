@@ -4,6 +4,10 @@
   apt:
     name: postgresql
     state: installed
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   tags: [db, postgresql]
 
 - name: apt | Start and Enable PostgreSQL
