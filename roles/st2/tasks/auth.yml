@@ -6,6 +6,10 @@
   with_items:
     - python-passlib
     - apache2-utils
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   when: ansible_os_family == 'Debian'
 
 - name: auth | Install auth pre-reqs (RedHat)
@@ -16,6 +20,10 @@
   with_items:
     - python-passlib
     - httpd-tools
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   when: ansible_os_family == 'RedHat'
 
 - name: auth | Create htpasswd file

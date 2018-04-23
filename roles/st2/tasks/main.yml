@@ -4,6 +4,10 @@
   package:
     name: http://rpmfind.net/linux/centos/6/os/x86_64/Packages/libffi-devel-3.0.5-3.2.el6.x86_64.rpm
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   when: ansible_os_family == "RedHat" and ansible_distribution_major_version == "6"
   tags: st2
 
@@ -12,6 +16,10 @@
   package:
     name: st2
     state: latest
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   when: st2_version == "latest"
   notify:
     - restart st2
@@ -23,6 +31,10 @@
   package:
     name: st2
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   when: st2_version == "present"
   notify:
     - restart st2
@@ -34,6 +46,10 @@
   package:
     name: st2{{ '-' if ansible_pkg_mgr == 'yum' else '=' }}{{ st2_version }}-{{ st2_revision }}
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   when:
     - st2_version != "latest"
     - st2_version != "present"
