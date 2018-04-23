@@ -16,6 +16,9 @@
     name: bwc-enterprise
     state: latest
   register: bwc_installed
+  retries: 5
+  delay: 3
+  until: bwc_installed is succeeded
   when: bwc_version == "latest"
   tags:
     - bwc
@@ -28,6 +31,9 @@
     name: bwc-enterprise
     state: present
   register: bwc_installed
+  retries: 5
+  delay: 3
+  until: bwc_installed is succeeded
   when: bwc_version == "present"
   tags:
     - bwc
@@ -39,6 +45,9 @@
     name: bwc-enterprise{{ '-' if ansible_pkg_mgr == 'yum' else '=' }}{{ bwc_version }}-{{ bwc_revision }}
     state: present
   register: bwc_installed
+  retries: 5
+  delay: 3
+  until: bwc_installed is succeeded
   when:
     - bwc_version != "latest"
     - bwc_version != "present"

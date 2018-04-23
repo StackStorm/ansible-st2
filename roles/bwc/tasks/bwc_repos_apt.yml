@@ -8,6 +8,10 @@
   with_items:
     - debian-archive-keyring
     - apt-transport-https
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
 
 # This is the exact key as the open source repo but this behavior might change.
 - name: Add keys to keyring
@@ -16,6 +20,10 @@
     id: 418A7F2FB0E1E6E7EABF6FE8C2E73424D59097AB
     url: https://packagecloud.io/StackStorm/{{ bwc_repo }}/gpgkey
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
 
 - name: "Add packagecloud.io repository: StackStorm/{{ bwc_repo }}"
   become: yes
@@ -26,3 +34,6 @@
     state: present
     update_cache: yes
   register: added_bwc_deb_repository
+  retries: 5
+  delay: 3
+  until: added_bwc_deb_repository is succeeded
