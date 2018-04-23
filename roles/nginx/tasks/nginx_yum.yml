@@ -4,6 +4,10 @@
   rpm_key:
     key: http://nginx.org/keys/nginx_signing.key
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   tags: nginx
 
 - name: Add nginx repos
@@ -23,6 +27,10 @@
     name: nginx
     state: present
     disablerepo: epel
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   tags: nginx
 
 - name: Remove default site
@@ -38,6 +46,9 @@
     name: libsemanage-python, libselinux-python
     state: present
   register: nginx_selinux_dependencies
+  retries: 5
+  delay: 3
+  until: nginx_selinux_dependencies is succeeded
   tags: nginx
 
 - name: Update SELinux facts after installing dependencies

@@ -5,6 +5,10 @@
     url: http://nginx.org/keys/nginx_signing.key
     id: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   tags: nginx
 
 - name: Add nginx repos
@@ -19,6 +23,10 @@
   apt:
     name: nginx
     state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   tags: nginx
 
 - name: Remove default site
