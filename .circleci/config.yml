@@ -1,0 +1,21 @@
+# CircleCI is used only for Ansible-Lint and Ansible Syntax checks
+version: 2
+jobs:
+  build:
+    docker:
+      - image: williamyeh/ansible:ubuntu16.04
+    steps:
+      - checkout
+      - run:
+          name: Install ansible-lint
+          command: |
+            pip install ansible-lint
+            ansible-lint --version
+      - run:
+          name: Ansible YAML syntax check
+          command: |
+            ansible-playbook --syntax-check stackstorm.yml
+      - run:
+          name: Ansible-lint check
+          command: |
+            ansible-lint -v roles/*/*/*.yaml roles/*/*/*.yml stackstorm.yml
