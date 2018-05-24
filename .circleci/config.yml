@@ -3,7 +3,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: ansible/ansible:ubuntu1604
+      - image: williamyeh/ans:ubuntu16.04
     steps:
       - checkout
       - run:
