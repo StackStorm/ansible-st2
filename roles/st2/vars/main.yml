@@ -12,6 +12,7 @@ st2_services:
   - st2api
   - st2stream
   - st2auth
+  - st2workflowengine
 
 # Where to store the ST2 datastore encryption key (automatically generated during install)
 st2_datastore_key_file: /etc/st2/keys/datastore_key.json
