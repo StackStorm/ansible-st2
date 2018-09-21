@@ -11,3 +11,7 @@ RUN touch /home/<%= @username %>/.ssh/authorized_keys
 RUN chown <%= @username %> /home/<%= @username %>/.ssh/authorized_keys
 RUN chmod 0600 /home/<%= @username %>/.ssh/authorized_keys
 RUN echo '<%= IO.read(@public_key).strip %>' >> /home/<%= @username %>/.ssh/authorized_keys
+
+# yum output is too verbose (and includes expensive download progress bars)
+# which tripped the travis log length limit for centos-6
+RUN /bin/sed -i "s/^[#]*debuglevel=.*/debuglevel=1/" /etc/yum.conf
