@@ -9,7 +9,10 @@ rabbitmq_vhosts: []
 # - st2
 rabbitmq_absent_vhosts: []
 
-rabbitmq_keep_guest_user: yes
+# other roles can change the default while allowing the end user to still override the value.
+rabbitmq_keep_guest_user_default: yes
+rabbitmq_keep_guest_user: "{{ rabbitmq_keep_guest_user_default }}"
+
 rabbitmq_users: []
 #  - user: st2rmq
 #    password: stackstorm

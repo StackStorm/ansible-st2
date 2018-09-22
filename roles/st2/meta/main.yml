@@ -4,7 +4,8 @@ galaxy_info:
   author: armab
   company: StackStorm
   license: Apache 2.0
-  min_ansible_version: 2.2
+  # urlsplit filter in 2.4 used for rabbitmq vhost/user creation
+  min_ansible_version: 2.4
   platforms:
     - name: Ubuntu
       versions:
