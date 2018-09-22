@@ -1,7 +1,7 @@
 # Default st2 immutable vars
 ---
 # List of available `st2` services:
-# https://github.com/StackStorm/st2/blob/master/st2common/bin/st2ctl#L5
+# https://github.com/StackStorm/st2/blob/master/st2common/bin/st2ctl#L17
 st2_services:
   - st2actionrunner
   - st2garbagecollector
@@ -13,6 +13,7 @@ st2_services:
   - st2stream
   - st2auth
   - st2workflowengine
+  - st2timersengine
 
 # Where to store the ST2 datastore encryption key (automatically generated during install)
 st2_datastore_key_file: /etc/st2/keys/datastore_key.json
