@@ -55,3 +55,18 @@ platforms:
 
 suites:
   - name: default
+  - name: secure_mongo
+    provisioner:
+      extra_vars:
+        st2_config:
+          database:
+            username: st2mongo
+            password: Sw33tPassw0rd
+            db_name: st2
+        mongodb_enable_auth: yes
+        mongodb_default_admin_password: AdminP@ssw0rd
+        mongodb_users:
+          - db: st2
+            username: st2mongo
+            password: Sw33tPassw0rd
+            roles: readWrite,dbAdmin
