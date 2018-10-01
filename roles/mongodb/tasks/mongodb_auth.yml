@@ -1,0 +1,6 @@
+---
+- name: Ensure pymongo is installed for the mongodb_user ansible module
+  become: yes
+  package:
+    name: python-pymongo
+    state: present
