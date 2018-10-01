@@ -68,6 +68,36 @@
   when: (st2_config.auth|default({})).enable|default(st2_auth_enable)
   tags: st2, auth
 
+# If rabbitmq is not running on localhost, then the vhost & user tasks need to be delegated to the appropriate host.
+# That is out of scope for this role, and should be handled by the playbook user.
+- name: Configure RabbitMQ vhost for st2
+  when: '"messaging" in st2_config and "url" in st2_config.messaging and (st2_config.messaging.url | urlsplit("hostname") in ["127.0.0.1", "localhost"])'
+  include_role:
+    name: rabbitmq
+    tasks_from: rabbitmq_vhosts
+  vars:
+    rabbitmq_vhosts:
+      # vhost is either '/' or the encoded version of everything after the '/'
+      # an empty string != '/' which would need to be encoded as %2F
+      - '{{ (st2_config.messaging.url | urlsplit("path"))[1:] }}'  # [1:] = do not include initial /
+      - '/'
+
+- name: Configure RabbitMQ user for st2
+  when: '"messaging" in st2_config and "url" in st2_config.messaging and (st2_config.messaging.url | urlsplit("hostname") in ["127.0.0.1", "localhost"])'
+  include_role:
+    name: rabbitmq
+    tasks_from: rabbitmq_users
+  vars:
+    rabbitmq_keep_guest_user_default: '{{ st2_config.messaging.url | urlsplit("username") == "guest" }}'
+    rabbitmq_users:
+      - user: '{{ st2_config.messaging.url | urlsplit("username") }}'
+        password: '{{ st2_config.messaging.url | urlsplit("password") }}'
+        permissions:
+          - vhost: '{{ (st2_config.messaging.url | urlsplit("path"))[1:] | default("/", true) }}'
+            configure_priv: .*
+            read_priv: .*
+            write_priv: .*
+
 - name: Configure StackStorm st2.conf settings
   # Ansible nested loop to iterate through a hash of hashes
   include: config.yml _conf_section_name={{ _conf_section.key }} _conf_options={{ _conf_section.value }}

@@ -31,3 +31,11 @@
     prefix: "{{ rabbitmq_on_el6 | ternary(rabbitmq_el6_prefix, omit) }}"
   when: rabbitmq_plugins
   tags: rabbitmq
+
+- name: Add/Remove RabbitMQ vhosts
+  when: rabbitmq_vhosts or rabbitmq_absent_vhosts
+  include: rabbitmq_vhosts.yml
+
+- name: Add/Remove RabbitMQ users
+  when: rabbitmq_users or rabbitmq_absent_users
+  include: rabbitmq_users.yml

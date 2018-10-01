@@ -3,3 +3,29 @@ rabbitmq_plugins: []
 # To enable the management plugin (in which case you'd want at least one user tagged with administrator):
 #rabbitmq_plugins:
 #  - rabbitmq_management
+
+# Make sure to include an entry for every vhost listed in rabbitmq_users.*.permissions
+rabbitmq_vhosts: []
+# - st2
+rabbitmq_absent_vhosts: []
+
+# other roles can change the default while allowing the end user to still override the value.
+rabbitmq_keep_guest_user_default: yes
+rabbitmq_keep_guest_user: "{{ rabbitmq_keep_guest_user_default }}"
+
+rabbitmq_users: []
+#  - user: st2rmq
+#    password: stackstorm
+    # tags can be zero, one, or more of (comma separated): management,policymaker,monitoring,administrator
+#    tags: policymaker
+#    permissions:
+#      - vhost: 'st2'
+#        configure_priv: .*
+#        read_priv: .*
+#        write_priv: .*
+
+# Users (other than guest) that should not be present
+rabbitmq_absent_users: []
+
+# Set this (probably via extra-vars) to force user recreation
+#rabbitmq_force_user_recreate: yes
