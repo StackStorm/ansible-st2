@@ -1,0 +1,11 @@
+---
+
+pip_download_dest: /tmp
+pip_version:
+python: "{{ ansible_python_interpreter | default( ansible_python.executable | default('python') ) }}"
+pip: pip
+pip_proxy: ''
+
+pip_download_url_current: https://bootstrap.pypa.io/get-pip.py
+pip_download_url_py26: https://bootstrap.pypa.io/2.6/get-pip.py
+pip_download_url: "{{ ansible_python.version_info[:3]|join('.') is version_compare('2.7', '>=') | ternary( pip_download_url_current, pip_download_url_py26 ) }}"
