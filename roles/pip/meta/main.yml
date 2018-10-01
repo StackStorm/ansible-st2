@@ -1,0 +1,44 @@
+---
+galaxy_info:
+  author: bobbyrenwick
+  description: An ansible role that ensures pip is installed at the version you specify.
+  license: Apache 2.0
+  min_ansible_version: 1.9
+  platforms:
+  - name: EL
+    versions:
+    - all
+  - name: GenericUNIX
+    versions:
+    - all
+    - any
+  - name: Fedora
+    versions:
+    - all
+  - name: opensuse
+    versions:
+    - all
+  - name: GenericBSD
+    versions:
+    - all
+    - any
+  - name: FreeBSD
+    versions:
+    - all
+  - name: Ubuntu
+    versions:
+    - all
+  - name: SLES
+    versions:
+    - all
+  - name: GenericLinux
+    versions:
+    - all
+    - any
+  - name: Debian
+    versions:
+    - all
+  categories:
+  - packaging
+  - system
+dependencies: []
