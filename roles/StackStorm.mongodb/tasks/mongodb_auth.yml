@@ -13,3 +13,21 @@
   pip:
     name: "pymongo>=3.10.1,<4.0.0"
   tags: [databases, mongodb]
+
+- name: See if mongodb authorization is enabled and users are configured
+  command: 'mongo --eval "db.getUsers()" admin'
+  # this will fail (rc 252) if auth is enabled and users are configured
+  # With the localhost exception, this will succeed (rc 0) when users are not configured even if auth is enabled.
+  # see:
+  #   - https://docs.mongodb.com/manual/core/security-users/#localhost-exception
+  #   - https://stackoverflow.com/q/31949586/1134951
+  #   - https://github.com/ansible/ansible/issues/33832#issuecomment-358031733
+  register: _mongo_authorization
+  changed_when: no # this does not change anything, it only checks
+  failed_when: no # The rc determines whether or not auth is required to create/update the admin user
+
+- name: Show mongodb auth check output
+  # the purpose of this task is to make sure task output is visible in travis if there are problems
+  debug:
+    var: _mongo_authorization
+    verbosity: 2
