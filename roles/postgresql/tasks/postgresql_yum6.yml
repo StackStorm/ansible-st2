@@ -3,7 +3,7 @@
   become: yes
   yum:
     name: https://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-3.noarch.rpm
-    state: installed
+    state: present
   register: _task
   retries: 5
   delay: 3
@@ -15,7 +15,7 @@
   become: yes
   yum:
     name: https://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-3.noarch.rpm
-    state: installed
+    state: present
   register: _task
   retries: 5
   delay: 3
@@ -27,7 +27,7 @@
   become: yes
   yum:
     name: libselinux-python
-    state: installed
+    state: present
   register: _task
   retries: 5
   delay: 3
@@ -41,7 +41,7 @@
       - postgresql94-server
       - postgresql94-contrib
       - postgresql94-devel
-    state: installed
+    state: present
   register: install_postgresql
   retries: 5
   delay: 3

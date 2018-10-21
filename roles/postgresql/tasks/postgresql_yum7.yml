@@ -6,7 +6,7 @@
       - postgresql-server
       - postgresql-contrib
       - postgresql-devel
-    state: installed
+    state: present
   register: install_postgresql
   retries: 5
   delay: 3
