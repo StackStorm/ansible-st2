@@ -1,11 +1,10 @@
 - name: auth | Install auth pre-reqs (Debian)
   become: yes
   apt:
-    name: "{{ item }}"
+    name:
+      - python-passlib
+      - apache2-utils
     state: present
-  with_items:
-    - python-passlib
-    - apache2-utils
   register: _task
   retries: 5
   delay: 3
@@ -15,11 +14,10 @@
 - name: auth | Install auth pre-reqs (RedHat)
   become: yes
   yum:
-    name: "{{ item }}"
+    name:
+      - python-passlib
+      - httpd-tools
     state: present
-  with_items:
-    - python-passlib
-    - httpd-tools
   register: _task
   retries: 5
   delay: 3

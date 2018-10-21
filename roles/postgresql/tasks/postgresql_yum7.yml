@@ -2,12 +2,11 @@
 - name: yum | Install PostgreSQL
   become: yes
   yum:
-    name: "{{ item }}"
+    name:
+      - postgresql-server
+      - postgresql-contrib
+      - postgresql-devel
     state: installed
-  with_items:
-    - postgresql-server
-    - postgresql-contrib
-    - postgresql-devel
   register: install_postgresql
   retries: 5
   delay: 3

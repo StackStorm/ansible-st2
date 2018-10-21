@@ -37,12 +37,11 @@
 - name: yum | Install PostgreSQL-9.4
   become: yes
   yum:
-    name: "{{ item }}"
+    name:
+      - postgresql94-server
+      - postgresql94-contrib
+      - postgresql94-devel
     state: installed
-  with_items:
-    - postgresql94-server
-    - postgresql94-contrib
-    - postgresql94-devel
   register: install_postgresql
   retries: 5
   delay: 3
