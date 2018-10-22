@@ -2,15 +2,14 @@
 - name: Install prereqs (Debian)
   become: yes
   apt:
-    name: "{{ item }}"
+    name:
+      - debian-archive-keyring
+      - apt-transport-https
     state: present
   register: _task
   retries: 5
   delay: 3
   until: _task is succeeded
-  with_items:
-    - debian-archive-keyring
-    - apt-transport-https
 
 - name: Add keys to keyring
   become: yes

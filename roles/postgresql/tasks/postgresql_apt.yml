@@ -3,7 +3,7 @@
   become: yes
   apt:
     name: postgresql
-    state: installed
+    state: present
   register: _task
   retries: 5
   delay: 3
