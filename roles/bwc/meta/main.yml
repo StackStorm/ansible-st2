@@ -4,7 +4,7 @@ galaxy_info:
   author: lakshmi-kannan
   company: StackStorm
   license: Apache 2.0
-  min_ansible_version: 2.2
+  min_ansible_version: 2.3
   platforms:
     - name: Ubuntu
       versions:
