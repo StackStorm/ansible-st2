@@ -45,7 +45,7 @@
   with_items:
     - /etc/mistral/mistral-db-manage.upgrade.head.ansible.has.run
     - /etc/mistral/mistral-db-manage.populate.ansible.has.run
-  when: mistral_install_latest|changed or mistral_install_present|changed or mistral_install_tagged|changed
+  when: mistral_install_latest is changed or mistral_install_present is changed or mistral_install_tagged is changed
   tags: st2mistral, skip_ansible_lint
 
 - name: Deploy database init script
