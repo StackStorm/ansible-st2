@@ -1,0 +1,15 @@
+---
+# Getting the current st2 version is required to understand which 'st2_services' to restart
+- name: Get installed st2 version
+  command: /opt/stackstorm/st2/bin/python -c 'import st2common; print st2common.__version__'
+  changed_when: no
+  check_mode: no
+  register: _st2_version_installed
+  when: _st2_version_installed is not defined
+
+# Injecting 'st2_services' var in the middle of play verified to work with 'restart st2' handler as handlers flushed as last step
+- name: Redefine list of services based on st2 version
+  set_fact:
+    st2_services: "{{ st2_services }} + {{ item.value }}"
+  with_dict: "{{ st2_services_versioned }}"
+  when: item.key is version(st2_version_installed, '<=')

@@ -12,8 +12,18 @@ st2_services:
   - st2api
   - st2stream
   - st2auth
-  - st2workflowengine
-  - st2timersengine
+
+# List of additional stackstorm services associated with specific st2 version release
+st2_services_versioned:
+  2.8:
+    - st2workflowengine
+  2.9:
+    - st2timersengine
+  3.0:
+    - st2scheduler
+
+# Placeholder for st2 installed version, determined during run
+st2_version_installed: "{{ _st2_version_installed.stdout }}"
 
 # Where to store the ST2 datastore encryption key (automatically generated during install)
 st2_datastore_key_file: /etc/st2/keys/datastore_key.json

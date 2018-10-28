@@ -58,6 +58,10 @@
     - reload st2
   tags: st2
 
+- name: Perform st2 version related operations
+  include: version.yml
+  tags: st2, version
+
 - name: Create and configure StackStorm system user
   include: user.yml
   tags: st2, user
