@@ -12,4 +12,4 @@
   set_fact:
     st2_services: "{{ st2_services }} + {{ item.value }}"
   with_dict: "{{ st2_services_versioned }}"
-  when: item.key is version(st2_version_installed, '<=')
+  when: item.key is version_compare(st2_version_installed, '<=')
