@@ -9,7 +9,7 @@
     state: directory
 
 - name: Handle bwc_license change
-  include: license.yml
+  include_tasks: license.yml
 
 - name: Get read token for repo from packagecloud
   become: yes
@@ -43,7 +43,7 @@
     bwc_read_token: "{{ _bwc_read_token.stdout }}"
 
 - name: Add BWC enterprise repos on {{ ansible_distribution }}
-  include: bwc_repos_{{ ansible_pkg_mgr }}.yml
+  include_tasks: bwc_repos_{{ ansible_pkg_mgr }}.yml
   tags:
     - BWC repos
     - StackStorm enterprise

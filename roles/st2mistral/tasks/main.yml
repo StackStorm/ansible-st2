@@ -92,7 +92,10 @@
 
 - name: Configure mistral.conf settings
   # Ansible nested loop to iterate through a hash of hashes
-  include: config.yml _conf_section_name={{ _conf_section.0 }} _conf_options={{ _conf_section.1 }}
+  include_tasks: config.yml
+  vars:
+    _conf_section_name: "{{ _conf_section.0 }}"
+    _conf_options: "{{ _conf_section.1 }}"
   # dict2items not available until 2.6, so use Jinja's dictsort instead
   loop: "{{ st2mistral_config | dictsort }}"
   loop_control:

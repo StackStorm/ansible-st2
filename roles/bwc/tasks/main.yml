@@ -5,7 +5,7 @@
   when: bwc_license is not defined or bwc_license is none or bwc_license|length != 48
 
 - name: Add BWC enterprise repos
-  include: bwc_repos_setup.yml
+  include_tasks: bwc_repos_setup.yml
   tags:
     - BWC repos
     - StackStorm enterprise

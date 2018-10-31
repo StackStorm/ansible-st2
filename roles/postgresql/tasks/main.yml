@@ -1,10 +1,10 @@
 ---
 - name: Install PostgreSQL on {{ ansible_distribution }}-{{ ansible_distribution_major_version }}
-  include: postgresql_{{ ansible_pkg_mgr }}{{ ansible_distribution_major_version }}.yml
+  include_tasks: postgresql_{{ ansible_pkg_mgr }}{{ ansible_distribution_major_version }}.yml
   tags: [db, postgresql]
   when: ansible_os_family == "RedHat"
 
 - name: Install PostgreSQL on {{ ansible_distribution }}-{{ ansible_distribution_major_version }}
-  include: postgresql_{{ ansible_pkg_mgr }}.yml
+  include_tasks: postgresql_{{ ansible_pkg_mgr }}.yml
   tags: [db, postgresql]
   when: ansible_os_family == "Debian"

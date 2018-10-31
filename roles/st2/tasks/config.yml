@@ -11,7 +11,7 @@
   loop_control:
     loop_var: _conf_option
   # prevent logging passwords, auth URIs, and secrets
-  no_log: "{{ _conf_option.key in st2_config_no_log[_conf_section_name]|default([]) }}"
+  no_log: "{{ _conf_option.0 in st2_config_no_log[_conf_section_name]|default([]) }}"
   notify:
     - restart st2
   tags: st2, config
