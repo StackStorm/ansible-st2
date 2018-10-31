@@ -56,9 +56,9 @@
     - st2 enterprise
 
 - name: Setup RBAC and setup roles and assignments if bwc_rbac is defined
-  include: "rbac.yml"
+  import_tasks: rbac.yml
   when: bwc_rbac is defined
 
 - name: Setup LDAP and set up LDAP configuration
-  include: "ldap.yml"
+  import_tasks: ldap.yml
   when: bwc_ldap is defined

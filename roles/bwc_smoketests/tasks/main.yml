@@ -83,7 +83,7 @@
     - bwc-smoke-tests
 
 - name: Teardown test artifacts
-  include: "teardown.yml"
+  import_tasks: teardown.yml
   changed_when: no
   tags:
     - bwc-smoke-tests

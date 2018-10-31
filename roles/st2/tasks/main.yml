@@ -59,15 +59,15 @@
   tags: st2
 
 - name: Perform st2 version related operations
-  include: version.yml
+  import_tasks: version.yml
   tags: st2, version
 
 - name: Create and configure StackStorm system user
-  include: user.yml
+  import_tasks: user.yml
   tags: st2, user
 
 - name: Configure StackStorm authentication
-  include: auth.yml
+  import_tasks: auth.yml
   # Use st2_config.auth.enable setting if available, otherwise use st2_auth_enable
   when: (st2_config.auth|default({})).enable|default(st2_auth_enable)
   tags: st2, auth
@@ -82,11 +82,11 @@
   tags: st2, config
 
 - name: Configure the StackStorm datastore
-  include: datastore.yml
+  import_tasks: datastore.yml
   tags: st2, datastore
 
 - name: Configure StackStorm to work via proxy
-  include: proxy.yml
+  import_tasks: proxy.yml
   tags: st2, proxy
 
 - name: Ensure StackStorm services are enabled and running

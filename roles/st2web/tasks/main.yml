@@ -50,7 +50,7 @@
   tags: st2web
 
 - name: Configure SSL certificate for st2web UI
-  include: certificate.yml
+  import_tasks: certificate.yml
   tags: st2web, certificate
 
 - name: Copy Nginx config
