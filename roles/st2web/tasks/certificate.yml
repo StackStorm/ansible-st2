@@ -22,7 +22,7 @@
     mode: 0600
     owner: root
     group: root
-  with_items:
+  loop:
     - cert: "{{ st2web_ssl_certificate }}"
       path: /etc/ssl/st2/st2.crt
     - cert: "{{ st2web_ssl_certificate_key }}"

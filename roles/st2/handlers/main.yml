@@ -3,7 +3,7 @@
   service:
     name: "{{ item }}"
     state: restarted
-  with_items: "{{ st2_services }}"
+  loop: "{{ st2_services }}"
 
 - name: reload st2
   become: yes

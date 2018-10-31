@@ -22,7 +22,7 @@
     dest: /opt/stackstorm/rbac/roles/{{ item.name }}.yaml
     owner: st2
     group: st2
-  with_items: "{{ bwc_smoke_tests_rbac.roles }}"
+  loop: "{{ bwc_smoke_tests_rbac.roles }}"
   changed_when: no
   when: bwc_smoke_tests_rbac.roles is defined
   notify:
@@ -37,7 +37,7 @@
     dest: /opt/stackstorm/rbac/assignments/{{ item.name }}.yaml
     owner: st2
     group: st2
-  with_items: "{{ bwc_smoke_tests_rbac.assignments }}"
+  loop: "{{ bwc_smoke_tests_rbac.assignments }}"
   changed_when: no
   when: bwc_smoke_tests_rbac.assignments is defined
   notify:

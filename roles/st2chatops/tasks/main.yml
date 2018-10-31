@@ -113,7 +113,7 @@
     dest: /opt/stackstorm/chatops/st2chatops.env
     regexp: '{{ item }}'
     replace: '# \1'
-  with_items:
+  loop:
     - '^(export ST2_AUTH_URL.*)'
     - '^(export ST2_AUTH_USERNAME.*)'
     - '^(export ST2_AUTH_PASSWORD.*)'
@@ -170,10 +170,11 @@
   ini_file:
     dest: /opt/stackstorm/chatops/st2chatops.env
     section: null
-    option: 'export {{ _conf_option.key }}'
-    value: '{{ _conf_option.value }}'
+    option: 'export {{ _conf_option.0 }}'
+    value: '{{ _conf_option.1 }}'
     no_extra_spaces: yes
-  with_dict: '{{ st2chatops_config }}'
+  # dict2items not available until 2.6, so use Jinja's dictsort instead
+  loop: '{{ st2chatops_config | dictsort }}'
   loop_control:
     loop_var: _conf_option
   no_log: true

@@ -17,7 +17,7 @@
   file:
     state: absent
     path: /opt/stackstorm/rbac/roles/{{ item.name }}.yml
-  with_items: "{{ bwc_smoke_tests_rbac.roles }}"
+  loop: "{{ bwc_smoke_tests_rbac.roles }}"
   when: bwc_smoke_tests_rbac.roles is defined
   changed_when: no
   notify:

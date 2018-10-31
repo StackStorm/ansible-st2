@@ -4,9 +4,10 @@
   ini_file:
     dest: /etc/st2/st2.conf
     section: "{{ _conf_section_name }}"
-    option: "{{ _conf_option.key }}"
-    value: "{{ _conf_option.value }}"
-  with_dict: "{{ _conf_options }}"
+    option: "{{ _conf_option.0 }}"
+    value: "{{ _conf_option.1 }}"
+  # dict2items not available until 2.6, so use Jinja's dictsort instead
+  loop: "{{ _conf_options | dictsort }}"
   loop_control:
     loop_var: _conf_option
   # prevent logging passwords, auth URIs, and secrets
