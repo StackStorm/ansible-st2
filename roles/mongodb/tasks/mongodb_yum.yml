@@ -13,6 +13,7 @@
   retries: 5
   delay: 3
   until: _task is succeeded
+  tags: [databases, mongodb]
 
 - name: yum | Add mongodb key
   become: yes

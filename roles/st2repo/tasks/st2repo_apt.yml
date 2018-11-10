@@ -10,6 +10,7 @@
   retries: 5
   delay: 3
   until: _task is succeeded
+  tags: st2repo
 
 - name: Add keys to keyring
   become: yes
@@ -21,6 +22,7 @@
   retries: 5
   delay: 3
   until: _task is succeeded
+  tags: st2repo
 
 - name: Add StackStorm repo
   become: yes
@@ -28,3 +30,4 @@
     repo: 'deb https://packagecloud.io/StackStorm/{{ st2repo_name }}/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} main'
     state: present
     update_cache: yes
+  tags: st2repo

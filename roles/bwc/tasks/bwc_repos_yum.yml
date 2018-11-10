@@ -10,7 +10,10 @@
   retries: 5
   delay: 3
   until: _task is succeeded
-  tags: skip_ansible_lint
+  tags:
+    - BWC repos
+    - StackStorm enterprise
+    - skip_ansible_lint
 
 - name: "Add packagecloud.io repository: StackStorm/{{ bwc_repo }}"
   become: yes
@@ -28,3 +31,6 @@
     enabled: yes
     sslverify: yes
   register: added_bwc_rpm_repository
+  tags:
+    - BWC repos
+    - StackStorm enterprise

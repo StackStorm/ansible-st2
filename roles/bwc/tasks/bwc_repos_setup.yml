@@ -7,9 +7,15 @@
     owner: st2
     group: st2
     state: directory
+  tags:
+    - BWC repos
+    - StackStorm enterprise
 
 - name: Handle bwc_license change
   include_tasks: license.yml
+  tags:
+    - BWC repos
+    - StackStorm enterprise
 
 - name: Get read token for repo from packagecloud
   become: yes
@@ -29,6 +35,9 @@
   retries: 5
   delay: 3
   until: _task is succeeded
+  tags:
+    - BWC repos
+    - StackStorm enterprise
 
 - name: Read bwc_read_token from file
   become: yes
@@ -36,11 +45,17 @@
   changed_when: no
   command: cat "/etc/packagecloud/StackStorm_{{ bwc_repo }}_read_token.txt"
   register: _bwc_read_token
+  tags:
+    - BWC repos
+    - StackStorm enterprise
 
 - name: Set bwc_read_token variable
   no_log: yes
   set_fact:
     bwc_read_token: "{{ _bwc_read_token.stdout }}"
+  tags:
+    - BWC repos
+    - StackStorm enterprise
 
 - name: Add BWC enterprise repos on {{ ansible_distribution }}
   include_tasks: bwc_repos_{{ ansible_pkg_mgr }}.yml

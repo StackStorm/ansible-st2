@@ -5,3 +5,6 @@
   yum_resository:
     name: "StackStorm_{{ bwc_repo }}"
     state: absent
+  tags:
+    - BWC repos
+    - StackStorm enterprise

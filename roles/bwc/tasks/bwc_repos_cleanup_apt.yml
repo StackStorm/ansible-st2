@@ -5,3 +5,6 @@
   file:
     path: /etc/apt/sources.list.d/StackStorm_{{ bwc_repo }}
     state: absent
+  tags:
+    - BWC repos
+    - StackStorm enterprise
