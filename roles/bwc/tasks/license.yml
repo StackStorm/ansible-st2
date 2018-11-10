@@ -59,7 +59,7 @@
 
 - name: "Cleanup repo list file from disk"
   become: yes
-  include_tasks: "bwc_repos_cleanup_{{ ansible_pkg_mgr }}.yml"
+  include_tasks: "bwc_repos_cleanup_{{ ansible_facts.pkg_mgr }}.yml"
   when: bwc_license | hash("sha512") != bwc_license_hash
   tags:
     - BWC repos

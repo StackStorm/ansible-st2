@@ -42,7 +42,7 @@
 - name: Install pinned bwc-enterprise package
   become: yes
   package:
-    name: bwc-enterprise{{ '-' if ansible_pkg_mgr == 'yum' else '=' }}{{ bwc_version }}-{{ bwc_revision }}
+    name: bwc-enterprise{{ '-' if ansible_facts.pkg_mgr == 'yum' else '=' }}{{ bwc_version }}-{{ bwc_revision }}
     state: present
   register: bwc_installed
   retries: 5

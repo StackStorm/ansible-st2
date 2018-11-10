@@ -35,7 +35,7 @@
   no_log: yes
   apt_repository:
     filename: "StackStorm_{{ bwc_repo }}"
-    repo: 'deb https://{{ bwc_read_token }}:@packagecloud.io/StackStorm/{{ bwc_repo }}/{{ ansible_distribution|lower }}/ {{ ansible_distribution_release|lower }} main'
+    repo: 'deb https://{{ bwc_read_token }}:@packagecloud.io/StackStorm/{{ bwc_repo }}/{{ ansible_facts.distribution|lower }}/ {{ ansible_facts.distribution_release|lower }} main'
     state: present
     update_cache: yes
   register: added_bwc_deb_repository

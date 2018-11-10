@@ -46,7 +46,7 @@
 - name: Install pinned st2chatops package
   become: yes
   package:
-    name: st2chatops{{ '-' if ansible_pkg_mgr == 'yum' else '=' }}{{ st2chatops_version }}
+    name: st2chatops{{ '-' if ansible_facts.pkg_mgr == 'yum' else '=' }}{{ st2chatops_version }}
     state: present
   register: _task
   retries: 5

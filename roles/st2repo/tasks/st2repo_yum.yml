@@ -21,7 +21,7 @@
     option: tsflags
     value: nodocs
     state: absent
-  when: ansible_os_family == "RedHat"
+  when: ansible_facts.os_family == "RedHat"
   tags: st2repo
 
 - name: Add StackStorm repo
@@ -30,7 +30,7 @@
     name: "StackStorm_{{ st2repo_name }}"
     description: "StackStorm_{{ st2repo_name }}"
     file: "StackStorm_{{ st2repo_name }}"
-    baseurl: https://packagecloud.io/StackStorm/{{ st2repo_name }}/el/{{ ansible_distribution_major_version }}/$basearch
+    baseurl: https://packagecloud.io/StackStorm/{{ st2repo_name }}/el/{{ ansible_facts.distribution_major_version }}/$basearch
     repo_gpgcheck: yes
     gpgkey: "https://packagecloud.io/StackStorm/{{ st2repo_name }}/gpgkey"
     sslcacert: /etc/pki/tls/certs/ca-bundle.crt

@@ -15,7 +15,7 @@
 - name: apt | Add mongodb repository
   become: yes
   apt_repository:
-    repo: 'deb http://repo.mongodb.org/apt/{{ ansible_distribution|lower }} {{ ansible_distribution_release|lower }}/mongodb-org/{{ mongodb_major_minor_version }} multiverse'
+    repo: 'deb http://repo.mongodb.org/apt/{{ ansible_facts.distribution|lower }} {{ ansible_facts.distribution_release|lower }}/mongodb-org/{{ mongodb_major_minor_version }} multiverse'
     state: present
   tags: [databases, mongodb]
 

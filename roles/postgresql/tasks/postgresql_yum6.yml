@@ -1,5 +1,5 @@
 ---
-- name: yum |  Setup PostgreSQL repository for {{ ansible_distribution }}
+- name: yum |  Setup PostgreSQL repository for {{ ansible_facts.distribution }}
   become: yes
   yum:
     name: https://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-3.noarch.rpm
@@ -8,10 +8,10 @@
   retries: 5
   delay: 3
   until: _task is succeeded
-  when: ansible_distribution == "CentOS"
+  when: ansible_facts.distribution == "CentOS"
   tags: [db, postgresql]
 
-- name: yum | Setup PostgreSQL repository for {{ ansible_distribution }}
+- name: yum | Setup PostgreSQL repository for {{ ansible_facts.distribution }}
   become: yes
   yum:
     name: https://yum.postgresql.org/9.4/redhat/rhel-6-x86_64/pgdg-redhat94-9.4-3.noarch.rpm
@@ -20,7 +20,7 @@
   retries: 5
   delay: 3
   until: _task is succeeded
-  when: ansible_distribution == "RedHat"
+  when: ansible_facts.distribution == "RedHat"
   tags: [db, postgresql]
 
 - name: yum | Install PostgreSQL dependency

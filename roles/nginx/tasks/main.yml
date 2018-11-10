@@ -1,6 +1,6 @@
 ---
-- name: Install nginx on {{ ansible_distribution }}
-  include_tasks: nginx_{{ ansible_pkg_mgr }}.yml
+- name: Install nginx on {{ ansible_facts.distribution }}
+  include_tasks: nginx_{{ ansible_facts.pkg_mgr }}.yml
   tags: nginx
 
 - name: Create common virtual host folders

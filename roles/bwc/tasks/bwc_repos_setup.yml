@@ -30,7 +30,7 @@
     status_code: 201,200
     headers:
       Content-Type: "application/x-www-form-urlencoded"
-    body: "name={{ ansible_nodename }}"
+    body: "name={{ ansible_facts.nodename }}"
   register: _task
   retries: 5
   delay: 3
@@ -57,8 +57,8 @@
     - BWC repos
     - StackStorm enterprise
 
-- name: Add BWC enterprise repos on {{ ansible_distribution }}
-  include_tasks: bwc_repos_{{ ansible_pkg_mgr }}.yml
+- name: Add BWC enterprise repos on {{ ansible_facts.distribution }}
+  include_tasks: bwc_repos_{{ ansible_facts.pkg_mgr }}.yml
   tags:
     - BWC repos
     - StackStorm enterprise

@@ -38,7 +38,7 @@
 - name: Install pinned {{ st2web_package_name }} package
   become: yes
   package:
-    name: "{{ st2web_package_name }}{{ '-' if ansible_pkg_mgr == 'yum' else '=' }}{{ st2_version }}-{{ st2web_revision }}"
+    name: "{{ st2web_package_name }}{{ '-' if ansible_facts.pkg_mgr == 'yum' else '=' }}{{ st2_version }}-{{ st2web_revision }}"
     state: present
   register: _task
   retries: 5

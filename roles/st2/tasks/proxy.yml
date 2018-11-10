@@ -3,12 +3,12 @@
 - name: proxy | Configure StackStorm services
   become: yes
   lineinfile:
-    dest: /etc/{{ 'default' if ansible_pkg_mgr == 'apt' else 'sysconfig' }}/{{ item.0 }}
+    dest: /etc/{{ 'default' if ansible_facts.pkg_mgr == 'apt' else 'sysconfig' }}/{{ item.0 }}
     create: yes
     regexp: '^{{ item.1 }}='
-    line: "{{ item.1}}={{ ansible_env.get(item.1) }}"
+    line: "{{ item.1}}={{ ansible_facts.env.get(item.1) }}"
     # NB: Empty ENV var cast to 'None' string in Ansible
-    state: "{{ 'present' if ansible_env.get(item.1, 'None') != 'None' else 'absent' }}"
+    state: "{{ 'present' if ansible_facts.env.get(item.1, 'None') != 'None' else 'absent' }}"
   vars:
     _services: [st2api, st2actionrunner]
     _proxy_vars: [http_proxy, https_proxy, no_proxy]
