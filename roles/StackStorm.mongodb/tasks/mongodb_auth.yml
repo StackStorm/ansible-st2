@@ -1,6 +1,14 @@
 ---
-- name: Ensure pymongo is installed for the mongodb_user ansible module
+- name: Install pip (for the installation of pymongo)
   become: yes
   package:
-    name: python-pymongo
+    name: python-pip
     state: present
+  tags: [databases, mongodb]
+
+- name: Install pymongo (for the mongodb_user module)
+  # pymongo 3.2+ is required to work with mongo 3.2+. system packages are too old.
+  become: yes
+  pip:
+    name: "pymongo=={{ mongodb_major_minor_version }}"
+  tags: [databases, mongodb]
