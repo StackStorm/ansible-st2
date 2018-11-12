@@ -1,6 +1,6 @@
 ---
 
-- name: Remove BWC smoke tests user from htpasswd file
+- name: Remove EWC smoke tests user from htpasswd file
   become: yes
   htpasswd:
     path: /etc/st2/htpasswd
@@ -10,7 +10,7 @@
   notify:
     - reload bwc_rbac
   tags:
-    - bwc-smoke-tests
+    - ewc-smoke-tests
 
 - name: Remove RBAC smoke tests roles  # This doesn't cleanup role from DB.
   become: yes
@@ -23,7 +23,7 @@
   notify:
     - reload bwc_rbac
   tags:
-    - bwc-smoke-tests
+    - ewc-smoke-tests
 
 - name: Remove RBAC smoke tests assignments  # This doesn't cleanup assignment from DB.
   become: yes
@@ -35,4 +35,4 @@
   notify:
     - reload bwc_rbac
   tags:
-    - bwc-smoke-tests
+    - ewc-smoke-tests

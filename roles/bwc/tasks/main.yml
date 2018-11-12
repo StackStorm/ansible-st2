@@ -1,14 +1,14 @@
 ---
 - name: Assert that 'bwc_license' is specified correctly
   fail:
-    msg: "License key must be supplied for BWC enterprise installation."
+    msg: "License key must be supplied for EWC enterprise installation."
   when: bwc_license is not defined or bwc_license is none or bwc_license|length != 48
 
-- name: Add BWC enterprise repos
+- name: Add EWC enterprise repos
   include_tasks: bwc_repos_setup.yml
   tags:
-    - BWC repos
-    - StackStorm enterprise
+    - ewc
+    - enterprise
 
 - name: Install latest bwc-enterprise package, auto-update
   become: yes

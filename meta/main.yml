@@ -8,7 +8,7 @@
 # roles_path = /etc/ansible/roles/:/etc/ansible/roles/StackStorm.stackstorm/roles/
 ---
 galaxy_info:
-  description: Install StackStorm (IFTTT for Ops) with all the components like Web UI, ChatOps, BWC and dependant services including RabbitMQ, MongoDB, PostgreSQL, nginx.
+  description: Install StackStorm (IFTTT for Ops) with all the components like Web UI, ChatOps, EWC and dependant services including RabbitMQ, MongoDB, PostgreSQL, nginx.
   author: armab
   company: StackStorm
   license: Apache 2.0
@@ -35,6 +35,7 @@ galaxy_info:
     - st2mistral
     - st2chatops
     - bwc
+    - ewc
     - rabbitmq
     - mongodb
     - postgresql

@@ -12,8 +12,8 @@
   delay: 3
   until: _task is succeeded
   tags:
-    - BWC repos
-    - StackStorm enterprise
+    - ewc
+    - enterprise
 
 # This is the exact key as the open source repo but this behavior might change.
 - name: Add keys to keyring
@@ -27,8 +27,8 @@
   delay: 3
   until: _task is succeeded
   tags:
-    - BWC repos
-    - StackStorm enterprise
+    - ewc
+    - enterprise
 
 - name: "Add packagecloud.io repository: StackStorm/{{ bwc_repo }}"
   become: yes
@@ -43,5 +43,5 @@
   delay: 3
   until: added_bwc_deb_repository is succeeded
   tags:
-    - BWC repos
-    - StackStorm enterprise
+    - ewc
+    - enterprise

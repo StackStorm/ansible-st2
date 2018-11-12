@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  description: Install BWC Entperprise components, setup RBAC and LDAP
+  description: Install EWC Entperprise components, setup RBAC and LDAP
   author: lakshmi-kannan
   company: StackStorm
   license: Apache 2.0
@@ -18,6 +18,8 @@ galaxy_info:
     - stackstorm
     - BWC
     - Brocade Workflow Composer
+    - EWC
+    - Extreme Workflow Composer
     - repositories
     - packagecloud
   dependencies:

@@ -1,12 +1,12 @@
 ---
 
-- name: Check if BWC license hash file is present
+- name: Check if EWC license hash file is present
   stat:
     path: /etc/packagecloud/bwc_license_hash.txt
   register: bwc_license_hash_file
   tags:
-    - BWC repos
-    - StackStorm enterprise
+    - ewc
+    - enterprise
 
 - name: Read bwc_license_hash_file if it exits
   command: cat /etc/packagecloud/bwc_license_hash.txt
@@ -15,8 +15,8 @@
   changed_when: no
   when: bwc_license_hash_file.stat.exists
   tags:
-    - BWC repos
-    - StackStorm enterprise
+    - ewc
+    - enterprise
 
 - name: Set bwc_license_hash from file context
   set_fact:
@@ -24,8 +24,8 @@
   no_log: yes
   when: bwc_license_hash_file.stat.exists
   tags:
-    - BWC repos
-    - StackStorm enterprise
+    - ewc
+    - enterprise
 
 - name: Set bwc_license_hash to incoming hash if not defined
   no_log: yes
@@ -33,8 +33,8 @@
     bwc_license_hash: '{{ bwc_license | hash("sha512") }}'
   when: not bwc_license_hash_file.stat.exists
   tags:
-    - BWC repos
-    - StackStorm enterprise
+    - ewc
+    - enterprise
 
 - name: Write bwc_license_hash to file if file not found on disk
   copy:
@@ -44,8 +44,8 @@
   become: yes
   when: not bwc_license_hash_file.stat.exists
   tags:
-    - BWC repos
-    - StackStorm enterprise
+    - ewc
+    - enterprise
 
 - name: "Cleanup read token cached file from disk"
   become: yes
@@ -54,16 +54,16 @@
     state: absent
   when: bwc_license | hash("sha512") != bwc_license_hash
   tags:
-    - BWC repos
-    - StackStorm enterprise
+    - ewc
+    - enterprise
 
 - name: "Cleanup repo list file from disk"
   become: yes
   include_tasks: "bwc_repos_cleanup_{{ ansible_facts.pkg_mgr }}.yml"
   when: bwc_license | hash("sha512") != bwc_license_hash
   tags:
-    - BWC repos
-    - StackStorm enterprise
+    - ewc
+    - enterprise
 
 - name: Write new bwc_license_hash to file
   copy:
@@ -74,5 +74,5 @@
   no_log: yes
   when: bwc_license | hash("sha512") != bwc_license_hash
   tags:
-    - BWC repos
-    - StackStorm enterprise
+    - ewc
+    - enterprise
