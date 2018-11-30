@@ -12,11 +12,14 @@
   delay: 3
   until: _task is succeeded
 
-# This is the exact key as the open source repo but this behavior might change.
+- name: "Including ID variable for {{ bwc_repo }}"
+  include_vars:
+    file: "{{ bwc_repo }}.yml"
+
 - name: Add keys to keyring
   become: yes
   apt_key:
-    id: 418A7F2FB0E1E6E7EABF6FE8C2E73424D59097AB
+    id: "{{ enterprise_key_id }}"
     url: https://packagecloud.io/StackStorm/{{ bwc_repo }}/gpgkey
     state: present
   register: _task
