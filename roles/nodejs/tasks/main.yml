@@ -1,4 +1,9 @@
 ---
+- name: "Including stable node version"
+  include_vars:
+    file: "stable.yml"
+  when: (st2repo_name == "stable")
+
 - name: Install nodejs on {{ ansible_distribution }}
   include: nodejs_{{ ansible_pkg_mgr }}.yml
   tags: nodejs
