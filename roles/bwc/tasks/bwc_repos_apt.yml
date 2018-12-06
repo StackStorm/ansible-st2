@@ -45,7 +45,7 @@
   set_fact:
     bwc_gpgkey_url: "{{ _bwc_gpgkey_url.stdout }}"
 
-  # This is a nasty hack necessary because of how AWS Redirects are interfearing
+  # This is a nasty hack necessary because of how AWS Redirects are interfering
   # with both get_url and uri modules in Ansible. The redirect is somehow
   # appending another authorization method to the request which AWS rejects.
   # This will ultimately need to be fixed upstream.
