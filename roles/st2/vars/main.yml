@@ -19,7 +19,7 @@ st2_services_versioned:
     - st2workflowengine
   2.9:
     - st2timersengine
-  3.0:
+  2.10:
     - st2scheduler
 
 # Placeholder for st2 installed version, determined during run
