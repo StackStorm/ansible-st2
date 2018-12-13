@@ -15,11 +15,11 @@ st2_services:
 
 # List of additional stackstorm services associated with specific st2 version release
 st2_services_versioned:
-  2.8:
+  "2.8":
     - st2workflowengine
-  2.9:
+  "2.9":
     - st2timersengine
-  3.0:
+  "2.10":
     - st2scheduler
 
 # Placeholder for st2 installed version, determined during run
