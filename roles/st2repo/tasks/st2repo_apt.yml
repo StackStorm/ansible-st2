@@ -12,10 +12,14 @@
   until: _task is succeeded
   tags: st2repo
 
+- name: "Including ID variable for {{ st2repo_name }}"
+  include_vars:
+    file: "{{ st2repo_name }}.yml"
+
 - name: Add keys to keyring
   become: yes
   apt_key:
-    id: 418A7F2FB0E1E6E7EABF6FE8C2E73424D59097AB
+    id: "{{ key_id }}"
     url: https://packagecloud.io/StackStorm/{{ st2repo_name }}/gpgkey
     state: present
   register: _task

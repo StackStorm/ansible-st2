@@ -15,12 +15,59 @@
     - ewc
     - enterprise
 
-# This is the exact key as the open source repo but this behavior might change.
+- name: "Including ID variable for {{ bwc_repo }}"
+  include_vars:
+    file: "{{ bwc_repo }}.yml"
+
+- name: Get keyring URL
+  become: yes
+  no_log: yes
+  changed_when: no
+  uri:
+    url: https://{{ bwc_license }}:@packagecloud.io/install/repositories/StackStorm/{{ bwc_repo }}/gpg_key_url.list?os={{ ansible_distribution | lower }}&dist={{ ansible_distribution_release | lower }}&name={{ ansible_nodename }}
+    dest: "/etc/packagecloud/StackStorm_{{ bwc_repo }}_gpgkey_url.txt"
+    force_basic_auth: yes
+    method: GET
+    status_code: 201,200
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
+
+- name: Read bwc_gpgkey_url from file
+  become: yes
+  no_log: yes
+  changed_when: no
+  command: cat "/etc/packagecloud/StackStorm_{{ bwc_repo }}_gpgkey_url.txt"
+  register: _bwc_gpgkey_url
+
+- name: Set bwc_gpgkey_url variable
+  no_log: yes
+  set_fact:
+    bwc_gpgkey_url: "{{ _bwc_gpgkey_url.stdout }}"
+
+  # This is a nasty hack necessary because of how AWS Redirects are interfering
+  # with both get_url and uri modules in Ansible. The redirect is somehow
+  # appending another authorization method to the request which AWS rejects.
+  # This will ultimately need to be fixed upstream.
+- name: Download gpgkey
+  become: yes
+  command: "curl -L -o /etc/packagecloud/StackStorm_{{ bwc_repo }}_gpgkey.asc {{ bwc_gpgkey_url }}"
+  args:
+    creates: "/etc/packagecloud/StackStorm_{{ bwc_repo }}_gpgkey.asc"
+    warn: False
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
+
 - name: Add keys to keyring
   become: yes
   apt_key:
-    id: 418A7F2FB0E1E6E7EABF6FE8C2E73424D59097AB
-    url: https://packagecloud.io/StackStorm/{{ bwc_repo }}/gpgkey
+    id: "{{ enterprise_key_id }}"
+    file: "/etc/packagecloud/StackStorm_{{ bwc_repo }}_gpgkey.asc"
     state: present
   register: _task
   retries: 5
