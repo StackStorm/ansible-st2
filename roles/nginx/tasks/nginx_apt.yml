@@ -14,7 +14,7 @@
 - name: Add nginx repos
   become: yes
   apt_repository:
-    repo: "deb http://nginx.org/packages/ubuntu/ {{ ansible_distribution_release|lower }} nginx"
+    repo: "deb http://nginx.org/packages/ubuntu/ {{ ansible_facts.distribution_release|lower }} nginx"
     state: present
   tags: nginx
 

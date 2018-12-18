@@ -24,7 +24,7 @@
 - name: Add nodesource repos debs
   become: yes
   apt_repository:
-    repo: "deb https://deb.nodesource.com/node_{{ nodejs_major_version }}.x {{ ansible_distribution_release }} main"
+    repo: "deb https://deb.nodesource.com/node_{{ nodejs_major_version }}.x {{ ansible_facts.distribution_release }} main"
     state: present
   tags: nodejs
 

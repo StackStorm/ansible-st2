@@ -1,5 +1,5 @@
 ---
-- name: Install rabbitmq package on {{ ansible_distribution }}
+- name: Install rabbitmq package on {{ ansible_facts.distribution }}
   become: yes
   package:
     name: rabbitmq-server

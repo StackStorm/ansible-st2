@@ -38,7 +38,7 @@
 - name: Install pinned {{ st2web_package_name }} package
   become: yes
   package:
-    name: "{{ st2web_package_name }}{{ '-' if ansible_pkg_mgr == 'yum' else '=' }}{{ st2_version }}-{{ st2web_revision }}"
+    name: "{{ st2web_package_name }}{{ '-' if ansible_facts.pkg_mgr == 'yum' else '=' }}{{ st2_version }}-{{ st2web_revision }}"
     state: present
   register: _task
   retries: 5
@@ -50,7 +50,7 @@
   tags: st2web
 
 - name: Configure SSL certificate for st2web UI
-  include: certificate.yml
+  import_tasks: certificate.yml
   tags: st2web, certificate
 
 - name: Copy Nginx config

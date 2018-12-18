@@ -9,6 +9,7 @@
 # Injecting 'st2_services' var in the middle of play verified to work with 'restart st2' handler as handlers flushed as last step
 - name: Redefine list of services based on st2 version
   set_fact:
-    st2_services: "{{ st2_services }} + {{ item.value }}"
-  with_dict: "{{ st2_services_versioned }}"
-  when: item.key is version_compare(st2_version_installed, '<=')
+    st2_services: "{{ st2_services }} + {{ item.1 }}"
+  # dict2items not available until 2.6, so use Jinja's dictsort instead
+  loop: "{{ st2_services_versioned | dictsort }}"
+  when: item.0 is version_compare(st2_version_installed, '<=')

@@ -18,7 +18,7 @@
       Expected message "{{ item }}" not found in 'hubot' output.
       Full chatops log: {{ hubot_output.stdout }}
   when: item not in hubot_output.stdout
-  with_items:
+  loop:
     - "DEBUG Loading adapter {{ st2chatops_hubot_adapter }}"
     - "DEBUG Loading scripts from /opt/stackstorm/chatops/src/scripts"
     - "DEBUG Added command: pack get"

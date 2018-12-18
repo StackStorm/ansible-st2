@@ -1,20 +1,20 @@
 ---
-# BWC PackageCloud repository to install: enterprise, enterprise-unstable, staging-enterprise, staging-enterprise-unstable.
+# EWC PackageCloud repository to install: enterprise, enterprise-unstable, staging-enterprise, staging-enterprise-unstable.
 bwc_repo: "enterprise"
 # `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0`.
 bwc_version: latest
 # used only if 'bwc_version' is numeric
 bwc_revision: 1
 
-# BWC license to install BWC enterprise bits
+# EWC license to install EWC enterprise bits
 bwc_license: null
 
-# Specify roles and assignments for BWC RBAC.
+# Specify roles and assignments for EWC RBAC.
 # Roles are pushed as YML files to /opt/stackstorm/rbac/roles
 # Assignments are pushed as YML files to /opt/stackstorm/rbac/assignments/
 # The schema for roles and assignments follow the exact schema definition
-# define in https://bwc-docs.brocade.com/rbac.html#defining-roles-and-permission-grants
-# and https://bwc-docs.brocade.com/rbac.html#defining-user-role-assignments.
+# define in https://ewc-docs.extremenetworks.com/rbac.html#defining-roles-and-permission-grants
+# and https://ewc-docs.extremenetworks.com/rbac.html#defining-user-role-assignments.
 
 bwc_rbac_default_roles: []
 
@@ -34,8 +34,8 @@ bwc_rbac:
 
 
 # By specifying a valid configuration for LDAP,
-# (See https://bwc-docs.brocade.com/authentication.html#ldap )
-# LDAP auth backend is setup for st2 and BWC.
+# (See https://ewc-docs.extremenetworks.com/authentication.html#ldap )
+# LDAP auth backend is setup for st2 and EWC.
 # Note that you just need to provide the backend_kwargs.
 bwc_ldap:
   backend_kwargs: {}

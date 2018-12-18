@@ -51,7 +51,7 @@
     - smoke-tests
 
 - name: Verify st2chatops
-  include: st2chatops.yml
+  import_tasks: st2chatops.yml
   # st2chatops is installed
   when: st2chatops_version is defined
   tags:

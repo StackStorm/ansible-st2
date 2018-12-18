@@ -7,9 +7,15 @@
     owner: st2
     group: st2
     state: directory
+  tags:
+    - ewc
+    - enterprise
 
 - name: Handle bwc_license change
-  include: license.yml
+  include_tasks: license.yml
+  tags:
+    - ewc
+    - enterprise
 
 - name: Get read token for repo from packagecloud
   become: yes
@@ -24,11 +30,14 @@
     status_code: 201,200
     headers:
       Content-Type: "application/x-www-form-urlencoded"
-    body: "name={{ ansible_nodename }}"
+    body: "name={{ ansible_facts.nodename }}"
   register: _task
   retries: 5
   delay: 3
   until: _task is succeeded
+  tags:
+    - ewc
+    - enterprise
 
 - name: Read bwc_read_token from file
   become: yes
@@ -36,16 +45,22 @@
   changed_when: no
   command: cat "/etc/packagecloud/StackStorm_{{ bwc_repo }}_read_token.txt"
   register: _bwc_read_token
+  tags:
+    - ewc
+    - enterprise
 
 - name: Set bwc_read_token variable
   no_log: yes
   set_fact:
     bwc_read_token: "{{ _bwc_read_token.stdout }}"
-
-- name: Add BWC enterprise repos on {{ ansible_distribution }}
-  include: bwc_repos_{{ ansible_pkg_mgr }}.yml
   tags:
-    - BWC repos
-    - StackStorm enterprise
+    - ewc
+    - enterprise
+
+- name: Add EWC enterprise repos on {{ ansible_facts.distribution }}
+  include_tasks: bwc_repos_{{ ansible_facts.pkg_mgr }}.yml
+  tags:
+    - ewc
+    - enterprise
   register: bwc_repo_added
   when: bwc_read_token != ''
