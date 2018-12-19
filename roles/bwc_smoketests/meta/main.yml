@@ -14,12 +14,10 @@ galaxy_info:
       versions:
         - 6
         - 7
-  categories:
+  galaxy_tags:
     - stackstorm
-    - BWC
-    - Brocade Workflow Composer
-    - EWC
-    - Extreme Workflow Composer
+    - bwc
+    - ewc
     - repositories
     - packagecloud
   dependencies:
