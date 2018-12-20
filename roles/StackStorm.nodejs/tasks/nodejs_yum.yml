@@ -10,6 +10,24 @@
   until: _task is succeeded
   tags: nodejs
 
+# nodesource updates the baseurl (which includes the major nodejs version)
+# in their yum repo release rpm without increasing the rpm's version number.
+# So we must manually remove the repo to get yum to add the correct release.
+- name: Determine if nodesource repo upgrade is required (ie when updating nodejs major version)
+  shell: "grep -q pub_{{ nodejs_major_version }}.x /etc/yum.repos.d/nodesource-*.repo"
+  changed_when: no
+  failed_when: no
+  register: nodesource_repo_check
+
+- name: Remove old nodesource repo on upgrade
+  when: nodesource_repo_check.rc != 0
+  become: yes
+  yum:
+    name: "nodesource-release-el{{ ansible_facts.distribution_major_version }}-1.noarch"
+    state: absent
+  register: rm_nodesource_repo
+  tags: nodejs
+
 - name: Add nodesource repo
   become: yes
   yum:
@@ -25,6 +43,7 @@
     # TODO: Allow yum downgrade since Ansible 2.4
     # https://github.com/ansible/ansible/pull/21516
     # allow_downgrade: yes
+    update_cache: "{{ rm_nodesource_repo is changed }}"
   register: _task
   retries: 5
   delay: 3
