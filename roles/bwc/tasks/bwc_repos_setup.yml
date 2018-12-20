@@ -63,4 +63,4 @@
     - ewc
     - enterprise
   register: bwc_repo_added
-  when: bwc_read_token != ''
+  when: bwc_read_token | length > 0
