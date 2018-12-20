@@ -11,7 +11,7 @@
     - ewc
     - enterprise
 
-- name: Handle bwc_license change
+- name: Handle ewc_license change
   include_tasks: license.yml
   tags:
     - ewc
@@ -22,9 +22,9 @@
   no_log: yes
   changed_when: no
   uri:
-    url: https://{{ bwc_license }}:@packagecloud.io/install/repositories/StackStorm/{{ bwc_repo }}/tokens.text
-    # creates: "/etc/packagecloud/StackStorm_{{ bwc_repo }}_read_token.txt"  # Don't download if file already exists
-    dest: "/etc/packagecloud/StackStorm_{{ bwc_repo }}_read_token.txt"
+    url: https://{{ ewc_license }}:@packagecloud.io/install/repositories/StackStorm/{{ ewc_repo }}/tokens.text
+    # creates: "/etc/packagecloud/StackStorm_{{ ewc_repo }}_read_token.txt"  # Don't download if file already exists
+    dest: "/etc/packagecloud/StackStorm_{{ ewc_repo }}_read_token.txt"
     force_basic_auth: yes
     method: POST
     status_code: 201,200
@@ -39,28 +39,28 @@
     - ewc
     - enterprise
 
-- name: Read bwc_read_token from file
+- name: Read ewc_read_token from file
   become: yes
   no_log: yes
   changed_when: no
-  command: cat "/etc/packagecloud/StackStorm_{{ bwc_repo }}_read_token.txt"
-  register: _bwc_read_token
+  command: cat "/etc/packagecloud/StackStorm_{{ ewc_repo }}_read_token.txt"
+  register: _ewc_read_token
   tags:
     - ewc
     - enterprise
 
-- name: Set bwc_read_token variable
+- name: Set ewc_read_token variable
   no_log: yes
   set_fact:
-    bwc_read_token: "{{ _bwc_read_token.stdout }}"
+    ewc_read_token: "{{ _ewc_read_token.stdout }}"
   tags:
     - ewc
     - enterprise
 
 - name: Add EWC enterprise repos on {{ ansible_facts.distribution }}
-  include_tasks: bwc_repos_{{ ansible_facts.pkg_mgr }}.yml
+  include_tasks: ewc_repos_{{ ansible_facts.pkg_mgr }}.yml
   tags:
     - ewc
     - enterprise
-  register: bwc_repo_added
-  when: bwc_read_token != ''
+  register: ewc_repo_added
+  when: ewc_read_token != ''

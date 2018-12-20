@@ -1,0 +1,78 @@
+---
+
+- name: Check if EWC license hash file is present
+  stat:
+    path: /etc/packagecloud/ewc_license_hash.txt
+  register: ewc_license_hash_file
+  tags:
+    - ewc
+    - enterprise
+
+- name: Read ewc_license_hash_file if it exits
+  command: cat /etc/packagecloud/ewc_license_hash.txt
+  register: _ewc_license_hash
+  no_log: yes
+  changed_when: no
+  when: ewc_license_hash_file.stat.exists
+  tags:
+    - ewc
+    - enterprise
+
+- name: Set ewc_license_hash from file context
+  set_fact:
+    ewc_license_hash: "{{ _ewc_license_hash.stdout }}"
+  no_log: yes
+  when: ewc_license_hash_file.stat.exists
+  tags:
+    - ewc
+    - enterprise
+
+- name: Set ewc_license_hash to incoming hash if not defined
+  no_log: yes
+  set_fact:
+    ewc_license_hash: '{{ ewc_license | hash("sha512") }}'
+  when: not ewc_license_hash_file.stat.exists
+  tags:
+    - ewc
+    - enterprise
+
+- name: Write ewc_license_hash to file if file not found on disk
+  copy:
+    content: "{{ ewc_license | hash('sha512') }}"
+    dest: "/etc/packagecloud/ewc_license_hash.txt"
+    force: yes
+  become: yes
+  when: not ewc_license_hash_file.stat.exists
+  tags:
+    - ewc
+    - enterprise
+
+- name: "Cleanup read token cached file from disk"
+  become: yes
+  file:
+    path: "/etc/packagecloud/StackStorm_{{ ewc_repo }}_read_token.txt"
+    state: absent
+  when: ewc_license | hash("sha512") != ewc_license_hash
+  tags:
+    - ewc
+    - enterprise
+
+- name: "Cleanup repo list file from disk"
+  become: yes
+  include_tasks: "ewc_repos_cleanup_{{ ansible_facts.pkg_mgr }}.yml"
+  when: ewc_license | hash("sha512") != ewc_license_hash
+  tags:
+    - ewc
+    - enterprise
+
+- name: Write new ewc_license_hash to file
+  copy:
+    content: "{{ ewc_license | hash('sha512') }}"
+    dest: "/etc/packagecloud/ewc_license_hash.txt"
+    force: yes
+  become: yes
+  no_log: yes
+  when: ewc_license | hash("sha512") != ewc_license_hash
+  tags:
+    - ewc
+    - enterprise

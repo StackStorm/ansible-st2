@@ -15,22 +15,22 @@
     - enterprise
     - skip_ansible_lint
 
-- name: "Add packagecloud.io repository: StackStorm/{{ bwc_repo }}"
+- name: "Add packagecloud.io repository: StackStorm/{{ ewc_repo }}"
   become: yes
   no_log: yes
   yum_repository:
-    name: "StackStorm_{{ bwc_repo }}"
-    description: "StackStorm_{{ bwc_repo }}"
-    file: "StackStorm_{{ bwc_repo }}"
-    baseurl: https://{{ bwc_read_token }}:@packagecloud.io/StackStorm/{{ bwc_repo }}/el/{{ ansible_facts.distribution_major_version }}/$basearch
+    name: "StackStorm_{{ ewc_repo }}"
+    description: "StackStorm_{{ ewc_repo }}"
+    file: "StackStorm_{{ ewc_repo }}"
+    baseurl: https://{{ ewc_read_token }}:@packagecloud.io/StackStorm/{{ ewc_repo }}/el/{{ ansible_facts.distribution_major_version }}/$basearch
     repo_gpgcheck: yes
-    gpgkey: "https://{{ bwc_read_token }}:@packagecloud.io/StackStorm/{{ bwc_repo }}/gpgkey"
+    gpgkey: "https://{{ ewc_read_token }}:@packagecloud.io/StackStorm/{{ ewc_repo }}/gpgkey"
     sslcacert: /etc/pki/tls/certs/ca-bundle.crt
     metadata_expire: 300
     gpgcheck: no
     enabled: yes
     sslverify: yes
-  register: added_bwc_rpm_repository
+  register: added_ewc_rpm_repository
   tags:
     - ewc
     - enterprise

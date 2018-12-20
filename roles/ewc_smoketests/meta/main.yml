@@ -26,4 +26,4 @@ galaxy_info:
     - role: st2repo
     - role: st2
     - role: st2web
-    - role: bwc
+    - role: ewc
