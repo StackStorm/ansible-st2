@@ -18,4 +18,4 @@ jobs:
       - run:
           name: Ansible-lint check
           command: |
-            ansible-lint -v roles/*/*/*.yaml roles/*/*/*.yml stackstorm.yml
+            ansible-lint -x 204 -v roles/*/*/*.yaml roles/*/*/*.yml stackstorm.yml

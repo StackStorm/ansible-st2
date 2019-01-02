@@ -82,7 +82,7 @@
 
 - name: Generate authentication token
   command: st2 auth "{{ st2_auth_username }}" -p "{{ st2_auth_password }}" -t
-  when: task_apikey_not_exists is succeeded and task_user_st2_api_key.changed == false
+  when: task_apikey_not_exists is succeeded and task_user_st2_api_key is not changed
   register: task_st2_token
   tags: [st2chatops, skip_ansible_lint]
 
