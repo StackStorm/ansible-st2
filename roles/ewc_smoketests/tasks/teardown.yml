@@ -4,11 +4,11 @@
   become: yes
   htpasswd:
     path: /etc/st2/htpasswd
-    name: "{{ bwc_smoke_tests_user }}"
+    name: "{{ ewc_smoke_tests_user }}"
     state: absent
   changed_when: no
   notify:
-    - reload bwc_rbac
+    - reload ewc_rbac
   tags:
     - ewc-smoke-tests
 
@@ -17,11 +17,11 @@
   file:
     state: absent
     path: /opt/stackstorm/rbac/roles/{{ item.name }}.yml
-  loop: "{{ bwc_smoke_tests_rbac.roles }}"
-  when: bwc_smoke_tests_rbac.roles is defined
+  loop: "{{ ewc_smoke_tests_rbac.roles }}"
+  when: ewc_smoke_tests_rbac.roles is defined
   changed_when: no
   notify:
-    - reload bwc_rbac
+    - reload ewc_rbac
   tags:
     - ewc-smoke-tests
 
@@ -29,10 +29,10 @@
   become: yes
   file:
     state: absent
-    path: /opt/stackstorm/rbac/assignments/{{ bwc_smoke_tests_user }}.yml
-  when: bwc_smoke_tests_rbac.assignments is defined
+    path: /opt/stackstorm/rbac/assignments/{{ ewc_smoke_tests_user }}.yml
+  when: ewc_smoke_tests_rbac.assignments is defined
   changed_when: no
   notify:
-    - reload bwc_rbac
+    - reload ewc_rbac
   tags:
     - ewc-smoke-tests

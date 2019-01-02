@@ -15,17 +15,17 @@
     - ewc
     - enterprise
 
-- name: "Including ID variable for {{ bwc_repo }}"
+- name: "Including ID variable for {{ ewc_repo }}"
   include_vars:
-    file: "{{ bwc_repo }}.yml"
+    file: "{{ ewc_repo }}.yml"
 
 - name: Get keyring URL
   become: yes
   no_log: yes
   changed_when: no
   uri:
-    url: https://{{ bwc_license }}:@packagecloud.io/install/repositories/StackStorm/{{ bwc_repo }}/gpg_key_url.list?os={{ ansible_distribution | lower }}&dist={{ ansible_distribution_release | lower }}&name={{ ansible_nodename }}
-    dest: "/etc/packagecloud/StackStorm_{{ bwc_repo }}_gpgkey_url.txt"
+    url: https://{{ ewc_license }}:@packagecloud.io/install/repositories/StackStorm/{{ ewc_repo }}/gpg_key_url.list?os={{ ansible_distribution | lower }}&dist={{ ansible_distribution_release | lower }}&name={{ ansible_nodename }}
+    dest: "/etc/packagecloud/StackStorm_{{ ewc_repo }}_gpgkey_url.txt"
     force_basic_auth: yes
     method: GET
     status_code: 201,200
@@ -36,17 +36,17 @@
   delay: 3
   until: _task is succeeded
 
-- name: Read bwc_gpgkey_url from file
+- name: Read ewc_gpgkey_url from file
   become: yes
   no_log: yes
   changed_when: no
-  command: cat "/etc/packagecloud/StackStorm_{{ bwc_repo }}_gpgkey_url.txt"
-  register: _bwc_gpgkey_url
+  command: cat "/etc/packagecloud/StackStorm_{{ ewc_repo }}_gpgkey_url.txt"
+  register: _ewc_gpgkey_url
 
-- name: Set bwc_gpgkey_url variable
+- name: Set ewc_gpgkey_url variable
   no_log: yes
   set_fact:
-    bwc_gpgkey_url: "{{ _bwc_gpgkey_url.stdout }}"
+    ewc_gpgkey_url: "{{ _ewc_gpgkey_url.stdout }}"
 
   # This is a nasty hack necessary because of how AWS Redirects are interfering
   # with both get_url and uri modules in Ansible. The redirect is somehow
@@ -54,9 +54,9 @@
   # This will ultimately need to be fixed upstream.
 - name: Download gpgkey
   become: yes
-  command: "curl -L -o /etc/packagecloud/StackStorm_{{ bwc_repo }}_gpgkey.asc {{ bwc_gpgkey_url }}"
+  command: "curl -L -o /etc/packagecloud/StackStorm_{{ ewc_repo }}_gpgkey.asc {{ ewc_gpgkey_url }}"
   args:
-    creates: "/etc/packagecloud/StackStorm_{{ bwc_repo }}_gpgkey.asc"
+    creates: "/etc/packagecloud/StackStorm_{{ ewc_repo }}_gpgkey.asc"
     warn: False
   register: _task
   retries: 5
@@ -67,7 +67,7 @@
   become: yes
   apt_key:
     id: "{{ enterprise_key_id }}"
-    file: "/etc/packagecloud/StackStorm_{{ bwc_repo }}_gpgkey.asc"
+    file: "/etc/packagecloud/StackStorm_{{ ewc_repo }}_gpgkey.asc"
     state: present
   register: _task
   retries: 5
@@ -77,18 +77,18 @@
     - ewc
     - enterprise
 
-- name: "Add packagecloud.io repository: StackStorm/{{ bwc_repo }}"
+- name: "Add packagecloud.io repository: StackStorm/{{ ewc_repo }}"
   become: yes
   no_log: yes
   apt_repository:
-    filename: "StackStorm_{{ bwc_repo }}"
-    repo: 'deb https://{{ bwc_read_token }}:@packagecloud.io/StackStorm/{{ bwc_repo }}/{{ ansible_facts.distribution|lower }}/ {{ ansible_facts.distribution_release|lower }} main'
+    filename: "StackStorm_{{ ewc_repo }}"
+    repo: 'deb https://{{ ewc_read_token }}:@packagecloud.io/StackStorm/{{ ewc_repo }}/{{ ansible_facts.distribution|lower }}/ {{ ansible_facts.distribution_release|lower }} main'
     state: present
     update_cache: yes
-  register: added_bwc_deb_repository
+  register: added_ewc_deb_repository
   retries: 5
   delay: 3
-  until: added_bwc_deb_repository is succeeded
+  until: added_ewc_deb_repository is succeeded
   tags:
     - ewc
     - enterprise

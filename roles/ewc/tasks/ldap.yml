@@ -11,7 +11,7 @@
     value: ldap
     backup: yes
   # Don't even setup LDAP if backend_kwargs is not defined
-  when: bwc_ldap.backend_kwargs is defined and bwc_ldap.backend_kwargs|length > 0
+  when: ewc_ldap.backend_kwargs is defined and ewc_ldap.backend_kwargs|length > 0
   notify:
     - restart st2api
     - restart st2stream
@@ -24,10 +24,10 @@
     dest: /etc/st2/st2.conf
     section: auth
     option: backend_kwargs
-    value: "{{ bwc_ldap.backend_kwargs | to_json | string }}"
+    value: "{{ ewc_ldap.backend_kwargs | to_json | string }}"
     backup: yes
   # Don't even setup LDAP if backend_kwargs is not defined
-  when: bwc_ldap.backend_kwargs is defined and bwc_ldap.backend_kwargs|length > 0
+  when: ewc_ldap.backend_kwargs is defined and ewc_ldap.backend_kwargs|length > 0
   notify:
     - restart st2api
     - restart st2stream
