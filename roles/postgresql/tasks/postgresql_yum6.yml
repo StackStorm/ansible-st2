@@ -77,4 +77,3 @@
     state: started
     enabled: yes
   tags: [db, postgresql]
-

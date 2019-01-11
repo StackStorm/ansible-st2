@@ -30,4 +30,3 @@
     option: encryption_key_path
     value: "{{ st2_datastore_key_file }}"
   notify: restart st2api
-
