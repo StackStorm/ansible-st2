@@ -23,6 +23,7 @@ galaxy_info:
         - 6
         - 7
   categories:
+    - system
     - ops
     - devops
     - chatops

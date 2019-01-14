@@ -15,6 +15,7 @@ galaxy_info:
         - 6
         - 7
   galaxy_tags:
+    - system
     - st2
     - devops
     - chatops
