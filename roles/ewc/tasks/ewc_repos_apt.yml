@@ -24,7 +24,7 @@
   no_log: yes
   changed_when: no
   uri:
-    url: https://{{ ewc_license }}:@packagecloud.io/install/repositories/StackStorm/{{ ewc_repo }}/gpg_key_url.list?os={{ ansible_distribution | lower }}&dist={{ ansible_distribution_release | lower }}&name={{ ansible_nodename }}
+    url: https://{{ ewc_license }}:@packagecloud.io/install/repositories/StackStorm/{{ ewc_repo }}/gpg_key_url.list?os={{ ansible_facts.distribution | lower }}&dist={{ ansible_facts.distribution_release | lower }}&name={{ ansible_facts.nodename }}
     dest: "/etc/packagecloud/StackStorm_{{ ewc_repo }}_gpgkey_url.txt"
     force_basic_auth: yes
     method: GET
