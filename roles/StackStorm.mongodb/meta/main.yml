@@ -1,9 +1,9 @@
 ---
 galaxy_info:
-  description: Install st2chatops
+  description: Install MongoDB
   author: humblearner
   company: StackStorm
-  license: Apache 2.0
+  license: Apache
   min_ansible_version: 2.5
   platforms:
     - name: Ubuntu
@@ -16,11 +16,6 @@ galaxy_info:
         - 7
   galaxy_tags:
     - system
-    - st2
-    - devops
-    - chatops
-    - automation
-    - hubot
 dependencies:
-    - role: nodejs
-    - role: st2
+  - role: StackStorm.epel
+    when: ansible_facts.os_family == 'RedHat'
