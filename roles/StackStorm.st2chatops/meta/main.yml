@@ -22,5 +22,5 @@ galaxy_info:
     - automation
     - hubot
 dependencies:
-    - role: StackStorm.nodejs
-    - role: StackStorm.st2
+  - role: StackStorm.nodejs
+  - role: StackStorm.st2

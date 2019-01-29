@@ -21,7 +21,7 @@ galaxy_info:
     - ewc
     - repositories
     - packagecloud
-  dependencies:
-    - role: st2repo
-    - role: st2
-    - role: st2web
+dependencies:
+  - role: StackStorm.st2repo
+  - role: StackStorm.st2
+  - role: StackStorm.st2web
