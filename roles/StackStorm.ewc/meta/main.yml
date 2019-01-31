@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  description: Test EWC enteprise components were installed correctly.
+  description: Install EWC Entperprise components, setup RBAC and LDAP
   author: lakshmi-kannan
   company: StackStorm
   license: Apache 2.0
@@ -15,13 +15,13 @@ galaxy_info:
         - 6
         - 7
   galaxy_tags:
+    - system
     - stackstorm
     - bwc
     - ewc
     - repositories
     - packagecloud
-  dependencies:
-    - role: st2repo
-    - role: st2
-    - role: st2web
-    - role: ewc
+dependencies:
+  - role: StackStorm.st2repo
+  - role: StackStorm.st2
+  - role: StackStorm.st2web

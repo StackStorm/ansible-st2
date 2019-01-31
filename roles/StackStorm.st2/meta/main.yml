@@ -22,6 +22,6 @@ galaxy_info:
     - remediation
     - devops
 dependencies:
-  - role: epel
+  - role: StackStorm.epel
     when: ansible_facts.os_family == 'RedHat'
-  - role: st2repo
+  - role: StackStorm.st2repo

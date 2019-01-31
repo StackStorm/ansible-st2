@@ -1,7 +1,7 @@
 ---
 galaxy_info:
-  description: Install EWC Entperprise components, setup RBAC and LDAP
-  author: lakshmi-kannan
+  description: Install st2chatops
+  author: humblearner
   company: StackStorm
   license: Apache 2.0
   min_ansible_version: 2.5
@@ -16,12 +16,11 @@ galaxy_info:
         - 7
   galaxy_tags:
     - system
-    - stackstorm
-    - bwc
-    - ewc
-    - repositories
-    - packagecloud
-  dependencies:
-    - role: st2repo
-    - role: st2
-    - role: st2web
+    - st2
+    - devops
+    - chatops
+    - automation
+    - hubot
+dependencies:
+  - role: StackStorm.nodejs
+  - role: StackStorm.st2

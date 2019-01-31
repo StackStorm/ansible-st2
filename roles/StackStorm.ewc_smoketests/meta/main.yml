@@ -1,0 +1,27 @@
+---
+galaxy_info:
+  description: Test EWC enteprise components were installed correctly.
+  author: lakshmi-kannan
+  company: StackStorm
+  license: Apache 2.0
+  min_ansible_version: 2.5
+  platforms:
+    - name: Ubuntu
+      versions:
+        - trusty
+        - xenial
+    - name: EL
+      versions:
+        - 6
+        - 7
+  galaxy_tags:
+    - stackstorm
+    - bwc
+    - ewc
+    - repositories
+    - packagecloud
+dependencies:
+  - role: StackStorm.st2repo
+  - role: StackStorm.st2
+  - role: StackStorm.st2web
+  - role: StackStorm.ewc

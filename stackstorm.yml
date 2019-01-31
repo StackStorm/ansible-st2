@@ -2,18 +2,18 @@
 - name: Install st2
   hosts: all
   roles:
-    - mongodb
-    - rabbitmq
-    - postgresql
-    - st2repo
-    - st2
-    - st2mistral
-    - nginx
-    - st2web
-    - nodejs
-    - st2chatops
-    - st2smoketests
-    - role: ewc
+    - StackStorm.mongodb
+    - StackStorm.rabbitmq
+    - StackStorm.postgresql
+    - StackStorm.st2repo
+    - StackStorm.st2
+    - StackStorm.st2mistral
+    - StackStorm.nginx
+    - StackStorm.st2web
+    - StackStorm.nodejs
+    - StackStorm.st2chatops
+    - StackStorm.st2smoketests
+    - role: StackStorm.ewc
       when: ewc_license is defined and ewc_license is not none
-    - role: ewc_smoketests
+    - role: StackStorm.ewc_smoketests
       when: ewc_license is defined and ewc_license is not none
