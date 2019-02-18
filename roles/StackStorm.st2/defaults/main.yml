@@ -35,4 +35,4 @@ st2_auth_password: testp
 # Save credentials in ~/.st2/config file
 st2_save_credentials: yes
 # ST2 packs to be installed (list)
-st2_packs:
+st2_packs: []
