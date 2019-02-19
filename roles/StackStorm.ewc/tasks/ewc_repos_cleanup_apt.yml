@@ -1,5 +1,4 @@
 ---
-
 - name: Cleanup repo list file from disk
   become: yes
   file:

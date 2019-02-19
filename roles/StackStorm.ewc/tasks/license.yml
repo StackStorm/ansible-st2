@@ -1,5 +1,4 @@
 ---
-
 - name: Check if EWC license hash file is present
   stat:
     path: /etc/packagecloud/ewc_license_hash.txt
