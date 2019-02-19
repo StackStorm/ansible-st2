@@ -56,7 +56,7 @@
   setup:
     filter: ansible_selinux
   when: nginx_selinux_dependencies.changed
-  tags: nginx
+  tags: nginx, skip_ansible_lint
 
 - name: Adjust SELinux to allow network access for nginx
   become: yes
