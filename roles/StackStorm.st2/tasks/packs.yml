@@ -1,12 +1,12 @@
 ---
 - name: Get installed st2 packs (in json format)
-  command: /usr/bin/st2 pack list -j 
+  command: /usr/bin/st2 pack list -j
   changed_when: no
   check_mode: no
   register: _st2_packs_installed
 
 # This gets the names of the currently installed st2 packs from a json list of dicts
-- set_fact: 
+- set_fact:
     st2_packs_installed: "{{ _st2_packs_installed.stdout|from_json|map(attribute='name')|list() }}"
 
 - name: Install st2 packs
