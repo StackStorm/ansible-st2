@@ -1,9 +1,10 @@
 ---
 - name: Verify st2chatops using bin/hubot
   # when editing, make sure it works for at least 2 adapters: 'shell' and 'slack'
-  shell: timeout 10 bash -c '(sleep 5; echo exit ) | bin/hubot'
+  shell: set -o pipefail && timeout 10 bash -c '(sleep 5; echo exit ) | bin/hubot'
   args:
     chdir: /opt/stackstorm/chatops/
+    executable: /bin/bash
   environment:
     HUBOT_LOG_LEVEL: debug
   register: hubot_output

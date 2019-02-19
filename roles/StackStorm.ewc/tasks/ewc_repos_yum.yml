@@ -1,5 +1,4 @@
 ---
-
 # Fixes "Failure talking to yum: Cannot retrieve repository metadata (repomd.xml) for repository: StackStorm_stable. Please verify its path and try again" when installing st2
 - name: Update ca-certificates package
   become: yes

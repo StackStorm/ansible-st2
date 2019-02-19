@@ -1,5 +1,4 @@
 ---
-
 - name: Setup st2.conf auth backend to LDAP
   become: yes
   # Unfortunately, ``with_dict`` also logs the dict which could leak passwords.

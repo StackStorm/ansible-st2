@@ -1,8 +1,7 @@
 ---
-
 - name: Cleanup repo list file from disk
   become: yes
-  yum_resository:
+  yum_repository:
     name: "StackStorm_{{ ewc_repo }}"
     state: absent
   tags:

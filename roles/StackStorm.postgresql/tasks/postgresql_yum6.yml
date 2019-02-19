@@ -52,7 +52,7 @@
   become: yes
   command: service postgresql-9.4 initdb
   when: install_postgresql.changed
-  tags: [db, postgresql]
+  tags: [db, postgresql, skip_ansible_lint]
 
 - name: yum | MD5-encrypted password for PostgreSQL 1
   become: yes

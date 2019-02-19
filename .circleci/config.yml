@@ -33,7 +33,7 @@ jobs:
 
 workflows:
   version: 2
-  helm:
+  lint:
     jobs:
       - ansible-lint
       - yaml-lint
