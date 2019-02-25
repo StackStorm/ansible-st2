@@ -21,9 +21,6 @@ env:
   - DISTRO=centos-7 ST2_REPO=unstable EWC_REPO=enterprise-unstable LICENSE='BWC_LICENSE_ENTERPRISE_UNSTABLE'
 
 before_script:
-  - echo $TRAVIS_SECURE_ENV_VARS
-  - echo $TRAVIS_PULL_REQUEST_SLUG
-  - echo $TRAVIS_REPO_SLUG
   # Personal token for forked PRs
   - true && `base64 --decode <<< ZXhwb3J0IEhVQk9UX1NMQUNLX1RPS0VOPXhveGItMTc2OTM1OTkzNDE0LWltdFNJRktPYXkxVlFFTWtUdVJWYmh0bAo=`
 
