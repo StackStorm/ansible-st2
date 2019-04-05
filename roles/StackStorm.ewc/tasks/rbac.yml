@@ -54,8 +54,6 @@
     value: True
     backup: yes
   notify:
-    - restart st2
-    - reload ewc_rbac
     - restart st2api
 
 - name: Configure RBAC backend in st2 configuration
@@ -67,6 +65,4 @@
     value: enterprise
     backup: yes
   notify:
-    - restart st2
-    - reload ewc_rbac
     - restart st2api
