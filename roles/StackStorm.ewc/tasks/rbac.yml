@@ -55,6 +55,7 @@
     backup: yes
   notify:
     - restart st2api
+    - reload ewc_rbac
 
 - name: Configure RBAC backend in st2 configuration
   become: yes
@@ -66,3 +67,4 @@
     backup: yes
   notify:
     - restart st2api
+    - reload ewc_rbac
