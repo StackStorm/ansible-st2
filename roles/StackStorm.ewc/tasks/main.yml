@@ -24,6 +24,9 @@
     - ewc
     - st2 enterprise
     - skip_ansible_lint
+  notify:
+    - restart st2api
+    - restart st2auth
 
 - name: Install present bwc-enterprise package, no auto-update
   become: yes
@@ -38,6 +41,9 @@
   tags:
     - ewc
     - st2 enterprise
+  notify:
+    - restart st2api
+    - restart st2auth
 
 - name: Install pinned bwc-enterprise package
   become: yes
@@ -54,6 +60,9 @@
   tags:
     - ewc
     - st2 enterprise
+  notify:
+    - restart st2api
+    - restart st2auth
 
 - name: Setup RBAC and setup roles and assignments if ewc_rbac is defined
   import_tasks: rbac.yml
