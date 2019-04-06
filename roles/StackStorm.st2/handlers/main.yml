@@ -15,6 +15,12 @@
     name: st2actionrunner
     state: restarted
 
+- name: restart st2auth
+  become: yes
+  service:
+    name: st2auth
+    state: restarted
+
 - name: restart st2api
   become: yes
   service:
