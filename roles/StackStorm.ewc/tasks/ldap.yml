@@ -12,8 +12,7 @@
   # Don't even setup LDAP if backend_kwargs is not defined
   when: ewc_ldap.backend_kwargs is defined and ewc_ldap.backend_kwargs|length > 0
   notify:
-    - restart st2api
-    - restart st2stream
+    - restart st2auth
 
 - name: Setup st2.conf auth backend_kwargs for LDAP
   become: yes
@@ -28,5 +27,4 @@
   # Don't even setup LDAP if backend_kwargs is not defined
   when: ewc_ldap.backend_kwargs is defined and ewc_ldap.backend_kwargs|length > 0
   notify:
-    - restart st2api
-    - restart st2stream
+    - restart st2auth
