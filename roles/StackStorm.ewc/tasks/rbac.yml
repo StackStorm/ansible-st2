@@ -54,6 +54,17 @@
     value: True
     backup: yes
   notify:
-    - restart st2
-    - reload ewc_rbac
     - restart st2api
+    - reload ewc_rbac
+
+- name: Configure RBAC backend in st2 configuration
+  become: yes
+  ini_file:
+    dest: /etc/st2/st2.conf
+    section: rbac
+    option: backend
+    value: enterprise
+    backup: yes
+  notify:
+    - restart st2api
+    - reload ewc_rbac
