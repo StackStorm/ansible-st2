@@ -12,6 +12,20 @@
     loop_var: _conf_option
   # prevent logging passwords, auth URIs, and secrets
   no_log: "{{ _conf_option.0 in st2_config_no_log[_conf_section_name]|default([]) }}"
+  when: _conf_option.0 != 'backend_kwargs'
   notify:
     - restart st2
   tags: st2, config
+
+- name: Set backend_kwargs in st2.conf
+  become: yes
+  no_log: yes
+  ini_file:
+    dest: /etc/st2/st2.conf
+    section: auth
+    option: backend_kwargs
+    value: "{{ st2_config.auth.backend_kwargs | to_json | string }}"
+  when: st2_config.auth.backend_kwargs is defined and st2_config.auth.backend_kwargs|length > 0
+  notify:
+    - restart st2
+  tags: st2, config, auth
