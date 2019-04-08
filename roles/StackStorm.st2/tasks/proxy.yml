@@ -10,7 +10,7 @@
     # NB: Empty ENV var cast to 'None' string in Ansible
     state: "{{ 'present' if ansible_facts.env.get(item.1, 'None') != 'None' else 'absent' }}"
   vars:
-    _services: [st2api, st2actionrunner]
+    _services: [st2api, st2actionrunner, st2chatops]
     _proxy_vars: [http_proxy, https_proxy, no_proxy]
   loop: '{{ _services|product(_proxy_vars)|list }}'
   notify:
