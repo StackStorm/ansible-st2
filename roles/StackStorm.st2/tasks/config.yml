@@ -5,7 +5,7 @@
     dest: /etc/st2/st2.conf
     section: "{{ _conf_section_name }}"
     option: "{{ _conf_option.0 }}"
-    value: "{{ _conf_option.1 }}"
+    value: "{{ _conf_option.1 | string }}"
   # dict2items not available until 2.6, so use Jinja's dictsort instead
   loop: "{{ _conf_options | dictsort }}"
   loop_control:
