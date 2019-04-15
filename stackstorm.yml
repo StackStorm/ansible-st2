@@ -1,7 +1,7 @@
 ---
 - name: Install st2
   hosts: all
-  environment: "{{ st2_proxy_env | default(None) }}"
+  environment: "{{ st2_proxy_env | default({}) }}"
   roles:
     - StackStorm.mongodb
     - StackStorm.rabbitmq
