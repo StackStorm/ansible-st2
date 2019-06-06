@@ -38,7 +38,7 @@
     dest: "/etc/sudoers"
     regexp: '^Defaults\s+\+?requiretty'
     replace: '# Defaults requiretty'
-  when: st2_system_user_in_sudoers
+  when: st2_system_user_in_sudoers | bool
 
 - name: user | Configure system user in /etc/st2/st2.conf
   become: yes

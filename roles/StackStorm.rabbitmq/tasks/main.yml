@@ -29,5 +29,5 @@
     new_only: no
     # the EL6 RPM for rabbitmq-server does not place the rabbitmq-plugins binary in the search path (other distro's packages do, including EL7). Prefix adds it to the binary search path.
     prefix: "{{ rabbitmq_on_el6 | ternary(rabbitmq_el6_prefix, omit) }}"
-  when: rabbitmq_plugins
+  when: rabbitmq_plugins | bool
   tags: rabbitmq
