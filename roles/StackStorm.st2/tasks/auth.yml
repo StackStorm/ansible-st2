@@ -51,7 +51,7 @@
   file:
     path: /root/.st2
     state: directory
-  when: st2_save_credentials
+  when: st2_save_credentials | bool
 
 - name: auth | Save credentials in CLI configuration file
   become: yes
@@ -65,4 +65,4 @@
       [credentials]
       username = {{ st2_auth_username }}
       password = {{ st2_auth_password }}
-  when: st2_save_credentials
+  when: st2_save_credentials | bool

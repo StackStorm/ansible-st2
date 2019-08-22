@@ -1,6 +1,7 @@
 ---
 - name: Install st2
   hosts: all
+  environment: "{{ st2_proxy_env | default({}) }}"
   roles:
     - StackStorm.mongodb
     - StackStorm.rabbitmq
@@ -14,6 +15,6 @@
     - StackStorm.st2chatops
     - StackStorm.st2smoketests
     - role: StackStorm.ewc
-      when: ewc_license is defined and ewc_license | length > 0
+      when: ewc_license is defined and ewc_license is not none and ewc_license | length > 0
     - role: StackStorm.ewc_smoketests
-      when: ewc_license is defined and ewc_license | length > 0
+      when: ewc_license is defined and ewc_license is not none and ewc_license | length > 0

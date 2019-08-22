@@ -65,7 +65,7 @@
     - ewc-smoke-tests
 
 - name: Test some other action that "{{ ewc_smoke_tests_user }}" cannot run
-  command: st2 run core.http url="https://google.com"
+  command: st2 run core.http url="https://www.google.com"
   environment:
     ST2_AUTH_TOKEN: "{{ st2_token_smoke_tests_user.stdout }}"
   ignore_errors: yes
