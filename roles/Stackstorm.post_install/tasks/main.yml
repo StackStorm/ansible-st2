@@ -7,3 +7,4 @@
 - name: Install add-on packs
   import_tasks: packs.yml
   tags: st2, st2_packs
+  
