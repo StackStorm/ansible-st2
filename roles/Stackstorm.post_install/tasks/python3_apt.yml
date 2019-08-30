@@ -1,0 +1,6 @@
+- name: Install python3.6 on Ubuntu
+  apt:
+    name: python3.6
+  become: yes
+  tags: [python3]
+

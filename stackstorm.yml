@@ -18,3 +18,4 @@
       when: ewc_license is defined and ewc_license is not none and ewc_license | length > 0
     - role: StackStorm.ewc_smoketests
       when: ewc_license is defined and ewc_license is not none and ewc_license | length > 0
+    - Stackstorm.post_install
