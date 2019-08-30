@@ -1,4 +1,3 @@
-
 - name: Install python3 on {{ ansible_facts.distribution }}
   include_tasks: python3_{{ ansible_facts.pkg_mgr }}.yml
   tags: [python3]
@@ -7,4 +6,3 @@
 - name: Install add-on packs
   import_tasks: packs.yml
   tags: st2, st2_packs
-  

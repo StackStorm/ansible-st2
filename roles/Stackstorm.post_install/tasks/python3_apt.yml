@@ -3,4 +3,3 @@
     name: python3.6
   become: yes
   tags: [python3]
-
