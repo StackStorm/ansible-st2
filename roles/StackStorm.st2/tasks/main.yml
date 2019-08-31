@@ -106,4 +106,5 @@
   when: st2_packs is defined and 
         ((ansible_distribution == "CentOS" and ansible_distribution_major_version == '7') or 
         (ansible_facts.os_family == 'Debian'))
+  become: yes
   tags: st2, st2_packs
