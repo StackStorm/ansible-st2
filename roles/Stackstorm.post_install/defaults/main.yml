@@ -1,4 +1,0 @@
-# ST2 packs to be installed (list)
-st2_packs: [azure]
-install_python_3: true
-st2_packs_py3: [algosec]
