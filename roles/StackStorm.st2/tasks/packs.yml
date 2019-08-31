@@ -28,4 +28,3 @@
     ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
   loop: "{{ st2_packs }}"
   when: item not in st2_packs_installed
-

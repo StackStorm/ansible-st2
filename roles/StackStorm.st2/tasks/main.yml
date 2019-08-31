@@ -105,4 +105,3 @@
   import_tasks: packs.yml
   when: st2_packs is defined
   tags: st2, st2_packs
-  
