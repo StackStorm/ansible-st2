@@ -3,17 +3,8 @@
 - meta: flush_handlers
   tags: st2_packs
 
-# - name: get authentication token
-#   command: st2 auth "{{ st2_auth_username }}" -p "{{ st2_auth_password }}" -t
-#   register: st2_token
-#   changed_when: no
-#   tags:
-#     - st2_packs
-
 - name: Get installed st2 packs (in json format)
   command: st2 pack list -j
-  # environment:
-  #   ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
   changed_when: no
   check_mode: no
   register: _st2_packs_installed
@@ -25,8 +16,6 @@
 
 - name: Install st2 packs --python2
   command: st2 pack install "{{ item }}"
-  # environment:
-  #   ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
   loop: "{{ st2_packs }}"
   when: item not in st2_packs_installed
   become: yes
