@@ -101,9 +101,6 @@
   loop: "{{ st2_services }}"
   tags: st2
 
-- meta: flush_handlers
-  tags: st2_packs
-
 - name: Install ST2 add-on Packs
   import_tasks: packs.yml
   when: st2_packs is defined and
