@@ -101,9 +101,12 @@
   loop: "{{ st2_services }}"
   tags: st2
 
+- meta: flush_handlers
+  tags: st2_packs
+
 - name: Install ST2 add-on Packs
   import_tasks: packs.yml
   when: st2_packs is defined and
         ((ansible_distribution == "CentOS" and ansible_distribution_major_version == '7') or
         (ansible_distribution == 'Ubuntu'))
-  tags: st2, st2_packs
+  tags: st2, st2_packs, skip_centos_7
