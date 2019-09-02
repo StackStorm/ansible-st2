@@ -8,7 +8,7 @@
   changed_when: no
   check_mode: no
   register: _st2_packs_installed
-  become: yes
+  # become: yes
 
 # This gets the names of the currently installed st2 packs from a json list of dicts
 - set_fact:
@@ -18,4 +18,4 @@
   command: st2 pack install "{{ item }}"
   loop: "{{ st2_packs }}"
   when: item not in st2_packs_installed
-  become: yes
+  # become: yes
