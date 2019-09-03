@@ -108,13 +108,13 @@
   include_tasks: flush_handlers.yml
   when: st2_packs | length>0 and not (ansible_facts.os_family == "RedHat" and ansible_distribution_major_version == "6")
   ignore_errors: yes
-  tag: st2, st2_flush_handlers, skip_centos_6
+  tags: st2, st2_flush_handlers, skip_centos_6
 
 - name: Fail message for CentOS6
   fail: msg="CentOS6 support not provided for ansible pack install, skipped flush handlers"
   failed_when: ( ansible_facts.os_family == "RedHat" and ansible_distribution_major_version == "6")
   ignore_errors: yes
-  tag: st2, st2_flush_handlers, skip_centos_6
+  tags: st2, st2_packs, st2_flush_handlers, skip_centos_6
 
 - name: Install ST2 add-on Packs
   import_tasks: packs.yml
@@ -126,4 +126,4 @@
   fail: msg="CentOS6 support not provided for ansible pack install, skipped pack install"
   failed_when: ( ansible_facts.os_family == "RedHat" and ansible_distribution_major_version == "6")
   ignore_errors: yes
-  tag: st2, st2_flush_handlers, skip_centos_6
+  tags: st2, st2_packs, st2_flush_handlers, skip_centos_6

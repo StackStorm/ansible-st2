@@ -10,10 +10,12 @@
   # Fix privilege escalation ENV in Dockerized environment
   environment:
     HOME: /root
+  tags: st2, st2_packs
 
 # This gets the names of the currently installed st2 packs from a json list of dicts
 - set_fact:
     st2_packs_installed: "{{ _st2_packs_installed.stdout|from_json|map(attribute='name')|list() }}"
+  tags: st2, st2_packs,
 
 - name: Install st2 packs
   command: st2 pack install "{{ item }}"
@@ -24,3 +26,4 @@
   # Fix privilege escalation ENV in Dockerized environment
   environment:
     HOME: /root
+  tags: st2, st2_packs
