@@ -101,6 +101,7 @@
   loop: "{{ st2_services }}"
   tags: st2
 
+# https://github.com/ansible/ansible/issues/41313#issuecomment-520891625
 - name: Flush handlers to prepare to run st2 there are packs to install
   include_tasks: flush_handlers.yml
   when: st2_packs is defined
