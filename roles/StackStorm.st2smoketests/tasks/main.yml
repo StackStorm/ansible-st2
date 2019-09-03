@@ -44,7 +44,7 @@
 - name: Verify st2 pack is installed
   environment:
     ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
-  command: 'st2 pack list -a name -y | grep -w "name: st2"'
+  shell: 'st2 pack list -a name -y | grep -w "name: st2"'
   changed_when: no
   tags:
     - smoke-tests
