@@ -18,7 +18,6 @@ VIRTUAL_MACHINES = {
     :hostname => 'ansible-st2-centos7',
     :box => 'centos/7',
   },
-
 }
 
 Vagrant.require_version ">= 1.9.1"

@@ -101,14 +101,29 @@
   loop: "{{ st2_services }}"
   tags: st2
 
+# Since flush handlers does not support conditionals, we need to have a dedicated playbook
 # https://github.com/ansible/ansible/issues/41313#issuecomment-520891625
-- name: Flush handlers to prepare to run st2 there are packs to install
+
+- name: Flush handlers to prepare to run st2 if there are packs to install
   include_tasks: flush_handlers.yml
-  when: st2_packs is defined
+  when: st2_packs | length>0 and not (ansible_facts.os_family == "RedHat" and ansible_distribution_major_version == "6")
+  ignore_errors: yes
+  tag: st2, st2_flush_handlers, skip_centos_6
+
+- name: Fail message for CentOS6
+  fail: msg="CentOS6 support not provided for ansible pack install, skipped flush handlers"
+  failed_when: ( ansible_facts.os_family == "RedHat" and ansible_distribution_major_version == "6")
+  ignore_errors: yes
+  tag: st2, st2_flush_handlers, skip_centos_6
 
 - name: Install ST2 add-on Packs
   import_tasks: packs.yml
-  when: st2_packs is defined and
-        ((ansible_distribution == "RedHat" and ansible_distribution_major_version == '7') or
-        (ansible_distribution == "Ubuntu"))
+  when: st2_packs | length>0 and not (ansible_facts.os_family == "RedHat" and ansible_distribution_major_version == "6")
+  ignore_errors: yes
   tags: st2, st2_packs, skip_centos_6
+
+- name: Fail message for CentOS6
+  fail: msg="CentOS6 support not provided for ansible pack install, skipped pack install"
+  failed_when: ( ansible_facts.os_family == "RedHat" and ansible_distribution_major_version == "6")
+  ignore_errors: yes
+  tag: st2, st2_flush_handlers, skip_centos_6

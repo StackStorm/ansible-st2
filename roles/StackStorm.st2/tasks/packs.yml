@@ -1,4 +1,5 @@
 ---
+
 - name: Get list of installed st2 packs
   command: st2 pack list -j
   changed_when: no
