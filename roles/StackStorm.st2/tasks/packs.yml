@@ -1,32 +1,25 @@
 ---
-
-- name: test if st2 is authenticated become -> yes
-  command: st2 whoami
-  become: yes
-
-- name: test if st2 is authenticated become -> no
-  command: st2 whoami
-
-- name: test whoami
-  command: whoami
-
-- name: debug -> cat out .st2/config
-  command: cat /root/.st2/config
-  become: yes
-
-- name: Get installed st2 packs in json
+- name: Get list of installed st2 packs
   command: st2 pack list -j
   changed_when: no
   check_mode: no
   register: _st2_packs_installed
   become: yes
+  become_user: root
+  # Fix privilege escalation ENV in Dockerized environment
+  environment:
+    HOME: /root
 
 # This gets the names of the currently installed st2 packs from a json list of dicts
 - set_fact:
     st2_packs_installed: "{{ _st2_packs_installed.stdout|from_json|map(attribute='name')|list() }}"
 
-- name: Install st2 packs --python2
+- name: Install st2 packs
   command: st2 pack install "{{ item }}"
   loop: "{{ st2_packs }}"
   when: item not in st2_packs_installed
   become: yes
+  become_user: root
+  # Fix privilege escalation ENV in Dockerized environment
+  environment:
+    HOME: /root
