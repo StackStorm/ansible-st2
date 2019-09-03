@@ -7,6 +7,10 @@
 - name: test if st2 is authenticated become -> no
   command: st2 whoami
 
+- name: debug -> cat out .st2/config
+  command: cat ~/.st2/config
+  become: yes
+
 - name: Get installed st2 packs in json
   command: st2 pack list -j
   changed_when: no
