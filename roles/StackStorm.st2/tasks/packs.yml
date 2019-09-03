@@ -1,8 +1,11 @@
 ---
 
-- name: test if st2 is authenticated
+- name: test if st2 is authenticated become -> yes
   command: st2 whoami
   become: yes
+
+- name: test if st2 is authenticated become -> no
+  command: st2 whoami
 
 - name: Get installed st2 packs in json
   command: st2 pack list -j
