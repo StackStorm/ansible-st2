@@ -1,4 +1,3 @@
 ---
-
 - meta: flush_handlers
-  tags: st2_packs
+  tags: st2, st2_packs
