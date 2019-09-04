@@ -48,7 +48,7 @@
   changed_when: no
   check_mode: no
   register: _smoke_st2_pack_installed
-  failed_when: result.rc != 0
+  failed_when: _smoke_st2_pack_installed.rc != 0
   tags:
     - smoke-tests
 
