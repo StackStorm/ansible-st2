@@ -115,8 +115,9 @@
   ignore_errors: yes
   tags: st2, st2_packs, skip_centos_6
 
-- fail:
-    msg: CentOS6 support not provided for 'st2_packs', skipped st2 pack install
+- name: Report warning when 'st2_packs' is used in EL6
+  fail:
+    msg: CentOS/RHEL 6 support not provided for 'st2_packs', skipped st2 pack install
   failed_when: st2_packs|length > 0 and ansible_facts.os_family == "RedHat" and ansible_distribution_major_version == "6"
   ignore_errors: yes
   tags: st2, st2_packs, skip_centos_6
