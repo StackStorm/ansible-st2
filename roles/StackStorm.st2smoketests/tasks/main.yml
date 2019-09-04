@@ -47,6 +47,16 @@
     ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
   command: "st2 pack install st2"
   changed_when: no
+  when: ansible_facts.os_family == "RedHat" and ansible_distribution_major_version == "6"
+  tags:
+    - smoke-tests
+
+- name: Verify if st2 pack was installed
+  environment:
+    ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
+  command: st2 pack get st2
+  changed_when: no
+  check_mode: no
   tags:
     - smoke-tests
 

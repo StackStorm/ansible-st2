@@ -1,0 +1,29 @@
+---
+
+- name: Get list of installed st2 packs
+  command: st2 pack list -j
+  changed_when: no
+  check_mode: no
+  register: _st2_packs_installed
+  become: yes
+  become_user: root
+  # Fix privilege escalation ENV in Dockerized environment
+  environment:
+    HOME: /root
+  tags: st2, st2_packs
+
+# This gets the names of the currently installed st2 packs from a json list of dicts
+- set_fact:
+    st2_packs_installed: "{{ _st2_packs_installed.stdout|from_json|map(attribute='name')|list() }}"
+  tags: st2, st2_packs,
+
+- name: Install st2 packs
+  command: st2 pack install "{{ item }}"
+  loop: "{{ st2_packs }}"
+  when: item not in st2_packs_installed
+  become: yes
+  become_user: root
+  # Fix privilege escalation ENV in Dockerized environment
+  environment:
+    HOME: /root
+  tags: st2, st2_packs

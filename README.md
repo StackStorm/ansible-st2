@@ -43,6 +43,7 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2_auth_username`      | `testu`       | Username used by StackStorm standalone authentication.
 | `st2_auth_password`      | `testp`       | Password used by StackStorm standalone authentication.
 | `st2_save_credentials`   | `yes`         | Save credentials for local CLI in `/root/.st2/config` file.
+| `st2_packs`              | `[ st2 ]`     | List of packs to install. This flag does not work on CentOS6 or with a `--python3` only pack.
 | **st2mistral**
 | `st2mistral_version`     | `latest`      | st2mistral version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0`.
 | `st2mistral_db`          | `mistral`     | PostgreSQL DB name that will be created for Mistral.
