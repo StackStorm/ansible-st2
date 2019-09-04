@@ -41,13 +41,19 @@
   tags:
     - smoke-tests
 
-- name: Verify st2 pack is installed
+- name: Get st2 pack info
   environment:
     ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
-  shell: 'st2 pack list -a name -y | grep -w "name: st2"'
+  command: st2 pack get st2 -j
   changed_when: no
+  check_mode: no
+  register: _smoke_st2_pack_installed
+  failed_when: result.rc != 0
   tags:
     - smoke-tests
+
+- set_fact:
+  _st2_pack_present: "{{ _smoke_st2_pack_installed.stdout|from_json }}"
 
 - name: Verify st2chatops
   import_tasks: st2chatops.yml
