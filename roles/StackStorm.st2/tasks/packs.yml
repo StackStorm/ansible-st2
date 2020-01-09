@@ -13,7 +13,8 @@
   tags: st2, st2_packs
 
 # This gets the names of the currently installed st2 packs from a json list of dicts
-- set_fact:
+- name: Parse list of installed st2 packs
+  set_fact:
     st2_packs_installed: "{{ _st2_packs_installed.stdout|from_json|map(attribute='name')|list() }}"
   tags: st2, st2_packs,
 
