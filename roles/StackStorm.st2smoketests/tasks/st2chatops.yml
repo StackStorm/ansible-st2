@@ -1,7 +1,7 @@
 ---
 - name: Verify st2chatops using bin/hubot
   # when editing, make sure it works for at least 2 adapters: 'shell' and 'slack'
-  shell: set -o pipefail && timeout 10 bash -c '(sleep 5; echo exit ) | bin/hubot'
+  shell: "set -o pipefail && timeout {{ hubot_timeout }} bash -c '(sleep {{ hubot_sleep }}; echo exit ) | bin/hubot'"
   args:
     chdir: /opt/stackstorm/chatops/
     executable: /bin/bash
@@ -10,6 +10,18 @@
   register: hubot_output
   failed_when: no
   changed_when: no
+  # any EADDRINUSE error in stdout is normal (an artifact of the js express http framework)
+  # On Travis, with failures when running many builds in parallel, the real error message is:
+  # "Rate limited, will retry # seconds". This comes from @slack/client (used by hubot-slack).
+  # On success (with Slack), the log says: 'SlackBot#authenticated() Found self in RTM start data'
+  until: "'Rate limited, will retry' not in hubot_output.stdout_lines | last"
+  retries: 3
+  # random delay so that retries accross parallel runs don't perfectly align
+  delay: "{{ 15 + lookup('random_choice', *range(7)) }}"
+  vars:
+    # homegrown exponential backoff (allows the slack client lib to retry automatically)
+    hubot_sleep: "{{ 5 + 5 ** (hubot_output | default({'attempts': 0})).attempts }}"
+    hubot_timeout: "{{ (hubot_sleep | int) + 5 }}"
 
 # Additional task to provide better error message
 - name: Fail if st2chatops couldn't load st2 commands
