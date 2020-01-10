@@ -10,7 +10,7 @@
   shell: >
     set -o pipefail &&
     export n=0$(cat $attempts_count_file) &&
-    timeout $(( 9 + 5 ** n )) bash -c '(sleep $(( 4 + 5 ** n )); echo exit ) | bin/hubot';
+    timeout $(( 9 + 6 ** n )) bash -c '(sleep $(( 4 + 6 ** n )); echo exit ) | bin/hubot';
     echo $((n+1)) > $attempts_count_file
   # $a,$n = homegrown exponential backoff (increasing sleep lets the slack client lib retry automatically)
   args:
