@@ -1,17 +1,23 @@
 ---
+- name: Prepare temp file to track retry attempts
+  tempfile:
+    state: file
+  register: attempts_count
+  changed_when: no  # skip idempotence check
+
 - name: Verify st2chatops using bin/hubot
   # when editing, make sure it works for at least 2 adapters: 'shell' and 'slack'
   shell: >
     set -o pipefail &&
-    export a=/tmp/.hubot.{{ 10000 | random }}.attempts &&
-    export n=$(cat $a 2>/dev/null || echo 0) &&
-    timeout $(( 9 + 5 ** n )) bash -c '(sleep $(( 4 + 5 ** n )); echo exit ) | bin/hubot' &&
-    echo $((n+1)) > $a
+    export n=0$(cat $attempts_count_file) &&
+    timeout $(( 9 + 5 ** n )) bash -c '(sleep $(( 4 + 5 ** n )); echo exit ) | bin/hubot';
+    echo $((n+1)) > $attempts_count_file
   # $a,$n = homegrown exponential backoff (increasing sleep lets the slack client lib retry automatically)
   args:
     chdir: /opt/stackstorm/chatops/
     executable: /bin/bash
   environment:
+    attempts_count_file: "{{ attempts_count.path }}"
     HUBOT_LOG_LEVEL: debug
   register: hubot_output
   failed_when: no
@@ -24,6 +30,12 @@
   retries: 3
   # random delay so that retries accross parallel runs don't perfectly align
   delay: "{{ 15 + (7 | random) }}"
+
+- name: Cleanup temp file to track retry attempts
+  file:
+    path: "{{ attempts_count.path }}"
+    state: absent
+  changed_when: no  # skip idempotence check
 
 # Additional task to provide better error message
 - name: Fail if st2chatops couldn't load st2 commands
