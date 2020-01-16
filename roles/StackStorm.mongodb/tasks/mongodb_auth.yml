@@ -7,8 +7,9 @@
   tags: [databases, mongodb]
 
 - name: Install pymongo (for the mongodb_user module)
-  # pymongo 3.2+ is required to work with mongo 3.2+. system packages are too old.
+  # Use pip because system packages are too old for adequate mongodb support.
+  # https://docs.mongodb.com/ecosystem/drivers/driver-compatibility-reference/#python-driver-compatibility
   become: yes
   pip:
-    name: "pymongo=={{ mongodb_major_minor_version }}"
+    name: "pymongo>=3.10.1,<4.0.0"
   tags: [databases, mongodb]
