@@ -1,8 +1,26 @@
 ---
+# Many parallel builds on travis will trip the slack rate limits.
+# Using ansible's simple retry/until with a constant wait does not improve things,
+# because all of the builds end up retrying at approx the same time.
+# So, this adds an exponential back off (of sorts):
+#
+# There are several parts to this exponential backoff.
+# 1) a temporary file to track the attempts count.
+# 2) hubot's slack client will automatically retry if given the chance
+# 3) we run hubot for a sleep duration allowing st2chatops to work
+# 4) we tell hubot to exit (passed in on stdin)
+# 5) we timeout 5 seconds after the sleep duration has expired
+#    so that if hubot hangs the task still completes.
+#
+# The temporary file (added in one task, used when retrying, and then removed)
+# is necessary because we use the attempts count to inform the backoff, but
+# we the module params are only templated for the first task attempt, so there
+# is no way to pass in the attempts count as ansible retries the task.
+
 - name: Prepare temp file to track retry attempts
   tempfile:
     state: file
-  register: attempts_count
+  register: attempts_count_file
   changed_when: no  # skip idempotence check
 
 - name: Verify st2chatops using bin/hubot
@@ -12,12 +30,24 @@
     export n=0$(cat $attempts_count_file) &&
     timeout $(( 9 + 6 ** n )) bash -c '(sleep $(( 4 + 6 ** n )); echo exit ) | bin/hubot';
     echo $((n+1)) > $attempts_count_file
-  # $a,$n = homegrown exponential backoff (increasing sleep lets the slack client lib retry automatically)
+  # pipefail is good practice with ansible so that subcommands can fail the task quickly.
+  # $attempts_count_file and $n facilitate our exponential backoff algorithm.
+  # $n contains the attempts count.
+  # $n is initialized to 0 if $attempts_count_file is empty (by 0-padding file contents on read)
+  # when n=0: sleep duration is 5 (=4+6^0) and timeout is 10 (=9+6^0)
+  # when n=1: sleep duration is 10 (=4+6^1) and timeout is 15 (=9+6^1)
+  # when n=2: sleep duration is 40 (=4+6^2) and timeout is 45 (=9+6^2)
+  # when n=3: sleep duration is 220 (=4+6^3) and timeout is 225 (=9+6^3)
+  # 
+  # Throughout the sleep duration, hubot's slack client will retry according to rate limit
+  # headers that say to retry after some number of seconds. So, increasing the sleep duration
+  # is important because slack will even out the requests if given the chance.
+  # Each ansible retry is like saying "ignore the retry headers and retry NOW".
   args:
     chdir: /opt/stackstorm/chatops/
     executable: /bin/bash
   environment:
-    attempts_count_file: "{{ attempts_count.path }}"
+    attempts_count_file: "{{ attempts_count_file.path }}"
     HUBOT_LOG_LEVEL: debug
   register: hubot_output
   failed_when: no
@@ -33,7 +63,7 @@
 
 - name: Cleanup temp file to track retry attempts
   file:
-    path: "{{ attempts_count.path }}"
+    path: "{{ attempts_count_file.path }}"
     state: absent
   changed_when: no  # skip idempotence check
 
