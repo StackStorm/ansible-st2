@@ -25,6 +25,7 @@
     gpgcheck: yes
     gpgkey: http://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL
     state: present
+  register: nodesource_repo
   tags: nodejs
 
 - name: Install nodejs
@@ -35,7 +36,7 @@
     # TODO: Allow yum downgrade since Ansible 2.4
     # https://github.com/ansible/ansible/pull/21516
     # allow_downgrade: yes
-    update_cache: "{{ rm_nodesource_repo is changed }}"
+    update_cache: "{{ nodesource_repo is changed }}"
   register: _task
   retries: 5
   delay: 3
