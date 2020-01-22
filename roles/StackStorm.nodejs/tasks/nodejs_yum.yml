@@ -10,28 +10,20 @@
   until: _task is succeeded
   tags: nodejs
 
-# nodesource updates the baseurl (which includes the major nodejs version)
-# in their yum repo release rpm without increasing the rpm's version number.
-# So we must manually remove the repo to get yum to add the correct release.
-- name: Determine if nodesource repo upgrade is required (ie when updating nodejs major version)
-  shell: "grep -q pub_{{ nodejs_major_version }}.x /etc/yum.repos.d/nodesource-*.repo"
-  changed_when: no
-  failed_when: no
-  register: nodesource_repo_check
-
-- name: Remove old nodesource repo on upgrade
-  when: nodesource_repo_check.rc != 0
-  become: yes
-  yum:
-    name: "nodesource-release-el{{ ansible_facts.distribution_major_version }}-1.noarch"
-    state: absent
-  register: rm_nodesource_repo
-  tags: nodejs
-
 - name: Add nodesource repo
   become: yes
-  yum:
-    name: "http://rpm.nodesource.com/pub_{{ nodejs_major_version }}.x/el/{{ ansible_facts.distribution_major_version }}/{{ ansible_facts.architecture }}/nodesource-release-el{{ ansible_facts.distribution_major_version }}-1.noarch.rpm"
+  # This is based on the nodesource repo rpm (both 4.x and 10.x for EL6/7/8),
+  # but that rpm is not versioned even though it hard-codes the major node.js version.
+  # So, installing the repo directly (vs via the rpm) simplifies major node.js upgrades.
+  # see - http://rpm.nodesource.com/pub_10.x/el/7/x86_64/nodesource-release-el7-1.noarch.rpm
+  yum_repository:
+    file: "nodesource-el{{ ansible_facts.distribution_major_version }}"
+    name: nodesource
+    description: "Node.js Packages for Enterprise Linux {{ ansible_facts.distribution_major_version }} - $basearch"
+    baseurl: https://rpm.nodesource.com/pub_{{ nodejs_major_version }}.x/el/{{ ansible_facts.distribution_major_version }}/$basearch
+    failovermethod: priority
+    gpgcheck: yes
+    gpgkey: http://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL
     state: present
   tags: nodejs
 
