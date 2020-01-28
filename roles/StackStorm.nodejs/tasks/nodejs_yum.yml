@@ -16,6 +16,7 @@
   yum:
     name: "nodesource-release-el{{ ansible_facts.distribution_major_version }}-1.noarch"
     state: absent
+  register: nodesource_repo_rm
   tags: nodejs
 
 - name: Add nodesource repo file
@@ -33,7 +34,7 @@
     gpgcheck: yes
     gpgkey: file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
     state: present
-  register: nodesource_repo
+  register: nodesource_repo_add
   tags: nodejs
 
 - name: Install nodejs
@@ -44,7 +45,7 @@
     # TODO: Allow yum downgrade since Ansible 2.4
     # https://github.com/ansible/ansible/pull/21516
     # allow_downgrade: yes
-    update_cache: "{{ nodesource_repo is changed }}"
+    update_cache: "{{ nodesource_repo_rm is changed or nodesource_repo_add is changed }}"
   register: _task
   retries: 5
   delay: 3
