@@ -23,7 +23,7 @@
     baseurl: https://rpm.nodesource.com/pub_{{ nodejs_major_version }}.x/el/{{ ansible_facts.distribution_major_version }}/$basearch
     failovermethod: priority
     gpgcheck: yes
-    gpgkey: http://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL
+    gpgkey: file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
     state: present
   register: nodesource_repo
   tags: nodejs
