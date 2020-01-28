@@ -10,7 +10,15 @@
   until: _task is succeeded
   tags: nodejs
 
-- name: Add nodesource repo
+- name: Remove nodesource repo rpm
+  # rpm conflicts with yum_repository added file below
+  become: yes
+  yum:
+    name: "nodesource-release-el{{ ansible_facts.distribution_major_version }}-1.noarch"
+    state: absent
+  tags: nodejs
+
+- name: Add nodesource repo file
   become: yes
   # This is based on the nodesource repo rpm (both 4.x and 10.x for EL6/7/8),
   # but that rpm is not versioned even though it hard-codes the major node.js version.
