@@ -57,7 +57,7 @@
   become: yes
   command: cp "{{ st2web_nginx_conf }}" /etc/nginx/sites-available/
   args:
-    creates: "{{ st2web_nginx_conf }}"
+    creates: /etc/nginx/sites-available/"{{ st2web_nginx_conf | basename }}"
   notify:
     - restart nginx
   tags: st2web
