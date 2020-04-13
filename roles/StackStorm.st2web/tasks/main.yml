@@ -55,9 +55,9 @@
 
 - name: Copy Nginx config
   become: yes
-  command: cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
+  command: cp "{{ st2web_nginx_conf }}" /etc/nginx/sites-available/
   args:
-    creates: /etc/nginx/sites-available/st2.conf
+    creates: "{{ st2web_nginx_conf }}"
   notify:
     - restart nginx
   tags: st2web
@@ -66,8 +66,8 @@
   become: yes
   file:
     state: link
-    src: /etc/nginx/sites-available/st2.conf
-    dest: /etc/nginx/sites-enabled/st2.conf
+    src: /etc/nginx/sites-available/"{{ st2web_nginx_conf | basename }}"
+    dest: /etc/nginx/sites-enabled/"{{ st2web_nginx_conf | basename }}"
   notify:
     - restart nginx
   tags: st2web

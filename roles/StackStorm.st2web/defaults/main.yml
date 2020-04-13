@@ -7,3 +7,6 @@ st2web_ssl_certificate: null
 
 # String with custom SSL certificate private key. If not provided, self-signed certificate will be generated.
 st2web_ssl_certificate_key: null
+
+# Default nginx conf file, can be overridden with a custom file
+st2web_nginx_conf: "/usr/share/doc/st2/conf/nginx/st2.conf"
