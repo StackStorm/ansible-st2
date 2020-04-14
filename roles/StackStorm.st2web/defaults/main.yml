@@ -8,5 +8,5 @@ st2web_ssl_certificate: null
 # String with custom SSL certificate private key. If not provided, self-signed certificate will be generated.
 st2web_ssl_certificate_key: null
 
-# A string that represents an customer nginx config file
+# A string that represents an custom nginx config file
 st2web_nginx_config: null
