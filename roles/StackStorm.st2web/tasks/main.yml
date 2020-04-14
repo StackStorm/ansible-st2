@@ -53,7 +53,7 @@
   import_tasks: certificate.yml
   tags: st2web, certificate
 
-- name: Copy Nginx config
+- name: Copy default Nginx config
   become: yes
   command: cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
   args:
@@ -66,7 +66,7 @@
 - name: Copy custom Nginx config
   become: yes
   copy:
-    content: "{{st2web_nginx_config}}"
+    content: "{{ st2web_nginx_config }}"
     dest: /etc/nginx/sites-available/st2.conf
   notify:
     - restart nginx
