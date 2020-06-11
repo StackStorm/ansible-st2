@@ -15,7 +15,6 @@
   become: yes
   yum:
     name:
-      - python-passlib
       - httpd-tools
     state: present
   register: _task
@@ -23,6 +22,30 @@
   delay: 3
   until: _task is succeeded
   when: ansible_facts.os_family == 'RedHat'
+
+- name: auth | Install auth pre-reqs (RedHat < 8)
+  become: yes
+  yum:
+    name:
+      - python-passlib
+    state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
+  when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version != '8'
+
+- name: auth | Install auth pre-reqs (RedHat 8)
+  become: yes
+  yum:
+    name:
+      - python3-passlib
+    state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
+  when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8'
 
 - name: auth | Create htpasswd file
   become: true

@@ -1,4 +1,16 @@
 ---
+- name: Temporary hack until proper upstream fix https://bugs.centos.org/view.php?id=13669
+  yum:
+     list: http-parser
+  when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8'
+  register: http_parser
+
+- name: Install http-parser if needed
+  yum:
+      name: http://repo.okay.com.mx/centos/8/x86_64/release//http-parser-2.8.0-2.el8.x86_64.rpm
+      state: present
+  when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8' and (http_parser.results|length == 0)
+
 - name: Assert st2chatops_hubot_adapter is specified
   fail:
     msg: >
@@ -14,6 +26,12 @@
     (st2chatops_config == None) or
     (st2chatops_config == {} and st2chatops_hubot_adapter != "shell")
   tags: st2chatops
+
+- name: Disable AppStream repository due to installation conflicts for EL8
+  become: yes
+  shell:
+     cmd: yum module disable -y nodejs
+  when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8'
 
 - name: Install latest st2chatops package, auto-update
   become: yes

@@ -1,7 +1,9 @@
 ---
 # Getting the current st2 version is required to understand which 'st2_services' to restart
 - name: Get installed st2 version
-  command: /opt/stackstorm/st2/bin/python -c 'import st2common; print st2common.__version__'
+  command: /opt/stackstorm/st2/bin/python -c 'import st2common; print(st2common.__version__)'
+
+#  command: /opt/stackstorm/st2/bin/python -c 'exec(open("../st2/st2common/st2common/__init__.py").read()); print(__version__)'
   changed_when: no
   check_mode: no
   register: _st2_version_installed
