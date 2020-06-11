@@ -4,12 +4,14 @@
      list: http-parser
   when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8'
   register: http_parser
+  tags: st2chatops
 
 - name: Install http-parser if needed
   yum:
       name: http://repo.okay.com.mx/centos/8/x86_64/release//http-parser-2.8.0-2.el8.x86_64.rpm
       state: present
   when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8' and (http_parser.results|length == 0)
+  tags: st2chatops
 
 - name: Assert st2chatops_hubot_adapter is specified
   fail:

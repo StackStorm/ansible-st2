@@ -42,28 +42,44 @@
 
 - name: Backup nginx.conf
   become: yes
-  shell:
-     cmd: cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak
+  copy:
+     remote_src: yes
+     src: /etc/nginx/nginx.conf
+     dest: /etc/nginx/nginx.conf.bak
+  tags: nginx
 
-- name: Comment out server block in nginx.conf
+- name: Comment out server block in nginx.conf temporary file
   become: yes
   shell:
      cmd: awk '/^    server {/{f=1}f{$0 = "#" $0}{print}' /etc/nginx/nginx.conf.bak > /tmp/nginx.conf
+  tags: nginx
 
-- name: Restore nginx.conf
+- name: Restore nginx.conf from temporary file
   become: yes
-  shell:
-     cmd: mv /tmp/nginx.conf /etc/nginx/nginx.conf
+  copy:
+     remote_src: yes
+     dest: /etc/nginx/nginx.conf
+     src: /tmp/nginx.conf
+  tags: nginx
+
+- name: Delete temporary file
+  become: yes
+  file:
+     path: /tmp/nginx.conf
+     state: absent
+  tags: nginx
 
 - name: Cleanup double comments
   become: yes
   shell:
      cmd: sed -i -e 's/##/#/' /etc/nginx/nginx.conf
+  tags: nginx
 
 - name: Cleanup comment closing out server block
   become: yes
   shell:
      cmd: sed -i -e 's/#}/}/' /etc/nginx/nginx.conf
+  tags: nginx
 
 - name: Install dependencies for SELinux Ansible module
   become: yes

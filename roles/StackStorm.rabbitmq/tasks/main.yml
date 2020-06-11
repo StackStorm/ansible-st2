@@ -4,6 +4,7 @@
   shell:
      cmd: yum -y module enable perl:5.26
   when: rabbitmq_on_el8
+  tags: rabbitmq
 
 - name: Install rabbit from packagecloud for RH 8
   become: yes
@@ -20,6 +21,7 @@
     enabled: yes
     sslverify: yes
   when: rabbitmq_on_el8
+  tags: rabbitmq
 
 - name: Install rabbitmq package on {{ ansible_facts.distribution }}
   become: yes

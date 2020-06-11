@@ -11,41 +11,22 @@
   until: _task is succeeded
   when: ansible_facts.os_family == 'Debian'
 
+- name: Include RedHat OS-specific variables
+  include_vars: st2_{{ ansible_facts.pkg_mgr }}.yml
+  when: ansible_facts.os_family == 'RedHat'
+
 - name: auth | Install auth pre-reqs (RedHat)
   become: yes
   yum:
     name:
       - httpd-tools
+      - "{{ passlib }}"
     state: present
   register: _task
   retries: 5
   delay: 3
   until: _task is succeeded
   when: ansible_facts.os_family == 'RedHat'
-
-- name: auth | Install auth pre-reqs (RedHat < 8)
-  become: yes
-  yum:
-    name:
-      - python-passlib
-    state: present
-  register: _task
-  retries: 5
-  delay: 3
-  until: _task is succeeded
-  when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version != '8'
-
-- name: auth | Install auth pre-reqs (RedHat 8)
-  become: yes
-  yum:
-    name:
-      - python3-passlib
-    state: present
-  register: _task
-  retries: 5
-  delay: 3
-  until: _task is succeeded
-  when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8'
 
 - name: auth | Create htpasswd file
   become: true
