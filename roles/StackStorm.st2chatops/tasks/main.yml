@@ -27,12 +27,6 @@
     (st2chatops_config == {} and st2chatops_hubot_adapter != "shell")
   tags: st2chatops
 
-- name: Disable AppStream repository due to installation conflicts for EL8
-  become: yes
-  shell:
-     cmd: yum module disable -y nodejs
-  when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8'
-
 - name: Install latest st2chatops package, auto-update
   become: yes
   package:
