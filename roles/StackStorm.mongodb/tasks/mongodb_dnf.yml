@@ -16,7 +16,7 @@
 - name: yum | Add mongodb key
   become: yes
   rpm_key:
-    key: https://www.mongodb.org/static/pgp/server-{{ mongodb_major_minor_version }}.asc
+    key: https://www.mongodb.org/static/pgp/server-{{ mongodb4_major_minor_version }}.asc
     state: present
   register: _task
   retries: 5
@@ -27,19 +27,19 @@
 - name: yum | Add mongodb repository
   become: yes
   yum_repository:
-    name: mongodb-org-{{ mongodb_major_minor_version }}
+    name: mongodb-org-{{ mongodb4_major_minor_version }}
     description: MongoDB Repository
     gpgcheck: yes
     enabled: yes
-    baseurl: https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/{{ mongodb_major_minor_version }}/x86_64/
-    gpgkey: https://www.mongodb.org/static/pgp/server-{{ mongodb_major_minor_version }}.asc
+    baseurl: https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/{{ mongodb4_major_minor_version }}/x86_64/
+    gpgkey: https://www.mongodb.org/static/pgp/server-{{ mongodb4_major_minor_version }}.asc
     state: present
   tags: [databases, mongodb]
 
 - name: yum | Install mongodb
   become: yes
   yum:
-    name: mongodb-org-{{ mongodb_version }}*
+    name: mongodb-org-{{ mongodb4_version }}*
     state: present
     # TODO: Allow yum downgrade since Ansible 2.4
     # https://github.com/ansible/ansible/pull/21516
