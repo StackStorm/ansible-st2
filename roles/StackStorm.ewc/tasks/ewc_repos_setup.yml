@@ -58,7 +58,7 @@
     - enterprise
 
 - name: Add EWC enterprise repos on {{ ansible_facts.distribution }}
-  include_tasks: ewc_repos_{{ ansible_facts.pkg_mgr }}.yml
+  include_tasks: ewc_repos_{{ package_type }}.yml
   tags:
     - ewc
     - enterprise

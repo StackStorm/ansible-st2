@@ -57,7 +57,7 @@
     - enterprise
 
 - name: "Cleanup repo list file from disk"
-  include_tasks: "ewc_repos_cleanup_{{ ansible_facts.pkg_mgr }}.yml"
+  include_tasks: "ewc_repos_cleanup_{{ package_type }}.yml"
   when: ewc_license | hash("sha512") != ewc_license_hash
   tags:
     - ewc

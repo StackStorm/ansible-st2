@@ -1,0 +1,1 @@
+selinux_dependencies: "python3-libsemanage, python3-libselinux"

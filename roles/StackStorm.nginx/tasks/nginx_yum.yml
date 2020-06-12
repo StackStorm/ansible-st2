@@ -1,4 +1,8 @@
 ---
+- name: Install vars
+  include_vars:
+     file: "nginx_{{ ansible_facts.pkg_mgr }}.yml"
+
 - name: Add nginx key
   become: yes
   rpm_key:
@@ -40,10 +44,64 @@
     state: absent
   tags: nginx
 
+- name: Backup nginx.conf
+  become: yes
+  copy:
+     remote_src: yes
+     src: /etc/nginx/nginx.conf
+     dest: /etc/nginx/nginx.conf.bak
+  tags: nginx
+  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+
+- name: Comment out server block in nginx.conf temporary file
+  become: yes
+  shell:
+     cmd: awk '/^    server {/{f=1}f{$0 = "#" $0}{print}' /etc/nginx/nginx.conf.bak > /tmp/nginx.conf
+  args:
+      warn: False
+  # Use awk to match one line install
+  tags: [nginx, skip_ansible_lint]
+  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+
+- name: Restore nginx.conf from temporary file
+  become: yes
+  copy:
+     remote_src: yes
+     dest: /etc/nginx/nginx.conf
+     src: /tmp/nginx.conf
+  tags: nginx
+  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+
+- name: Delete temporary file
+  become: yes
+  file:
+     path: /tmp/nginx.conf
+     state: absent
+  tags: nginx
+  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+
+- name: Cleanup double comments
+  become: yes
+  replace:
+     regexp: "##"
+     replace: "#"
+     path: /etc/nginx/nginx.conf
+  tags: nginx
+  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+
+- name: Cleanup comment closing out server block
+  become: yes
+  replace:
+     regexp: "#}"
+     replace: "}"
+     path: /etc/nginx/nginx.conf
+  tags: nginx
+  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+
 - name: Install dependencies for SELinux Ansible module
   become: yes
   yum:
-    name: libsemanage-python, libselinux-python
+    name: "{{ selinux_dependencies }}"
     state: present
   register: nginx_selinux_dependencies
   retries: 5
@@ -66,3 +124,31 @@
     persistent: yes
   when: ansible_facts.selinux.status == "enabled" and ansible_facts.selinux.mode == "enforcing"
   tags: nginx
+
+- name: Discover if hypervisor is EC2
+  become: yes
+  lineinfile:
+     path: /sys/hypervisor/uuid
+     line: "ec2"
+     state: present
+  check_mode: yes
+  ignore_errors: true
+  register: ec2
+  tags: nginx
+  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+
+- name: Add http and https services to firewalld
+  become: yes
+  firewalld:
+     permanent: true
+     service: http
+     state: enabled
+  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8') and (ec2 is changed)
+
+- name: Add http and https services permanently to firewalld
+  become: yes
+  firewalld:
+     permanent: true
+     service: https
+     state: enabled
+  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8') and (ec2 is changed)

@@ -52,6 +52,14 @@ platforms:
       run_command: /sbin/init
       volume:
         - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  # CentOS8 with Systemd
+  - name: centos-8
+    driver_config:
+      platform: centos
+      dockerfile: .kitchen-docker/centos8/Dockerfile
+      run_command: /sbin/init
+      volume:
+        - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
 suites:
   - name: default
