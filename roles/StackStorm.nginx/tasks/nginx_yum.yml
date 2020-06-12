@@ -52,7 +52,7 @@
      regexp: '^(?![#])(.*server\s*{)'
      replace: '#\1'
   tags: nginx
-  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8') 
+  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
 
 - name: Comment out after server block
   become: yes
@@ -63,7 +63,7 @@
      regexp: '^(?![#}])(.+)$'
      replace: '#\1'
   tags: nginx
-  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8') 
+  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
 
 - name: Install dependencies for SELinux Ansible module
   become: yes
