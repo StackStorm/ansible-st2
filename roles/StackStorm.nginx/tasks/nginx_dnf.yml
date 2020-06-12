@@ -55,7 +55,7 @@
   args:
       warn: False
   # Use awk to match one line install
-  tags: [nginx,skip_ansible_lint]
+  tags: [nginx, skip_ansible_lint]
 
 - name: Restore nginx.conf from temporary file
   become: yes
