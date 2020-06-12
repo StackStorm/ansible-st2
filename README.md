@@ -13,6 +13,7 @@ Aka IFTTT orchestration for Ops.
 * Ubuntu Xenial (16.04)
 * RHEL6 / CentOS6
 * RHEL7 / CentOS7
+* RHEL8 / CentOS8
 
 > If you're using the provided Vagrantfile, note that it uses Xenial by default.
 

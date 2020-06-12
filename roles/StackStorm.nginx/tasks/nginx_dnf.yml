@@ -107,3 +107,23 @@
     persistent: yes
   when: ansible_facts.selinux.status == "enabled" and ansible_facts.selinux.mode == "enforcing"
   tags: nginx
+
+- name: Discover if hypervisor is EC2
+  become: yes
+  shell:
+     cmd: grep -q "ec2" /sys/hypervisor/uuid
+  ignore_errors: true
+  register: ec2
+  tags: nginx
+
+- name: Add http and https services to firewalld
+  become: yes
+  shell:
+     cmd: firewall-cmd --zone=public --add-service=http --add-service=https
+  when: ec2.rc == 1
+
+- name: Add http and https services permanently to firewalld
+  become: yes
+  shell:
+     cmd: firewall-cmd --zone=public --permanent --add-service=http --add-service=https
+  when: ec2.rc == 1
