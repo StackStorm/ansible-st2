@@ -3,8 +3,11 @@
   become: yes
   shell:
      cmd: yum -y module enable perl:5.26
+  args:
+     warn: False
   when: rabbitmq_on_el8
-  tags: rabbitmq
+  # Disable warning as yum doesn't support enable module
+  tags: [rabbitmq, skip_ansible_lint]
 
 - name: Install rabbit from packagecloud for RH 8
   become: yes

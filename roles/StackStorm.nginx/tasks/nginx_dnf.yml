@@ -52,7 +52,10 @@
   become: yes
   shell:
      cmd: awk '/^    server {/{f=1}f{$0 = "#" $0}{print}' /etc/nginx/nginx.conf.bak > /tmp/nginx.conf
-  tags: nginx
+  args:
+      warn: False
+  # Use awk to match one line install
+  tags: [nginx,skip_ansible_lint]
 
 - name: Restore nginx.conf from temporary file
   become: yes
@@ -71,14 +74,18 @@
 
 - name: Cleanup double comments
   become: yes
-  shell:
-     cmd: sed -i -e 's/##/#/' /etc/nginx/nginx.conf
+  replace:
+     regexp: "##"
+     replace: "#"
+     path: /etc/nginx/nginx.conf
   tags: nginx
 
 - name: Cleanup comment closing out server block
   become: yes
-  shell:
-     cmd: sed -i -e 's/#}/}/' /etc/nginx/nginx.conf
+  replace:
+     regexp: "#}"
+     replace: "}"
+     path: /etc/nginx/nginx.conf
   tags: nginx
 
 - name: Install dependencies for SELinux Ansible module
@@ -110,20 +117,27 @@
 
 - name: Discover if hypervisor is EC2
   become: yes
-  shell:
-     cmd: grep -q "ec2" /sys/hypervisor/uuid
+  lineinfile:
+     path: /sys/hypervisor/uuid
+     line: "ec2"
+     state: present
+  check_mode: yes
   ignore_errors: true
   register: ec2
   tags: nginx
 
 - name: Add http and https services to firewalld
   become: yes
-  shell:
-     cmd: firewall-cmd --zone=public --add-service=http --add-service=https
-  when: ec2.rc == 1
+  firewalld:
+     permanent: true
+     service: http
+     state: enabled
+  when: ec2 is changed
 
 - name: Add http and https services permanently to firewalld
   become: yes
-  shell:
-     cmd: firewall-cmd --zone=public --permanent --add-service=http --add-service=https
+  firewalld:
+     permanent: true
+     service: https
+     state: enabled
   when: ec2.rc == 1
