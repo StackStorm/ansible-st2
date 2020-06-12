@@ -103,6 +103,7 @@ These are the platforms we must support (must pass end-to-end testing):
 - Trusty
 - CentOS6
 - CentOS7
+- CentOS8
 - RHEL6 (via AWS)
 - RHEL7 (via AWS)
 
@@ -128,6 +129,7 @@ You might be interested in other methods to deploy StackStorm engine:
 
 * Manual Instructions
   * [Ubuntu 14.04/16.04](https://docs.stackstorm.com/install/deb.html)
+  * [RHEL8/CentOS8](https://docs.stackstorm.com/install/rhel8.html)
   * [RHEL7/CentOS7](https://docs.stackstorm.com/install/rhel7.html)
   * [RHEL6/CentOS6](https://docs.stackstorm.com/install/rhel6.html)
 
