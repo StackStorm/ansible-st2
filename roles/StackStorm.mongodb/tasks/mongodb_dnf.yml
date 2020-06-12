@@ -6,6 +6,7 @@
       # Failed to validate the SSL certificate for www.mongodb.org:443. Make sure your managed systems have a valid CA certificate installed. If the website serving the url uses SNI you need python >= 2.7.9 on your managed machine or you can install the `urllib3`, `pyopenssl`, `ndg-httpsclient`, and `pyasn1` python modules to perform SNI verification in python >= 2.6. You can use validate_certs=False if you do not need to confirm the servers identity but this is unsafe and not recommended. Paths checked for this platform: /etc/ssl/certs, /etc/pki/ca-trust/extracted/pem, /etc/pki/tls/certs, /usr/share/ca-certificates/cacert.org, /etc/ansible
       - python3-urllib3
       - python3-pyOpenSSL
+      - python3-pyasn1
     state: present
   register: _task
   retries: 5
