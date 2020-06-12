@@ -44,59 +44,26 @@
     state: absent
   tags: nginx
 
-- name: Backup nginx.conf
-  become: yes
-  copy:
-     remote_src: yes
-     src: /etc/nginx/nginx.conf
-     dest: /etc/nginx/nginx.conf.bak
-  tags: nginx
-  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
-
-- name: Comment out server block in nginx.conf temporary file
-  become: yes
-  shell:
-     cmd: awk '/^    server {/{f=1}f{$0 = "#" $0}{print}' /etc/nginx/nginx.conf.bak > /tmp/nginx.conf
-  args:
-      warn: False
-  # Use awk to match one line install
-  tags: [nginx, skip_ansible_lint]
-  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
-
-- name: Restore nginx.conf from temporary file
-  become: yes
-  copy:
-     remote_src: yes
-     dest: /etc/nginx/nginx.conf
-     src: /tmp/nginx.conf
-  tags: nginx
-  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
-
-- name: Delete temporary file
-  become: yes
-  file:
-     path: /tmp/nginx.conf
-     state: absent
-  tags: nginx
-  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
-
-- name: Cleanup double comments
+- name: Comment out server line
   become: yes
   replace:
-     regexp: "##"
-     replace: "#"
      path: /etc/nginx/nginx.conf
+     backup: yes
+     regexp: '^(?![#])(.*server\s*{)'
+     replace: '#\1'
   tags: nginx
-  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8') 
 
-- name: Cleanup comment closing out server block
+- name: Comment out after server block
   become: yes
   replace:
-     regexp: "#}"
-     replace: "}"
      path: /etc/nginx/nginx.conf
+     backup: yes
+     after: '\s*server\s*{'
+     regexp: '^(?![#}])(.+)$'
+     replace: '#\1'
   tags: nginx
-  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8') 
 
 - name: Install dependencies for SELinux Ansible module
   become: yes
