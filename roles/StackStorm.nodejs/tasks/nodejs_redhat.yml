@@ -24,6 +24,7 @@
   shell:
      cmd: yum module list nodejs --disabled
   changed_when: False
+  ignore_errors: True
   args:
      warn: False
   register: nodejs_disabled
