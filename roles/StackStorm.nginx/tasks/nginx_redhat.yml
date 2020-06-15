@@ -1,7 +1,9 @@
 ---
 - name: Install vars
-  include_vars:
-     file: "nginx_{{ ansible_facts.pkg_mgr }}.yml"
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_os_family | lower }}_{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_os_family | lower }}.yml"
 
 - name: Add nginx key
   become: yes

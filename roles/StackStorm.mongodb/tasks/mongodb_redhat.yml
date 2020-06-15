@@ -2,12 +2,8 @@
 - name: yum | Install mongodb dependencies
   become: yes
   yum:
-    name:
+    name: "{{ mongo_dependencies }}"
       # Failed to validate the SSL certificate for www.mongodb.org:443. Make sure your managed systems have a valid CA certificate installed. If the website serving the url uses SNI you need python >= 2.7.9 on your managed machine or you can install the `urllib3`, `pyopenssl`, `ndg-httpsclient`, and `pyasn1` python modules to perform SNI verification in python >= 2.6. You can use validate_certs=False if you do not need to confirm the servers identity but this is unsafe and not recommended. Paths checked for this platform: /etc/ssl/certs, /etc/pki/ca-trust/extracted/pem, /etc/pki/tls/certs, /usr/share/ca-certificates/cacert.org, /etc/ansible
-      - python-urllib3
-      - pyOpenSSL
-      - python-pyasn1
-      - python-ndg_httpsclient
     state: present
   register: _task
   retries: 5
@@ -15,7 +11,7 @@
   until: _task is succeeded
   tags: [databases, mongodb]
 
-- name: yum | Add mongodb key
+- name: yum | Add mongodb key {{ mongodb_major_minor_version }}
   become: yes
   rpm_key:
     key: https://www.mongodb.org/static/pgp/server-{{ mongodb_major_minor_version }}.asc
@@ -41,7 +37,7 @@
 - name: yum | Install mongodb
   become: yes
   yum:
-    name: mongodb-org-{{ mongodb_version }}*
+    name: mongodb-org-{{ mongodb_redhat_version }}*
     state: present
     # TODO: Allow yum downgrade since Ansible 2.4
     # https://github.com/ansible/ansible/pull/21516

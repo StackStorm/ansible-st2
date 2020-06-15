@@ -2,8 +2,6 @@
 - name: Install st2
   hosts: all
   environment: "{{ st2_proxy_env | default({}) }}"
-  vars:
-    - package_type:  "{{ 'yum' if ansible_facts.pkg_mgr == 'dnf' else ansible_facts.pkg_mgr }}"
   roles:
     - StackStorm.mongodb
     - StackStorm.rabbitmq
