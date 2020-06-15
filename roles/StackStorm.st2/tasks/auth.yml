@@ -16,6 +16,7 @@
   with_first_found:
     - "{{ ansible_os_family | lower }}_{{ ansible_distribution_major_version }}.yml"
     - "{{ ansible_os_family | lower }}.yml"
+  ignore_errors: true
   when: ansible_facts.os_family == 'RedHat'
 
 - name: auth | Install auth pre-reqs (RedHat)
