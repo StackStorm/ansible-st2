@@ -5,9 +5,9 @@
      cmd: yum -y module enable perl:5.26
   args:
      warn: False
-  when: rabbitmq_on_el8 
+  when: rabbitmq_on_el8
   register: perl_result
-  changed_when: 
+  changed_when:
      - '"Nothing to do" not in perl_result.stdout'
   # Disable warning as yum doesn't support enable module
   tags: [rabbitmq, skip_ansible_lint]

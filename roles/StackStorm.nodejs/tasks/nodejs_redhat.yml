@@ -19,7 +19,7 @@
   register: nodesource_repo_rm
   tags: nodejs
 
-- name: Determine if nodejs disabled on AppStream
+- name: Determine if nodejs disabled on AppStream for RH8
   become: yes
   shell:
      cmd: yum module list nodejs --disabled
@@ -28,6 +28,7 @@
   args:
      warn: False
   register: nodejs_disabled
+  when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8'
   tags: [nodejs, skip_ansible_lint]
 
 - name: Disable AppStream repository due to installation conflicts for EL8

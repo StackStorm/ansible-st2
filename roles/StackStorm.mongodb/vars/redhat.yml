@@ -1,4 +1,4 @@
-mongo_dependencies: 
+mongo_dependencies:
       - python-urllib3
       - pyOpenSSL
       - python-pyasn1
