@@ -17,7 +17,7 @@ Aka IFTTT orchestration for Ops.
 
 > If you're using the provided Vagrantfile, note that it uses Xenial by default.
 
-> If you're installing on RHEL8 / CentOS8 and firewalld is enabled, then you must ensure that the http and https services are enabled. The ansible-st2 roles do not configure the firewalld rules.
+> In order to access StackStorm Web UI, please don't forget to ensure that http/https ports are opened in your firewall system.
 
 ## Requirements
 At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, PostgreSQL, Mongo, nginx and OpenStack Mistral.
