@@ -17,6 +17,8 @@ Aka IFTTT orchestration for Ops.
 
 > If you're using the provided Vagrantfile, note that it uses Xenial by default.
 
+> If installing on RHEL8/CentOS8 and firewalld is enabled, then you must ensure that the http and https services are enabled.
+
 ## Requirements
 At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, PostgreSQL, Mongo, nginx and OpenStack Mistral.
 
@@ -106,6 +108,7 @@ These are the platforms we must support (must pass end-to-end testing):
 - CentOS8
 - RHEL6 (via AWS)
 - RHEL7 (via AWS)
+- RHEL8 (via AWS)
 
 Must also support Ansible Idempotence (Eg. Ansible-playbook re-run should end with the following results: `changed=0.*failed=0`)
 
@@ -119,6 +122,7 @@ Other distros:
 vagrant up ubuntu14
 vagrant up centos6
 vagrant up centos7
+vagrant up centos8
 ```
 
 ## Other Installers

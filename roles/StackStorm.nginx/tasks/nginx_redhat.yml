@@ -93,31 +93,3 @@
     persistent: yes
   when: ansible_facts.selinux.status == "enabled" and ansible_facts.selinux.mode == "enforcing"
   tags: nginx
-
-- name: Discover if hypervisor is EC2
-  become: yes
-  lineinfile:
-     path: /sys/hypervisor/uuid
-     line: "ec2"
-     state: present
-  check_mode: yes
-  ignore_errors: true
-  register: ec2
-  tags: nginx
-  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
-
-- name: Add http and https services to firewalld
-  become: yes
-  firewalld:
-     permanent: true
-     service: http
-     state: enabled
-  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8') and (ec2 is changed)
-
-- name: Add http and https services permanently to firewalld
-  become: yes
-  firewalld:
-     permanent: true
-     service: https
-     state: enabled
-  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8') and (ec2 is changed)
