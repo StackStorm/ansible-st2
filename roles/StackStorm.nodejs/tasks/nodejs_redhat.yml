@@ -19,7 +19,7 @@
   register: nodesource_repo_rm
   tags: nodejs
 
-- name: Determine if nodejs disabled on AppStream for RH8
+- name: Determine if nodejs disabled on AppStream for EL8
   become: yes
   shell:
      cmd: yum module list nodejs --disabled
