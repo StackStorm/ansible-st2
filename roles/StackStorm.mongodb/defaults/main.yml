@@ -1,4 +1,6 @@
 ---
-# MongoDB version to install
+# MongoDB3 version to install
 # Should be '3.2' or '3.4'
 mongodb_version: "3.4"
+# MongoDB4 version to install on RH 8
+mongodb4_version: "4.0"

@@ -48,7 +48,7 @@
 - name: Install pinned bwc-enterprise package
   become: yes
   package:
-    name: bwc-enterprise{{ '-' if ansible_facts.pkg_mgr == 'yum' else '=' }}{{ ewc_version }}-{{ ewc_revision }}
+    name: bwc-enterprise{{ '-' if ansible_os_family == 'RedHat' else '=' }}{{ ewc_version }}-{{ ewc_revision }}
     state: present
   register: ewc_installed
   retries: 5

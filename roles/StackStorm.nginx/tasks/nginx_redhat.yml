@@ -1,4 +1,10 @@
 ---
+- name: Install vars
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_os_family | lower }}_{{ ansible_distribution_major_version }}.yml"
+    - "{{ ansible_os_family | lower }}.yml"
+
 - name: Add nginx key
   become: yes
   rpm_key:
@@ -40,10 +46,31 @@
     state: absent
   tags: nginx
 
+- name: Comment out server line
+  become: yes
+  replace:
+     path: /etc/nginx/nginx.conf
+     backup: yes
+     regexp: '^(?![#])(.*server\s*{)'
+     replace: '#\1'
+  tags: nginx
+  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+
+- name: Comment out after server block
+  become: yes
+  replace:
+     path: /etc/nginx/nginx.conf
+     backup: yes
+     after: '\s*server\s*{'
+     regexp: '^(?![#}])(.+)$'
+     replace: '#\1'
+  tags: nginx
+  when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+
 - name: Install dependencies for SELinux Ansible module
   become: yes
   yum:
-    name: libsemanage-python, libselinux-python
+    name: "{{ selinux_dependencies }}"
     state: present
   register: nginx_selinux_dependencies
   retries: 5

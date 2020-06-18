@@ -13,8 +13,11 @@ Aka IFTTT orchestration for Ops.
 * Ubuntu Xenial (16.04)
 * RHEL6 / CentOS6
 * RHEL7 / CentOS7
+* RHEL8 / CentOS8
 
 > If you're using the provided Vagrantfile, note that it uses Xenial by default.
+
+> In order to access StackStorm Web UI, please don't forget to ensure that http/https ports are opened in your firewall system.
 
 ## Requirements
 At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, PostgreSQL, Mongo, nginx and OpenStack Mistral.
@@ -102,8 +105,10 @@ These are the platforms we must support (must pass end-to-end testing):
 - Trusty
 - CentOS6
 - CentOS7
+- CentOS8
 - RHEL6 (via AWS)
 - RHEL7 (via AWS)
+- RHEL8 (via AWS)
 
 Must also support Ansible Idempotence (Eg. Ansible-playbook re-run should end with the following results: `changed=0.*failed=0`)
 
@@ -117,6 +122,7 @@ Other distros:
 vagrant up ubuntu14
 vagrant up centos6
 vagrant up centos7
+vagrant up centos8
 ```
 
 ## Other Installers
@@ -127,6 +133,7 @@ You might be interested in other methods to deploy StackStorm engine:
 
 * Manual Instructions
   * [Ubuntu 14.04/16.04](https://docs.stackstorm.com/install/deb.html)
+  * [RHEL8/CentOS8](https://docs.stackstorm.com/install/rhel8.html)
   * [RHEL7/CentOS7](https://docs.stackstorm.com/install/rhel7.html)
   * [RHEL6/CentOS6](https://docs.stackstorm.com/install/rhel6.html)
 

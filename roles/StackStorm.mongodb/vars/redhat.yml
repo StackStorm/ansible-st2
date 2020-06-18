@@ -1,0 +1,9 @@
+mongo_dependencies:
+      - python-urllib3
+      - pyOpenSSL
+      - python-pyasn1
+      - python-ndg_httpsclient
+# For RH < 8 use mongodb_version
+mongodb_use_version: "{{ (mongodb_version|string)[:3] }}"
+# Extract mongodb "major.minor" version
+mongodb_major_minor_version: "{{ (mongodb_use_version|string)[:3] }}"
