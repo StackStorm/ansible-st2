@@ -117,7 +117,6 @@ vagrant up
 
 Other distros:
 ```sh
-vagrant up ubuntu14
 vagrant up centos6
 vagrant up centos7
 vagrant up centos8
