@@ -2,10 +2,6 @@
 # vi: set ft=ruby :
 
 VIRTUAL_MACHINES = {
-  :ubuntu14 => {
-    :hostname => 'ansible-st2-ubuntu14',
-    :box => 'ubuntu/trusty64',
-  },
   :ubuntu16 => {
     :hostname => 'ansible-st2-ubuntu16',
     :box => 'ubuntu/xenial64',

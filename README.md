@@ -9,7 +9,6 @@ Aka IFTTT orchestration for Ops.
 [![Join our community Slack](https://stackstorm-community.herokuapp.com/badge.svg)](https://stackstorm.com/community-signup)
 
 ## Supported platforms
-* Ubuntu Trusty (14.04)
 * Ubuntu Xenial (16.04)
 * RHEL6 / CentOS6
 * RHEL7 / CentOS7
@@ -102,7 +101,6 @@ There are a few requirements when developing on `ansible-st2`.
 
 These are the platforms we must support (must pass end-to-end testing):
 - Xenial
-- Trusty
 - CentOS6
 - CentOS7
 - CentOS8
@@ -132,7 +130,7 @@ You might be interested in other methods to deploy StackStorm engine:
   * [Puppet Module](https://github.com/stackstorm/puppet-st2)
 
 * Manual Instructions
-  * [Ubuntu 14.04/16.04](https://docs.stackstorm.com/install/deb.html)
+  * [Ubuntu 16.04](https://docs.stackstorm.com/install/deb.html)
   * [RHEL8/CentOS8](https://docs.stackstorm.com/install/rhel8.html)
   * [RHEL7/CentOS7](https://docs.stackstorm.com/install/rhel7.html)
   * [RHEL6/CentOS6](https://docs.stackstorm.com/install/rhel6.html)
