@@ -9,7 +9,6 @@ galaxy_info:
   platforms:
     - name: Ubuntu
       versions:
-        - trusty
         - xenial
     - name: EL
       versions:
