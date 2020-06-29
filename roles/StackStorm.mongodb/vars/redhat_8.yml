@@ -2,5 +2,3 @@ mongo_dependencies:
       - python3-urllib3
       - python3-pyOpenSSL
       - python3-pyasn1
-# Extract mongodb "major.minor" version
-mongodb_major_minor_version: "{{ (mongodb_version|string)[:3] }}"
