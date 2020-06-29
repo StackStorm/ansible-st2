@@ -25,11 +25,11 @@
     name:
       # re-installing different version of 'mongodb-org' meta package doesn't automatically
       # upgrade or downgrade its dependencies. So we need to explicitly list them one-by-one.
-      - mongodb-org={{ mongodb_use_version }}*
-      - mongodb-org-shell={{ mongodb_use_version }}*
-      - mongodb-org-server={{ mongodb_use_version }}*
-      - mongodb-org-mongos={{ mongodb_use_version }}*
-      - mongodb-org-tools={{ mongodb_use_version }}*
+      - mongodb-org={{ mongodb_version }}*
+      - mongodb-org-shell={{ mongodb_version }}*
+      - mongodb-org-server={{ mongodb_version }}*
+      - mongodb-org-mongos={{ mongodb_version }}*
+      - mongodb-org-tools={{ mongodb_version }}*
     state: present
   register: _task
   retries: 5
