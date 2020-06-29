@@ -37,7 +37,7 @@
 - name: yum | Install mongodb
   become: yes
   yum:
-    name: mongodb-org-{{ mongodb_use_version }}*
+    name: mongodb-org-{{ mongodb_version }}*
     state: present
     # TODO: Allow yum downgrade since Ansible 2.4
     # https://github.com/ansible/ansible/pull/21516
