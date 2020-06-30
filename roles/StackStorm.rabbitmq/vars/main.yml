@@ -1,4 +1,2 @@
 ---
-rabbitmq_el6_prefix: "/usr/lib/rabbitmq/"
-rabbitmq_on_el6: "{{ (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '6') }}"
 rabbitmq_on_el8: "{{ (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8') }}"
