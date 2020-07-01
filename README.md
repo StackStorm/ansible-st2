@@ -10,7 +10,6 @@ Aka IFTTT orchestration for Ops.
 
 ## Supported platforms
 * Ubuntu Xenial (16.04)
-* RHEL6 / CentOS6
 * RHEL7 / CentOS7
 * RHEL8 / CentOS8
 
@@ -45,7 +44,7 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2_auth_username`      | `testu`       | Username used by StackStorm standalone authentication.
 | `st2_auth_password`      | `testp`       | Password used by StackStorm standalone authentication.
 | `st2_save_credentials`   | `yes`         | Save credentials for local CLI in `/root/.st2/config` file.
-| `st2_packs`              | `[ st2 ]`     | List of packs to install. This flag does not work on CentOS6 or with a `--python3` only pack.
+| `st2_packs`              | `[ st2 ]`     | List of packs to install. This flag does not work with a `--python3` only pack.
 | **st2mistral**
 | `st2mistral_version`     | `latest`      | st2mistral version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0`.
 | `st2mistral_db`          | `mistral`     | PostgreSQL DB name that will be created for Mistral.
@@ -101,10 +100,8 @@ There are a few requirements when developing on `ansible-st2`.
 
 These are the platforms we must support (must pass end-to-end testing):
 - Xenial
-- CentOS6
 - CentOS7
 - CentOS8
-- RHEL6 (via AWS)
 - RHEL7 (via AWS)
 - RHEL8 (via AWS)
 
@@ -117,7 +114,6 @@ vagrant up
 
 Other distros:
 ```sh
-vagrant up centos6
 vagrant up centos7
 vagrant up centos8
 ```
@@ -132,7 +128,6 @@ You might be interested in other methods to deploy StackStorm engine:
   * [Ubuntu 16.04](https://docs.stackstorm.com/install/deb.html)
   * [RHEL8/CentOS8](https://docs.stackstorm.com/install/rhel8.html)
   * [RHEL7/CentOS7](https://docs.stackstorm.com/install/rhel7.html)
-  * [RHEL6/CentOS6](https://docs.stackstorm.com/install/rhel6.html)
 
 ## Help
 If you're in stuck, our community always ready to help, feel free to:

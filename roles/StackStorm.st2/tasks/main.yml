@@ -1,16 +1,4 @@
 ---
-- name: Install libffi-devel on EL6
-  become: yes
-  package:
-    name: http://rpmfind.net/linux/centos/6/os/x86_64/Packages/libffi-devel-3.0.5-3.2.el6.x86_64.rpm
-    state: present
-  register: _task
-  retries: 5
-  delay: 3
-  until: _task is succeeded
-  when: ansible_facts.os_family == "RedHat" and ansible_facts.distribution_major_version == "6"
-  tags: st2
-
 - name: Install latest st2 package, auto-update
   become: yes
   package:
@@ -105,19 +93,12 @@
 # https://github.com/ansible/ansible/issues/41313#issuecomment-520891625
 - name: Flush handlers to prepare StackStorm if there are packs to install
   include_tasks: flush_handlers.yml
-  when: st2_packs|length > 0 and not (ansible_facts.os_family == "RedHat" and ansible_distribution_major_version == "6")
+  when: st2_packs|length > 0
   ignore_errors: yes
-  tags: st2, st2_packs, skip_centos_6
+  tags: st2, st2_packs
 
 - name: Install StackStorm integration Packs
   import_tasks: packs.yml
-  when: st2_packs|length > 0 and not (ansible_facts.os_family == "RedHat" and ansible_distribution_major_version == "6")
+  when: st2_packs|length > 0
   ignore_errors: yes
-  tags: st2, st2_packs, skip_centos_6
-
-- name: Report warning when 'st2_packs' is used in EL6
-  fail:
-    msg: CentOS/RHEL 6 support not provided for 'st2_packs', skipped st2 pack install
-  failed_when: st2_packs|length > 0 and ansible_facts.os_family == "RedHat" and ansible_distribution_major_version == "6"
-  ignore_errors: yes
-  tags: st2, st2_packs, skip_centos_6
+  tags: st2, st2_packs
