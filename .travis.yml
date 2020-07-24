@@ -10,11 +10,13 @@ branches:
 env:
   # default is stable repo
   - DISTRO=ubuntu-16 LICENSE='BWC_LICENSE_ENTERPRISE'
+  - DISTRO=ubuntu-18 LICENSE='BWC_LICENSE_ENTERPRISE'
   - DISTRO=centos-7 LICENSE='BWC_LICENSE_ENTERPRISE'
   - DISTRO=centos-8 LICENSE='BWC_LICENSE_ENTERPRISE'
 
   # StackStorm 'unstable' repo check
   - DISTRO=ubuntu-16 ST2_REPO=unstable EWC_REPO=enterprise-unstable LICENSE='BWC_LICENSE_ENTERPRISE_UNSTABLE'
+  - DISTRO=ubuntu-18 ST2_REPO=unstable EWC_REPO=enterprise-unstable LICENSE='BWC_LICENSE_ENTERPRISE_UNSTABLE'
   - DISTRO=centos-7 ST2_REPO=unstable EWC_REPO=enterprise-unstable LICENSE='BWC_LICENSE_ENTERPRISE_UNSTABLE'
   - DISTRO=centos-8 ST2_REPO=unstable EWC_REPO=enterprise-unstable LICENSE='BWC_LICENSE_ENTERPRISE_UNSTABLE'
 
