@@ -10,10 +10,11 @@ Aka IFTTT orchestration for Ops.
 
 ## Supported platforms
 * Ubuntu Xenial (16.04)
+* Ubuntu Bionic (18.04)
 * RHEL7 / CentOS7
 * RHEL8 / CentOS8
 
-> If you're using the provided Vagrantfile, note that it uses Xenial by default.
+> If you're using the provided Vagrantfile, note that it uses Bionic by default.
 
 > In order to access StackStorm Web UI, please don't forget to ensure that http/https ports are opened in your firewall system.
 
@@ -99,7 +100,8 @@ st2smoketests, you will need to disable proxy for localhost.
 There are a few requirements when developing on `ansible-st2`.
 
 These are the platforms we must support (must pass end-to-end testing):
-- Xenial
+- Ubuntu Xenial
+- Ubuntu Bionic
 - CentOS7
 - CentOS8
 - RHEL7 (via AWS)
@@ -107,13 +109,14 @@ These are the platforms we must support (must pass end-to-end testing):
 
 Must also support Ansible Idempotence (Eg. Ansible-playbook re-run should end with the following results: `changed=0.*failed=0`)
 
-For development purposes there is [Vagrantfile](Vagrantfile) available. The following command will setup ubuntu16 box (`ubuntu/xenial64`) by default:
+For development purposes there is [Vagrantfile](Vagrantfile) available. The following command will setup ubuntu18 box (`ubuntu/bionic64`) by default:
 ```sh
 vagrant up
 ```
 
 Other distros:
 ```sh
+vagrant up ubuntu16
 vagrant up centos7
 vagrant up centos8
 ```
@@ -125,7 +128,8 @@ You might be interested in other methods to deploy StackStorm engine:
   * [Puppet Module](https://github.com/stackstorm/puppet-st2)
 
 * Manual Instructions
-  * [Ubuntu 16.04](https://docs.stackstorm.com/install/deb.html)
+  * [Ubuntu 16.04](https://docs.stackstorm.com/install/u16.html)
+  * [Ubuntu 18.04](https://docs.stackstorm.com/install/u18.html)
   * [RHEL8/CentOS8](https://docs.stackstorm.com/install/rhel8.html)
   * [RHEL7/CentOS7](https://docs.stackstorm.com/install/rhel7.html)
 

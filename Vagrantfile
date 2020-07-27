@@ -6,6 +6,10 @@ VIRTUAL_MACHINES = {
     :hostname => 'ansible-st2-ubuntu16',
     :box => 'ubuntu/xenial64',
   },
+  :ubuntu18 => {
+    :hostname => 'ansible-st2-ubuntu18',
+    :box => 'ubuntu/bionic64',
+  },
   :centos7 => {
     :hostname => 'ansible-st2-centos7',
     :box => 'centos/7',
@@ -23,7 +27,7 @@ Vagrant.configure(2) do |config|
   config.ssh.forward_agent = true
 
   VIRTUAL_MACHINES.each do |name, cfg|
-    config.vm.define name, autostart: (name == :ubuntu16) do |vm_config|
+    config.vm.define name, autostart: (name == :ubuntu18) do |vm_config|
       vm_config.vm.hostname = cfg[:hostname]
       vm_config.vm.box = cfg[:box]
 

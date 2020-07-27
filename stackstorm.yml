@@ -6,11 +6,13 @@
     - StackStorm.mongodb
     - StackStorm.rabbitmq
     - role: StackStorm.postgresql
-      when: not (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+      when: not (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8') and
+            not (ansible_facts.distribution == 'Ubuntu' and ansible_facts.distribution_major_version == '18')
     - StackStorm.st2repo
     - StackStorm.st2
     - role: StackStorm.st2mistral
-      when: not (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+      when: not (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8') and
+            not (ansible_facts.distribution == 'Ubuntu' and ansible_facts.distribution_major_version == '18')
     - StackStorm.nginx
     - StackStorm.st2web
     - StackStorm.nodejs
