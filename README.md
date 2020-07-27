@@ -100,8 +100,8 @@ st2smoketests, you will need to disable proxy for localhost.
 There are a few requirements when developing on `ansible-st2`.
 
 These are the platforms we must support (must pass end-to-end testing):
-- Xenial
-- Bionic
+- Ubuntu Xenial
+- Ubuntu Bionic
 - CentOS7
 - CentOS8
 - RHEL7 (via AWS)
