@@ -37,6 +37,3 @@ st2_config_no_log:
     - password
   messaging:
     - url
-  mistral:
-    - keystone_username
-    - keystone_password

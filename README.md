@@ -19,7 +19,7 @@ Aka IFTTT orchestration for Ops.
 > In order to access StackStorm Web UI, please don't forget to ensure that http/https ports are opened in your firewall system.
 
 ## Requirements
-At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, PostgreSQL, Mongo, nginx and OpenStack Mistral.
+At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, Mongo and nginx.
 
 ## Installation
 ```sh
@@ -46,12 +46,6 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2_auth_password`      | `testp`       | Password used by StackStorm standalone authentication.
 | `st2_save_credentials`   | `yes`         | Save credentials for local CLI in `/root/.st2/config` file.
 | `st2_packs`              | `[ st2 ]`     | List of packs to install. This flag does not work with a `--python3` only pack.
-| **st2mistral**
-| `st2mistral_version`     | `latest`      | st2mistral version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0`.
-| `st2mistral_db`          | `mistral`     | PostgreSQL DB name that will be created for Mistral.
-| `st2mistral_db_username` | `mistral`     | PostgreSQL DB user that will be created for Mistral.
-| `st2mistral_db_password` | `StackStorm`  | PostgreSQL DB password for Mistral.
-| `st2mistral_config`      | `{}`          | Hash with configuration settings to set in [`mistral.conf`](https://github.com/StackStorm/st2-packages/blob/master/packages/st2mistral/conf/mistral.conf) ini file.
 | **st2web**
 | `st2web_ssl_certificate`     | `null` | String with custom SSL certificate (`.crt`). If not provided, self-signed certificate will be generated.
 | `st2web_ssl_certificate_key` | `null` | String with custom SSL certificate secret key (`.key`). If not provided, self-signed certificate will be generated.

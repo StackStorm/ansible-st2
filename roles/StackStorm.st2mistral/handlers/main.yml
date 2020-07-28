@@ -1,5 +1,0 @@
-- name: restart mistral
-  become: true
-  service:
-    name: mistral
-    state: restarted
