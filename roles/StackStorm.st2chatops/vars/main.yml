@@ -1,6 +1,7 @@
 ---
 supported_hubot_adapters:
  - slack
+ - botframework
  - hipchat
  - xmpp
  - flowdock
