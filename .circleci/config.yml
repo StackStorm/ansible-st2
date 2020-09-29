@@ -4,7 +4,7 @@ jobs:
   # Run Ansible-lint checks
   ansible-lint:
     docker:
-      - image: cytopia/ansible-lint
+      - image: yokogawa/ansible-lint
     steps:
       - checkout
       - run:
@@ -14,8 +14,8 @@ jobs:
       - run:
           name: Ansible-lint check
           command: |
-            cytopia/ansible-lint --version
-            cytopia/ansible-lint -x 204 -v roles/*/*/*.yaml roles/*/*/*.yml stackstorm.yml
+            ansible-lint --version
+            ansible-lint -x 204 -v roles/*/*/*.yaml roles/*/*/*.yml stackstorm.yml
 
   # Run YAML lint checks
   yaml-lint:
