@@ -4,14 +4,9 @@ jobs:
   # Run Ansible-lint checks
   ansible-lint:
     docker:
-      - image: williamyeh/ansible:ubuntu16.04
+      - image: cytopia/ansible-lint
     steps:
       - checkout
-      - run:
-          name: Install ansible-lint
-          command: |
-            pip install ansible-lint
-            ansible-lint --version
       - run:
           name: Ansible YAML syntax check
           command: |
@@ -19,7 +14,8 @@ jobs:
       - run:
           name: Ansible-lint check
           command: |
-            ansible-lint -x 204 -v roles/*/*/*.yaml roles/*/*/*.yml stackstorm.yml
+            cytopia/ansible-lint --version
+            cytopia/ansible-lint -x 204 -v roles/*/*/*.yaml roles/*/*/*.yml stackstorm.yml
 
   # Run YAML lint checks
   yaml-lint:
