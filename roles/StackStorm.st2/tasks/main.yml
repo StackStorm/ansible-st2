@@ -1,4 +1,53 @@
 ---
+- name: Install python3 SELinux policies
+  become: yes
+  yum:
+    name: libselinux-python3
+    state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
+  when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '7' and ansible_selinux.config_mode == "enforcing"
+  tags: st2
+
+- name: Verify python3-devel is available in enabled repo
+  become: yes
+  shell:
+    cmd: yum info python3-devel
+  changed_when: false
+  register: _rpm_check
+  args:
+     warn: False
+  when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '7'
+  # Disable warning as yum doesn't support info
+  tags: st2, skip_ansible_lint
+
+- name: Discover name of optional server rpm
+  become: yes
+  shell:
+    cmd: yum repolist disabled 2> /dev/null | awk -F'/' '/rhel-7-server-rhui-optional-rpms|rhui-REGION-rhel-server-optional|rhel-7-server-optional-rpms/{print $1}'
+  changed_when: false
+  register: _reponame
+  args:
+     warn: False
+  when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '7' and _rpm_check.rc != 0
+  # Disable warning as yum doesn't support repolist
+  tags: st2, skip_ansible_lint
+
+- name: Install python3-devel
+  become: yes
+  yum:
+    name: python3-devel
+    state: present
+    enablerepo: "{{ _reponame.stdout }}"
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
+  when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '7' and _rpm_check.rc != 0
+  tags: st2
+
 - name: Install latest st2 package, auto-update
   become: yes
   package:
