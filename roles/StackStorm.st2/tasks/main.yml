@@ -19,6 +19,7 @@
   register: _rpm_check
   args:
      warn: False
+  ignore_errors: yes
   when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '7'
   # Disable warning as yum doesn't support info
   tags: st2, skip_ansible_lint
