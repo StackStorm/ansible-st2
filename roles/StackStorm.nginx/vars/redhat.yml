@@ -1,4 +1,3 @@
 selinux_dependencies:
   - libsemanage-python
   - libselinux-python
-  - libselinux-python3
