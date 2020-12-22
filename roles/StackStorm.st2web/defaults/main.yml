@@ -10,3 +10,6 @@ st2web_ssl_certificate_key: null
 
 # String with a custom nginx configuration file to replace st2.conf. If not provided, the default st2.conf will be used.
 st2web_nginx_config: null
+
+# StackStorm version to install. `present` to install available package, `latest` to get automatic updates or pin it to numeric version like `2.2.0`.
+st2_version: 'latest'
