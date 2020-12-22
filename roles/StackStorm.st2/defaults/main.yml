@@ -34,6 +34,11 @@ st2_auth_username: testu
 st2_auth_password: testp
 # Save credentials in ~/.st2/config file
 st2_save_credentials: yes
+# The string contents of the datastore key file. If you need to distribute the same key
+# to multiple StackStorm nodes, generate a datastore key and populate this variable
+# when installing on each of the ndoes.
+# Example: '{"hmacKey": {"hmacKeyString": "xxx", "size": 256}, "aesKeyString": "yyy", "mode": "CBC", "size": 256}'
+st2_datastore_key: null
 # ST2 packs to be installed (list)
 st2_packs:
   - st2

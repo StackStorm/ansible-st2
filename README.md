@@ -45,6 +45,7 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2_auth_username`      | `testu`       | Username used by StackStorm standalone authentication.
 | `st2_auth_password`      | `testp`       | Password used by StackStorm standalone authentication.
 | `st2_save_credentials`   | `yes`         | Save credentials for local CLI in `/root/.st2/config` file.
+| `st2_datastore_key`      | `null`        | String for the datastore key file contents. This is useful if you're deploying StackStorm to multiple nodes and they need to share the same datastore key. By default, this variable is undefined and a new random key will be generated for each node.
 | `st2_packs`              | `[ st2 ]`     | List of packs to install. This flag does not work with a `--python3` only pack.
 | **st2web**
 | `st2web_ssl_certificate`     | `null` | String with custom SSL certificate (`.crt`). If not provided, self-signed certificate will be generated.

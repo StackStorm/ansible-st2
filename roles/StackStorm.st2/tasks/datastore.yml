@@ -13,6 +13,14 @@
   command: st2-generate-symmetric-crypto-key --key-path {{ st2_datastore_key_file }}
   args:
     creates: "{{ st2_datastore_key_file }}"
+  when: not st2_datastore_key
+
+- name: Copy st2 encryption key
+  become: yes
+  copy:
+    content: "{{ st2_datastore_key }}"
+    dest: "{{ st2_datastore_key_file }}"
+  when: st2_datastore_key
 
 - name: Fix permissions on datastore encryption key
   become: yes
