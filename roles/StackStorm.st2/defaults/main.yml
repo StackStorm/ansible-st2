@@ -37,3 +37,6 @@ st2_save_credentials: yes
 # ST2 packs to be installed (list)
 st2_packs:
   - st2
+
+# Additional python packages to install
+st2_python_packages: []
