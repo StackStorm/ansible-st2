@@ -14,6 +14,7 @@
   args:
     creates: "{{ st2_datastore_key_file }}"
   when: not st2_datastore_key
+  notify: restart st2
 
 - name: Copy st2 encryption key
   become: yes
@@ -21,6 +22,7 @@
     content: "{{ st2_datastore_key }}"
     dest: "{{ st2_datastore_key_file }}"
   when: st2_datastore_key
+  notify: restart st2
 
 - name: Fix permissions on datastore encryption key
   become: yes
@@ -37,4 +39,4 @@
     section: keyvalue
     option: encryption_key_path
     value: "{{ st2_datastore_key_file }}"
-  notify: restart st2api
+  notify: restart st2
