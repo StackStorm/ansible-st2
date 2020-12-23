@@ -84,6 +84,21 @@
     - reload st2
   tags: st2
 
+- name: Install additional Python packages into the st2 virtualenv
+  become: yes
+  pip:
+    name: "{{ item }}"
+    virtualenv: /opt/stackstorm/st2
+    state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
+  with_items: "{{ st2_python_packages }}"
+  notify:
+    - restart st2
+  tags: st2
+
 - name: Perform st2 version related operations
   import_tasks: version.yml
   tags: st2, version
