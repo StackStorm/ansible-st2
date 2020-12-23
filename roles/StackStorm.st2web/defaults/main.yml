@@ -12,4 +12,4 @@ st2web_ssl_certificate_key: null
 st2web_nginx_config: null
 
 # StackStorm version to install. `present` to install available package, `latest` to get automatic updates or pin it to numeric version like `2.2.0`.
-st2_version: 'latest'
+st2web_version: 'latest'
