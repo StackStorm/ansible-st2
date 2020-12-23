@@ -11,6 +11,7 @@
   changed_when: no
   tags:
     - smoke-tests
+  when: "'st2actionrunner' in st2_services"
 
 - name: st2 installed
   command: st2 --version
