@@ -6,7 +6,6 @@ st2_services:
   - st2actionrunner
   - st2garbagecollector
   - st2notifier
-  - st2resultstracker
   - st2rulesengine
   - st2sensorcontainer
   - st2api
