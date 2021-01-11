@@ -1,4 +1,9 @@
 ---
+- name: Ensure python3.6 is available
+  include_tasks: request_ppa.yml
+  when: ansible_facts.os_family == 'Debian' and ansible_facts.distribution_major_version == '16'
+  tags: st2
+
 - name: Verify python3-devel is available in enabled repo
   become: yes
   shell:
