@@ -1,0 +1,38 @@
+---
+- name: Verify python3.6 is available in enabled repo
+  become: yes
+  shell:
+    cmd: apt-cache show python3.6
+  changed_when: false
+  register: _pkg_check
+  args:
+     warn: False
+  ignore_errors: yes
+  # Disable warning as package_facts only reports on installed packages
+  tags: st2, skip_ansible_lint
+
+- name: Ask for PPA permission if not available and not already granted
+  pause:
+    prompt: "The python3.6 package is a required dependency for the StackStorm st2 package but that is not installable from any of the default Ubuntu 16.04 repositories. \nWe recommend switching to Ubuntu 18.04 LTS (Bionic) as a base OS. Support for Ubuntu 16.04 will be removed with future StackStorm versions.\n\nAlternatively we'll try to add python3.6 from the 3rd party 'deadsnakes' repository: https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa.\nBy continuing you are aware of the support and security risks associated with using unofficial 3rd party PPA repository, and you understand that StackStorm does NOT provide ANY support for python3.6 packages on Ubuntu 16.04.\n\nTo bypass this check in future, you can set the following variable to true: st2_u16_add_insecure_py3_ppa\n\nEnter [yes] to continue, and adding the PPA"
+  when: '"Version" not in _pkg_check.stdout and not st2_u16_add_insecure_py3_ppa'
+  register: _ppa_request
+  tags: st2
+
+- name: Stop if ppa_permission not granted
+  fail:
+    msg: "Python3.6 PPA installation aborted"
+  when: '"Version" not in _pkg_check.stdout and not st2_u16_add_insecure_py3_ppa and not _ppa_request.user_input | bool'
+  tags: st2
+
+- name: Add PPA key
+  become: yes
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: F23C5A6CF475977595C89F51BA6932366A755776
+  tags: st2
+
+- name: Register python 3.6 PPA
+  become: yes
+  apt_repository:
+    repo: ppa:deadsnakes/ppa
+  tags: st2

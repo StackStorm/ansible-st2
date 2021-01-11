@@ -40,3 +40,10 @@ st2_packs:
 
 # Additional python packages to install
 st2_python_packages: []
+
+# Whether permission is granted to install the deadsnakes Python3.6 PPA for Ubuntu 16. 
+#The python3.6 package is a required dependency for the StackStorm st2 package but that is not installable from any of the default Ubuntu 16.04 repositories.
+#We recommend switching to Ubuntu 18.04 LTS (Bionic) as a base OS. Support for Ubuntu 16.04 will be removed with future StackStorm versions.
+#Alternatively the playbooks will  try to add python3.6 from the 3rd party 'deadsnakes' repository: https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa.
+#Only set to true, if you are aware of the support and security risks associated with using unofficial 3rd party PPA repository, and you understand that StackStorm does NOT provide ANY support for python3.6 packages on Ubuntu 16.04.
+st2_u16_add_insecure_py3_ppa: false
