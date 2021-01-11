@@ -46,4 +46,4 @@ st2_python_packages: []
 #We recommend switching to Ubuntu 18.04 LTS (Bionic) as a base OS. Support for Ubuntu 16.04 will be removed with future StackStorm versions.
 #Alternatively the playbooks will  try to add python3.6 from the 3rd party 'deadsnakes' repository: https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa.
 #Only set to true, if you are aware of the support and security risks associated with using unofficial 3rd party PPA repository, and you understand that StackStorm does NOT provide ANY support for python3.6 packages on Ubuntu 16.04.
-u16_add_insecure_py3_ppa: false
+st2_u16_add_insecure_py3_ppa: false
