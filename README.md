@@ -121,7 +121,6 @@ vagrant up centos8
 ## Other Installers
 You might be interested in other methods to deploy StackStorm engine:
 * Configuration Management
-  * [Chef Cookbook](https://github.com/StackStorm/chef-stackstorm/)
   * [Puppet Module](https://github.com/stackstorm/puppet-st2)
 
 * Manual Instructions
