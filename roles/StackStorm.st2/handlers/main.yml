@@ -8,27 +8,32 @@
 - name: reload st2
   become: yes
   command: st2ctl reload --register-all
+  when: "'st2actionrunner' in st2_services"
 
 - name: restart st2actionrunner
   become: yes
   service:
     name: st2actionrunner
     state: restarted
+  when: "'st2actionrunner' in st2_services"
 
 - name: restart st2auth
   become: yes
   service:
     name: st2auth
     state: restarted
+  when: "'st2auth' in st2_services"
 
 - name: restart st2api
   become: yes
   service:
     name: st2api
     state: restarted
+  when: "'st2api' in st2_services"
 
 - name: restart st2stream
   become: yes
   service:
     name: st2stream
     state: restarted
+  when: "'st2stream' in st2_services"
