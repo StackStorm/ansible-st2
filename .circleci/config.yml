@@ -4,7 +4,7 @@ jobs:
   # Run Ansible-lint checks
   ansible-lint:
     docker:
-      - image: yokogawa/ansible-lint
+      - image: yokogawa/ansible-lint:4.3.7
     steps:
       - checkout
       - run:
@@ -15,7 +15,7 @@ jobs:
           name: Ansible-lint check
           command: |
             ansible-lint --version
-            ansible-lint -x 106,204,208 -v roles/*/*/*.yml stackstorm.yml
+            ansible-lint -x 106,204,208 -v roles/*/*/*.yaml roles/*/*/*.yml stackstorm.yml
 
   # Run YAML lint checks
   yaml-lint:
