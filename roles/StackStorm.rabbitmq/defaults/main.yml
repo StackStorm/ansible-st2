@@ -3,7 +3,3 @@ rabbitmq_plugins: []
 # To enable the management plugin (in which case you'd want at least one user tagged with administrator):
 #rabbitmq_plugins:
 #  - rabbitmq_management
-# RabbitMQ version to use. Use present for latest. For EL8 we need to pin
-# to 3.8.12 or earlier, as later version requires erlang not available in
-# EL8 or epel repositories
-rabbitmq_version: "{{ '3.8.12' if (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8') else 'present' }}"
