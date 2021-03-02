@@ -46,7 +46,6 @@
 - name: Install pinned rabbitmq package on {{ ansible_facts.distribution }}
   become: yes
   package:
-    name: rabbitmq-server
     name: "rabbitmq-server{{ '=' if ansible_facts.pkg_mgr == 'apt' else '-' }}{{ rabbitmq_version }}"
     state: present
   register: _task
