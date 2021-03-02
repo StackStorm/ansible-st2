@@ -4,7 +4,7 @@ jobs:
   # Run Ansible-lint checks
   ansible-lint:
     docker:
-      - image: yokogawa/ansible-lint:4.3.7
+      - image: yokogawa/ansible-lint:v4.3.7
     steps:
       - checkout
       - run:
