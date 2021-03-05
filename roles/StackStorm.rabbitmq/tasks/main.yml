@@ -29,7 +29,7 @@
   when: rabbitmq_on_el8
   tags: rabbitmq
 
-- name: Install rabbitmq package on {{ ansible_facts.distribution }}
+- name: Install latest rabbitmq package on {{ ansible_facts.distribution }}
   become: yes
   package:
     name: rabbitmq-server
@@ -41,6 +41,21 @@
   notify:
     - restart rabbitmq
   tags: rabbitmq
+  when: rabbitmq_version == "present"
+
+- name: Install pinned rabbitmq package on {{ ansible_facts.distribution }}
+  become: yes
+  package:
+    name: "rabbitmq-server{{ '=' if ansible_facts.pkg_mgr == 'apt' else '-' }}{{ rabbitmq_version }}"
+    state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
+  notify:
+    - restart rabbitmq
+  tags: rabbitmq
+  when: rabbitmq_version != "present"
 
 - name: Ensure rabbitmq is enabled and running
   become: yes
