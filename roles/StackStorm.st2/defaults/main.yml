@@ -32,6 +32,36 @@ st2_auth_enable: yes
 st2_auth_username: testu
 # Password used by StackStorm standalone authentication
 st2_auth_password: testp
+
+
+# By specifying a valid configuration for LDAP,
+# (See https://docs.stackstorm.com/latest/authentication.html#ldap )
+# LDAP auth backend is setup for st2.
+# Note that you just need to provide the backend_kwargs.
+st2_ldap_enable: no
+# "enable" is not a key of st2_ldap because the defaults would be lost if any key in the dictionary is changed
+st2_ldap:
+  backend_kwargs: {}
+
+# Specify roles and assignments for RBAC.
+# Roles are pushed as YML files to /opt/stackstorm/rbac/roles
+# Assignments are pushed as YML files to /opt/stackstorm/rbac/assignments/
+# The schema for roles and assignments follow the exact schema definition
+# define in https://docs.stackstorm.com/latest/rbac.html#defining-roles-and-permission-grants
+# and https://docs.stackstorm.com/latest/rbac.html#defining-user-role-assignments
+st2_rbac_enable: no
+# "enable" is not a key of st2_rbac because the defaults would be lost if any key in the dictionary is changed
+st2_rbac:
+  roles: []
+  assignments:
+    - name: "{{ st2_system_user }}"
+      roles:
+        - admin
+    - name: "{{ st2_auth_username }}"
+      roles:
+        - system_admin
+
+
 # Save credentials in ~/.st2/config file
 st2_save_credentials: yes
 # ST2 packs to be installed (list)
