@@ -1,0 +1,40 @@
+---
+- block:
+  become: yes
+  - name: Copy default RBAC roles to /opt/stackstorm/rbac/roles directory
+    template:
+      src: rbac_roles/roles.yml.j2
+      dest: /opt/stackstorm/rbac/roles/{{ item.name }}.yaml
+      owner: st2
+      group: st2
+    loop: "{{ st2_rbac_roles }}"
+
+  - name: Copy user defined RBAC roles to /opt/stackstorm/rbac/roles directory
+    template:
+      src: rbac_roles/roles.yml.j2
+      dest: /opt/stackstorm/rbac/roles/{{ item.name }}.yaml
+      owner: st2
+      group: st2
+    loop: "{{ st2_rbac.roles }}"
+    when: st2_rbac.roles is defined
+
+  - name: Copy RBAC assignments to /opt/stackstorm/rbac/assignments directory
+    template:
+      src: rbac_assignments/assignments.yml.j2
+      dest: /opt/stackstorm/rbac/assignments/{{ item.name }}.yaml
+      owner: st2
+      group: st2
+    loop: "{{ st2_rbac_assignments }}"
+
+  - name: Enable RBAC in st2 configuration
+    become: yes
+    ini_file:
+      dest: /etc/st2/st2.conf
+      section: rbac
+      option: enable
+      value: True
+      backup: yes
+    notify:
+      - restart st2api
+  when: st2_rbac_enable
+  notify: restart st2auth
