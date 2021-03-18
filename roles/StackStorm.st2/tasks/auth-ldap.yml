@@ -22,7 +22,7 @@
     dest: /etc/st2/st2.conf
     section: auth
     option: backend_kwargs
-    value: "{{ ewc_ldap.backend_kwargs | to_json | string }}"
+    value: "{{ st2_ldap.backend_kwargs | to_json | string }}"
     backup: yes
   # Don't even setup LDAP if backend_kwargs is not defined
   when: st2_ldap.backend_kwargs is defined and st2_ldap.backend_kwargs|length > 0
