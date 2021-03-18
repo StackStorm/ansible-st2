@@ -1,9 +1,0 @@
----
-- name: Cleanup repo list file from disk
-  become: yes
-  file:
-    path: /etc/apt/sources.list.d/StackStorm_{{ ewc_repo }}
-    state: absent
-  tags:
-    - ewc
-    - enterprise
