@@ -45,6 +45,10 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2_auth_username`      | `testu`       | Username used by StackStorm standalone authentication.
 | `st2_auth_password`      | `testp`       | Password used by StackStorm standalone authentication.
 | `st2_save_credentials`   | `yes`         | Save credentials for local CLI in `/root/.st2/config` file.
+| `st2_rbac_enable`        | `no`          | Enable RBAC. |
+| `st2_rbac`               | [See `st2_rbac` variable in role defaults](roles/st2/defaults/main.yml) | RBAC roles and assignments. This is a dictionary with two keys `roles` and `assignments`. `roles` and `assignments` are in turn both arrays. Each element in the array follows the exact YAML schema for [roles](https://docs.stackstorm.com/rbac.html#user-permissions) and [assignments](https://docs.stackstorm.com/rbac.html#defining-user-role-assignments) defined in ST2 documentation.
+| `st2_ldap_enable`        | `no`          | Enable LDAP authentication backend. |
+| `st2_ldap`               | [See `st2_ldap` variable in role defaults](roles/st2/defaults/main.yml) | Settings for LDAP authentication backend. `st2_ldap` is a dictionary and has one item `backend_kwargs`. `backend_kwargs` should be provided as exactly listed in ST2 documentation for [LDAP configuration](https://docs.stackstorm.com/authentication.html#ldap).
 | `st2_packs`              | `[ st2 ]`     | List of packs to install. This flag does not work with a `--python3` only pack.
 | `st2_python_packages`    | `[ ]`         | List of python packages to install into the `/opt/stackstorm/st2` virtualenv. This is needed when deploying alternative auth or coordination backends which depend on Python modules to make them work.
 | `st2_u16_add_insecure_py3_ppa`	| `false`     | Whether permission is granted to install the deadsnakes Python3.6 PPA for Ubuntu 16. 
@@ -52,13 +56,6 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2web_ssl_certificate`     | `null` | String with custom SSL certificate (`.crt`). If not provided, self-signed certificate will be generated.
 | `st2web_ssl_certificate_key` | `null` | String with custom SSL certificate secret key (`.key`). If not provided, self-signed certificate will be generated.
 | `st2web_nginx_config`     | `null` | String with a custom nginx configuration file (`st2.conf`). If not provided, the default st2.conf will be used.
-| **ewc**
-| `ewc_license`            | `null`        | EWC license key is required for installing EWC enteprise bits via this ansible role.
-| `ewc_repo`               | `enterprise`  | EWC PackageCloud repository to install. [`enterprise`](https://packagecloud.io/StackStorm/enterprise/), [`enterprise-unstable`](https://packagecloud.io/StackStorm/enterprise-unstable/), [`staging-enterprise`](https://packagecloud.io/StackStorm/staging-enteprise/), [`staging-enterprise-unstable`](https://packagecloud.io/StackStorm/staging-enterprise-unstable/)
-| `ewc_version`            | `latest`      | EWC enterprise version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0`. The version used here should match `st2_version`.
-| `ewc_revision`           | `1`           | EWC enterprise revision to install. Used only with pinned `ewc_version`.
-| `ewc_rbac` | [See `ewc_rbac` variable in role defaults](roles/StackStorm.ewc/defaults/main.yml) | EWC RBAC roles and assignments. This is a dictionary with two keys `roles` and `assignments`. `roles` and `assignments` are in turn both arrays. Each element in the array follows the exact YAML schema for [roles](https://ewc-docs.extremenetworks.com/rbac.html#user-permissions) and [assignments](https://ewc-docs.extremenetworks.com/rbac.html#defining-user-role-assignments) defined in EWC documentation.
-| `ewc_ldap` | [See `ewc_ldap` variable in role defaults](roles/StackStorm.ewc/defaults/main.yml) | Settings for EWC LDAP authentication backend. `ewc_ldap` is a dictionary and has one item `backend_kwargs`. `backend_kwargs` should be provided as exactly listed in EWC documentation for [LDAP configuration](https://ewc-docs.extremenetworks.com/authentication.html#auth-backends).
 | **st2chatops**
 | `st2chatops_version`     | `latest`      | st2chatops version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0`.
 | `st2chatops_st2_api_key` |               | st2 API key to be updated in st2chatops.env using "st2 apikey create -k" in a task
