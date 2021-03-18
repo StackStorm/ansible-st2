@@ -12,7 +12,3 @@
     - StackStorm.nodejs
     - StackStorm.st2chatops
     - StackStorm.st2smoketests
-    - role: StackStorm.ewc
-      when: ewc_license is defined and ewc_license is not none and ewc_license | length > 1
-    - role: StackStorm.ewc_smoketests
-      when: ewc_license is defined and ewc_license is not none and ewc_license | length > 1
