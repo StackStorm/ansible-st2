@@ -1,5 +1,6 @@
 ---
 - name: Create directory to store roles and assignments
+  become: yes
   file:
     path: "/opt/stackstorm/rbac/{{ item }}"
     recurse: yes
@@ -10,7 +11,7 @@
   when: st2_rbac_enable|bool
 
 - name: Copy defined RBAC roles to /opt/stackstorm/rbac/roles directory
-  become: yes 
+  become: yes
   template:
     src: rbac_roles/roles.yml.j2
     dest: /opt/stackstorm/rbac/roles/{{ item.name }}.yaml
@@ -21,7 +22,7 @@
   notify: restart st2auth
 
 - name: Copy RBAC assignments to /opt/stackstorm/rbac/assignments directory
-  become: yes 
+  become: yes
   template:
     src: rbac_assignments/assignments.yml.j2
     dest: /opt/stackstorm/rbac/assignments/{{ item.name }}.yaml

@@ -83,4 +83,3 @@
 - name: auth | Setup RBAC
   include_tasks: auth-rbac.yml
   tags: st2, auth, rbac
-
