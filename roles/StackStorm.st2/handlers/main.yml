@@ -32,3 +32,7 @@
   service:
     name: st2stream
     state: restarted
+
+- name: reload rbac
+  become: yes
+  command: st2-apply-rbac-definitions --config-file /etc/st2/st2.conf
