@@ -70,7 +70,7 @@
   notify:
     - restart rabbitmq
   tags: rabbitmq
-  when: rabbitmq_version == "latest"
+  when: rabbitmq_version == "present"
 
 - name: Install pinned rabbitmq package on {{ ansible_facts.distribution }}
   become: yes
@@ -84,7 +84,7 @@
   notify:
     - restart rabbitmq
   tags: rabbitmq
-  when: rabbitmq_version != "latest"
+  when: rabbitmq_version != "present"
 
 - name: Ensure rabbitmq is enabled and running
   become: yes

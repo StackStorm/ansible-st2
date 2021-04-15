@@ -3,5 +3,5 @@ rabbitmq_plugins: []
 # To enable the management plugin (in which case you'd want at least one user tagged with administrator):
 #rabbitmq_plugins:
 #  - rabbitmq_management
-# Set to "latest" to latest version, or specify specific version
-rabbitmq_version: "latest"
+# Set to "present" to install latest version, or specify specific version
+rabbitmq_version: "present"
