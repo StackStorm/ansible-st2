@@ -12,6 +12,35 @@
   # Disable warning as yum doesn't support enable module
   tags: [rabbitmq, skip_ansible_lint]
 
+- name: Install rabbitmy/erlang from packagecloud for RH 8
+  become: yes
+  no_log: yes
+  yum_repository:
+    name: erlang
+    description: errlang
+    baseurl: https://packagecloud.io/rabbitmq/erlang/el/{{ ansible_facts.distribution_major_version }}/$basearch
+    repo_gpgcheck: yes
+    gpgkey: "https://packagecloud.io/rabbitmq/erlang/gpgkey"
+    sslcacert: /etc/pki/tls/certs/ca-bundle.crt
+    metadata_expire: 300
+    gpgcheck: no
+    enabled: yes
+    sslverify: yes
+  when: rabbitmq_on_el8
+  tags: rabbitmq
+
+- name: Install latest rabbitmq erlang package on {{ ansible_facts.distribution }}
+  become: yes
+  package:
+    name: erlang
+    state: present
+  register: _eltask
+  retries: 5
+  delay: 3
+  until: _eltask is succeeded
+  when: rabbitmq_on_el8
+  tags: rabbitmq
+
 - name: Install rabbit from packagecloud for RH 8
   become: yes
   no_log: yes
@@ -41,7 +70,7 @@
   notify:
     - restart rabbitmq
   tags: rabbitmq
-  when: rabbitmq_version == "present"
+  when: rabbitmq_version == "latest"
 
 - name: Install pinned rabbitmq package on {{ ansible_facts.distribution }}
   become: yes
@@ -55,7 +84,7 @@
   notify:
     - restart rabbitmq
   tags: rabbitmq
-  when: rabbitmq_version != "present"
+  when: rabbitmq_version != "latest"
 
 - name: Ensure rabbitmq is enabled and running
   become: yes
