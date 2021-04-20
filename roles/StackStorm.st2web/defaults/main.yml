@@ -1,6 +1,8 @@
 ---
 # defaults file for st2web
-st2web_revision: 1
+# StackStorm st2web version to install. `present` to install available package, `latest` to get automatic updates or pin it to numeric version like `2.2.0`.
+# On Debian need to specify revision of package like `2.2.0-1`.
+st2web_version: latest
 
 # String with custom SSL certificate. If not provided, self-signed certificate will be generated.
 st2web_ssl_certificate: null
