@@ -48,10 +48,10 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2_python_packages`    | `[ ]`         | List of python packages to install into the `/opt/stackstorm/st2` virtualenv. This is needed when deploying alternative auth or coordination backends which depend on Python modules to make them work.
 | `st2_u16_add_insecure_py3_ppa`	| `false`     | Whether permission is granted to install the deadsnakes Python3.6 PPA for Ubuntu 16. 
 | **st2web**
+| `st2web_version`     | `latest`      | st2web version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0` or with revision like `2.2.0-1`.
 | `st2web_ssl_certificate`     | `null` | String with custom SSL certificate (`.crt`). If not provided, self-signed certificate will be generated.
 | `st2web_ssl_certificate_key` | `null` | String with custom SSL certificate secret key (`.key`). If not provided, self-signed certificate will be generated.
 | `st2web_nginx_config`     | `null` | String with a custom nginx configuration file (`st2.conf`). If not provided, the default st2.conf will be used.
-| `st2web_version`     | `latest`      | st2web version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0` or with revision like `2.2.0-1`.
 | **ewc**
 | `ewc_license`            | `null`        | EWC license key is required for installing EWC enteprise bits via this ansible role.
 | `ewc_repo`               | `enterprise`  | EWC PackageCloud repository to install. [`enterprise`](https://packagecloud.io/StackStorm/enterprise/), [`enterprise-unstable`](https://packagecloud.io/StackStorm/enterprise-unstable/), [`staging-enterprise`](https://packagecloud.io/StackStorm/staging-enteprise/), [`staging-enterprise-unstable`](https://packagecloud.io/StackStorm/staging-enterprise-unstable/)
