@@ -6,6 +6,14 @@
   when: ansible_facts.os_family == "RedHat"
   tags: epel
 
+- name: Install GPG key
+  become: yes
+  rpm_key:
+    key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_facts.distribution_major_version }}
+    state: present
+  when: ansible_facts.os_family == "RedHat" and not epel_installed.stat.exists
+  tags: epel
+
 - name: Install EPEL repo
   become: yes
   yum:
