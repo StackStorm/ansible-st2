@@ -8,7 +8,7 @@
   retries: 5
   delay: 3
   until: _task is succeeded
-  when: st2_version == "latest"
+  when: st2web_version == "latest"
   tags: st2web, skip_ansible_lint
 
 - name: Install present st2web package, no auto-update
@@ -20,21 +20,21 @@
   retries: 5
   delay: 3
   until: _task is succeeded
-  when: st2_version == "present"
+  when: st2web_version == "present"
   tags: st2web
 
 - name: Install pinned st2web package
   become: yes
   package:
-    name: "st2web{{ '-' if ansible_facts.pkg_mgr == 'yum' else '=' }}{{ st2_version }}-{{ st2web_revision }}"
+    name: "{{ st2web_package_name }}{{ '=' if ansible_facts.pkg_mgr == 'apt' else '-' }}{{ st2web_version }}"
     state: present
   register: _task
   retries: 5
   delay: 3
   until: _task is succeeded
   when:
-    - st2_version != "latest"
-    - st2_version != "present"
+    - st2web_version != "latest"
+    - st2web_version != "present"
   tags: st2web
 
 - name: Configure SSL certificate for st2web UI

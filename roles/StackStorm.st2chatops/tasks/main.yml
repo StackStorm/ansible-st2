@@ -46,13 +46,15 @@
 - name: Install pinned st2chatops package
   become: yes
   package:
-    name: st2chatops{{ '-' if ansible_facts.pkg_mgr == 'yum' else '=' }}{{ st2chatops_version }}
+    name: st2chatops{{ '=' if ansible_facts.pkg_mgr == 'apt' else '-' }}{{ st2chatops_version }}
     state: present
   register: _task
   retries: 5
   delay: 3
   until: _task is succeeded
-  when: st2chatops_version != "latest"
+  when:
+    - st2chatops_version != "latest"
+    - st2chatops_version != "present"
   notify:
     - restart st2chatops
   tags: st2chatops

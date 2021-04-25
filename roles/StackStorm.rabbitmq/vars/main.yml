@@ -1,6 +1,2 @@
 ---
 rabbitmq_on_el8: "{{ (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8') }}"
-# RabbitMQ version to use. Use present for latest. For EL8 we need to pin
-# to 3.8.12 or earlier, as later version requires erlang not available in
-# EL8 or epel repositories
-rabbitmq_version: "{{ (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8') | ternary('3.8.12','present') }}"
