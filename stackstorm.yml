@@ -5,6 +5,7 @@
   roles:
     - StackStorm.mongodb
     - StackStorm.rabbitmq
+    - StackStorm.redis
     - StackStorm.st2repo
     - StackStorm.st2
     - StackStorm.nginx

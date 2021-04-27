@@ -1,0 +1,11 @@
+---
+- name: Install redis
+  become: yes
+  package:
+    name: redis-server
+    state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
+  tags: redis

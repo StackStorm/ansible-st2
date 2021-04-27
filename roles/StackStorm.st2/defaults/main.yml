@@ -46,3 +46,7 @@ st2_python_packages: []
 #Alternatively the playbooks will  try to add python3.6 from the 3rd party 'deadsnakes' repository: https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa.
 #Only set to true, if you are aware of the support and security risks associated with using unofficial 3rd party PPA repository, and you understand that StackStorm does NOT provide ANY support for python3.6 packages on Ubuntu 16.04.
 st2_u16_add_insecure_py3_ppa: false
+
+# If defined, configure coordination_url for st2 to use. By default this will
+# be redis on localhost. 
+st2_coordination_url: redis://127.0.0.1:6379

@@ -1,0 +1,4 @@
+---
+- name: Install regis on {{ ansible_facts.distribution }}
+  include_tasks: redis_{{ ansible_os_family | lower }}.yml
+  tags: redis
