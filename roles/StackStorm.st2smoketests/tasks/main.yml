@@ -69,7 +69,6 @@
 
 - name: Run RBAC tests to verify the setup
   import_tasks: st2rbac_verification.yml
-  when: st2_rbac_enable|bool
   tags:
     - smoke-tests
     - rbac-tests
