@@ -118,17 +118,6 @@
   when: (st2_config.auth|default({})).enable|default(st2_auth_enable)
   tags: st2, auth
 
-- name: Configure coordination backend if specified
-  become: yes
-  ini_file:
-    dest: /etc/st2/st2.conf
-    section: coordination
-    option: url
-    value: "{{ st2_coordination_url }}"
-    backup: yes
-  when: st2_coordination_url is defined
-  tags: st2, coordination
-
 - name: Configure StackStorm st2.conf settings
   # Ansible nested loop to iterate through a hash of hashes
   include_tasks: config.yml

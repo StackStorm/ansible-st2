@@ -1,4 +1,20 @@
 ---
-- name: Install regis on {{ ansible_facts.distribution }}
-  include_tasks: redis_{{ ansible_os_family | lower }}.yml
+- name: Install redis
+  become: yes
+  package:
+    name: "{{redis_package}}"
+    state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
   tags: redis
+
+- name: Ensure redis service is enabled and running
+  become: yes
+  service:
+    name: "{{redis_package}}"
+    enabled: yes
+    state: started
+  tags: redis
+  when: ansible_facts.os_family == 'RedHat'

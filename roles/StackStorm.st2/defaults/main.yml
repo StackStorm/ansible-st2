@@ -5,7 +5,10 @@ st2_version: latest
 
 # Hash with StackStorm configuration settings to set in 'st2.conf' ini file
 # See https://github.com/StackStorm/st2/blob/master/conf/st2.conf.sample for a full list
-st2_config: {}
+# Default to including redis. Can be removed once included in default st2.conf
+st2_config:
+  coordination:
+    url: redis://127.0.0.1:6379
 # Example:
 #st2_config:
 #  auth:
@@ -46,7 +49,3 @@ st2_python_packages: []
 #Alternatively the playbooks will  try to add python3.6 from the 3rd party 'deadsnakes' repository: https://launchpad.net/~deadsnakes/+archive/ubuntu/ppa.
 #Only set to true, if you are aware of the support and security risks associated with using unofficial 3rd party PPA repository, and you understand that StackStorm does NOT provide ANY support for python3.6 packages on Ubuntu 16.04.
 st2_u16_add_insecure_py3_ppa: false
-
-# If defined, configure coordination_url for st2 to use. By default this will
-# be redis on localhost. 
-st2_coordination_url: redis://127.0.0.1:6379
