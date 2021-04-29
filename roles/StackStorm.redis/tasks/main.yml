@@ -10,11 +10,18 @@
   until: _task is succeeded
   tags: redis
 
+- name: Allow redis to be controlled by systemd
+  become: yes
+  lineinfile:
+    dest: /etc/redis/redis.conf
+    line: supervised systemd
+  tags: redis
+  when: ansible_facts.os_family == 'Debian'
+
 - name: Ensure redis service is enabled and running
   become: yes
   service:
-    name: "{{ redis_package }}"
+    name: redis
     enabled: yes
     state: started
   tags: redis
-  when: ansible_facts.os_family == 'RedHat'
