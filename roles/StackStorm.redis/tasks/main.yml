@@ -2,7 +2,7 @@
 - name: Install redis
   become: yes
   package:
-    name: "{{redis_package}}"
+    name: "{{ redis_package }}"
     state: present
   register: _task
   retries: 5
@@ -13,7 +13,7 @@
 - name: Ensure redis service is enabled and running
   become: yes
   service:
-    name: "{{redis_package}}"
+    name: "{{ redis_package }}"
     enabled: yes
     state: started
   tags: redis
