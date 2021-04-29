@@ -18,6 +18,15 @@
   tags: redis
   when: ansible_facts.os_family == 'Debian'
 
+- name: Change bind to be ipv4 only if needed
+  become: yes
+  lineinfile:
+    dest: /etc/redis/redis.conf
+    line: "bind 127.0.0.1"
+    regexp: '^bind '
+  tags: redis
+  when: (ansible_facts["all_ipv6_addresses"] | length == 0)
+
 - name: Ensure redis service is enabled and running
   become: yes
   service:
