@@ -5,10 +5,7 @@ st2_version: latest
 
 # Hash with StackStorm configuration settings to set in 'st2.conf' ini file
 # See https://github.com/StackStorm/st2/blob/master/conf/st2.conf.sample for a full list
-# Default to including redis. Can be removed once included in default st2.conf
-st2_config:
-  coordination:
-    url: redis://127.0.0.1:6379
+st2_config: {}
 # Example:
 #st2_config:
 #  auth:
@@ -20,6 +17,12 @@ st2_config:
 #    password: random-password123
 #  messaging:
 #    url: amqp://st2:st2@127.0.0.1:5672//
+# In StackStorm > 3.4 then redis client libraries are included in the ST2
+# package. And therefore redis can be automatically used by setting st2_config
+# as follows
+#st2_config:
+#  coordination:
+#    url: redis://127.0.0.1:6379
 
 # System user from which st2 will execute local/remote shell actions
 st2_system_user: stanley
