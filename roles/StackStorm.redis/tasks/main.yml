@@ -1,0 +1,36 @@
+---
+- name: Install redis
+  become: yes
+  package:
+    name: "{{ redis_package }}"
+    state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
+  tags: redis
+
+- name: Allow redis to be controlled by systemd
+  become: yes
+  lineinfile:
+    dest: /etc/redis/redis.conf
+    line: supervised systemd
+  tags: redis
+  when: ansible_facts.os_family == 'Debian' and ansible_facts.distribution_major_version != "16"
+
+- name: Change bind to be ipv4 only if needed
+  become: yes
+  lineinfile:
+    dest: "{{ '/etc/redis.conf' if ansible_facts.os_family == 'RedHat' else '/etc/redis/redis.conf' }}"
+    line: "bind 127.0.0.1"
+    regexp: '^bind '
+  tags: redis
+  when: (ansible_facts["all_ipv6_addresses"] | length == 0)
+
+- name: Ensure redis service is enabled and running
+  become: yes
+  service:
+    name: redis
+    enabled: yes
+    state: started
+  tags: redis
