@@ -1,15 +1,6 @@
 ---
 
 # Small suite of smoke tests to ensure that RBAC works as expected
-- name: Create directory to store roles and assignments
-  become: yes
-  file:
-    path: "/opt/stackstorm/rbac/{{ item }}"
-    recurse: yes
-    state: directory
-  loop:
-    - roles
-    - assignments
 
 - name: auth | Add a new smoke_tests_rbac_user in st2 htpasswd file
   become: true
@@ -45,31 +36,6 @@
   when: smoke_tests_rbac.assignments is defined
   notify:
     - reload rbac
-
-- name: Enable RBAC in st2 configuration
-  become: yes
-  ini_file:
-    dest: /etc/st2/st2.conf
-    section: rbac
-    option: enable
-    value: True
-    backup: yes
-  notify:
-    - restart st2api
-    - restart st2auth
-    - reload rbac
-
-- name: Set RBAC backend to default in st2 configuration
-  become: yes
-  ini_file:
-    dest: /etc/st2/st2.conf
-    section: rbac
-    option: backend
-    value: default
-    backup: yes
-  notify:
-    - restart st2api
-    - restart st2auth
 
 - meta: flush_handlers
 
@@ -128,15 +94,3 @@
   changed_when: no
   notify:
     - reload rbac
-
-- name: Disable RBAC in st2 configuration
-  become: yes
-  ini_file:
-    dest: /etc/st2/st2.conf
-    section: rbac
-    option: enable
-    value: False
-    backup: yes
-  notify:
-    - restart st2api
-    - restart st2auth
