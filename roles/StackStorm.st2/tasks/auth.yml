@@ -74,3 +74,12 @@
       username = {{ st2_auth_username }}
       password = {{ st2_auth_password }}
   when: st2_save_credentials | bool
+
+- name: auth | Setup LDAP
+  include_tasks: auth-ldap.yml
+  when: st2_ldap_enable
+  tags: st2, auth, ldap
+
+- name: auth | Setup RBAC
+  include_tasks: auth-rbac.yml
+  tags: st2, auth, rbac

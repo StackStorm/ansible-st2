@@ -1,20 +1,8 @@
 ---
-- name: Check if enterprise is installed
-  become: yes
-  stat:
-    path: /opt/stackstorm/static/webui/flow/
-  register: ewc_installed
-
-# For enterprise 'bwc-ui' replaces 'st2web' package
-- name: "Decide which package to use: 'st2web' vs 'bwc-ui'"
-  set_fact:
-    st2web_package_name: bwc-ui
-  when: ewc_installed.stat.exists
-
-- name: Install latest {{ st2web_package_name }} package, auto-update
+- name: Install latest st2web package, auto-update
   become: yes
   package:
-    name: "{{ st2web_package_name }}"
+    name: "st2web"
     state: latest
   register: _task
   retries: 5
@@ -23,10 +11,10 @@
   when: st2web_version == "latest"
   tags: st2web, skip_ansible_lint
 
-- name: Install present {{ st2web_package_name }} package, no auto-update
+- name: Install present st2web package, no auto-update
   become: yes
   package:
-    name: "{{ st2web_package_name }}"
+    name: "st2web"
     state: present
   register: _task
   retries: 5
@@ -35,7 +23,7 @@
   when: st2web_version == "present"
   tags: st2web
 
-- name: Install pinned {{ st2web_package_name }} package
+- name: Install pinned st2web package
   become: yes
   package:
     name: "{{ st2web_package_name }}{{ '=' if ansible_facts.pkg_mgr == 'apt' else '-' }}{{ st2web_version }}"

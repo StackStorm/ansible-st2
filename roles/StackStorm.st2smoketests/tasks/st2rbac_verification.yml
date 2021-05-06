@@ -1,0 +1,96 @@
+---
+
+# Small suite of smoke tests to ensure that RBAC works as expected
+
+- name: auth | Add a new smoke_tests_rbac_user in st2 htpasswd file
+  become: true
+  htpasswd:
+    path: /etc/st2/htpasswd
+    name: "{{ smoke_tests_rbac_user }}"
+    password: "{{ smoke_tests_rbac_password }}"
+  changed_when: no
+  notify:
+    - restart st2api
+    - restart st2stream
+
+- name: Copy smoke tests RBAC roles to /opt/stackstorm/rbac/roles directory
+  become: yes
+  template:
+    src: rbac_roles.yml.j2
+    dest: /opt/stackstorm/rbac/roles/{{ item.name }}.yaml
+    owner: st2
+    group: st2
+  loop: "{{ smoke_tests_rbac.roles }}"
+  when: smoke_tests_rbac.roles is defined
+  notify:
+    - reload rbac
+
+- name: Copy smoke tests RBAC assignments to /opt/stackstorm/rbac/assignments directory
+  become: yes
+  template:
+    src: rbac_assignments.yml.j2
+    dest: /opt/stackstorm/rbac/assignments/{{ item.name }}.yaml
+    owner: st2
+    group: st2
+  loop: "{{ smoke_tests_rbac.assignments }}"
+  when: smoke_tests_rbac.assignments is defined
+  notify:
+    - reload rbac
+
+- meta: flush_handlers
+
+- name: Get authentication token for rbac_smoke_tests  # Note this will not use LDAP.
+  command: st2 auth "{{ smoke_tests_rbac_user }}" -p "{{ smoke_tests_rbac_password }}"  -t
+  register: st2_token_smoke_tests_user
+  changed_when: no
+
+- name: Test a simple core.local action as user ``smoke_tests_rbac_user``
+  command: st2 run core.local -- date -R
+  environment:
+    ST2_AUTH_TOKEN: "{{ st2_token_smoke_tests_user.stdout }}"
+  changed_when: no
+
+- name: Test some other action that "{{ smoke_tests_rbac_user }}" cannot run
+  command: st2 run core.http url="https://www.google.com"
+  environment:
+    ST2_AUTH_TOKEN: "{{ st2_token_smoke_tests_user.stdout }}"
+  ignore_errors: yes
+  changed_when: no
+  register: smoke_tests_rbac_forbidden_action
+
+- name: Assert forbidden error was indeed thrown
+  fail:
+    msg: "St2 action was forbidden to run because of RBAC permissions but action still ran."
+  changed_when: no
+  when: "smoke_tests_rbac_forbidden_action.stdout.find('Forbidden') == -1"
+
+- name: Remove RBAC smoke tests user from htpasswd file
+  become: yes
+  htpasswd:
+    path: /etc/st2/htpasswd
+    name: "{{ smoke_tests_rbac_user }}"
+    state: absent
+  changed_when: no
+  notify:
+    - reload rbac
+
+- name: Remove RBAC smoke tests roles  # This doesn't cleanup role from DB.
+  become: yes
+  file:
+    state: absent
+    path: /opt/stackstorm/rbac/roles/{{ item.name }}.yml
+  loop: "{{ smoke_tests_rbac.roles }}"
+  when: smoke_tests_rbac.roles is defined
+  changed_when: no
+  notify:
+    - reload rbac
+
+- name: Remove RBAC smoke tests assignments  # This doesn't cleanup assignment from DB.
+  become: yes
+  file:
+    state: absent
+    path: /opt/stackstorm/rbac/assignments/{{ smoke_tests_rbac_user }}.yml
+  when: smoke_tests_rbac.assignments is defined
+  changed_when: no
+  notify:
+    - reload rbac
