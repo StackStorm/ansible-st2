@@ -108,7 +108,7 @@ vagrant up
 
 Other distros:
 ```sh
-vagrant up ubuntu16
+vagrant up ubuntu20
 vagrant up centos7
 vagrant up centos8
 ```
