@@ -9,8 +9,8 @@ Aka IFTTT orchestration for Ops.
 [![Join our community Slack](https://stackstorm-community.herokuapp.com/badge.svg)](https://stackstorm.com/community-signup)
 
 ## Supported platforms
-* Ubuntu Xenial (16.04)
 * Ubuntu Bionic (18.04)
+* Ubuntu Focal (20.04)
 * RHEL7 / CentOS7
 * RHEL8 / CentOS8
 
@@ -19,7 +19,7 @@ Aka IFTTT orchestration for Ops.
 > In order to access StackStorm Web UI, please don't forget to ensure that http/https ports are opened in your firewall system.
 
 ## Requirements
-At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, Mongo and nginx.
+At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, Mongo, Redis  and nginx.
 
 ## Installation
 ```sh
@@ -50,7 +50,6 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2_ldap`               | [See `st2_ldap` variable in role defaults](roles/st2/defaults/main.yml) | Settings for LDAP authentication backend. `st2_ldap` is a dictionary and has one item `backend_kwargs`. `backend_kwargs` should be provided as exactly listed in ST2 documentation for [LDAP configuration](https://docs.stackstorm.com/authentication.html#ldap).
 | `st2_packs`              | `[ st2 ]`     | List of packs to install. This flag does not work with a `--python3` only pack.
 | `st2_python_packages`    | `[ ]`         | List of python packages to install into the `/opt/stackstorm/st2` virtualenv. This is needed when deploying alternative auth or coordination backends which depend on Python modules to make them work.
-| `st2_u16_add_insecure_py3_ppa`	| `false`     | Whether permission is granted to install the deadsnakes Python3.6 PPA for Ubuntu 16. 
 | **st2web**
 | `st2web_version`     | `latest`      | st2web version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0` or with revision like `2.2.0-1`.
 | `st2web_ssl_certificate`     | `null` | String with custom SSL certificate (`.crt`). If not provided, self-signed certificate will be generated.
@@ -93,8 +92,8 @@ st2smoketests, you will need to disable proxy for localhost.
 There are a few requirements when developing on `ansible-st2`.
 
 These are the platforms we must support (must pass end-to-end testing):
-- Ubuntu Xenial
 - Ubuntu Bionic
+- Ubuntu Focal
 - CentOS7
 - CentOS8
 - RHEL7 (via AWS)
@@ -120,8 +119,8 @@ You might be interested in other methods to deploy StackStorm engine:
   * [Puppet Module](https://github.com/stackstorm/puppet-st2)
 
 * Manual Instructions
-  * [Ubuntu 16.04](https://docs.stackstorm.com/install/u16.html)
   * [Ubuntu 18.04](https://docs.stackstorm.com/install/u18.html)
+  * [Ubuntu 20.04](https://docs.stackstorm.com/install/u20.html)
   * [RHEL8/CentOS8](https://docs.stackstorm.com/install/rhel8.html)
   * [RHEL7/CentOS7](https://docs.stackstorm.com/install/rhel7.html)
 
