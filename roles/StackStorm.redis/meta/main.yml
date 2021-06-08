@@ -24,4 +24,3 @@ galaxy_info:
 dependencies:
   - role: StackStorm.epel
     when: ansible_facts.os_family == 'RedHat'
-  - role: StackStorm.st2repo
