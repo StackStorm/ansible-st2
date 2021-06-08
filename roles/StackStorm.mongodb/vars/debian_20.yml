@@ -1,0 +1,9 @@
+# Use the following URL to find the key: https://www.mongodb.org/static/pgp/server-{{ mongodb_major_minor_version }}.asc
+mongodb_apt_keys:
+  "3.6": "2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5"
+  "4.0": "9DA31620334BD75D9DCB49F368818C72E52529D4"
+  "4.2": "3F75C80EE56C41F4E49515B62ACD4032058F8B6B"
+  "4.4": "20691EEC35216C63CAF66CE1656408E390CFB1F5"
+
+# mongodb Release on Ubuntu 20.04
+mongodb_version: "4.4"
