@@ -33,7 +33,7 @@ platforms:
   # Ubuntu Focal with Systemd
   - name: ubuntu-20.04
     driver_config:
-      image: stackstorm/packagingtest:xenial-systemd
+      image: stackstorm/packagingtest:focal-systemd
       platform: ubuntu
       run_command: /sbin/init
       volume:
