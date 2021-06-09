@@ -22,18 +22,18 @@ provisioner:
     st2_rbac_enable: yes
 
 platforms:
-  # Ubuntu Xenial with Systemd
-  - name: ubuntu-16.04
-    driver_config:
-      image: stackstorm/packagingtest:xenial-systemd
-      platform: ubuntu
-      run_command: /sbin/init
-      volume:
-        - /sys/fs/cgroup:/sys/fs/cgroup:ro
   # Ubuntu Bionic with Systemd
   - name: ubuntu-18.04
     driver_config:
       image: stackstorm/packagingtest:bionic-systemd
+      platform: ubuntu
+      run_command: /sbin/init
+      volume:
+        - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  # Ubuntu Focal with Systemd
+  - name: ubuntu-20.04
+    driver_config:
+      image: stackstorm/packagingtest:xenial-systemd
       platform: ubuntu
       run_command: /sbin/init
       volume:
