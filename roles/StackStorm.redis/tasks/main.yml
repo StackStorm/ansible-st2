@@ -16,7 +16,7 @@
     dest: /etc/redis/redis.conf
     line: supervised systemd
   tags: redis
-  when: ansible_facts.os_family == 'Debian' and ansible_facts.distribution_major_version != "16"
+  when: ansible_facts.os_family == 'Debian'
 
 - name: Change bind to be ipv4 only if needed
   become: yes

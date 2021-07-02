@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  description: Install StackStorm Community package repository
+  description: Run StackStorm smoketests to verify the setup
   author: armab
   company: StackStorm
   license: Apache 2.0
@@ -17,5 +17,11 @@ galaxy_info:
   galaxy_tags:
     - system
     - stackstorm
-    - repositories
-    - packagecloud
+    - st2
+    - automation
+    - remediation
+    - devops
+dependencies:
+  - role: StackStorm.epel
+    when: ansible_facts.os_family == 'RedHat'
+  - role: StackStorm.st2repo

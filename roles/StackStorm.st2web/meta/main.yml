@@ -10,7 +10,7 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - bionic
-        - xenial
+        - focal
     - name: EL
       versions:
         - 7

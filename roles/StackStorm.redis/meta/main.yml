@@ -1,7 +1,7 @@
 ---
 galaxy_info:
-  description: Install StackStorm Community package repository
-  author: armab
+  description: Install redis as Stackstorm coordination backend
+  author: winem
   company: StackStorm
   license: Apache 2.0
   min_ansible_version: 2.5
@@ -17,5 +17,10 @@ galaxy_info:
   galaxy_tags:
     - system
     - stackstorm
-    - repositories
-    - packagecloud
+    - st2
+    - automation
+    - remediation
+    - devops
+dependencies:
+  - role: StackStorm.epel
+    when: ansible_facts.os_family == 'RedHat'

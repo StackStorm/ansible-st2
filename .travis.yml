@@ -9,14 +9,14 @@ branches:
 
 env:
   # default is stable repo
-  - DISTRO=ubuntu-16
   - DISTRO=ubuntu-18
+  - DISTRO=ubuntu-20
   - DISTRO=centos-7
   - DISTRO=centos-8
 
   # StackStorm 'unstable' repo check
-  - DISTRO=ubuntu-16 ST2_REPO=unstable
   - DISTRO=ubuntu-18 ST2_REPO=unstable
+  - DISTRO=ubuntu-20 ST2_REPO=unstable
   - DISTRO=centos-7 ST2_REPO=unstable
   - DISTRO=centos-8 ST2_REPO=unstable
 
