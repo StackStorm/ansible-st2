@@ -1,3 +1,3 @@
 ---
 # nodejs version to install
-nodejs_major_version: "{% if st2_version == 'latest' %}14{% elif st2_version is version('3.5.0', '<') %}10{% else %}14{% endif %}"
+nodejs_major_version: "{% if st2_version == 'latest' or st2_version is version('3.5.0', '<') %}14{% else %}10{% endif %}"
