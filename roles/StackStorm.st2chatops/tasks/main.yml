@@ -200,6 +200,14 @@
   notify:
     - restart st2chatops
 
+- name: daemon-reload
+  become: yes
+  command: systemctl daemon-reload
+  
+- name: enable st2chatops
+  become: yes
+  command: systemctl enable st2chatops
+  
 - name: Ensure st2chatops service is enabled and running
   become: yes
   service:
