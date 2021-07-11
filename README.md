@@ -56,6 +56,7 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2web_ssl_certificate_key` | `null` | String with custom SSL certificate secret key (`.key`). If not provided, self-signed certificate will be generated.
 | `st2web_nginx_config`     | `null` | String with a custom nginx configuration file (`st2.conf`). If not provided, the default st2.conf will be used.
 | **st2chatops**
+| `nodejs_major_version`   | `14`          | The default fits st2chatops version >= 3.5.0.
 | `st2chatops_version`     | `latest`      | st2chatops version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0` or with revision like `2.2.0-1`.
 | `st2chatops_st2_api_key` |               | st2 API key to be updated in st2chatops.env using "st2 apikey create -k" in a task
 | `st2chatops_hubot_adapter` |             | Hubot Adapter to be used for st2chatops. Default is `shell`, but should be changed to one of the [`supported adapters`](`https://github.com/StackStorm/ansible-st2/blob/master/roles/st2chatops/vars/main.yml`).[**Required**]
