@@ -52,14 +52,18 @@
     - name: Render openssl.cnf
       ansible.builtin.template:
         src: openssl.cnf.j2
-        dest: /opt/stackstorm/openssl.cnf
+        dest: /tmp/openssl.cnf
         mode: '0644'
     - name: Generate self-signed SSL certificate on RedHat 7
-      shell: openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information Technology/CN=$(hostname)" -config /opt/stackstorm/openssl.cnf
+      shell: openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information Technology/CN=$(hostname)" -config /tmp/openssl.cnf
       args:
         creates: /etc/ssl/st2/st2.key
       notify:
         - restart nginx
+    - name: Delete the openssl.cnf
+      ansible.builtin.file:
+        path: /tmp/openssl.cnf
+        state: absent
   when:
     - not st2web_ssl_certificate
     - not st2web_ssl_certificate_key
