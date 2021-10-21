@@ -5,4 +5,3 @@ rabbitmq_plugins: []
 #  - rabbitmq_management
 # Set to "present" to install latest version, or specify specific version
 rabbitmq_version: "present"
-erlang_version: "present"

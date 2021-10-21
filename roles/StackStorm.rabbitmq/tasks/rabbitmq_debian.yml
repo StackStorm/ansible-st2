@@ -1,0 +1,92 @@
+---
+- name: apt | Add rabbitmq key
+  become: yes
+  apt_key:
+    keyserver: "hkp://keyserver.ubuntu.com:80"
+    id: "0A9AF2115F4687BD29803A206B73A36E6026DFCA"
+    state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
+  tags: rabbitmq
+
+- name: Ensure pre-requisites are installed
+  become: yes
+  apt:
+    name: "{{ item }}"
+    state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
+  tags: rabbitmq
+  loop: 
+    - apt-transport-https
+    - gnupg
+
+- name: Add launchpad key
+  become: yes
+  apt_key:
+    url: https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0xf77f1eda57ebb1cc
+    id: "57ebb1cc"
+    state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
+  tags: rabbitmq
+
+- name: apt | Add PackageCloud key
+  become: yes
+  apt_key:
+    url: "https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey"
+    state: present
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
+  tags: rabbitmq
+
+- name: Add erlang repos
+  become: yes
+  apt_repository:
+    repo: "deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu {{ ansible_facts.distribution_release|lower }} main"
+    state: present
+  tags: rabbitmq
+
+- name: Add rabbitmq repos
+  become: yes
+  apt_repository:
+    repo: "deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ {{ ansible_facts.distribution_release|lower }} main"
+    state: present
+  tags: rabbitmq
+
+- name: Install latest erlang packages on {{ ansible_facts.distribution }}
+  become: yes
+  package:
+    name: "{{ item }}"
+    state: present
+  register: _eltask
+  retries: 5
+  delay: 3
+  until: _eltask is succeeded
+  tags: rabbitmq
+  loop:
+    - erlang-base
+    - erlang-asn1
+    - erlang-crypto
+    - erlang-eldap
+    - erlang-ftp
+    - erlang-inets
+    - erlang-mnesia
+    - erlang-os-mon
+    - erlang-parsetools
+    - erlang-public-key
+    - erlang-runtime-tools
+    - erlang-snmp
+    - erlang-ssl
+    - erlang-syntax-tools
+    - erlang-tftp
+    - erlang-tools
+    - erlang-xmerl
