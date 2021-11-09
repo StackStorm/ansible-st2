@@ -94,4 +94,7 @@ jobs:
       - name: Test
         run: |
           bundle exec kitchen test ${{matrix.distro}} --debug ${{ matrix.name }}
+        env:
+          HUBOT_SLACK_TOKEN: ${{ secrets.HUBOT_SLACK_TOKEN }}
+
 
