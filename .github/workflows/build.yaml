@@ -97,7 +97,6 @@ jobs:
         env:
           HUBOT_SLACK_TOKEN: ${{ secrets.HUBOT_SLACK_TOKEN }}
 
-
   slack-notification:
     name: Slack notification for failed master builds
     if: always()
