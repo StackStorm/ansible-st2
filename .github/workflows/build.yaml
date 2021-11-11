@@ -1,0 +1,122 @@
+name: build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      # only on merges to master branch
+      - master
+      # and version branches, which only include minor versions (eg: v3.4)
+      - v[0-9]+.[0-9]+
+    tags:
+      - v*
+  pull_request:
+    type: [opened, reopened, edited]
+  schedule:
+    # run every night at midnight
+    - cron:  '0 0 * * *'
+
+jobs:
+  integration:
+    name: 'integration - ${{matrix.name}}'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # note: actions/setup-ruby only allows using a major.minor release of ruby
+          - ruby: '2.7'
+            name: 'centos7-stable'
+            distro: 'centos-7'
+            repo: 'stable'
+          - ruby: '2.7'
+            name: 'centos7-unstable'
+            distro: 'centos-7'
+            repo: 'unstable'
+          - ruby: '2.7'
+            name: 'centos8-stable'
+            distro: 'centos-8'
+            repo: 'stable'
+          - ruby: '2.7'
+            name: 'centos8-unstable'
+            distro: 'centos-8'
+            repo: 'unstable'
+          - ruby: '2.7'
+            name: 'ubuntu18-stable'
+            distro: 'ubuntu-18'
+            repo: 'stable'
+          - ruby: '2.7'
+            name: 'ubuntu18-unstable'
+            distro: 'ubuntu-18'
+            repo: 'unstable'
+          - ruby: '2.7'
+            name: 'ubuntu20-stable'
+            distro: 'ubuntu-20'
+            repo: 'stable'
+          - ruby: '2.7'
+            name: 'ubuntu20-unstable'
+            distro: 'ubuntu-20'
+            repo: 'unstable'
+    env:
+      DISTRO: '${{ matrix.distro }}'
+      ST2_REPO: '${{ matrix.repo }}'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '${{ matrix.ruby }}'
+      - name: Bundle prep
+        run: |
+          gem install bundler
+          bundle -v
+          rm -f Gemfile.lock
+          # Update system gems if requested. This is useful to temporarily workaround troubles in the test runner"
+          # See https://github.com/puppetlabs/pdk-templates/commit/705154d5c437796b821691b707156e1b056d244f for an example of how this was used"
+          # Ignore exit code of SIGPIPE'd yes to not fail with shell's pipefail set"
+          [ -z "$RUBYGEMS_VERSION" ] || (yes || true) | gem update --system $RUBYGEMS_VERSION
+          gem --version
+          bundle -v
+          # note: this path is relative to the Gemfile path below
+          bundle config path vendor/bundle
+          bundle config without 'system_tests'
+          # note: using custom gemfile for kitchen tests
+          bundle config gemfile build/kitchen/Gemfile
+          bundle lock
+        # restore cache AFTER doing 'bundle lock' so that Gemfile.lock exists
+      - uses: actions/cache@v2
+        with:
+          # note: this path is the Gemfile + path from above, so it's different than the base level Gemfile cache
+          path: build/kitchen/vendor/bundle
+          key: ${{ runner.os }}-${{ matrix.name }}-${{ matrix.ruby }}-gems-integration-v3-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ matrix.name }}-${{ matrix.ruby }}-gems-integration-v3-
+      - name: Bundle install
+        run: |
+          bundle install --jobs $(nproc) --retry 3 
+      - name: Test
+        run: |
+          bundle exec kitchen test ${{matrix.distro}} --debug ${{ matrix.name }}
+        env:
+          HUBOT_SLACK_TOKEN: ${{ secrets.HUBOT_SLACK_TOKEN }}
+
+  slack-notification:
+    name: Slack notification for failed master builds
+    if: always()
+    needs:
+      - integration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Workflow conclusion
+        # this step creates an environment variable WORKFLOW_CONCLUSION and is the most reliable way to check the status of previous jobs
+        uses: technote-space/workflow-conclusion-action@v2
+      - name: CI Run Failure Slack Notification
+        if: ${{ env.WORKFLOW_CONCLUSION == 'failure' && github.ref == 'refs/heads/master' }}
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        uses: voxmedia/github-action-slack-notify-build@v1
+        with:
+          channel: ansible
+          status: FAILED
+          color: danger
