@@ -4,7 +4,8 @@ Ansible playbooks to deploy [StackStorm](https://github.com/stackstorm/st2).
 With over [50+ integrations](https://github.com/StackStorm/st2contrib/tree/master/packs) like GitHub, Docker, Nagios, NewRelic, AWS, Ansible it allows you to wire together your existing infrastructure into complex Workflows with auto-remediation and many more.
 Aka IFTTT orchestration for Ops.
 
-[![Build Status](https://travis-ci.org/StackStorm/ansible-st2.svg?branch=master)](https://travis-ci.org/StackStorm/ansible-st2)
+
+[![Build Status](https://github.com/StackStorm/ansible-st2/actions/workflows/build.yaml/badge.svg)](https://github.com/StackStorm/ansible-st2/actions/workflows/build.yaml)
 [![Repository deb/rpm](https://img.shields.io/badge/Repository-deb/rpm-blue.svg)](https://packagecloud.io/StackStorm/stable/)
 [![Join our community Slack](https://stackstorm-community.herokuapp.com/badge.svg)](https://stackstorm.com/community-signup)
 
