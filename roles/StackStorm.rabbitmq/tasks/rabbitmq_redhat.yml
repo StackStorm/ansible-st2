@@ -14,7 +14,6 @@
     gpgcheck: no
     enabled: yes
     sslverify: yes
-  when: ansible_facts.os_family == 'RedHat'
   tags: rabbitmq
 
 - name: Setup rabbit repo from packagecloud for RH
@@ -31,7 +30,6 @@
     gpgcheck: no
     enabled: yes
     sslverify: yes
-  when: ansible_facts.os_family == 'RedHat'
   tags: rabbitmq
 
 - name: Install latest erlang package on {{ ansible_facts.distribution }}
