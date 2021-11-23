@@ -1,18 +1,5 @@
 ---
 
-- name: RabbitMQ on RHEL8 requires module(perl:5.26)
-  become: yes
-  shell:
-     cmd: yum -y module enable perl:5.26
-  args:
-     warn: False
-  when: rabbitmq_on_el8
-  register: perl_result
-  changed_when:
-     - '"Nothing to do" not in perl_result.stdout'
-  # Disable warning as yum doesn't support enable module
-  tags: [rabbitmq, skip_ansible_lint]
-
 - name: Setup rabbitmy/erlang repo from packagecloud for RH
   become: yes
   no_log: yes
