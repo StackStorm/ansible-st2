@@ -1,4 +1,11 @@
 ---
+- name: apt | Install gpg
+  become: true
+  ansible.builtin.apt:
+    state: present
+    update_cache: true
+    name: gpg
+
 - name: apt | Add mongodb key
   become: yes
   apt_key:
