@@ -1,10 +1,16 @@
 ---
+# gpg is required for apt_key and may be missing in some minimal installations
 - name: apt | Install gpg
-  become: true
-  ansible.builtin.apt:
-    state: present
-    update_cache: true
+  become: yes
+  apt:
     name: gpg
+    state: present
+    update_cache: yes
+    cache_valid_time: 3600
+  register: _task
+  retries: 5
+  delay: 3
+  until: _task is succeeded
 
 - name: apt | Add mongodb key
   become: yes
