@@ -2,12 +2,7 @@
 
 Ansible playbooks to deploy [StackStorm](https://github.com/stackstorm/st2).
 
-> [StackStorm](http://stackstorm.com/) is event-driven automation platform
-> written in Python.
-> With over [50+ integrations](https://github.com/StackStorm/st2contrib/tree/master/packs)
-> like GitHub, Docker, Nagios, NewRelic, AWS, Ansible it allows you to wire
-> together your existing infrastructure into complex Workflows with
-> auto-remediation and many more.  Aka IFTTT orchestration for Ops.
+> [StackStorm](http://stackstorm.com/) is event-driven automation platform written in Python.  With over [50+ integrations](https://github.com/StackStorm/st2contrib/tree/master/packs) like GitHub, Docker, Nagios, NewRelic, AWS, Ansible it allows you to wire together your existing infrastructure into complex Workflows with auto-remediation and many more.  Aka IFTTT orchestration for Ops.
 
 [![Build Status](https://github.com/StackStorm/ansible-st2/actions/workflows/build.yaml/badge.svg)](https://github.com/StackStorm/ansible-st2/actions/workflows/build.yaml)
 [![Repository deb/rpm](https://img.shields.io/badge/Repository-deb/rpm-blue.svg)](https://packagecloud.io/StackStorm/stable/)
@@ -22,16 +17,11 @@ Ansible playbooks to deploy [StackStorm](https://github.com/stackstorm/st2).
 
 > If you're using the provided Vagrantfile, note that it uses Bionic by default.
 
-<!-- https://github.com/DavidAnson/markdownlint/issues/263 -->
-[](ignored)
-
-> In order to access StackStorm Web UI, please don't forget to ensure that
-> http/https ports are opened in your firewall system.
+> In order to access StackStorm Web UI, please don't forget to ensure that http/https ports are opened in your firewall system.
 
 ## Requirements
 
-At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is
-shipped with RabbitMQ, Mongo, Redis  and nginx.
+At least 2GB of memory and 3.5GB of disk space is required, since StackStorm is shipped with RabbitMQ, Mongo, Redis  and nginx.
 
 ## Installation
 
@@ -42,8 +32,7 @@ ansible-playbook stackstorm.yml
 
 ## Variables
 
-Below is the list of variables you can redefine in your playbook to customize
-st2 deployment:
+Below is the list of variables you can redefine in your playbook to customize st2 deployment:
 
 | Variable                 | Default       | Description  |
 | ------------------------ | ------------- | ------------ |
@@ -86,11 +75,9 @@ Install latest `stable` StackStorm with all its components on local machine:
 ansible-playbook stackstorm.yml -i 'localhost,' --connection=local
 ```
 
-> Note that keeping `latest` version is useful to update StackStorm by
-> re-running playbook, since it will reinstall st2 if there is new version available.
+> Note that keeping `latest` version is useful to update StackStorm by re-running playbook, since it will reinstall st2 if there is new version available.
 
-This is default behavior. If you don't want updates - consider pinning
-version-revision numbers.
+This is default behavior. If you don't want updates - consider pinning version-revision numbers.
 
 Install specific numeric version of st2 with pinned revision number as well:
 
@@ -100,9 +87,7 @@ ansible-playbook stackstorm.yml --extra-vars='st2_version=2.2.0 st2_revision=8'
 
 ## Installing behind a proxy
 
-If you are installing from behind a proxy, you can use environment variables
-`http_proxy`, `https_proxy`, and `no_proxy` in the playbook. For the
-st2smoketests, you will need to disable proxy for localhost.
+If you are installing from behind a proxy, you can use environment variables `http_proxy`, `https_proxy`, and `no_proxy` in the playbook. For the st2smoketests, you will need to disable proxy for localhost.
 
 ```yaml
   environment:
@@ -124,11 +109,9 @@ These are the platforms we must support (must pass end-to-end testing):
 * RHEL7 (via AWS)
 * RHEL8 (via AWS)
 
-Must also support Ansible Idempotence (Eg. Ansible-playbook re-run should end
-with the following results: `changed=0.*failed=0`)
+Must also support Ansible Idempotence (Eg. Ansible-playbook re-run should end with the following results: `changed=0.*failed=0`)
 
-For development purposes there is [Vagrantfile](Vagrantfile) available. The
-following command will setup ubuntu18 box (`ubuntu/bionic64`) by default:
+For development purposes there is [Vagrantfile](Vagrantfile) available. The following command will setup ubuntu18 box (`ubuntu/bionic64`) by default:
 
 ```sh
 vagrant up
@@ -160,8 +143,6 @@ You might be interested in other methods to deploy StackStorm engine:
 If you are stuck, our community is always ready to help, feel free to:
 
 * Ask questions in our [public Slack channel](https://stackstorm.com/community-signup)
-* [Report bug](https://github.com/StackStorm/ansible-st2/issues), provide
-  [feature request](https://github.com/StackStorm/ansible-st2/pulls) or just
-  give us a ✮ star
+* [Report bug](https://github.com/StackStorm/ansible-st2/issues), provide [feature request](https://github.com/StackStorm/ansible-st2/pulls) or just give us a ✮ star
 
 Your contribution is more than welcome!
