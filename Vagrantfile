@@ -14,9 +14,9 @@ VIRTUAL_MACHINES = {
     :hostname => 'ansible-st2-centos7',
     :box => 'centos/7',
   },
-  :centos8 => {
-    :hostname => 'ansible-st2-centos8',
-    :box => 'centos/8',
+  :rockylinux8 => {
+    :hostname => 'ansible-st2-rockylinux8',
+    :box => 'rockylinux/8',
   },
 }
 
