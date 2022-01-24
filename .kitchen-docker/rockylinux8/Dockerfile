@@ -1,4 +1,4 @@
-FROM stackstorm/packagingtest:centos8-systemd
+FROM stackstorm/packagingtest:rockylinux8-systemd
 
 RUN mkdir -p /var/run/sshd
 RUN useradd -d /home/<%= @username %> -m -s /bin/bash <%= @username %>

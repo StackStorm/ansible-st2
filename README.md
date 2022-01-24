@@ -13,7 +13,7 @@ Ansible playbooks to deploy [StackStorm](https://github.com/stackstorm/st2).
 * Ubuntu Bionic (18.04)
 * Ubuntu Focal (20.04)
 * RHEL7 / CentOS7
-* RHEL8 / CentOS8
+* RHEL8 / RockyLinux8
 
 > If you're using the provided Vagrantfile, note that it uses Bionic by default.
 
@@ -105,7 +105,7 @@ These are the platforms we must support (must pass end-to-end testing):
 * Ubuntu Bionic
 * Ubuntu Focal
 * CentOS7
-* CentOS8
+* RockyLinux8
 * RHEL7 (via AWS)
 * RHEL8 (via AWS)
 
@@ -122,7 +122,7 @@ Other distros:
 ```sh
 vagrant up ubuntu20
 vagrant up centos7
-vagrant up centos8
+vagrant up rockylinux8
 ```
 
 ## Other Installers
@@ -135,7 +135,7 @@ You might be interested in other methods to deploy StackStorm engine:
 * Manual Instructions
   * [Ubuntu 18.04](https://docs.stackstorm.com/install/u18.html)
   * [Ubuntu 20.04](https://docs.stackstorm.com/install/u20.html)
-  * [RHEL8/CentOS8](https://docs.stackstorm.com/install/rhel8.html)
+  * [RHEL8/RockyLinux8](https://docs.stackstorm.com/install/rhel8.html)
   * [RHEL7/CentOS7](https://docs.stackstorm.com/install/rhel7.html)
 
 ## Help
