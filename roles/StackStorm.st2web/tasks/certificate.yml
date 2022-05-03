@@ -5,6 +5,24 @@
   # no XOR in Yaml
   when: (st2web_ssl_certificate and not st2web_ssl_certificate_key) or (not st2web_ssl_certificate and st2web_ssl_certificate_key)
 
+- name: Verify if custom SSL certificate - by path - was correctly specified
+  fail:
+    msg: "When using custom certificate by path, both 'st2web_ssl_certificate_path' and 'st2web_ssl_certificate_key_path' must be provided"
+  # no XOR in Yaml
+  when: (st2web_ssl_certificate_path and not st2web_ssl_certificate_key_path) or (not st2web_ssl_certificate_path and st2web_ssl_certificate_key_path)
+
+- name: Verify if custom SSL certificate by string - and - by path (this is not supported)
+  fail:
+    msg: "When using custom certificate, cannot use both 'st2web_ssl_certificate' and 'st2web_ssl_certificate_path'"
+  # no XOR in Yaml
+  when: st2web_ssl_certificate and st2web_ssl_certificate_path
+
+- name: Verify if custom SSL certificate key by string - and - by path (this is not supported)
+  fail:
+    msg: "When using custom certificate, cannot use both 'st2web_ssl_certificate_key' and 'st2web_ssl_certificate_key_path'"
+  # no XOR in Yaml
+  when: st2web_ssl_certificate_key and st2web_ssl_certificate_key_path
+
 - name: Create SSL certificate directory
   become: yes
   file:
@@ -14,29 +32,59 @@
     owner: root
     group: root
 
-- name: Save custom SSL certificate
-  become: yes
-  copy:
-    content: "{{ item.cert }}"
-    dest: "{{ item.path }}"
-    mode: 0600
-    owner: root
-    group: root
-  loop:
-    - cert: "{{ st2web_ssl_certificate }}"
-      path: /etc/ssl/st2/st2.crt
-    - cert: "{{ st2web_ssl_certificate_key }}"
-      path: /etc/ssl/st2/st2.key
-  no_log: yes
-  notify:
-    - restart nginx
+- name: Block for st2web_ssl_certificate and st2web_ssl_certificate_key
   when: st2web_ssl_certificate and st2web_ssl_certificate_key
+  block:
 
-- name: Generate self-signed SSL certificate
-  become: yes
-  shell: openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information Technology/CN=$(hostname)"
-  args:
-    creates: /etc/ssl/st2/st2.key
-  notify:
-    - restart nginx
-  when: not st2web_ssl_certificate and not st2web_ssl_certificate_key
+    - name: Save custom SSL certificate
+      become: yes
+      copy:
+        content: "{{ item.cert }}"
+        dest: "{{ item.path }}"
+        mode: 0600
+        owner: root
+        group: root
+      loop:
+        - cert: "{{ st2web_ssl_certificate }}"
+          path: /etc/ssl/st2/st2.crt
+        - cert: "{{ st2web_ssl_certificate_key }}"
+          path: /etc/ssl/st2/st2.key
+      no_log: yes
+      notify:
+        - restart nginx
+
+- name: Block for st2web_ssl_certificate_path and st2web_ssl_certificate_key_path
+  when: st2web_ssl_certificate_path and st2web_ssl_certificate_key_path
+  block:
+
+    - name: Save custom SSL certificate
+      become: yes
+      copy:
+        remote_src: true
+        src: "{{ item.cert }}"
+        dest: "{{ item.path }}"
+        mode: 0600
+        owner: root
+        group: root
+      loop:
+        - cert: "{{ st2web_ssl_certificate_path }}"
+          path: /etc/ssl/st2/st2.crt
+        - cert: "{{ st2web_ssl_certificate_key_path }}"
+          path: /etc/ssl/st2/st2.key
+      no_log: yes
+      notify:
+        - restart nginx
+
+- name: Block for self-signed SSL certificate
+  when:
+    - not st2web_ssl_certificate and not st2web_ssl_certificate_key
+    - not st2web_ssl_certificate_path and not st2web_ssl_certificate_key_path
+  block:
+
+    - name: Generate self-signed SSL certificate
+      become: yes
+      shell: openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information Technology/CN=$(hostname)"
+      args:
+        creates: /etc/ssl/st2/st2.key
+      notify:
+        - restart nginx

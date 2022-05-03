@@ -58,6 +58,8 @@ Below is the list of variables you can redefine in your playbook to customize st
 | `st2web_version`     | `latest`      | st2web version to install. `present` to install available package, `latest` to get automatic updates, or pin it to numeric version like `2.2.0` or with revision like `2.2.0-1`.
 | `st2web_ssl_certificate`     | `null` | String with custom SSL certificate (`.crt`). If not provided, self-signed certificate will be generated.
 | `st2web_ssl_certificate_key` | `null` | String with custom SSL certificate secret key (`.key`). If not provided, self-signed certificate will be generated.
+| `st2web_ssl_certificate_path`     | `null` | Path to custom SSL certificate (mutally-exclusive with `st2web_ssl_certificate` and `st2web_ssl_certificate_key`).
+| `st2web_ssl_certificate_key_path` | `null` | Path to custom SSL certificate secret key (mutally-exclusive with `st2web_ssl_certificate` and `st2web_ssl_certificate_key`).
 | `st2web_nginx_config`     | `null` | String with a custom nginx configuration file (`st2.conf`). If not provided, the default st2.conf will be used.
 | **st2chatops**
 | `nodejs_major_version`   | `14`          | The default fits st2chatops version >= 3.5.0.
