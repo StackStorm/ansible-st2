@@ -47,7 +47,7 @@
 - name: Install pinned erlang package on {{ ansible_facts.distribution }}
   become: yes
   package:
-    name: erlang-{{erlang_el8_version}}
+    name: erlang-{{ erlang_el8_version }}
     state: present
   register: _eltask
   retries: 5
