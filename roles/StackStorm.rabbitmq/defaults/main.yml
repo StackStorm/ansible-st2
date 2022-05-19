@@ -5,3 +5,5 @@ rabbitmq_plugins: []
 #  - rabbitmq_management
 # Set to "present" to install latest version, or specify specific version
 rabbitmq_version: "present"
+# Use version or wildcard
+erlang_el8_version: "24*"
