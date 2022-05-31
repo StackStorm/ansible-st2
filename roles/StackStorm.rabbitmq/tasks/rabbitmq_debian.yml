@@ -65,28 +65,10 @@
 - name: Install latest erlang packages on {{ ansible_facts.distribution }}
   become: yes
   package:
-    name: "{{ item }}"
+    name: "erlang"
     state: present
   register: _eltask
   retries: 5
   delay: 3
   until: _eltask is succeeded
   tags: rabbitmq
-  loop:
-    - erlang-base
-    - erlang-asn1
-    - erlang-crypto
-    - erlang-eldap
-    - erlang-ftp
-    - erlang-inets
-    - erlang-mnesia
-    - erlang-os-mon
-    - erlang-parsetools
-    - erlang-public-key
-    - erlang-runtime-tools
-    - erlang-snmp
-    - erlang-ssl
-    - erlang-syntax-tools
-    - erlang-tftp
-    - erlang-tools
-    - erlang-xmerl
