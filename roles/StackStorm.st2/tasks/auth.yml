@@ -21,7 +21,9 @@
 - name: auth | Install auth pre-reqs (RedHat)
   become: yes
   yum:
-    name: httpd-tools
+    name: 
+      - httpd-tools
+      - "{{ passlib }}"
     state: present
   register: _task
   retries: 5
@@ -29,7 +31,8 @@
   until: _task is succeeded
   when: ansible_facts.os_family == 'RedHat'
 
-# Use pip to install passlib as no python38-passlib yum package available
+# Use pip to install passlib as no python38-passlib yum package available. Still need python3-passlib
+# installed as well though from above task
 - name: auth | Install pip pre-reqs (RedHat)
   become: yes
   pip:
@@ -37,17 +40,6 @@
      executable: /usr/bin/pip3
      state: present
   when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version!='7'
-
-- name: auth | Install auth pre-reqs (RedHat)
-  become: yes
-  yum:
-    name: "{{ passlib }}"
-    state: present
-  register: _task
-  retries: 5
-  delay: 3
-  until: _task is succeeded
-  when: ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version=='7'
 
 - name: auth | Create htpasswd file
   become: true
