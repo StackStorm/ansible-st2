@@ -41,7 +41,7 @@
 - name: auth | Install auth pre-reqs (RedHat)
   become: yes
   yum:
-    name: httpd-tools
+    name: "{{ passlib }}"
     state: present
   register: _task
   retries: 5
