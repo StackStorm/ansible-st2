@@ -92,7 +92,7 @@
     - erlang-xmerl
   when: erlang_version == "present"
 
-- name: Install latest erlang packages on {{ ansible_facts.distribution }}
+- name: Install pinned erlang packages on {{ ansible_facts.distribution }}
   become: yes
   package:
     name: "{{item}}={{erlang_version}}"
