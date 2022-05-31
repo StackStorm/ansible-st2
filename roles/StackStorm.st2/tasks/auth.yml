@@ -23,12 +23,19 @@
   yum:
     name:
       - httpd-tools
-      - "{{ passlib }}"
     state: present
   register: _task
   retries: 5
   delay: 3
   until: _task is succeeded
+  when: ansible_facts.os_family == 'RedHat'
+
+# Use pip to install passlib as no python38-passlib yum package available
+- name: auth | Install pip pre-reqs (RedHat)
+  become: yes
+  pip:
+     name: passlib
+     state: present
   when: ansible_facts.os_family == 'RedHat'
 
 - name: auth | Create htpasswd file
