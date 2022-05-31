@@ -76,7 +76,7 @@
 - name: Install latest erlang packages on {{ ansible_facts.distribution }}
   become: yes
   package:
-    name: "{{item}}"
+    name: "{{ item }}"
     state: present
   register: _eltask
   retries: 5
@@ -107,7 +107,7 @@
 - name: Install pinned erlang packages on {{ ansible_facts.distribution }}
   become: yes
   package:
-    name: "{{item}}={{erlang_version}}"
+    name: "{{ item }}={{ erlang_version }}"
     state: present
   register: _eltask
   retries: 5
