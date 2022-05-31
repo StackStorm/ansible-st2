@@ -6,4 +6,4 @@ rabbitmq_plugins: []
 # Set to "present" to install latest version, or specify specific version
 rabbitmq_version: "present"
 # Use version or wildcard
-erlang_version: "{% if ansible_facts.os_family == 'Redhat' and ansible_facts.distribution_major_version == '8' %}24*{% elif ansible_facts.os_family == 'Debian' %}1:22.2.7+dfsg-1{% else %}present{% endif %}"
+erlang_version: "{% if ansible_facts.os_family == 'Redhat' and ansible_facts.distribution_major_version == '8' %}24*{% elif ansible_facts.os_family == 'Debian' %}1:24.3.4-1{% else %}present{% endif %}"
