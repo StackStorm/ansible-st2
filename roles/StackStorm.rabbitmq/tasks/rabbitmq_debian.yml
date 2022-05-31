@@ -92,6 +92,7 @@
     - erlang-xmerl
   when: erlang_version == "present"
 
+# Order is important when using pinned versions as have to do in order of dependencies
 - name: Install pinned erlang packages on {{ ansible_facts.distribution }}
   become: yes
   package:
@@ -107,17 +108,17 @@
     - erlang-base
     - erlang-asn1
     - erlang-crypto
+    - erlang-public-key
+    - erlang-mnesia
+    - erlang-runtime-tools
+    - erlang-ssl
     - erlang-eldap
     - erlang-ftp
+    - erlang-tftp
     - erlang-inets
-    - erlang-mnesia
+    - erlang-snmp
     - erlang-os-mon
     - erlang-parsetools
-    - erlang-public-key
-    - erlang-runtime-tools
-    - erlang-snmp
-    - erlang-ssl
     - erlang-syntax-tools
-    - erlang-tftp
     - erlang-tools
     - erlang-xmerl
