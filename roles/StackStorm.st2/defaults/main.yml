@@ -56,7 +56,7 @@ st2_ldap:
 # and https://docs.stackstorm.com/latest/rbac.html#defining-user-role-assignments
 # Mappings are pushed as YML files to /opt/stackstorm/rbac/mappings/
 # The schema for mappings takes on the following format:
-#   - The well-defined "name" key is used as the filename, e.g., the exmaple below creates /opt/stackstorm/rbac/mappings/domain-admins.yaml
+#   - The well-defined "name" key is used as the filename, e.g., the example below creates /opt/stackstorm/rbac/mappings/domain-admins.yaml
 #   - The well-defined "mapping" key defines the mapping itself
 # The reason for this convention drift is to avoid attempting to use "cn=domain-admins,ou=groups,dc=stackstorm,dc=com" as the basis for the filename
 #   st2_rbac:
