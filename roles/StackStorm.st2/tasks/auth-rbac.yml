@@ -1,5 +1,5 @@
 ---
-- name: Create directory to store roles and assignments
+- name: Create directory to store roles, assignments, and mappings
   become: yes
   file:
     path: "/opt/stackstorm/rbac/{{ item }}"
@@ -8,6 +8,7 @@
   loop:
     - roles
     - assignments
+    - mappings
   when: st2_rbac_enable|bool
 
 - name: Copy defined RBAC roles to /opt/stackstorm/rbac/roles directory
@@ -34,6 +35,18 @@
   notify:
     - reload rbac
 
+- name: Copy RBAC mappings to /opt/stackstorm/rbac/mappings directory
+  become: true
+  template:
+    src: rbac_mappings/mappings.yml.j2
+    dest: /opt/stackstorm/rbac/mappings/{{ item.name }}.yaml
+    owner: st2
+    group: st2
+  loop: "{{ st2_rbac.mappings }}"
+  when: st2_rbac_enable|bool
+  notify:
+    - reload rbac
+
 - name: Enable RBAC in st2 configuration
   become: yes
   ini_file:
@@ -43,6 +56,22 @@
     value: True
     backup: yes
   when: st2_rbac_enable|bool
+  notify:
+    - restart st2api
+    - restart st2auth
+    - reload rbac
+
+- name: Enable RBAC sync_remote_groups in st2 configuration
+  become: true
+  ini_file:
+    dest: /etc/st2/st2.conf
+    section: rbac
+    option: sync_remote_groups
+    value: True
+    backup: yes
+  when:
+    - st2_rbac_enable|bool
+    - st2_rbac.mappings | length > 0
   notify:
     - restart st2api
     - restart st2auth

@@ -54,6 +54,19 @@ st2_ldap:
 # The schema for roles and assignments follow the exact schema definition
 # define in https://docs.stackstorm.com/latest/rbac.html#defining-roles-and-permission-grants
 # and https://docs.stackstorm.com/latest/rbac.html#defining-user-role-assignments
+# Mappings are pushed as YML files to /opt/stackstorm/rbac/mappings/
+# The schema for mappings takes on the following format:
+#   - The well-defined "name" key is used as the filename, e.g., the example below creates /opt/stackstorm/rbac/mappings/domain-admins.yaml
+#   - The well-defined "mapping" key defines the mapping itself
+# The reason for this convention drift is to avoid attempting to use "cn=domain-admins,ou=groups,dc=stackstorm,dc=com" as the basis for the filename
+#   st2_rbac:
+#     mappings:
+#       - name: domain-admins
+#         mapping:
+#           group: cn=domain-admins,ou=groups,dc=stackstorm,dc=com
+#           description: Grant admin role to all domain-admin members
+#           roles:
+#             - admin
 st2_rbac_enable: no
 # "enable" is not a key of st2_rbac because the defaults would be lost if any key in the dictionary is changed
 st2_rbac:
@@ -65,7 +78,7 @@ st2_rbac:
     - name: "{{ st2_auth_username }}"
       roles:
         - system_admin
-
+  mappings: []
 
 # Save credentials in ~/.st2/config file
 st2_save_credentials: yes
