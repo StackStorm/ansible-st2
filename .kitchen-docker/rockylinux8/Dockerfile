@@ -13,3 +13,4 @@ RUN chmod 0600 /home/<%= @username %>/.ssh/authorized_keys
 RUN echo '<%= IO.read(@public_key).strip %>' >> /home/<%= @username %>/.ssh/authorized_keys
 RUN yum install -y ansible-core
 RUN ansible-galaxy collection install community.rabbitmq
+RUN ansible-galaxy collection install ansible.posix
