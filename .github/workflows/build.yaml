@@ -24,7 +24,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # note: actions/setup-ruby only allows using a major.minor release of ruby
+          # note: ruby/setup-ruby only allows using a major.minor release of ruby
           - ruby: '2.7'
             name: 'centos7-stable'
             distro: 'centos-7'
@@ -62,9 +62,9 @@ jobs:
       ST2_REPO: '${{ matrix.repo }}'
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Setup Ruby
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '${{ matrix.ruby }}'
       - name: Bundle prep
@@ -85,7 +85,7 @@ jobs:
           bundle config gemfile build/kitchen/Gemfile
           bundle lock
         # restore cache AFTER doing 'bundle lock' so that Gemfile.lock exists
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           # note: this path is the Gemfile + path from above, so it's different than the base level Gemfile cache
           path: build/kitchen/vendor/bundle
@@ -94,7 +94,7 @@ jobs:
             ${{ runner.os }}-${{ matrix.name }}-${{ matrix.ruby }}-gems-integration-v3-
       - name: Bundle install
         run: |
-          bundle install --jobs $(nproc) --retry 3 
+          bundle install --jobs $(nproc) --retry 3
       - name: Test
         run: |
           echo "Run the Smoke Tests"
@@ -111,7 +111,7 @@ jobs:
     steps:
       - name: Workflow conclusion
         # this step creates an environment variable WORKFLOW_CONCLUSION and is the most reliable way to check the status of previous jobs
-        uses: technote-space/workflow-conclusion-action@v2
+        uses: technote-space/workflow-conclusion-action@v3
       - name: CI Run Failure Slack Notification
         if: ${{ env.WORKFLOW_CONCLUSION == 'failure' && github.ref == 'refs/heads/master' }}
         env:
