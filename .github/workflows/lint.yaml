@@ -12,9 +12,6 @@ on:
       - v*
   pull_request:
     types: [opened, reopened, edited]
-  schedule:
-    # run every night at midnight
-    - cron: "0 0 * * *"
 
 jobs:
   ansible-lint:
