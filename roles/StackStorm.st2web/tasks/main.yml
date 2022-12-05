@@ -1,7 +1,7 @@
 ---
 - name: Install latest st2web package, auto-update
-  become: yes
-  package:
+  become: true
+  ansible.builtin.package:
     name: "st2web"
     state: latest
   register: _task
@@ -12,8 +12,8 @@
   tags: st2web, skip_ansible_lint
 
 - name: Install present st2web package, no auto-update
-  become: yes
-  package:
+  become: true
+  ansible.builtin.package:
     name: "st2web"
     state: present
   register: _task
@@ -24,8 +24,8 @@
   tags: st2web
 
 - name: Install pinned st2web package
-  become: yes
-  package:
+  become: true
+  ansible.builtin.package:
     name: "{{ st2web_package_name }}{{ '=' if ansible_facts.pkg_mgr == 'apt' else '-' }}{{ st2web_version }}"
     state: present
   register: _task
@@ -38,12 +38,12 @@
   tags: st2web
 
 - name: Configure SSL certificate for st2web UI
-  import_tasks: certificate.yml
+  ansible.builtin.import_tasks: certificate.yml
   tags: st2web, certificate
 
 - name: Copy default Nginx config
-  become: yes
-  command: cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
+  become: true
+  ansible.builtin.command: cp /usr/share/doc/st2/conf/nginx/st2.conf /etc/nginx/sites-available/
   args:
     creates: /etc/nginx/sites-available/st2.conf
   notify:
@@ -52,18 +52,21 @@
   when: not st2web_nginx_config
 
 - name: Copy custom Nginx config
-  become: yes
-  copy:
+  become: true
+  ansible.builtin.copy:
     content: "{{ st2web_nginx_config }}"
     dest: /etc/nginx/sites-available/st2.conf
+    owner: root
+    group: root
+    mode: 0644
   notify:
     - restart nginx
   tags: st2web
   when: st2web_nginx_config
 
 - name: Enable site
-  become: yes
-  file:
+  become: true
+  ansible.builtin.file:
     state: link
     src: /etc/nginx/sites-available/st2.conf
     dest: /etc/nginx/sites-enabled/st2.conf

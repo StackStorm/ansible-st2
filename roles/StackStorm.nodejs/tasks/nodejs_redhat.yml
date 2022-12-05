@@ -1,7 +1,7 @@
 ---
 - name:  Add nodesource key
-  become: yes
-  rpm_key:
+  become: true
+  ansible.builtin.rpm_key:
     key: http://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL
     state: present
   register: _task
@@ -12,16 +12,16 @@
 
 - name: Remove nodesource repo rpm
   # rpm conflicts with yum_repository added file below
-  become: yes
-  yum:
+  become: true
+  ansible.builtin.yum:
     name: "nodesource-release-el{{ ansible_facts.distribution_major_version }}-1.noarch"
     state: absent
   register: nodesource_repo_rm
   tags: nodejs
 
 - name: Determine if nodejs disabled on AppStream for EL8
-  become: yes
-  shell:
+  become: true
+  ansible.builtin.shell:
      cmd: yum module list nodejs --disabled
   changed_when: False
   ignore_errors: True
@@ -32,8 +32,8 @@
   tags: [nodejs, skip_ansible_lint]
 
 - name: Disable AppStream repository due to installation conflicts for EL8
-  become: yes
-  shell:
+  become: true
+  ansible.builtin.shell:
      cmd: yum module disable -y nodejs
   args:
      warn: False
@@ -42,26 +42,26 @@
   tags: [nodejs, skip_ansible_lint]
 
 - name: Add nodesource repo file
-  become: yes
+  become: true
   # This is based on the nodesource repo rpm (both 4.x and 10.x for EL6/7/8),
   # but that rpm is not versioned even though it hard-codes the major node.js version.
   # So, installing the repo directly (vs via the rpm) simplifies major node.js upgrades.
   # see - http://rpm.nodesource.com/pub_10.x/el/7/x86_64/nodesource-release-el7-1.noarch.rpm
-  yum_repository:
-    file: "nodesource-el{{ ansible_facts.distribution_major_version }}"
+  ansible.builtin.yum_repository:
+    ansible.builtin.file: "nodesource-el{{ ansible_facts.distribution_major_version }}"
     name: nodesource
     description: "Node.js Packages for Enterprise Linux {{ ansible_facts.distribution_major_version }} - $basearch"
     baseurl: https://rpm.nodesource.com/pub_{{ nodejs_major_version }}.x/el/{{ ansible_facts.distribution_major_version }}/$basearch
     failovermethod: priority
     gpgcheck: yes
-    gpgkey: file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+    gpgkey: ansible.builtin.file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
     state: present
   register: nodesource_repo_add
   tags: nodejs
 
 - name: Install nodejs
-  become: yes
-  yum:
+  become: true
+  ansible.builtin.yum:
     name: nodejs-{{ nodejs_major_version }}.*
     state: present
     # TODO: Allow yum downgrade since Ansible 2.4

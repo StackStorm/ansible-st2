@@ -1,18 +1,18 @@
 ---
 - name: Retrieve variables
-  include_vars: "{{ item }}"
+  ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "{{ ansible_os_family | lower }}_{{ ansible_distribution_major_version }}.yml"
     - "{{ ansible_os_family | lower }}.yml"
   tags: [databases, mongodb]
 
 - name: Install mongodb on {{ ansible_facts.distribution }}
-  include_tasks: mongodb_{{ ansible_os_family | lower }}.yml
+  ansible.builtin.include_tasks: mongodb_{{ ansible_os_family | lower }}.yml
   tags: [databases, mongodb]
 
 - name: Start & Enable mongodb
-  become: yes
-  service:
+  become: true
+  ansible.builtin.service:
     name: mongod
     state: started
     enabled: yes

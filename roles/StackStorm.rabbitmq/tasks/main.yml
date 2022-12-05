@@ -1,11 +1,11 @@
 ---
 - name: Install rabbitmq on {{ ansible_facts.distribution }}
-  include_tasks: rabbitmq_{{ ansible_os_family | lower }}.yml
+  ansible.builtin.include_tasks: rabbitmq_{{ ansible_os_family | lower }}.yml
   tags: rabbitmq
 
 - name: Install latest rabbitmq package on {{ ansible_facts.distribution }}
-  become: yes
-  package:
+  become: true
+  ansible.builtin.package:
     name: rabbitmq-server
     state: present
   register: _task
@@ -18,8 +18,8 @@
   when: rabbitmq_version == "present"
 
 - name: Install pinned rabbitmq package on {{ ansible_facts.distribution }}
-  become: yes
-  package:
+  become: true
+  ansible.builtin.package:
     name: "rabbitmq-server{{ '=' if ansible_facts.pkg_mgr == 'apt' else '-' }}{{ rabbitmq_version }}"
     state: present
   register: _task
@@ -32,17 +32,17 @@
   when: rabbitmq_version != "present"
 
 - name: Ensure rabbitmq is enabled and running
-  become: yes
-  service:
+  become: true
+  ansible.builtin.service:
     name: rabbitmq-server
     enabled: yes
     state: started
   tags: rabbitmq
 
 - name: Add RabbitMQ plugins
-  become: yes
-  rabbitmq_plugin:
-    names: "{{ rabbitmq_plugins|join(',') }}"
+  become: true
+  community.rabbitmq.rabbitmq_plugin:
+    names: "{{ rabbitmq_plugins | join(',') }}"
     state: enabled
     # new_only: no = Remove all plguins that aren't listed in rabbitmq_plugins
     new_only: no

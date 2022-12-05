@@ -1,4 +1,4 @@
 ---
 - name: Add st2repo on {{ ansible_facts.distribution }}
-  include_tasks: st2repo_{{ ansible_os_family | lower }}.yml
+  ansible.builtin.include_tasks: st2repo_{{ ansible_os_family | lower }}.yml
   tags: st2repo

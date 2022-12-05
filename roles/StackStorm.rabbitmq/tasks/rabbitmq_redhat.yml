@@ -1,9 +1,9 @@
 ---
 
 - name: Setup rabbitmy/erlang repo from packagecloud for RH
-  become: yes
+  become: true
   no_log: yes
-  yum_repository:
+  ansible.builtin.yum_repository:
     name: rabbitmq_erlang
     description: rabbitmq_erlang
     baseurl: https://packagecloud.io/rabbitmq/erlang/el/{{ ansible_facts.distribution_major_version }}/$basearch
@@ -17,9 +17,9 @@
   tags: rabbitmq
 
 - name: Setup rabbit repo from packagecloud for RH
-  become: yes
+  become: true
   no_log: yes
-  yum_repository:
+  ansible.builtin.yum_repository:
     name: rabbitmq-server
     description: rabbitmq-server
     baseurl: https://packagecloud.io/rabbitmq/rabbitmq-server/el/{{ ansible_facts.distribution_major_version }}/$basearch
@@ -33,8 +33,8 @@
   tags: rabbitmq
 
 - name: Install latest erlang package on {{ ansible_facts.distribution }}
-  become: yes
-  package:
+  become: true
+  ansible.builtin.package:
     name: erlang
     state: present
   register: _eltask
@@ -45,8 +45,8 @@
   when: erlang_version == "present"
 
 - name: Install pinned erlang package on {{ ansible_facts.distribution }}
-  become: yes
-  package:
+  become: true
+  ansible.builtin.package:
     name: erlang-{{ erlang_version }}
     state: present
   register: _eltask

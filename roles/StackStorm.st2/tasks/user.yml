@@ -1,29 +1,29 @@
 # Create system user, on whose behalf remote/local action runners would work
 # See: http://docs.stackstorm.com/install/config.html#configure-ssh
 ---
-- name: user | Create system user
-  become: yes
-  user:
+- name: user | Create system user  # noqa: name[casing]
+  become: true
+  ansible.builtin.user:
     name: "{{ st2_system_user }}"
     home: "/home/{{ st2_system_user }}"
     generate_ssh_key: yes
-    ssh_key_file: "{{ st2_ssh_key_file }}"
+    ssh_key_ansible.builtin.file: "{{ st2_ssh_key_file }}"
     state: present
   register: _user
 
-- name: user | Authorize key-based access for system user
+- name: user | Authorize key-based access for system user  # noqa: name[casing]
   vars:
       ansible_ssh_pipelining: true
-  become: yes
+  become: true
   become_user: "{{ st2_system_user }}"
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ st2_system_user }}"
     key: "{{ _user.ssh_public_key }}"
     state: present
 
-- name: user | Add system user to sudoers
-  become: yes
-  lineinfile:
+- name: user | Add system user to sudoers  # noqa: name[casing]
+  become: true
+  ansible.builtin.lineinfile:
     create: yes
     dest: /etc/sudoers.d/st2
     mode: 0440
@@ -32,28 +32,28 @@
     state: "{{ 'present' if st2_system_user_in_sudoers else 'absent' }}"
     validate: 'visudo -cf %s'
 
-- name: user | Disable requiretty
-  become: yes
-  replace:
+- name: user | Disable requiretty  # noqa: name[casing]
+  become: true
+  ansible.builtin.replace:
     dest: "/etc/sudoers"
     regexp: '^Defaults\s+\+?requiretty'
-    replace: '# Defaults requiretty'
+    ansible.builtin.replace: '# Defaults requiretty'
   when: st2_system_user_in_sudoers | bool
 
-- name: user | Configure system user in /etc/st2/st2.conf
-  become: yes
-  ini_file:
+- name: user | Configure system user in /etc/st2/st2.conf  # noqa: name[casing]
+  become: true
+  community.general.files.ini_file:
     dest: /etc/st2/st2.conf
     section: system_user
     option: user
     value: "{{ st2_system_user }}"
-    backup: yes
+    backup: true
 
-- name: user | Configure system user ssh key in /etc/st2/st2.conf
-  become: yes
-  ini_file:
+- name: user | Configure system user ssh key in /etc/st2/st2.conf  # noqa: name[casing]
+  become: true
+  community.general.files.ini_file:
     dest: /etc/st2/st2.conf
     section: system_user
     option: ssh_key_file
     value: "{{ _user.ssh_key_file }}"
-    backup: yes
+    backup: true

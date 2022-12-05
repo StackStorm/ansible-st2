@@ -1,4 +1,4 @@
 ---
 - name: Install nodejs on {{ ansible_facts.distribution }}
-  include_tasks: nodejs_{{ ansible_os_family | lower }}.yml
+  ansible.builtin.include_tasks: nodejs_{{ ansible_os_family | lower }}.yml
   tags: nodejs

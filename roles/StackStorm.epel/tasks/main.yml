@@ -1,22 +1,22 @@
 ---
 - name: Check if EPEL is installed
-  stat:
+  ansible.builtin.stat:
     path: /etc/yum.repos.d/epel.repo
   register: epel_installed
   when: ansible_facts.os_family == "RedHat"
   tags: epel
 
 - name: Install GPG key
-  become: yes
-  rpm_key:
+  become: true
+  ansible.builtin.rpm_key:
     key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_facts.distribution_major_version }}
     state: present
   when: ansible_facts.os_family == "RedHat" and not epel_installed.stat.exists
   tags: epel
 
 - name: Install EPEL repo
-  become: yes
-  yum:
+  become: true
+  ansible.builtin.yum:
     name: "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_facts.distribution_major_version }}.noarch.rpm"
     state: present
   register: _task

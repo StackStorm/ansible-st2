@@ -1,7 +1,7 @@
 ---
 - name: Add nginx key
-  become: yes
-  apt_key:
+  become: true
+  ansible.builtin.apt_key:
     url: http://nginx.org/keys/nginx_signing.key
     id: 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
     state: present
@@ -12,15 +12,15 @@
   tags: nginx
 
 - name: Add nginx repos
-  become: yes
-  apt_repository:
-    repo: "deb http://nginx.org/packages/ubuntu/ {{ ansible_facts.distribution_release|lower }} nginx"
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb http://nginx.org/packages/ubuntu/ {{ ansible_facts.distribution_release | lower }} nginx"
     state: present
   tags: nginx
 
 - name: Install nginx
-  become: yes
-  apt:
+  become: true
+  ansible.builtin.apt:
     name: nginx
     state: present
   register: _task
@@ -30,8 +30,8 @@
   tags: nginx
 
 - name: Remove default site
-  become: yes
-  file:
+  become: true
+  ansible.builtin.file:
     path: /etc/nginx/sites-enabled/default
     state: absent
   tags: nginx

@@ -1,7 +1,7 @@
 ---
 - name: Install pip (for the installation of pymongo)
-  become: yes
-  package:
+  become: true
+  ansible.builtin.package:
     name: python-pip
     state: present
   tags: [databases, mongodb]
@@ -9,7 +9,7 @@
 - name: Install pymongo (for the mongodb_user module)
   # Use pip because system packages are too old for adequate mongodb support.
   # https://docs.mongodb.com/ecosystem/drivers/driver-compatibility-reference/#python-driver-compatibility
-  become: yes
-  pip:
+  become: true
+  ansible.builtin.pip:
     name: "pymongo>=3.10.1,<4.0.0"
   tags: [databases, mongodb]

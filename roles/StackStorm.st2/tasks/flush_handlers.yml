@@ -1,3 +1,4 @@
 ---
-- meta: flush_handlers
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
   tags: st2, st2_packs

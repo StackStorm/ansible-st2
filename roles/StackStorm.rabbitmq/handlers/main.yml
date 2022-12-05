@@ -1,6 +1,6 @@
 ---
-- name: restart rabbitmq
-  become: yes
-  service:
+- name: restart rabbitmq  # noqa: name[casing]
+  become: true
+  ansible.builtin.service:
     name: rabbitmq-server
     state: restarted

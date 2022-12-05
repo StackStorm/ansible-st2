@@ -1,7 +1,7 @@
 ---
-- name: Change '[{{ _conf_section_name }}]' options in st2.conf
-  become: yes
-  ini_file:
+- name: Change '[{{ _conf_section_name }}]' options in st2.conf  # noqa: name[template]
+  become: true
+  community.general.files.ini_file:
     dest: /etc/st2/st2.conf
     section: "{{ _conf_section_name }}"
     option: "{{ _conf_option.0 }}"

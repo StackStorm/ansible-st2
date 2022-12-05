@@ -1,7 +1,7 @@
 ---
 - name: Verify python3-devel is available in enabled repo
-  become: yes
-  shell:
+  become: true
+  ansible.builtin.shell:
     cmd: yum info python3-devel
   changed_when: false
   register: _rpm_check
@@ -13,8 +13,8 @@
   tags: st2, skip_ansible_lint
 
 - name: Discover name of optional server rpm
-  become: yes
-  shell:
+  become: true
+  ansible.builtin.shell:
     cmd: yum repolist disabled 2> /dev/null | awk -F'/' '/rhel-7-server-rhui-optional-rpms|rhui-REGION-rhel-server-optional|rhel-7-server-optional-rpms/{print $1}'
   changed_when: false
   register: _reponame
@@ -25,8 +25,8 @@
   tags: st2, skip_ansible_lint
 
 - name: Install python3-devel
-  become: yes
-  yum:
+  become: true
+  ansible.builtin.yum:
     name: python3-devel
     state: present
     enablerepo: "{{ _reponame.stdout }}"
@@ -38,8 +38,8 @@
   tags: st2
 
 - name: Install latest st2 package, auto-update
-  become: yes
-  package:
+  become: true
+  ansible.builtin.package:
     name: st2
     state: latest
   register: _task
@@ -53,8 +53,8 @@
   tags: st2, skip_ansible_lint
 
 - name: Install present st2 package, no auto-update
-  become: yes
-  package:
+  become: true
+  ansible.builtin.package:
     name: st2
     state: present
   register: _task
@@ -68,8 +68,8 @@
   tags: st2
 
 - name: Install pinned st2 package
-  become: yes
-  package:
+  become: true
+  ansible.builtin.package:
     name: st2{{ '=' if ansible_facts.pkg_mgr == 'apt' else '-' }}{{ st2_version }}
     state: present
   register: _task
@@ -85,8 +85,8 @@
   tags: st2
 
 - name: Install additional Python packages into the st2 virtualenv
-  become: yes
-  pip:
+  become: true
+  ansible.builtin.pip:
     name: "{{ item }}"
     virtualenv: /opt/stackstorm/st2
     state: present
@@ -100,22 +100,22 @@
   tags: st2
 
 - name: Perform st2 version related operations
-  import_tasks: version.yml
+  ansible.builtin.import_tasks: version.yml
   tags: st2, version
 
 - name: Create and configure StackStorm system user
-  import_tasks: user.yml
+  ansible.builtin.import_tasks: user.yml
   tags: st2, user
 
 - name: Configure StackStorm authentication
-  import_tasks: auth.yml
+  ansible.builtin.import_tasks: auth.yml
   # Use st2_config.auth.enable setting if available, otherwise use st2_auth_enable
   when: (st2_config.auth|default({})).enable|default(st2_auth_enable)
   tags: st2, auth
 
 - name: Configure StackStorm st2.conf settings
   # Ansible nested loop to iterate through a hash of hashes
-  include_tasks: config.yml
+  ansible.builtin.include_tasks: config.yml
   vars:
     _conf_section_name: "{{ _conf_section.0 }}"
     _conf_options: "{{ _conf_section.1 }}"
@@ -126,18 +126,18 @@
   tags: st2, config
 
 - name: Configure the StackStorm datastore
-  import_tasks: datastore.yml
+  ansible.builtin.import_tasks: datastore.yml
   tags: st2, datastore
 
 - name: Configure StackStorm to work via proxy
-  import_tasks: proxy.yml
+  ansible.builtin.import_tasks: proxy.yml
   tags: st2, proxy
 
 - name: Ensure StackStorm services are enabled and running
-  become: yes
-  service:
+  become: true
+  ansible.builtin.service:
     name: "{{ item }}"
-    enabled: yes
+    enabled: true
     state: started
   loop: "{{ st2_services }}"
   tags: st2
@@ -145,13 +145,13 @@
 # Since flush handlers does not support conditionals, we need to have a dedicated playbook
 # https://github.com/ansible/ansible/issues/41313#issuecomment-520891625
 - name: Flush handlers to prepare StackStorm if there are packs to install
-  include_tasks: flush_handlers.yml
+  ansible.builtin.include_tasks: flush_handlers.yml
   when: st2_packs|length > 0
-  ignore_errors: yes
+  # ignore_errors: yes    WHY?
   tags: st2, st2_packs
 
 - name: Install StackStorm integration Packs
-  import_tasks: packs.yml
+  ansible.builtin.import_tasks: packs.yml
   when: st2_packs|length > 0
-  ignore_errors: yes
+  # ignore_errors: yes    WHY?
   tags: st2, st2_packs

@@ -1,8 +1,8 @@
 ---
 # gpg is required for apt_key and may be missing in some minimal installations
-- name: apt | Install gpg
-  become: yes
-  apt:
+- name: apt | Install gpg  # noqa: name[casing]
+  become: true
+  ansible.builtin.apt:
     name: gpg
     state: present
     update_cache: yes
@@ -12,9 +12,9 @@
   delay: 3
   until: _task is succeeded
 
-- name: apt | Add mongodb key
-  become: yes
-  apt_key:
+- name: apt | Add mongodb key  # noqa: name[casing]
+  become: true
+  ansible.builtin.apt_key:
     # Don't use mongodb.org key location due to SNI verification problems under Ubuntu Trusty
     keyserver: "hkp://keyserver.ubuntu.com:80"
     id: "{{ mongodb_apt_keys[mongodb_major_minor_version] }}"
@@ -25,16 +25,16 @@
   until: _task is succeeded
   tags: [databases, mongodb]
 
-- name: apt | Add mongodb repository
-  become: yes
-  apt_repository:
-    repo: 'deb http://repo.mongodb.org/apt/{{ ansible_facts.distribution|lower }} {{ ansible_facts.distribution_release|lower }}/mongodb-org/{{ mongodb_major_minor_version }} multiverse'
+- name: apt | Add mongodb repository  # noqa: name[casing]
+  become: true
+  ansible.builtin.apt_repository:
+    repo: 'deb http://repo.mongodb.org/apt/{{ ansible_facts.distribution | lower }} {{ ansible_facts.distribution_release | lower }}/mongodb-org/{{ mongodb_major_minor_version }} multiverse'
     state: present
   tags: [databases, mongodb]
 
-- name: apt | Install mongodb
-  become: yes
-  apt:
+- name: apt | Install mongodb  # noqa: name[casing]
+  become: true
+  ansible.builtin.apt:
     name:
       # re-installing different version of 'mongodb-org' meta package doesn't automatically
       # upgrade or downgrade its dependencies. So we need to explicitly list them one-by-one.

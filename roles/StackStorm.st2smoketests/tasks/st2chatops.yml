@@ -1,7 +1,7 @@
 ---
 - name: Verify st2chatops using bin/hubot
   # when editing, make sure it works for at least 2 adapters: 'shell' and 'slack'
-  shell: set -o pipefail && timeout 10 bash -c '(sleep 5; echo exit ) | bin/hubot'
+  ansible.builtin.shell: set -o pipefail && timeout 10 bash -c '(sleep 5; echo exit ) | bin/hubot'
   args:
     chdir: /opt/stackstorm/chatops/
     executable: /bin/bash
@@ -9,11 +9,11 @@
     HUBOT_LOG_LEVEL: debug
   register: hubot_output
   failed_when: no
-  changed_when: no
+  changed_when: false
 
 # Additional task to provide better error message
 - name: Fail if st2chatops couldn't load st2 commands
-  fail:
+  ansible.builtin.fail:
     msg: |
       Please check you 'st2chatops' configuration!
       Expected message "{{ item }}" not found in 'hubot' output.
@@ -22,5 +22,5 @@
   loop:
     - "DEBUG Loading adapter {{ st2chatops_hubot_adapter }}"
     - "DEBUG Loading scripts from /opt/stackstorm/chatops/src/scripts"
-    - "DEBUG Added command: pack get"
+    - "DEBUG Added ansible.builtin.command: pack get"
     - "commands are loaded"

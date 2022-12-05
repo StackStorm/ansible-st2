@@ -1,0 +1,27 @@
+name: lint
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      # only on merges to master branch
+      - master
+      # and version branches, which only include minor versions (eg: v3.4)
+      - v[0-9]+.[0-9]+
+      - ansible-lint-fixes
+    tags:
+      - v*
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  ansible-lint:
+    name: ansible-lint
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Does yaml linting as well
+      - name: Run ansible-lint
+        uses: ansible-community/ansible-lint-action@v6

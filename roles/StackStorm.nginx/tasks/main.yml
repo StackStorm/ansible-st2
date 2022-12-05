@@ -1,21 +1,24 @@
 ---
 - name: Install nginx on {{ ansible_facts.distribution }}
-  include_tasks: nginx_{{ ansible_os_family | lower }}.yml
+  ansible.builtin.include_tasks: nginx_{{ ansible_os_family | lower }}.yml
   tags: nginx
 
 - name: Create common virtual host folders
-  become: yes
-  file:
+  become: true
+  ansible.builtin.file:
     state: directory
     path: "{{ item }}"
+    owner: root
+    group: root
+    mode: 0755
   loop:
     - /etc/nginx/sites-available/
     - /etc/nginx/sites-enabled/
   tags: nginx
 
 - name: Ensure site-enabled is loaded
-  become: yes
-  lineinfile:
+  become: true
+  ansible.builtin.lineinfile:
     state: present
     dest: /etc/nginx/nginx.conf
     regexp: 'include /etc/nginx/sites-enabled/'
@@ -24,8 +27,8 @@
   tags: nginx
 
 - name: Start & Enable nginx
-  become: yes
-  service:
+  become: true
+  ansible.builtin.service:
     name: nginx
     state: started
     enabled: yes

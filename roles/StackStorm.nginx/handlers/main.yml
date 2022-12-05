@@ -1,12 +1,12 @@
 ---
-- name: restart nginx
-  become: yes
-  service:
+- name: restart nginx  # noqa: name[casing]
+  become: true
+  ansible.builtin.service:
     name: nginx
     state: restarted
 
-- name: reload nginx
-  become: yes
-  service:
+- name: reload nginx  # noqa: name[casing]
+  become: true
+  ansible.builtin.service:
     name: nginx
     state: reloaded

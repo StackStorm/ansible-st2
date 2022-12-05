@@ -1,7 +1,7 @@
 ---
-- name: apt | Add rabbitmq key
-  become: yes
-  apt_key:
+- name: apt | Add rabbitmq key  # noqa: name[casing]
+  become: true
+  ansible.builtin.apt_key:
     keyserver: "hkp://keyserver.ubuntu.com:80"
     id: "0A9AF2115F4687BD29803A206B73A36E6026DFCA"
     state: present
@@ -12,8 +12,8 @@
   tags: rabbitmq
 
 - name: Ensure pre-requisites are installed
-  become: yes
-  apt:
+  become: true
+  ansible.builtin.apt:
     name: "{{ item }}"
     state: present
   register: _task
@@ -26,8 +26,8 @@
     - gnupg
 
 - name: Add launchpad key
-  become: yes
-  apt_key:
+  become: true
+  ansible.builtin.apt_key:
     url: https://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0xf77f1eda57ebb1cc
     id: "57ebb1cc"
     state: present
@@ -37,9 +37,9 @@
   until: _task is succeeded
   tags: rabbitmq
 
-- name: apt | Add CloudSmith RabbitMQ key
-  become: yes
-  apt_key:
+- name: apt | Add CloudSmith RabbitMQ key  # noqa: name[casing]
+  become: true
+  ansible.builtin.apt_key:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/gpg.9F4587F226208342.key"
     state: present
   register: _task
@@ -48,9 +48,9 @@
   until: _task is succeeded
   tags: rabbitmq
 
-- name: apt | Add CloudSmith erlang key
-  become: yes
-  apt_key:
+- name: apt | Add CloudSmith erlang key  # # noqa: name[casing]
+  become: true
+  ansible.builtin.apt_key:
     url: "https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/gpg.E495BB49CC4BBE5B.key"
     state: present
   register: _task
@@ -60,22 +60,22 @@
   tags: rabbitmq
 
 - name: Add erlang repos
-  become: yes
-  apt_repository:
-    repo: "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu {{ ansible_facts.distribution_release|lower }} main"
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/deb/ubuntu {{ ansible_facts.distribution_release | lower }} main"
     state: present
   tags: rabbitmq
 
 - name: Add rabbitmq repos
-  become: yes
-  apt_repository:
-    repo: "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu {{ ansible_facts.distribution_release|lower }} main"
+  become: true
+  ansible.builtin.apt_repository:
+    repo: "deb https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-server/deb/ubuntu {{ ansible_facts.distribution_release | lower }} main"
     state: present
   tags: rabbitmq
 
 - name: Install latest erlang packages on {{ ansible_facts.distribution }}
-  become: yes
-  package:
+  become: true
+  ansible.builtin.package:
     name: "{{ item }}"
     state: present
   register: _eltask
@@ -105,8 +105,8 @@
 
 # Order is important when using pinned versions as have to do in order of dependencies
 - name: Install pinned erlang packages on {{ ansible_facts.distribution }}
-  become: yes
-  package:
+  become: true
+  ansible.builtin.package:
     name: "{{ item }}={{ erlang_version }}"
     state: present
   register: _eltask

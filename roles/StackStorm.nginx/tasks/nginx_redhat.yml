@@ -1,13 +1,13 @@
 ---
 - name: Install vars
-  include_vars: "{{ item }}"
+  ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "{{ ansible_os_family | lower }}_{{ ansible_distribution_major_version }}.yml"
     - "{{ ansible_os_family | lower }}.yml"
 
 - name: Add nginx key
-  become: yes
-  rpm_key:
+  become: true
+  ansible.builtin.rpm_key:
     key: http://nginx.org/keys/nginx_signing.key
     state: present
   register: _task
@@ -17,8 +17,8 @@
   tags: nginx
 
 - name: Add nginx repos
-  become: yes
-  yum_repository:
+  become: true
+  ansible.builtin.yum_repository:
     name: nginx
     description: nginx repo
     baseurl: http://nginx.org/packages/rhel/{{ ansible_facts.distribution_major_version }}/x86_64/
@@ -28,8 +28,8 @@
   tags: nginx
 
 - name: Install nginx
-  become: yes
-  yum:
+  become: true
+  ansible.builtin.yum:
     name: nginx
     state: present
     disablerepo: epel
@@ -40,36 +40,36 @@
   tags: nginx
 
 - name: Remove default site
-  become: yes
-  file:
+  become: true
+  ansible.builtin.file:
     path: /etc/nginx/conf.d/default.conf
     state: absent
   tags: nginx
 
 - name: Comment out server line
-  become: yes
-  replace:
-     path: /etc/nginx/nginx.conf
-     backup: yes
-     regexp: '^(?![#])(.*server\s*{)'
-     replace: '#\1'
+  become: true
+  ansible.builtin.replace:
+    path: /etc/nginx/nginx.conf
+    backup: true
+    regexp: '^(?![#])(.*server\s*{)'
+    ansible.builtin.replace: '#\1'
   tags: nginx
   when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
 
 - name: Comment out after server block
-  become: yes
-  replace:
-     path: /etc/nginx/nginx.conf
-     backup: yes
-     after: '\s*server\s*{'
-     regexp: '^(?![#}])(.+)$'
-     replace: '#\1'
+  become: true
+  ansible.builtin.replace:
+    path: /etc/nginx/nginx.conf
+    backup: true
+    after: '\s*server\s*{'
+    regexp: '^(?![#}])(.+)$'
+    ansible.builtin.replace: '#\1'
   tags: nginx
   when: (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
 
 - name: Install dependencies for SELinux Ansible module
-  become: yes
-  yum:
+  become: true
+  ansible.builtin.yum:
     name: "{{ selinux_dependencies }}"
     state: present
   register: nginx_selinux_dependencies
@@ -79,15 +79,15 @@
   tags: nginx
 
 - name: Update SELinux facts after installing dependencies
-  become: yes
+  become: true
   setup:
     filter: ansible_selinux
   when: nginx_selinux_dependencies.changed
   tags: nginx, skip_ansible_lint
 
 - name: Adjust SELinux to allow network access for nginx
-  become: yes
-  seboolean:
+  become: true
+  ansible.posix.boolean:
     name: httpd_can_network_connect
     state: yes
     persistent: yes

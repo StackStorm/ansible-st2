@@ -1,6 +1,6 @@
 ---
-- name: restart mongodb
-  become: yes
-  service:
+- name: restart mongodb  # noqa: name[casing]
+  become: true
+  ansible.builtin.service:
     name: mongod
     state: restarted

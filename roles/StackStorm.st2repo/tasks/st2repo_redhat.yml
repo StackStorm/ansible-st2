@@ -1,8 +1,8 @@
 ---
 # Fixes "Failure talking to yum: Cannot retrieve repository metadata (repomd.xml) for repository: StackStorm_stable. Please verify its path and try again" when installing st2
 - name: Update ca-certificates package
-  become: yes
-  yum:
+  become: true
+  ansible.builtin.yum:
     name: ca-certificates
     state: latest
   register: _task
@@ -14,8 +14,8 @@
 # See: https://github.com/docker-library/docs/tree/master/centos#package-documentation
 # We ship `nginx.conf` via `st2` package doc files, for example
 - name: Enable shipping package documentation files for EL
-  become: yes
-  ini_file:
+  become: true
+  community.general.files.ini_file:
     dest: /etc/yum.conf
     section: main
     option: tsflags
@@ -25,11 +25,11 @@
   tags: st2repo
 
 - name: Add StackStorm repo
-  become: yes
-  yum_repository:
+  become: true
+  ansible.builtin.yum_repository:
     name: "StackStorm_{{ st2repo_name }}"
     description: "StackStorm_{{ st2repo_name }}"
-    file: "StackStorm_{{ st2repo_name }}"
+    ansible.builtin.file: "StackStorm_{{ st2repo_name }}"
     baseurl: https://packagecloud.io/StackStorm/{{ st2repo_name }}/el/{{ ansible_facts.distribution_major_version }}/$basearch
     repo_gpgcheck: yes
     gpgkey: "https://packagecloud.io/StackStorm/{{ st2repo_name }}/gpgkey"

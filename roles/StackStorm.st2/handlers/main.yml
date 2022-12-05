@@ -1,38 +1,38 @@
-- name: restart st2
-  become: yes
-  service:
+- name: restart st2  # noqa: name[casing]
+  become: true
+  ansible.builtin.service:
     name: "{{ item }}"
     state: restarted
   loop: "{{ st2_services }}"
 
-- name: reload st2
-  become: yes
-  command: st2ctl reload --register-all
+- name: reload st2  # noqa: name[casing]
+  become: true
+  ansible.builtin.command: st2ctl reload --register-all
 
-- name: restart st2actionrunner
-  become: yes
-  service:
+- name: restart st2actionrunner  # noqa: name[casing]
+  become: true
+  ansible.builtin.service:
     name: st2actionrunner
     state: restarted
 
-- name: restart st2auth
-  become: yes
-  service:
+- name: restart st2auth  # noqa: name[casing]
+  become: true
+  ansible.builtin.service:
     name: st2auth
     state: restarted
 
-- name: restart st2api
-  become: yes
-  service:
+- name: restart st2api  # noqa: name[casing]
+  become: true
+  ansible.builtin.service:
     name: st2api
     state: restarted
 
-- name: restart st2stream
-  become: yes
-  service:
+- name: restart st2stream  # noqa: name[casing]
+  become: true
+  ansible.builtin.service:
     name: st2stream
     state: restarted
 
-- name: reload rbac
-  become: yes
-  command: st2-apply-rbac-definitions --config-file /etc/st2/st2.conf
+- name: reload rbac  # noqa: name[casing]
+  become: true
+  ansible.builtin.command: st2-apply-rbac-definitions --config-file /etc/st2/st2.conf

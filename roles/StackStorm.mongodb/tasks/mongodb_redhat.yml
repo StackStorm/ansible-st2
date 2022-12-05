@@ -1,7 +1,7 @@
 ---
-- name: yum | Install mongodb dependencies
-  become: yes
-  yum:
+- name: yum | Install mongodb dependencies  # noqa: name[casing]
+  become: true
+  ansible.builtin.yum:
     name: "{{ mongo_dependencies }}"
       # Failed to validate the SSL certificate for www.mongodb.org:443. Make sure your managed systems have a valid CA certificate installed. If the website serving the url uses SNI you need python >= 2.7.9 on your managed machine or you can install the `urllib3`, `pyopenssl`, `ndg-httpsclient`, and `pyasn1` python modules to perform SNI verification in python >= 2.6. You can use validate_certs=False if you do not need to confirm the servers identity but this is unsafe and not recommended. Paths checked for this platform: /etc/ssl/certs, /etc/pki/ca-trust/extracted/pem, /etc/pki/tls/certs, /usr/share/ca-certificates/cacert.org, /etc/ansible
     state: present
@@ -11,9 +11,9 @@
   until: _task is succeeded
   tags: [databases, mongodb]
 
-- name: yum | Add mongodb key {{ mongodb_major_minor_version }}
-  become: yes
-  rpm_key:
+- name: yum | Add mongodb key {{ mongodb_major_minor_version }}  # noqa: name[casing]
+  become: true
+  ansible.builtin.rpm_key:
     key: https://www.mongodb.org/static/pgp/server-{{ mongodb_major_minor_version }}.asc
     state: present
   register: _task
@@ -22,9 +22,9 @@
   until: _task is succeeded
   tags: [databases, mongodb]
 
-- name: yum | Add mongodb repository
-  become: yes
-  yum_repository:
+- name: yum | Add mongodb repository  # noqa: name[casing]
+  become: true
+  ansible.builtin.yum_repository:
     name: mongodb-org-{{ mongodb_major_minor_version }}
     description: MongoDB Repository
     gpgcheck: yes
@@ -34,9 +34,9 @@
     state: present
   tags: [databases, mongodb]
 
-- name: yum | Install mongodb
-  become: yes
-  yum:
+- name: yum | Install mongodb  # noqa: name[casing]
+  become: true
+  ansible.builtin.yum:
     name: mongodb-org-{{ mongodb_version }}*
     state: present
     # TODO: Allow yum downgrade since Ansible 2.4

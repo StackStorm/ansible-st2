@@ -1,66 +1,67 @@
 ---
 # Small suite of smoke tests to execute to ensure that the playbook has deployed as expected
 
-- meta: flush_handlers
+- name: Flush handlers
+  ansible.builtin.meta: flush_handlers
   tags:
     - smoke-tests
 
 - name: Make sure packs are reloaded
-  become: yes
-  command: st2ctl reload --register-all
-  changed_when: no
+  become: true
+  ansible.builtin.command: st2ctl reload --register-all
+  changed_when: false
   tags:
     - smoke-tests
 
-- name: st2 installed
-  command: st2 --version
-  changed_when: no
+- name: Check st2 installed
+  ansible.builtin.command: st2 --version
+  changed_when: false
   tags:
     - smoke-tests
 
-- name: get authentication token
-  command: st2 auth "{{ st2_auth_username }}" -p "{{ st2_auth_password }}" -t
+- name: Get authentication token
+  ansible.builtin.command: st2 auth "{{ st2_auth_username }}" -p "{{ st2_auth_password }}" -t
   register: st2_token
-  changed_when: no
+  changed_when: false
   tags:
     - smoke-tests
 
-- name: st2 run core.local -- date -R
-  command: st2 run core.local -- date -R
+- name: Run st2 run core.local -- date -R
+  ansible.builtin.command: st2 run core.local -- date -R
   environment:
     ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
-  changed_when: no
+  changed_when: false
   tags:
     - smoke-tests
 
 - name: Check web-ui is up
-  uri:
+  ansible.builtin.uri:
     url: https://localhost/
     validate_certs: no
-  changed_when: no
+  changed_when: false
   tags:
     - smoke-tests
 
 - name: Install st2 pack from exchange
-  become: yes
+  become: true
   environment:
     ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
-  command: "st2 pack install st2"
-  changed_when: no
+  ansible.builtin.command: "st2 pack install st2"
+  changed_when: false
   tags:
     - smoke-tests
 
 - name: Verify if st2 pack was installed
   environment:
     ST2_AUTH_TOKEN: "{{ st2_token.stdout }}"
-  command: st2 pack get st2
-  changed_when: no
+  ansible.builtin.command: st2 pack get st2
+  changed_when: false
   check_mode: no
   tags:
     - smoke-tests
 
 - name: Verify st2chatops
-  import_tasks: st2chatops.yml
+  ansible.builtin.import_tasks: st2chatops.yml
   # st2chatops is installed
   when: st2chatops_version is defined
   tags:
@@ -68,7 +69,7 @@
     - st2chatops
 
 - name: Run RBAC tests to verify the setup
-  import_tasks: st2rbac_verification.yml
+  ansible.builtin.import_tasks: st2rbac_verification.yml
   when: st2_rbac_enable|bool
   tags:
     - smoke-tests
