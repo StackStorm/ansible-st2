@@ -11,7 +11,7 @@ on:
     tags:
       - v*
   pull_request:
-    types: [opened, reopened, edited]
+    types: [opened, synchronize]
 
 jobs:
   ansible-lint:
