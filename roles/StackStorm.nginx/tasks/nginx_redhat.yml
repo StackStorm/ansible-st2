@@ -87,7 +87,7 @@
 
 - name: Adjust SELinux to allow network access for nginx
   become: true
-  ansible.posix.boolean:
+  ansible.posix.seboolean:
     name: httpd_can_network_connect
     state: yes
     persistent: yes
