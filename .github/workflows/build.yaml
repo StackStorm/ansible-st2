@@ -11,7 +11,7 @@ on:
     tags:
       - v*
   pull_request:
-    type: [opened, reopened, edited]
+    types: [opened, reopened, edited, synchronize]
   schedule:
     # run every night at midnight
     - cron:  '0 0 * * *'
