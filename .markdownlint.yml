@@ -1,0 +1,5 @@
+# https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md013---line-length
+MD013: false
+
+# https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md028---blank-line-inside-blockquote
+MD028: false
