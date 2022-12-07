@@ -12,6 +12,9 @@ on:
       - v*
   pull_request:
     types: [opened, reopened, edited, synchronize]
+    paths-ignore:
+      - .markdownlint.yml
+      - README.md
   schedule:
     # run every night at midnight
     - cron:  '0 0 * * *'
