@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "ansible-st2"
+version = "3.3.0"
+description = "StackStorm ansible-st2"
+authors = ["Mark Mercado <mamercad@gmail.com>"]
+license = "Apache 2.0"
+readme = "README.md"
+packages = [{include = "ansible_st2"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+ansible-core = "2.13.7"
+molecule = "4.0.4"
+molecule-docker = "2.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
