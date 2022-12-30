@@ -23,6 +23,7 @@ on:
   push:
     branches:
       - master
+      - ansible-molecule-4
   schedule:
     - cron: "0 1 * * *"
   workflow_dispatch:
@@ -39,7 +40,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  python36:
+  molecule:
     runs-on: ubuntu-20.04
     strategy:
       max-parallel: 1
@@ -50,8 +51,12 @@ jobs:
             ansible-core: 2.11.12
             molecule: 3.6.1
             molecule-docker: 1.1.0
-        scenario:
-          - name: python36
+            molecule-scenario: python36
+          - version: 3.8
+            ansible-core: 2.11.12
+            molecule: 3.6.1
+            molecule-docker: 1.1.0
+            molecule-scenario: python38
         st2_repo:
           - name: stable
           - name: unstable
@@ -73,51 +78,9 @@ jobs:
           python3 -m pip install --upgrade molecule-docker==${{ matrix.python.molecule-docker }}
           ansible-galaxy collection install --requirements-file requirements.yml
 
-      - name: Molecule test ${{ matrix.st2_repo.name }} under ${{ matrix.scenario.name }}
+      - name: Molecule test ${{ matrix.st2_repo.name }} under ${{ matrix.python.molecule-scenario }}
         run: |
-          molecule test --scenario-name ${{ matrix.scenario.name }}
-        env:
-          HUBOT_SLACK_TOKEN: ${{ secrets.HUBOT_SLACK_TOKEN }}
-          ST2_REPO: ${{ matrix.st2_repo.name }}
-
-  python38:
-    runs-on: ubuntu-20.04
-    needs: [python36]
-    strategy:
-      max-parallel: 1
-      fail-fast: false
-      matrix:
-        python:
-          - version: 3.8
-            ansible-core: 2.13.7
-            molecule: 4.0.4
-            molecule-docker: 2.0.0
-        scenario:
-          - name: python38
-        st2_repo:
-          - stable
-          - unstable
-
-    steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v3
-
-      - name: Set up Python ${{ matrix.python.version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python.version }}
-
-      - name: Install Python dependencies
-        run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install --upgrade ansible-core==${{ matrix.python.ansible-core }}
-          python3 -m pip install --upgrade molecule==${{ matrix.python.molecule }}
-          python3 -m pip install --upgrade molecule-docker==${{ matrix.python.molecule-docker }}
-          ansible-galaxy collection install --requirements-file requirements.yml
-
-      - name: Molecule test StackStorm ${{ matrix.st2_repo.name }} under ${{ matrix.scenario.name }}
-        run: |
-          molecule test --scenario-name ${{ matrix.scenario.name }}
+          molecule test --scenario-name ${{ matrix.python.molecule-scenario }}
         env:
           HUBOT_SLACK_TOKEN: ${{ secrets.HUBOT_SLACK_TOKEN }}
           ST2_REPO: ${{ matrix.st2_repo.name }}
@@ -125,7 +88,7 @@ jobs:
   slack-notification:
     name: Slack notification for failed master builds
     if: always()
-    needs: [python38]
+    needs: [molecule]
     runs-on: ubuntu-20.04
     steps:
       - name: Workflow conclusion
