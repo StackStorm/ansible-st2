@@ -55,11 +55,11 @@ jobs:
           - rockylinux8
           - ubuntu20
         python:
-          - version: 3.6
-            ansible-core: 2.11.12
-            molecule: 3.6.1
-            molecule-docker: 1.1.0
-            molecule-scenario: python36
+          # - version: 3.6
+          #   ansible-core: 2.11.12
+          #   molecule: 3.6.1
+          #   molecule-docker: 1.1.0
+          #   molecule-scenario: python36
           - version: 3.8
             ansible-core: 2.11.12
             molecule: 3.6.1
