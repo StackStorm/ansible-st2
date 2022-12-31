@@ -2,6 +2,8 @@
 collections:
   - name: ansible.posix
     version: 1.4.0
+  - name: community.docker # NOTE: For Molecule
+    version: 3.2.1
   - name: community.general
     version: 6.0.1
   - name: community.rabbitmq

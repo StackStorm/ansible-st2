@@ -43,9 +43,17 @@ jobs:
   molecule:
     runs-on: ubuntu-20.04
     strategy:
-      max-parallel: 1
+      max-parallel: 2
       fail-fast: false
       matrix:
+        st2_repo:
+          - stable
+          - unstable
+        os:
+          - centos7
+          - ubuntu18
+          - rockylinux8
+          - ubuntu20
         python:
           - version: 3.6
             ansible-core: 2.11.12
@@ -57,9 +65,6 @@ jobs:
             molecule: 3.6.1
             molecule-docker: 1.1.0
             molecule-scenario: python38
-        st2_repo:
-          - name: stable
-          - name: unstable
 
     steps:
       - name: Checkout the repository
@@ -76,14 +81,14 @@ jobs:
           python3 -m pip install --upgrade ansible-core==${{ matrix.python.ansible-core }}
           python3 -m pip install --upgrade molecule==${{ matrix.python.molecule }}
           python3 -m pip install --upgrade molecule-docker==${{ matrix.python.molecule-docker }}
-          ansible-galaxy collection install --requirements-file requirements.yml
+          ansible-galaxy collection install --requirements-file molecule/requirements.yml
 
-      - name: Molecule test ${{ matrix.st2_repo.name }} under ${{ matrix.python.molecule-scenario }}
+      - name: Molecule test ${{ matrix.st2_repo }} ${{ matrix.os }} under ${{ matrix.python.molecule-scenario }}
         run: |
-          molecule test --scenario-name ${{ matrix.python.molecule-scenario }}
+          molecule test --scenario-name ${{ matrix.os }}
         env:
           HUBOT_SLACK_TOKEN: ${{ secrets.HUBOT_SLACK_TOKEN }}
-          ST2_REPO: ${{ matrix.st2_repo.name }}
+          ST2_REPO: ${{ matrix.st2_repo }}
 
   slack-notification:
     name: Slack notification for failed master builds
