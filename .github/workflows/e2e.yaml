@@ -81,7 +81,7 @@ jobs:
           python3 -m pip install --upgrade ansible-core==${{ matrix.python.ansible-core }}
           python3 -m pip install --upgrade molecule==${{ matrix.python.molecule }}
           python3 -m pip install --upgrade molecule-docker==${{ matrix.python.molecule-docker }}
-          ansible-galaxy collection install --requirements-file molecule/requirements.yml
+          ansible-galaxy collection install --requirements-file test/requirements.yml
 
       - name: Molecule test ${{ matrix.st2_repo }} ${{ matrix.os }} under ${{ matrix.python.molecule-scenario }}
         run: |
