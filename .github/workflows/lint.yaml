@@ -6,8 +6,6 @@ on:
     branches:
       # only on merges to master branch
       - master
-      # and version branches, which only include minor versions (eg: v3.4)
-      - v[0-9]+.[0-9]+
       - ansible-lint-fixes
     tags:
       - v*
