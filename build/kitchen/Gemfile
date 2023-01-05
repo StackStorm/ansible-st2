@@ -1,7 +1,0 @@
-source 'https://rubygems.org'
-
-# Gems for kitchen ci
-gem 'kitchen-docker'
-gem 'kitchen-ansible'
-gem 'kitchen-sync'
-gem 'test-kitchen'

@@ -4,7 +4,7 @@
 
 > [StackStorm](http://stackstorm.com/) is event-driven automation platform written in Python.  With over [50+ integrations](https://github.com/StackStorm/st2contrib/tree/master/packs) like GitHub, Docker, Nagios, NewRelic, AWS, Ansible it allows you to wire together your existing infrastructure into complex Workflows with auto-remediation and many more.  Aka IFTTT orchestration for Ops.
 
-[![Build Status](https://github.com/StackStorm/ansible-st2/actions/workflows/build.yaml/badge.svg)](https://github.com/StackStorm/ansible-st2/actions/workflows/build.yaml)
+[![E2E Tests](https://github.com/StackStorm/ansible-st2/actions/workflows/e2e.yaml/badge.svg)](https://github.com/StackStorm/ansible-st2/actions/workflows/e2e.yaml)
 [![Repository deb/rpm](https://img.shields.io/badge/Repository-deb/rpm-blue.svg)](https://packagecloud.io/StackStorm/stable/)
 [![Join our community Slack](https://img.shields.io/badge/slack-stackstorm-success.svg?logo=slack)](https://stackstorm.com/community-signup)
 
