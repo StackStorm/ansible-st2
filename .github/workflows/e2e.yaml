@@ -66,6 +66,7 @@ jobs:
       - name: Install Python dependencies
         run: |
           python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade "requests<=2.29.0"
           python3 -m pip install --upgrade ansible-core==${{ matrix.ansible-core }}
           python3 -m pip install --upgrade molecule==${{ env.MOLECULE_VERSION }}
           python3 -m pip install --upgrade molecule-docker==${{ env.MOLECULE_DOCKER_VERSION }}
