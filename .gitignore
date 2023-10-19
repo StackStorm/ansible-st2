@@ -10,3 +10,6 @@
 
 # Log files
 *.log
+
+# Virtual Environment
+.venv

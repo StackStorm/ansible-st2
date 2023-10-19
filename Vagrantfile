@@ -2,10 +2,6 @@
 # vi: set ft=ruby :
 
 VIRTUAL_MACHINES = {
-  :ubuntu18 => {
-    :hostname => 'ansible-st2-ubuntu18',
-    :box => 'ubuntu/bionic64',
-  },
   :ubuntu20 => {
     :hostname => 'ansible-st2-ubuntu20',
     :box => 'ubuntu/focal64',
@@ -27,7 +23,7 @@ Vagrant.configure(2) do |config|
   config.ssh.forward_agent = true
 
   VIRTUAL_MACHINES.each do |name, cfg|
-    config.vm.define name, autostart: (name == :ubuntu18) do |vm_config|
+    config.vm.define name, autostart: (name == :ubuntu20) do |vm_config|
       vm_config.vm.hostname = cfg[:hostname]
       vm_config.vm.box = cfg[:box]
 
