@@ -14,7 +14,7 @@
 * RHEL 7 and CentOS 7
 * RHEL 8 and Rocky Linux 8
 
-> If you are using the provided [`Vagrantfile`](Vagrantfile), note that it uses Bionic by default.
+> If you are using the provided [`Vagrantfile`](Vagrantfile), note that it uses Focal by default.
 
 > In order to access StackStorm Web UI, please do not forget to ensure that the http and https ports are allowed by the firewall.
 
