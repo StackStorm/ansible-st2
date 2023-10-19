@@ -10,7 +10,6 @@
 
 ## Supported platforms
 
-* Ubuntu Bionic (18.04)
 * Ubuntu Focal (20.04)
 * RHEL 7 and CentOS 7
 * RHEL 8 and Rocky Linux 8
@@ -110,7 +109,6 @@ There are a few requirements when developing on `ansible-st2`.
 
 These are the platforms we must support (must pass end-to-end testing):
 
-* Ubuntu Bionic (18.04)
 * Ubuntu Focal (20.04)
 * CentOS 7
 * Rocky Linux 8
@@ -121,7 +119,7 @@ The playbooks and roles must support Ansible idempotence.
 That is, re-running the `stackstorm.yml` playbook must end with the result `changed=0.*failed=0` (provided that versions and revisions are pinned).
 
 For local development, there is a [Vagrantfile](Vagrantfile) available.
-By default, the following command will set up an ubuntu18 box (`ubuntu/bionic64`):
+By default, the following command will set up an ubuntu20 box (`ubuntu/focal64`):
 
 ```sh
 vagrant up
