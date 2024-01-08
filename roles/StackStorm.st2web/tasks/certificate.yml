@@ -33,10 +33,44 @@
   when: st2web_ssl_certificate and st2web_ssl_certificate_key
 
 - name: Generate self-signed SSL certificate
+  # openssl >= 1.1.1 is required to specify the SubjectAltName (SAN) via arguments
   become: yes
-  shell: openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information Technology/CN=$(hostname)"
+  shell: openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information Technology/CN=$(hostname)" -addext "subjectAltName=DNS:$(hostname)"
   args:
     creates: /etc/ssl/st2/st2.key
   notify:
     - restart nginx
-  when: not st2web_ssl_certificate and not st2web_ssl_certificate_key
+  when:
+    - not st2web_ssl_certificate
+    - not st2web_ssl_certificate_key
+    - not (ansible_os_family == 'RedHat' and ansible_distribution_major_version == '7')
+
+- name: Generate self-signed SSL certificate on RedHat 7
+  # RedHat 7 comes with openssl 1.0.2k-fips which requires an extra openssl.conf to specify the SAN
+  become: yes
+  block:
+    - name: Check if there is already an existing key file
+      stat:
+        path: /etc/ssl/st2/st2.key
+      register: keyfile
+    - name: Render openssl.cnf
+      ansible.builtin.template:
+        src: openssl.cnf.j2
+        dest: /tmp/openssl.cnf
+        mode: '0644'
+      when: not keyfile.stat.exists
+    - name: Generate self-signed SSL certificate on RedHat 7
+      shell: openssl req -x509 -newkey rsa:2048 -keyout /etc/ssl/st2/st2.key -out /etc/ssl/st2/st2.crt -days 365 -nodes -subj "/C=US/ST=California/L=Palo Alto/O=StackStorm/OU=Information Technology/CN=$(hostname)" -config /tmp/openssl.cnf
+      notify:
+        - restart nginx
+      when: not keyfile.stat.exists
+    - name: Delete the openssl.cnf
+      ansible.builtin.file:
+        path: /tmp/openssl.cnf
+        state: absent
+      when: not keyfile.stat.exists
+  when:
+    - not st2web_ssl_certificate
+    - not st2web_ssl_certificate_key
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_major_version == '7'

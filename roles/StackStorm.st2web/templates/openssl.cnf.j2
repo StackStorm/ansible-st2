@@ -1,0 +1,16 @@
+[ req ]
+x509_extensions = v3_req
+distinguished_name = dn
+
+[ dn ]
+C = US
+ST = California
+L = Palo Alto
+O = StackStorm
+OU = Information Technology
+
+[ alternate_names ]
+DNS.1 = {{ ansible_hostname }}
+
+[ v3_req ]
+subjectAltName = @alternate_names
