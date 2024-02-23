@@ -52,7 +52,6 @@ jobs:
           - stable
           - unstable
         os:
-          - centos7
           - rockylinux8
           - ubuntu20
         ansible-core:
