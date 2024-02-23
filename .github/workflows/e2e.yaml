@@ -54,11 +54,13 @@ jobs:
         os:
           - rockylinux8
           - ubuntu20
+        ansible-core:
+          - "2.11.12"
+        # Only run centos7 for stable, as not valid for new release
         include:
           - st2_repo: stable
             os: centos7
-        ansible-core:
-          - "2.11.12"
+            ansible-core: 2.11.12
 
     steps:
       - name: Checkout the repository
