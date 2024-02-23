@@ -54,6 +54,9 @@ jobs:
         os:
           - rockylinux8
           - ubuntu20
+        include:
+          - st2_repo: stable
+            os: centos7
         ansible-core:
           - "2.11.12"
 
